@@ -34,3 +34,6 @@
 [submodule ".vim/bundle/vim-tail"]
 	path = .vim/bundle/vim-tail
 	url = git://github.com/tony/vim-tail.git
+[submodule ".vim/bundle/web-indent"]
+	path = .vim/bundle/web-indent
+	url = https://github.com/concise/web-indent
