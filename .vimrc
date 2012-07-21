@@ -95,9 +95,11 @@ set pastetoggle=<F2>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-" the nearest ancestor that contains one of these directories or files:
+" 0) don't manage working directory
+" 1) the directory of the current file
+" 2) the nearest ancestor that contains one of these directories or files:
 " .git/ .hg/ .svn/ .bzr/ _darcs/
-let g:ctrlp_working_path_mode = 2
+let g:ctrlp_working_path_mode = 1
 " increase the height of the match window
 let g:ctrlp_max_height = 30
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -107,7 +109,6 @@ let g:ctrlp_max_height = 30
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:UltiSnipsEditSplit = 'horizontal'
 let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:neocomplcache_enable_auto_select = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END UltiSnips
 
@@ -115,10 +116,8 @@ let g:neocomplcache_enable_auto_select = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_temporary_dir = "$HOME/.vim/tmp/neocomplcache"
+" let g:neocomplcache_enable_auto_select = 1
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -131,7 +130,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
