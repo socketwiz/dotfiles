@@ -25,9 +25,6 @@
 [submodule ".vim/bundle/vim-jade"]
 	path = .vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
-[submodule ".vim/bundle/vim-objc"]
-	path = .vim/bundle/vim-objc
-	url = https://github.com/thedjinn/vim-objc.git
 [submodule ".vim/bundle/vim-rails"]
 	path = .vim/bundle/vim-rails
 	url = https://github.com/tpope/vim-rails.git
