@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/socketwiz/Sites/atlassian/deployments'
-let g:netrw_dirhist_2='/Users/socketwiz/Sites/atlassian/deployments/atlassian-jira-5.0.6-war'
