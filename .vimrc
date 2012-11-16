@@ -61,15 +61,21 @@ set ruler
 set backspace=indent,eol,start
 " make sure the last window always has a status line
 set laststatus=2
-" show the line number relative to the line with the cursor
-set relativenumber
-" save undo history to an undo file
-set undofile
 
-" Store swap files in fixed location, not current directory.
-set dir=~/.vimswap//,/var/tmp//,/tmp//,.
-" Store undo files in fixed location, not current directory.
-set undodir=~/.vimundo//,/var/tmp//,/tmp//,.
+if has('relativenumber')
+  " show the line number relative to the line with the cursor
+  set relativenumber
+endif
+
+if has('persistent_undo')
+  " save undo history to an undo file
+  set undofile
+
+  " Store swap files in fixed location, not current directory.
+  set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+  " Store undo files in fixed location, not current directory.
+  set undodir=~/.vimundo//,/var/tmp//,/tmp//,.
+endif
 
 " remap the leader key from \ to ,
 let mapleader = ","
