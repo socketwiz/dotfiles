@@ -1,8 +1,5 @@
 #! /bin/zsh
 
-# for npm
-export NODE_PATH="/usr/local/lib/node_modules"
-
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -45,7 +42,7 @@ PAGER='less -x4 -X'
 JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
 
 # Homebrew paths
-BREW_PATHS=/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin
+BREW_PATHS=/usr/local/bin:/usr/local/sbin
 # Add stuff scripts I've written to the PATH.
 PATH=/Users/socketwiz/bin:/Users/socketwiz/bin/pygments-main:/Users/socketwiz/bin/appengine-java-sdk-1.7.0/bin:/Users/socketwiz/.aws/bin:$BREW_PATHS:$AWS_PATHS:${PATH}
 
@@ -63,8 +60,6 @@ alias emacs='emacs -nw'
 alias gpg='nocorrect gpg'
 alias rspec='nocorrect rspec'
 alias hg='nocorrect hg'
-alias npm='nocorrect npm'
-alias nodemon='/usr/local/share/npm/bin/nodemon'
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
