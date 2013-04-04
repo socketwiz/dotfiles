@@ -1,5 +1,3 @@
-" my own settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
@@ -18,12 +16,6 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 :set lines=40 columns=140
-
-" enable the matchit plugin (built-in)
-" allows % to match between things like beginning and ending html tags
-runtime macros/matchit.vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END my own settings
 
 " print git branch in the status line (requires fugitive addon)
 set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
