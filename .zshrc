@@ -53,7 +53,7 @@ domain_gen()
 
 case `uname` in
   Darwin)
-    source $HOME/mac.sh
+    source $HOME/darwin.sh
     ;;
   SunOS)
     source $HOME/sun.sh
