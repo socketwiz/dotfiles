@@ -22,8 +22,6 @@ SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
 
 PAGER='less -x4 -X'
 
-# export PS1 EDITOR SVN_EDITOR PAGER PATH JAVA_HOME
-
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
 alias more='less -x4 -X'
@@ -52,7 +50,6 @@ domain_gen()
   done  
 }
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 case `uname` in
   Darwin)
