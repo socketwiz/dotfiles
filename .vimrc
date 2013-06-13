@@ -5,14 +5,15 @@ set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
 " enable spell checking
-:setlocal spell spelllang=en_us
+noremap <F3> :setlocal spell spelllang=en_us<cr>
+
 " toggle undo manager
 noremap <F6> :GundoToggle<cr>
 
 " disable the arrow keys
-noremap <Up> <Nop> 
-noremap <Down> <Nop> 
-noremap <Left> <Nop> 
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 :set lines=40 columns=140
