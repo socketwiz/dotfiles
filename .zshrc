@@ -12,10 +12,31 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(rails git textmate ruby brew gem)
 
+# add any zsh script fixes to bin in $HOME directory
+PATH=$HOME/bin:$PATH
 source $ZSH/oh-my-zsh.sh
-
+ 
 # fix the dumb ssh-agent
-eval `ssh-agent -s`
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+  echo "Initialising new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  echo succeeded
+  chmod 600 "${SSH_ENV}"
+  . "${SSH_ENV}" > /dev/null
+  /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+  . "${SSH_ENV}" > /dev/null
+  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+    start_agent;
+  }
+else
+  start_agent;
+fi
 
 #PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
@@ -34,9 +55,6 @@ alias hg='nocorrect hg'
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
-
-# read in GIT completions
-. ~/git_completion_zsh
 
 # web2.0 domain generator
 domain_gen()
