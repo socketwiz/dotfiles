@@ -4,12 +4,6 @@ set guifont=Source\ Code\ Pro:h14
 set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
-" enable spell checking
-noremap <F3> :setlocal spell spelllang=en_us<cr>
-
-" toggle undo manager
-noremap <F6> :GundoToggle<cr>
-
 " disable the arrow keys
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -105,9 +99,15 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
-" disable autoindent when F2 is pressed
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+" disable autoindent when <leader>2 is pressed
+nnoremap <leader>2 :set invpaste paste?<CR>
+set pastetoggle=<leader>2
+
+" enable spell checking
+noremap <leader>3 :setlocal spell spelllang=en_us<cr>
+
+" enable TagBar
+nmap <leader>8 :TagbarToggle<CR>
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -123,32 +123,9 @@ let g:ctrlp_max_height = 30
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END CtrlP
 
-" neocomplcache
+" UltiSnips (requires UltiSnips addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_temporary_dir = "$HOME/.vim/tmp/neocomplcache"
-" let g:neocomplcache_enable_auto_select = 1
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+let g:UltiSnipsEditSplit = 'horizontal'
+let g:UltiSnipsExpandTrigger = "<c-j>"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END neocomplcache
-
-" TagBar
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END UltiSnips
