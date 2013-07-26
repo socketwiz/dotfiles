@@ -71,9 +71,9 @@ domain_gen()
 
 case `uname` in
   Darwin)
-    source $HOME/darwin.sh
+    source $HOME/.darwin
     ;;
   SunOS)
-    source $HOME/sun.sh
+    source $HOME/.sun
     ;;
 esac
