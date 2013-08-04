@@ -12,19 +12,6 @@ noremap <Right> <Nop>
 
 :set lines=40 columns=140
 
-" print git branch in the status line (requires fugitive addon)
-set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
-
-" pathogen (requires pathogen addon)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-call pathogen#infect()
-filetype plugin indent on
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END pathogen
-
 " suggestions from
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/#important-vimrc-lines 
 
@@ -108,6 +95,24 @@ noremap <leader>3 :setlocal spell spelllang=en_us<cr>
 
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
+
+
+" pathogen (requires pathogen addon)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+call pathogen#infect()
+filetype plugin indent on
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END pathogen
+
+" Fugitive
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" print git branch in the status line
+set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END Fugitive
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
