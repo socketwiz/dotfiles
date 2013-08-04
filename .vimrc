@@ -110,7 +110,10 @@ filetype plugin indent on
 " Fugitive
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " print git branch in the status line
-set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
+if has('win32') || has('win64')
+else
+  set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
+endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Fugitive
 
