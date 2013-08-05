@@ -16,28 +16,6 @@ plugins=(rails git textmate ruby brew gem)
 PATH=$HOME/bin:$PATH
 source $ZSH/oh-my-zsh.sh
  
-# fix the dumb ssh-agent
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-  echo "Initialising new SSH agent..."
-  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-  echo succeeded
-  chmod 600 "${SSH_ENV}"
-  . "${SSH_ENV}" > /dev/null
-  /usr/bin/ssh-add $HOME/.aws/lsec2.pem;
-}
-
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-  . "${SSH_ENV}" > /dev/null
-  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-    start_agent;
-  }
-else
-  start_agent;
-fi
-
 PS1="(%n@%m) $PS1"
 SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
 
@@ -75,5 +53,8 @@ case `uname` in
     ;;
   SunOS)
     source $HOME/.sun
+    ;;
+  Linux)
+    source $HOME/.linux
     ;;
 esac
