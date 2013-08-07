@@ -13,6 +13,26 @@ case `uname` in
     sudo apt-get -y install curl
     sudo chsh -s /usr/bin/zsh $USER
     ln -s $HOME/dotfiles/.linux
+
+    # roll our own VIM
+    sudo apt-get -y install libncurses5-dev python-dev mercurial
+    sudo apt-get -y install cmake
+    sudo apt-get -y remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common
+    cd ~
+    hg clone https://code.google.com/p/vim/
+    hg checkout v7-3-1314
+    cd vim
+    ./configure --with-features=huge \
+      --enable-rubyinterp \
+      --enable-pythoninterp \
+      --enable-perlinterp \
+      --enable-cscope --prefix=/usr
+    make VIMRUNTIMEDIR=/usr/share/vim/vim73
+    sudo make install
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+    sudo update-alternatives --set editor /usr/bin/vim
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+    sudo update-alternatives --set vi /usr/bin/vim
     ;;
 esac
 
@@ -31,7 +51,7 @@ mv .gitconfig .gitconfig.orig
 
 mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
-ln -s $HOME/dotfiles/.default-difftools $HOME/bin/default-difftool.sh
+ln -s $HOME/dotfiles/.default-difftool $HOME/bin/default-difftool.sh
 ln -s $HOME/dotfiles/.gitconfig
 ln -s $HOME/dotfiles/.vim
 ln -s $HOME/dotfiles/.vimrc
