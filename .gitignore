@@ -2,3 +2,4 @@
 .*~
 .vim/.netrwhist
 .vim/bundle/dash.vim/doc/tags
+.vim/UltiSnipsAngular
