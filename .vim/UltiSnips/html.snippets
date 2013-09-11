@@ -1,13 +1,16 @@
 
-snippet strong "gives emphasis"
-<strong>${0:#word}</strong>
+# w will ensure the snippet expands inside of other words
+snippet strong "gives emphasis" w
+<strong>${1:#word}</strong>
 endsnippet
 
-snippet span "generic inline container"
+# w will ensure the snippet expands inside of other words
+snippet span "generic inline container" w
 <span ${1:id="${2:#id}"}>${0:#word}</span>
 endsnippet
 
-snippet br "line break"
+# w will ensure the snippet expands inside of other words
+snippet br "line break" w
 <br>
 endsnippet
 
