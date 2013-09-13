@@ -1,12 +1,151 @@
 
-snippet strong "gives emphasis"
+snippet strong "gives emphasis" w
 <strong>${0:#word}</strong>
 endsnippet
 
-snippet span "generic inline container"
+snippet span "generic inline container" w
 <span ${1:id="${2:#id}"}>${0:#word}</span>
 endsnippet
 
-snippet br "line break"
+snippet br "line break" w
 <br>
 endsnippet
+
+#############
+# Shortcuts #
+#############
+snippet down "Down (down)" w
+&#x2193;
+endsnippet
+
+snippet enter "Enter (enter)" w
+&#x2305;
+endsnippet
+
+snippet escape "Escape (escape)" w
+&#x238B;
+endsnippet
+
+snippet shift "Shift (shift)" w
+&#x21E7;
+endsnippet
+
+snippet tab "Tab (tab)" w
+&#x21E5;
+endsnippet
+
+snippet up "Up (up)" w
+&#x2191;
+endsnippet
+
+snippet return "Return (return)" w
+&#x21A9;
+endsnippet
+
+snippet right "Right (right)" w
+&#x2192;
+endsnippet
+
+snippet left "Left (left)" w
+&#x2190;
+endsnippet
+
+snippet option "Option (option)" w
+&#x2325;
+endsnippet
+
+#############
+# HTML TAGS #
+#############
+snippet input "Input with Label" w
+<label for="${2:${1/[[:alpha:]]+|( )/(?1:_:\L$0)/g}}">$1</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="$5"${6: id="${7:$2}"}`!p x(snip)`>
+
+endsnippet
+
+snippet input "XHTML   <input>" w
+<input type="${1:text/submit/hidden/button}" name="${2:some_name}" value="$3"${4: id="${5:$2}"}`!p x(snip)`>
+endsnippet
+
+
+snippet opt "Option"
+<option${1: value="${2:option}"}>${3:$2}</option> w
+endsnippet
+
+snippet select "Select Box" w
+<select name="${1:some_name}" id="${2:$1}"${3:${4: multiple}${5: onchange="${6:}"}${7: size="${8:1}"}}>
+	<option${9: value="${10:option1}"}>${11:$10}</option>
+	<option${12: value="${13:option2}"}>${14:$13}</option>${15:}
+	$0
+</select>
+endsnippet
+
+
+snippet textarea "XHTML   <textarea>" w
+<textarea name="${1:Name}" rows="${2:8}" cols="${3:40}">$0</textarea>
+endsnippet
+
+snippet mailto "XHTML <a mailto: >" w
+<a href="mailto:${1:joe@example.com}?subject=${2:feedback}">${3:email me}</a>
+endsnippet
+
+snippet div "XHTML <div>" w
+<div`!p snip.rv=' id="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""``!p snip.rv=' class="' if t[2] else ""`${2:name}`!p snip.rv = '"' if t[2] else ""`>
+   $0
+</div>
+endsnippet
+
+snippet form "XHTML <form>" w
+<form action="${1:`!p
+snip.rv = (snip.basename or 'unnamed') + '_submit'
+`}" method="${2:get}" accept-charset="utf-8">
+	$0
+
+	<p><input type="submit" value="Continue →"`!p x(snip)`></p>
+</form>
+endsnippet
+
+snippet h1 "XHTML <h1>" w
+<h1 id="${1/[\w\d]+|( )/(?1:_:\L$0\E)/g}">${1}</h1>
+endsnippet
+
+snippet table "XHTML <table>" w
+<table border="${1:0}"${2: cellspacing="${3:5}" cellpadding="${4:5}"}>
+	<tr><th>${5:Header}</th></tr>
+	<tr><td>${0:Data}</td></tr>
+</table>
+endsnippet
+
+snippet a "Link" w
+<a href="${1:http://www.${2:url.com}}"${3: target="_blank"}>${4:Anchor Text}</a>
+endsnippet
+
+snippet p "paragraph" w
+<p>$0</p>
+endsnippet
+
+snippet li "list item" w
+<li>$0</li>
+endsnippet
+
+snippet ul "unordered list" w
+<ul>
+$0
+</ul>
+endsnippet
+
+snippet td "table cell" w
+<td>$0</td>
+endsnippet
+
+snippet tr "table row" w
+<tr>$0</tr>
+endsnippet
+
+snippet fieldset "Fieldset" w
+<fieldset id="${1/[\w\d]+|( )/(?1:_:\L$0\E)/g}" ${2:class="${3:}"}>
+	<legend>$1</legend>
+
+	$0
+</fieldset>
+endsnippet
+
