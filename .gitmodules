@@ -55,3 +55,6 @@
 [submodule ".vim/bundle/dash.vim"]
 	path = .vim/bundle/dash.vim
 	url = git@github.com:rizzatti/dash.vim.git
+[submodule ".vim/bundle/funcoo.vim"]
+	path = .vim/bundle/funcoo.vim
+	url = git@github.com:rizzatti/funcoo.vim.git
