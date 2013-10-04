@@ -86,13 +86,6 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
-" disable autoindent when <leader>2 is pressed
-nnoremap <leader>2 :set invpaste paste?<CR>
-set pastetoggle=<leader>2
-
-" enable spell checking
-noremap <leader>3 :setlocal spell spelllang=en_us<cr>
-
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
