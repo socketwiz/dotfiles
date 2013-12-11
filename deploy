@@ -45,15 +45,16 @@ function build_vim {
       sudo update-alternatives --set vi /usr/bin/vim
       ;;
   esac
+}
 
 case $PLATFORM in
   Darwin)
-    ln -s $HOME/.darwin
+    ln -s $HOME/dotfiles/.darwin
     ;;
   SunOS)
-		sudo pkgin -y install p5-ack
-		sudo pkgin -y install zsh
-		sudo usermod -s /opt/local/bin/zsh $USER
+    sudo pkgin -y install p5-ack
+    sudo pkgin -y install zsh
+    sudo usermod -s /opt/local/bin/zsh $USER
     ln -s $HOME/dotfiles/.sun
 		build_vim
     ;;
