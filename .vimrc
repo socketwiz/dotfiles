@@ -11,6 +11,8 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 :set lines=40 columns=140
+" Fix pbcopy/pbpase on OS X terminal vim
+:set clipboard=unnamed
 
 " suggestions from
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/#important-vimrc-lines 
@@ -25,6 +27,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
 
 set encoding=utf-8
 set scrolloff=3
