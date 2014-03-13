@@ -1,7 +1,7 @@
 #! /bin/sh
 PWD=`pwd`
 git pull origin master
-git submodule update --init --recursive
+git submodule foreach git pull origin master
 cd .vim/bundle/YouCompleteMe
 ./install.sh
 cd ../tern_for_vim
