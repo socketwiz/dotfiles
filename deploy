@@ -49,13 +49,14 @@ function build_vim {
 
 case $PLATFORM in
   Darwin)
-    ln -s $HOME/dotfiles/.darwin
+    ln -s $HOME/dotfiles/.darwin $HOME/.darwin
     ;;
   SunOS)
     sudo pkgin -y install p5-ack
     sudo pkgin -y install zsh
+    sudo pkgin -y install tmux
     sudo usermod -s /opt/local/bin/zsh $USER
-    ln -s $HOME/dotfiles/.sun
+    ln -s $HOME/dotfiles/.sun $HOME/.sun
 		build_vim
     ;;
   Linux)
@@ -63,7 +64,7 @@ case $PLATFORM in
     sudo apt-get -y install zsh
     sudo chsh -s /usr/bin/zsh $USER
     sudo apt-get -y install curl
-    ln -s $HOME/dotfiles/.linux
+    ln -s $HOME/dotfiles/.linux $HOME/.linux
 		build_vim
     ;;
 esac
@@ -85,6 +86,7 @@ mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
 ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
 ln -s $HOME/dotfiles/.gitconfig
+ln -s $HOME/dotfiles/.tmux.conf
 ln -s $HOME/dotfiles/.vim
 ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
