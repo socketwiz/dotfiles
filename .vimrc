@@ -67,7 +67,7 @@ if has('persistent_undo')
 endif
 
 " remap the leader key from \ to ,
-let mapleader = ","
+let mapleader = "\<space>"
 " don't throw away the reverse character search command
 noremap \ ,
 
@@ -88,12 +88,6 @@ nnoremap <Leader>f :Ag<Space>
 set wrap
 set textwidth=79
 set formatoptions=qrn1
-
-" change the status line based on mode
-if version >= 700
-  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
-  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
-endif
 
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
@@ -117,16 +111,6 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END pathogen
 
-" Fugitive
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" print git branch in the status line
-if has('win32') || has('win64')
-else
-  set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
-endif
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END Fugitive
-
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*,*.pyc
@@ -139,6 +123,8 @@ let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|public/lib|build'
 let g:ctrlp_working_path_mode = 1
 " increase the height of the match window
 let g:ctrlp_max_height = 30
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+let g:ctrlp_use_caching = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END CtrlP
 
@@ -155,3 +141,9 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
+
+" vim-airline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline#extensions#tabline#enabled = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END vim-airline
