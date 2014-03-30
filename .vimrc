@@ -141,9 +141,3 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
-
-" vim-airline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline#extensions#tabline#enabled = 1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END vim-airline
