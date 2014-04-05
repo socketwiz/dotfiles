@@ -67,3 +67,6 @@
 [submodule ".vim/bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = git@github.com:honza/vim-snippets.git
+[submodule ".vim/bundle/dustjs"]
+	path = .vim/bundle/dustjs
+	url = git@github.com:jimmyhchan/dustjs.vim.git
