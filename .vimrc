@@ -3,6 +3,7 @@ syntax on
 set guifont=Source\ Code\ Pro:h14
 set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
+set lines=50 columns=150
 
 " disable the arrow keys
 noremap <Up> <Nop>
@@ -63,9 +64,9 @@ if has('persistent_undo')
   set undofile
 
   " Store swap files in fixed location, not current directory.
-  set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+  set dir=~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,.
   " Store undo files in fixed location, not current directory.
-  set undodir=~/.vimundo//,/var/tmp//,/tmp//,.
+  set undodir=~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.
 endif
 
 " remap the leader key from \ to ,
