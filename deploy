@@ -6,6 +6,8 @@ function build_vim {
   case $PLATFORM in
     SunOS)
       sudo pkgin -y install mercurial
+      sudo pkgin -y install build-essential
+      sudo pkgin -y install cmake
       ;;
     Linux)
       sudo apt-get -y install libncurses5-dev python-dev mercurial
@@ -17,7 +19,7 @@ function build_vim {
   cd ~
   hg clone https://code.google.com/p/vim/
   cd vim
-  hg checkout v7-4-005
+  hg checkout v7-4-355
   case $PLATFORM in
     SunOS)
       ./configure --with-features=huge \
@@ -73,14 +75,24 @@ cd $HOME/dotfiles
 git submodule init
 git submodule update
 cd .vim/bundle/YouCompleteMe
+git submodule update --init --recursive
 ./install.sh
 
 cd $HOME
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+if [ ! -d "$HOME/.config" ]; then
+	mkdir "$HOME/.config"
+fi
+if [ -d "$HOME/.zshrc" ]; then
+  mv .zshrc .zshrc.orig
+fi
+if [ -d "$HOME/.vimrc" ]; then
+  mv .vimrc .vimrc.orig
+fi
+if [ -d "$HOME/.gitconfig" ]; then
+  mv .gitconfig .gitconfig.orig
+fi
 
-mv .zshrc .zshrc.orig
-mv .vimrc .vimrc.orig
-mv .gitconfig .gitconfig.orig
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
 mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
