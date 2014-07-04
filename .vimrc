@@ -1,9 +1,7 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
-set lines=50 columns=150
 
 " disable the arrow keys
 noremap <Up> <Nop>
