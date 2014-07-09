@@ -1,7 +1,6 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
 " disable the arrow keys
@@ -63,9 +62,9 @@ if has('persistent_undo')
   set undofile
 
   " Store swap files in fixed location, not current directory.
-  set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+  set dir=~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,.
   " Store undo files in fixed location, not current directory.
-  set undodir=~/.vimundo//,/var/tmp//,/tmp//,.
+  set undodir=~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.
 endif
 
 " remap the leader key from \ to ,
@@ -94,7 +93,7 @@ set formatoptions=qrn1
 " change the status line based on mode
 if version >= 700
   au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
-  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
+  au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
 endif
  
 
@@ -127,6 +126,8 @@ if has('win32') || has('win64')
 else
   set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
 endif
+" let Gdiff default to vertical layout
+set diffopt=vertical
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Fugitive
  
