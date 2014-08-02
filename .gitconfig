@@ -1,15 +1,19 @@
 [user]
-	name = Ricky Nelson
-	email = rickyn@socketwiz.com
+    name = Ricky Nelson
+    email = rickyn@socketwiz.com
 [core]
-	excludesfile = /Users/socketwiz/.gitignore_global
+    excludesfile = /Users/socketwiz/.gitignore_global
 [color]
-	ui = true
+    ui = true
 [diff]
-	tool = default-difftool
+    tool = default-difftool
 [merge]
-  tool = default-difftool
+    tool = default-difftool
 [difftool "default-difftool"]
-  cmd = default-difftool.sh $LOCAL $REMOTE
+    cmd = default-difftool.sh $LOCAL $REMOTE
 [difftool]
-	prompt = false
+    prompt = false
+[push]
+    default = current
+[init]
+    templatedir = ~/.git_template
