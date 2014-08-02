@@ -1,7 +1,7 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set tags=tags,gemtags
+set tags=.git/tags,.git/gemtags
 
 " disable the arrow keys
 noremap <Up> <Nop>
@@ -169,3 +169,21 @@ let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 let b:PreserveNoEOL = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
+
+" Tern
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:tern_map_keys = 1
+let g:tern_show_argument_hints='on_hold'
+set updatetime=1000
+noremap <leader>R :TernRename<cr>
+noremap <leader>r :TernRefs<cr>
+noremap <leader>td :TernDefTab<cr>
+noremap <leader>sd :TernDefSplit<cr>
+noremap <leader>pd :TernDefPreview<cr>
+noremap <leader>t :TernType<cr>
+noremap <leader>b :TernDocBrowse<cr>
+noremap <leader>d :TernDef<cr>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END PreserveNoEOL
+
+
