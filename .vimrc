@@ -139,7 +139,7 @@ set diffopt=vertical
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
 set wildignore+=*.pyc
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|public/lib|build'
+let g:ctrlp_custom_ignore = 'node_modules$\|bower_components$\|public/lib$\|build$\|third-party$'
 " 0) don't manage working directory
 " 1) the directory of the current file
 " 2) the nearest ancestor that contains one of these directories or files:
