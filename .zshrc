@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="robbyrussell"
+ZSH_THEME="rickyn"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
@@ -15,7 +15,7 @@ plugins=(git node brew npm urltools virtualenv)
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
-PS1="(%n@%m) $PS1"
+# PS1="(%n@%m) $PS1"
 
 PAGER='less -x4 -X'
 
@@ -51,3 +51,9 @@ source ~/.fzf.zsh
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+## for docker
+export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2376
+export DOCKER_CERT_PATH=/Users/socketwiz/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
+
