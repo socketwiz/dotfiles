@@ -1,0 +1,106 @@
+#! /bin/sh
+PLATFORM=`uname`
+
+function build_vim {
+    # roll our own VIM
+  case $PLATFORM in
+    SunOS)
+      sudo pkgin -y install mercurial
+      sudo pkgin -y install build-essential
+      sudo pkgin -y install cmake
+      ;;
+    Linux)
+      sudo apt-get -y install libncurses5-dev python-dev mercurial
+      sudo apt-get -y install cmake
+      sudo apt-get -y remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common
+      ;;
+  esac
+
+  cd ~
+  hg clone https://code.google.com/p/vim/
+  cd vim
+  hg checkout v7-4-355
+  case $PLATFORM in
+    SunOS)
+      ./configure --with-features=huge \
+        --enable-rubyinterp \
+        --enable-pythoninterp \
+        --enable-cscope --prefix=/opt/local
+      make VIMRUNTIMEDIR=/opt/local/share/vim/vim74
+      ;;
+    Linux)
+      ./configure --with-features=huge \
+        --enable-rubyinterp \
+        --enable-pythoninterp \
+        --enable-perlinterp \
+        --enable-cscope --prefix=/usr
+      make VIMRUNTIMEDIR=/usr/share/vim/vim74
+      ;;
+  esac
+  sudo make install
+
+  case $PLATFORM in
+    Linux)
+      sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+      sudo update-alternatives --set editor /usr/bin/vim
+      sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+      sudo update-alternatives --set vi /usr/bin/vim
+      ;;
+  esac
+}
+
+case $PLATFORM in
+  Darwin)
+    ln -s $HOME/dotfiles/.darwin $HOME/.darwin
+    ;;
+  SunOS)
+    sudo pkgin -y install p5-ack
+    sudo pkgin -y install zsh
+    sudo pkgin -y install tmux
+    sudo usermod -s /opt/local/bin/zsh $USER
+    ln -s $HOME/dotfiles/.sun $HOME/.sun
+		build_vim
+    ;;
+  Linux)
+    sudo apt-get -y install ack-grep
+    sudo apt-get -y install zsh
+    sudo chsh -s /usr/bin/zsh $USER
+    sudo apt-get -y install curl
+    ln -s $HOME/dotfiles/.linux $HOME/.linux
+		build_vim
+    ;;
+esac
+
+cd $HOME/dotfiles
+git submodule init
+git submodule update
+cd .vim/bundle/YouCompleteMe
+git submodule update --init --recursive
+./install.sh
+
+cd $HOME
+if [ ! -d "$HOME/.config" ]; then
+	mkdir "$HOME/.config"
+fi
+if [ -d "$HOME/.zshrc" ]; then
+  mv .zshrc .zshrc.orig
+fi
+if [ -d "$HOME/.vimrc" ]; then
+  mv .vimrc .vimrc.orig
+fi
+if [ -d "$HOME/.gitconfig" ]; then
+  mv .gitconfig .gitconfig.orig
+fi
+
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
+mkdir $HOME/bin
+ln -s $HOME/dotfiles/.ackrc
+ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
+ln -s $HOME/dotfiles/.gitconfig
+ln -s $HOME/dotfiles/.tmux.conf
+ln -s $HOME/dotfiles/.vim
+ln -s $HOME/dotfiles/.vimrc
+ln -s $HOME/dotfiles/.zshrc
+ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
+ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline

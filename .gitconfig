@@ -1,6 +1,6 @@
 [user]
     name = Ricky Nelson
-    email = fnelson@gannett.com
+    email = rickyn@socketwiz.com
 [core]
     excludesfile = /Users/fnelson/.gitignore_global
 [color]
@@ -15,5 +15,3 @@
     prompt = false
 [push]
     default = current
-[init]
-    templatedir = ~/.git_template

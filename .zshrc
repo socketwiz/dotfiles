@@ -23,13 +23,15 @@ PAGER='less -x4 -X'
 # redraw issues when using less or man.
 alias more='less -x4 -X'
 alias emacs='emacs -nw'
+alias vim='mvim -v'
 
 # fix zsh globbing on some commands
-alias gpg='nocorrect gpg'
 alias rspec='nocorrect rspec'
 alias hg='nocorrect hg'
 
+# git
 alias glsf='git ls-files . -co --exclude-standard'
+alias git=hub
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
@@ -46,8 +48,7 @@ case `uname` in
     ;;
 esac
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-source ~/.fzf.zsh
+PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -63,3 +64,6 @@ docker-enter() {
 
 ## manta
 source ~/.manta
+
+source ~/.xsh
+
