@@ -10,7 +10,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git node brew npm urltools virtualenv, docker)
+plugins=(git node brew npm urltools virtualenv, docker, rvm)
 
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
@@ -48,11 +48,6 @@ case `uname` in
     ;;
 esac
 
-PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 ## for docker
 eval $(boot2docker shellinit 2>/dev/null)
 alias docker-rm-stopped='docker rm $(docker ps -a -q)'
@@ -64,6 +59,4 @@ docker-enter() {
 
 ## manta
 source ~/.manta
-
-source ~/.xsh
 
