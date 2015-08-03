@@ -8,7 +8,7 @@ ZSH_THEME="rickyn"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
-PATH=$HOME/.rvm/bin:/usr/local/bin:$PATH # Add RVM to PATH for scripting
+PATH=$HOME/.rvm/bin:/usr/local/bin:$HOME/bin:$PATH # Add RVM to PATH for scripting
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -25,7 +25,6 @@ PAGER='less -x4 -X'
 # redraw issues when using less or man.
 alias more='less -x4 -X'
 alias emacs='emacs -nw'
-alias vim='mvim -v'
 
 # fix zsh globbing on some commands
 alias rspec='nocorrect rspec'
@@ -33,7 +32,6 @@ alias hg='nocorrect hg'
 
 # git
 alias glsf='git ls-files . -co --exclude-standard'
-alias git=hub
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
