@@ -46,18 +46,12 @@
 [submodule ".vim/bundle/sourcebeautify.vim"]
 	path = .vim/bundle/sourcebeautify.vim
 	url = git@github.com:michalliu/sourcebeautify.vim.git
-[submodule ".vim/bundle/vim-jade"]
-	path = .vim/bundle/vim-jade
-	url = git@github.com:digitaltoad/vim-jade.git
 [submodule ".vim/bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = git@github.com:honza/vim-snippets.git
 [submodule ".vim/bundle/dustjs"]
 	path = .vim/bundle/dustjs
 	url = git@github.com:jimmyhchan/dustjs.vim.git
-[submodule ".vim/bundle/vim-less"]
-	path = .vim/bundle/vim-less
-	url = git@github.com:groenewege/vim-less.git
 [submodule ".vim/bundle/PreserveNoEOL"]
 	path = .vim/bundle/PreserveNoEOL
 	url = git@github.com:vim-scripts/PreserveNoEOL.git
@@ -82,3 +76,6 @@
 [submodule ".vim/bundle/vim-gitgutter"]
 	path = .vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
