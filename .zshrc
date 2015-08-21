@@ -35,6 +35,8 @@ alias glsf='git ls-files . -co --exclude-standard'
 
 alias devbox='VBoxManage startvm DevBox --type headless'
 
+alias lsfuncs="print -l ${(ok)functions}"
+
 # fix the friggin del key
 bindkey "^[[3~" delete-char
 
