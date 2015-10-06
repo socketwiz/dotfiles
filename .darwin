@@ -9,7 +9,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 # Homebrew paths
 BREW_PATHS=/usr/local/bin:/usr/local/sbin
-# Add stuff scripts I've written to the PATH.
+# Add scripts I've written to the PATH.
 PATH=$HOME/bin:$HOME/.aws/bin:$BREW_PATHS:${PATH}
 
 alias ql='qlmanage -p'
@@ -37,24 +37,4 @@ pman()
 {
 	man -t "${1}" | open -f -a /Applications/Preview.app/
 }
-
-alias mongostart="sudo mongod run --config /usr/local/Cellar/mongodb/1.6.5-x86_64/mongod.conf"
-mongostop_func () {
-    local mongopid=`less /usr/local/var/mongodb/mongod.lock`;
-    if [[ $mongopid =~ [[:digit:]] ]]; then
-        sudo kill -15 $mongopid;
-        echo mongod process $mongopid terminated;
-    else
-        echo mongo process $mongopid does not exist;
-    fi
-}
-alias mongostop="mongostop_func"
-
-if [ -x $HOME/.gannett ]; then
-  source $HOME/.gannett
-fi
-
-source ~/.xsh
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
