@@ -7,13 +7,13 @@ cd $HOME
 if [ ! -d "$HOME/.config" ]; then
     mkdir "$HOME/.config"
 fi
-if [ -d "$HOME/.zshrc" ]; then
+if [ -a "$HOME/.zshrc" ]; then
     mv .zshrc .zshrc.orig
 fi
-if [ -d "$HOME/.vimrc" ]; then
+if [ -a "$HOME/.vimrc" ]; then
     mv .vimrc .vimrc.orig
 fi
-if [ -d "$HOME/.gitconfig" ]; then
+if [ -a "$HOME/.gitconfig" ]; then
     mv .gitconfig .gitconfig.orig
 fi
 
