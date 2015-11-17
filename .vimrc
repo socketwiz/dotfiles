@@ -198,3 +198,11 @@ let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'passive_filetypes': ['html'] }
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Syntastic
+
+" GitGutter
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END Syntastic
+
