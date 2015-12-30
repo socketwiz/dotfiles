@@ -9,7 +9,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 # Homebrew paths
 BREW_PATHS=/usr/local/bin:/usr/local/sbin
-# Add stuff scripts I've written to the PATH.
+# Add scripts I've written to the PATH.
 PATH=$HOME/bin:$HOME/.aws/bin:$BREW_PATHS:${PATH}
 
 alias ql='qlmanage -p'

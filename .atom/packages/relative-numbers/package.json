@@ -1,0 +1,40 @@
+{
+  "name": "relative-numbers",
+  "main": "./lib/relative-numbers",
+  "version": "0.3.1",
+  "description": "Relative line numbers for Atom",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justmoon/relative-numbers.git"
+  },
+  "license": "MIT",
+  "activationCommands": [],
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {},
+  "readme": "# relative-numbers package\n\n![Example Screencast](https://github.com/justmoon/relative-numbers/blob/master/screencast.gif?raw=true)\n\nReplaces the regular line numbers with relative numbers. Shows the current line number on the active line.\n\n## Supports vim-mode\n\nIn [vim-mode](https://github.com/atom/vim-mode)'s insert mode, line numbers will automatically revert back to absolute.\n\n## Customization\n\n### Change current line color\n\nTo change the color for the currently highlighted line, put the following in your stylesheet.\n\n``` less\natom-text-editor::shadow .relative.current-line {\n  color: purple\n}\n```\n\n### Show both absolute and relative numbers\n\nThe absolute line numbers are still there, they're just invisible. Put this in your stylesheet to always show them:\n\n``` less\natom-text-editor::shadow .absolute {\n  display: inline;\n  opacity: 0.5;\n  padding-right: 1em;\n}\n```\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/justmoon/relative-numbers/issues"
+  },
+  "homepage": "https://github.com/justmoon/relative-numbers#readme",
+  "_id": "relative-numbers@0.3.1",
+  "_shasum": "26bd39477ec712bec2cbd6d32a64d21860d2ee0c",
+  "_resolved": "file:../d-1151129-5085-e98obr/package.tgz",
+  "_from": "../d-1151129-5085-e98obr/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/line-number-view.coffee",
+        "lib/relative-numbers.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}
