@@ -77,3 +77,7 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 REACT_EDITOR=mvim
+
+export GOPATH="$HOME/go-workspace"
+export PATH="$PATH:$GOPATH/bin"
+
