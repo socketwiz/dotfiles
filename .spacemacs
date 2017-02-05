@@ -34,6 +34,7 @@ values."
      html
      javascript
      markdown
+     python
      react
      yaml
      ;; ----------------------------------------------------------------
@@ -317,7 +318,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; Open up our wiki--page
+  ;; Open up our wiki-page
   (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
 
   ;; Setup Ruby environment
