@@ -1,6 +1,6 @@
 
 ;; Automatically install missing packages
-(setq package-list '(use-package))
+(setq package-list '(use-package)) ;; Bootstrap use-package so it can install the rest
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -49,6 +49,8 @@
 
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
+;; Display column number
+(setq column-number-mode t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
