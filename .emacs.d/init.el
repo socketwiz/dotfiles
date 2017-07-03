@@ -11,38 +11,47 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(load "~/.emacs.d/configs/evil")
 (load "~/.emacs.d/configs/ivy")
 (load "~/.emacs.d/configs/web-mode")
 (load "~/.emacs.d/configs/flycheck")
 (load "~/.emacs.d/configs/projectile")
+(load "~/.emacs.d/configs/evil")
 
 (use-package magit
   :ensure t
-
   :config
   (global-set-key (kbd "C-x g") 'magit-status))
 
 (use-package linum-relative
   :ensure t
-
   :config
-  ;; display real line number instead of 0
-  (setq linum-relative-current-symbol "")
   ;; display line numbers for all files
-  (add-hook 'find-file-hook 'linum-relative-mode))
+  (add-hook 'find-file-hook 'linum-relative-mode)
+  :init
+  ;; display real line number instead of 0
+  (setq linum-relative-current-symbol ""))
 
 (use-package alect-themes
   :ensure t
-
   :config
   (load-theme 'alect-black-alt t))
 (use-package counsel :ensure t)
 (use-package hydra :ensure t)
 (use-package ivy-hydra :ensure t)
+;; Show an indicator when a buffer has been modified
+(use-package ivy-rich
+  :ensure t
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 (use-package js2-mode :ensure t)
 (use-package org :ensure t)
 (use-package smex :ensure t)
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode)
+  :init
+  (setq undo-tree-auto-save-history t))
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
@@ -57,13 +66,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (undo-tree goto-chg evil use-package diminish bind-key alect-themes smex hydra ivy-hydra linum-relative flycheck js2-mode web-mode magit org)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :background "#000000" :foreground "#b2af95" :slant normal :weight normal :height 130 :width normal :family "Source Code Pro")))))
+ '(default ((t (:slant normal :weight normal :height 130 :width normal :family "Source Code Pro")))))
