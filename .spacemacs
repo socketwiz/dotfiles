@@ -31,13 +31,13 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-return-key-behavior 'complete
-                      auto-completion-tab-key-behavior 'cycle
-                      auto-completion-complete-with-key-sequence "jk"
-                      auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-private-snippets-directory nil)
+     ;; (auto-completion :variables
+     ;;                  auto-completion-enable-snippets-in-popup t
+     ;;                  auto-completion-return-key-behavior 'complete
+     ;;                  auto-completion-tab-key-behavior 'cycle
+     ;;                  auto-completion-complete-with-key-sequence "jk"
+     ;;                  auto-completion-complete-with-key-sequence-delay 0.1
+     ;;                  auto-completion-private-snippets-directory nil)
      emacs-lisp
      git
      helm
@@ -256,8 +256,18 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
-   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; Control line numbers activation.
+   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
+   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; This variable can also be set to a property list for finer control:
+   ;; '(:relative nil
+   ;;   :disabled-for-modes dired-mode
+   ;;                       doc-view-mode
+   ;;                       markdown-mode
+   ;;                       org-mode
+   ;;                       pdf-view-mode
+   ;;                       text-mode
+   ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers 'relative
    ;; Code folding method. Possible values are `evil' and `origami'.
@@ -326,7 +336,7 @@ you should place your code here."
  '(exec-path-from-shell-check-startup-files nil)
  '(package-selected-packages
    (quote
-    (sql-indent toml-mode racer helm-company helm-c-yasnippet flycheck-rust seq company-web web-completion-data company-tern dash-functional company-statistics company-shell company-anaconda company cargo rust-mode auto-yasnippet ac-ispell auto-complete yapfify reveal-in-osx-finder pytest pyenv-mode py-isort pip-requirements pbcopy osx-trash osx-dictionary launchctl insert-shebang hy-mode helm-pydoc fish-mode cython-mode pythonic erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks pyvenv live-py-mode anaconda-mode org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct auto-dictionary web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org mmm-mode markdown-toc markdown-mode magit-gitflow less-css-mode helm-gitignore helm-css-scss haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode yaml-mode tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (winum fuzzy sql-indent toml-mode racer helm-company helm-c-yasnippet flycheck-rust seq company-web web-completion-data company-tern dash-functional company-statistics company-shell company-anaconda company cargo rust-mode auto-yasnippet ac-ispell auto-complete yapfify reveal-in-osx-finder pytest pyenv-mode py-isort pip-requirements pbcopy osx-trash osx-dictionary launchctl insert-shebang hy-mode helm-pydoc fish-mode cython-mode pythonic erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks pyvenv live-py-mode anaconda-mode org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct auto-dictionary web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org mmm-mode markdown-toc markdown-mode magit-gitflow less-css-mode helm-gitignore helm-css-scss haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode yaml-mode tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(paradox-github-token t)
  '(recentf-mode nil))
 (custom-set-faces
