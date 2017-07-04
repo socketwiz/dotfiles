@@ -23,5 +23,7 @@
   (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
   ;; disable this key sequence so we can use it in tide-mode
   (define-key evil-normal-state-map (kbd "M-.") nil)
+  ;; disable this key so we can use it in yasnippets
+  (define-key evil-motion-state-map (kbd "TAB") nil)
   )
 
