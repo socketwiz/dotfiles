@@ -52,10 +52,8 @@ case $PLATFORM in
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         touch .manta
         ~/.fzf/install
-        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
         ;;
     SunOS)
-        sudo pkgin -y install p5-ack
         sudo pkgin -y install zsh
         sudo pkgin -y install tmux
         sudo usermod -s /opt/local/bin/zsh $USER
@@ -63,7 +61,6 @@ case $PLATFORM in
         build_vim
         ;;
     Linux)
-        sudo apt-get -y install ack-grep
         sudo apt-get -y install zsh
         sudo chsh -s /usr/bin/zsh $USER
         sudo apt-get -y install curl
@@ -92,22 +89,16 @@ if [ -a "$HOME/.gitconfig" ]; then
 fi
 touch .manta
 
-git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
-rmdir $HOME/.emacs.d/private/snippets
 mkdir $HOME/bin
-ln -s $HOME/dotfiles/.ackrc
 ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
 ln -s $HOME/dotfiles/.gitconfig
 ln -s $HOME/dotfiles/.tmux.conf
 ln -s $HOME/dotfiles/.vim
 ln -s $HOME/dotfiles/.vimrc
+ln -s $HOME/dotfiles/.emacs.d
 ln -s $HOME/dotfiles/.zshrc
-ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
-ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
-ln -s $HOME/dotfiles/.spacemacs $HOME/.spacemacs
-ln -s $HOME/dotfiles/.emacs.d/private/snippets $HOME/.emacs.d/private/snippets
 ln -s $HOME/dotfiles/.ptconfig.toml $HOME/.ptconfig.toml
 
 
