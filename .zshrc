@@ -94,9 +94,5 @@ REACT_EDITOR=mvim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source $HOME/.cargo/env
 
-export AWS_TAG=argymell00-20
-export AWS_ID=AKIAJSQBBO4SYVVR5JBQ
-export AWS_SECRET=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
-
 PATH=~/bin:$PATH
 
