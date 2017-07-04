@@ -36,11 +36,14 @@
   :ensure t
   :config
   (load-theme 'alect-black-alt t))
+;; Text completions
 (use-package company
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+;; Command Emacs commands that are customized to make the best use of Ivy
 (use-package counsel :ensure t)
+;; Create customized short keybinds
 (use-package hydra :ensure t)
 (use-package ivy-hydra :ensure t)
 ;; Show an indicator when a buffer has been modified
@@ -50,6 +53,7 @@
   (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 (use-package js2-mode :ensure t)
 (use-package org :ensure t)
+;; Provide MRU data to file lists
 (use-package smex :ensure t)
 (use-package undo-tree
   :ensure t

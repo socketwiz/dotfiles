@@ -21,5 +21,7 @@
 
   ;; change the "leader" key to space
   (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
+  ;; disable this key sequence so we can use it in tide-mode
+  (define-key evil-normal-state-map (kbd "M-.") nil)
   )
 
