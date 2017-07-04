@@ -1,9 +1,11 @@
+.DS_Store
+
+# vim stuff
 .vim/tmp
 .*~
 .vim/.netrwhist
 .vim/bundle/dash.vim/doc/tags
 .vim/UltiSnipsAngular
-.DS_Store
 /tags
 /core
 
