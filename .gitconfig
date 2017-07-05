@@ -3,7 +3,7 @@
     email = rickyn@socketwiz.com
 [core]
     editor = /usr/local/bin/vim
-    excludesfile = /Users/francis.nelson/.gitignore_global
+    excludesfile = /Users/socketwiz/.gitignore_global
 [color]
     ui = true
 [diff]
