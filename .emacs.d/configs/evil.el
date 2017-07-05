@@ -8,11 +8,13 @@
   (defvar my-leader-map (make-sparse-keymap)
     "Keymap for \"leader key\" shortcuts.")
 
+  ;; Recreate the Spacemacs keybindings that I used most
   (define-key my-leader-map (kbd "SPC") 'counsel-M-x)
   (define-key my-leader-map (kbd "b b") 'ivy-switch-buffer)
   (define-key my-leader-map (kbd "e l") 'flycheck-list-errors)
   (define-key my-leader-map (kbd "e v") 'flycheck-verify-setup)
   (define-key my-leader-map (kbd "f f") 'counsel-find-file)
+  (define-key my-leader-map (kbd "f e d") '(lambda() (interactive)(find-file "~/.emacs.d/init.el")))
   (define-key my-leader-map (kbd "f r") 'counsel-recentf)
   (define-key my-leader-map (kbd "g s") 'magit-status)
   (define-key my-leader-map (kbd "p f") 'projectile-find-file)
