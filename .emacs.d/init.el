@@ -66,6 +66,12 @@
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
+;; package-list-packages, then U, then filter-packages-to-update to see what will be updated
+(defun filter-packages-to-update()
+  "Find packages marked for action in *Packages*."
+  (interactive)
+  (occur "^[A-Z]"))
+(define-key package-menu-mode-map "a" #'package-menu-find-marks)
 
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
@@ -75,10 +81,23 @@
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 ;; Don't display the toolbar
 (tool-bar-mode -1)
-
+;; Set default font
+(set-face-attribute 'default nil
+                    :weight 'normal
+                    :height 130
+                    :width 'normal
+                    :family "Source Code Pro")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:slant normal :weight normal :height 130 :width normal :family "Source Code Pro")))))
+ )
