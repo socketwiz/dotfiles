@@ -1,68 +1,28 @@
 
-;; Automatically install missing packages
-(setq package-list '(use-package)) ;; Bootstrap use-package so it can install the rest
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
 (package-initialize)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("org" . "http://orgmode.org/elpa/"))
-(unless package-archive-contents
-  (package-refresh-contents))
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
 
+;; General configuration
+(load "~/.emacs.d/configs/packages")
+(load "~/.emacs.d/configs/theme")
+(load "~/.emacs.d/configs/evil")
+(load "~/.emacs.d/configs/line-num")
+(load "~/.emacs.d/configs/projectile")
 (load "~/.emacs.d/configs/helm")
-(load "~/.emacs.d/configs/web-mode")
+(load "~/.emacs.d/configs/undo")
+(load "~/.emacs.d/configs/markdown")
+
+;; JavaScript development
+(load "~/.emacs.d/configs/web")
 (load "~/.emacs.d/configs/flycheck")
 (load "~/.emacs.d/configs/tide")
-(load "~/.emacs.d/configs/projectile")
-(load "~/.emacs.d/configs/evil")
+(load "~/.emacs.d/configs/completions")
+(load "~/.emacs.d/configs/snippets")
 
-(use-package magit
-  :ensure t
-  :config
-  (global-set-key (kbd "C-x g") 'magit-status))
-(use-package linum-relative
-  :ensure t
-  :config
-  ;; display line numbers for all files
-  (add-hook 'find-file-hook 'linum-relative-mode)
-  :init
-  ;; display real line number instead of 0
-  (setq linum-relative-current-symbol ""))
-(use-package alect-themes
-  :ensure t
-  :config
-  (load-theme 'alect-black-alt t))
-;; Text completions
-(use-package company
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
+(use-package magit :ensure t)
 (use-package org :ensure t)
-(use-package yasnippet
-  :ensure t
-  :bind (("TAB" . yas-expand))
-  :config
-  (yas-reload-all)
-  :init
-  (add-hook 'prog-mode-hook #'yas-minor-mode))
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode)
-  :init
-  (setq undo-tree-auto-save-history t)
-  ;; Save ALL undo histories to this location
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
