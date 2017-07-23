@@ -13,6 +13,7 @@
 (load "~/.emacs.d/configs/helm")
 (load "~/.emacs.d/configs/undo")
 (load "~/.emacs.d/configs/markdown")
+(load "~/.emacs.d/configs/powerline")
 
 ;; JavaScript development
 (load "~/.emacs.d/configs/web")
@@ -39,7 +40,8 @@
 (setq column-number-mode t)
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
-;; Don't display the toolbar
+;; Don't display the menu or toolbar
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 ;; Set default font
 (set-face-attribute 'default nil
@@ -47,3 +49,17 @@
                     :height 130
                     :width 'normal
                     :family "Source Code Pro")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
