@@ -4,6 +4,9 @@
 
 (use-package helm
   :ensure t
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         ("C-x C-r" . helm-recentf))
   :config
   (setq helm-buffers-fuzzy-matching t)
   (helm-mode 1))

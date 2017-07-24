@@ -14,6 +14,8 @@
 (load "~/.emacs.d/configs/undo")
 (load "~/.emacs.d/configs/markdown")
 (load "~/.emacs.d/configs/powerline")
+(load "~/.emacs.d/configs/org")
+(load "~/.emacs.d/configs/magit")
 
 ;; JavaScript development
 (load "~/.emacs.d/configs/web")
@@ -22,8 +24,6 @@
 (load "~/.emacs.d/configs/completions")
 (load "~/.emacs.d/configs/snippets")
 
-(use-package magit :ensure t)
-(use-package org :ensure t)
 (use-package pt :ensure t)
 
 ;; Open up our wiki-page
