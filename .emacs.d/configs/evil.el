@@ -10,6 +10,5 @@
   ;; disable this key so we can use it in web-mode
   (define-key evil-normal-state-map (kbd "C-n") nil)
   ;; disable this key so we can use it in yasnippets
-  (define-key evil-motion-state-map (kbd "TAB") nil)
-  )
+  (define-key evil-motion-state-map (kbd "TAB") nil))
 

@@ -24,8 +24,6 @@
 (load "~/.emacs.d/configs/completions")
 (load "~/.emacs.d/configs/snippets")
 
-(use-package pt :ensure t)
-
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
 ;; package-list-packages, then U, then filter-packages-to-update to see what will be updated
@@ -61,7 +59,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes))))
+    (helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes smex helm-smex helm-flx helm-fuzzier powerline helm-pt))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
