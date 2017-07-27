@@ -15,6 +15,7 @@ color = true
 # ignore files/directories matching pattern
 ignore = [
     ".DS_Store",
+    "elpa",
     ".git",
     ".subgit",
     ".hg",
