@@ -60,8 +60,6 @@
                     :height 130
                     :width 'normal
                     :family "Source Code Pro")
-;; Start the server every time on startup
-(server-start)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -70,7 +68,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (telephone-line telephone-line-config helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative helm-projectile helm-git-grep evil counsel company alect-themes smex helm-smex helm-flx helm-fuzzier helm-pt paredit which-key evil-surround diff-hl smart-mode-line))))
+    (telephone-line telephone-line-config helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative helm-projectile helm-git-grep evil company alect-themes helm-smex helm-flx helm-fuzzier helm-pt paredit which-key evil-surround diff-hl smart-mode-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
