@@ -52,7 +52,7 @@
 ;; Don't display the menu, toolbar or scroll-bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 
 ;; Set default font
 (set-face-attribute 'default nil
