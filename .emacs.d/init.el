@@ -71,7 +71,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-irony flycheck-irony irony-eldoc irony-mode skewer-mode telephone-line telephone-line-config helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative helm-projectile helm-git-grep evil company alect-themes helm-smex helm-flx helm-fuzzier helm-pt paredit which-key evil-surround diff-hl smart-mode-line))))
+    (platformio-mode skewer-mode telephone-line telephone-line-config helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative helm-projectile helm-git-grep evil company alect-themes helm-smex helm-flx helm-fuzzier helm-pt paredit which-key evil-surround diff-hl smart-mode-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
