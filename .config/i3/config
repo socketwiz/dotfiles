@@ -158,3 +158,6 @@ bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+ unmute
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%- unmute
 bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 
+# App specific settings
+for_window [class="Screenkey"] floating enable
+for_window [class="Gimp"] floating enable
