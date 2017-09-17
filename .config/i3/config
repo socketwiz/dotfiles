@@ -9,7 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod4 # Super
+#set $mod Mod1 # Alt (default)
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -161,3 +162,4 @@ bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 # App specific settings
 for_window [class="Screenkey"] floating enable
 for_window [class="Gimp"] floating enable
+for_window [class="Zeal"] floating enable
