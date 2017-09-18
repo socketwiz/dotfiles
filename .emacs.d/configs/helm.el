@@ -58,4 +58,10 @@
   :ensure t
   :bind (("C-c p *" . helm-projectile-pt)))
 
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+;; Set the helm-mini sources
+(setq helm-mini-default-sources '(helm-source-buffers-list
+                                  helm-source-recentf
+                                  helm-source-bookmarks
+                                  helm-source-buffer-not-found))
+
+(global-set-key (kbd "C-x C-b") 'helm-mini)
