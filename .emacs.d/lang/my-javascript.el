@@ -75,7 +75,10 @@
 
   ;; use eslint with web-mode for js[x]? files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers))
+  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
+
+  (add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
+  (add-hook 'web-mode-hook #'yas-minor-mode))
 
 (provide 'my-javascript)
 
