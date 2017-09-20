@@ -166,6 +166,7 @@ for_window [class="Screenkey"] floating enable
 for_window [class="Gimp"] floating enable
 for_window [class="Zeal"] floating enable
 for_window [class="Shutter"] floating enable
+for_window [class="notify-send"] floating enable
 
 # App specific keybinds
 bindsym $mod+Shift+w exec shutter -w
