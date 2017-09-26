@@ -126,7 +126,7 @@ exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype off
-call pathogen#runtime_append_all_bundles()
+call pathogen#incubate()
 call pathogen#helptags()
 call pathogen#infect()
 filetype plugin indent on
