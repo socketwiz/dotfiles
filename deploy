@@ -1,6 +1,11 @@
 #! /bin/bash
 PLATFORM=`uname`
 
+if !hash stow 2>/dev/null; then
+    echo The stow command seems to be missing, please install that before proceeding
+    exit
+fi
+
 function build_vim {
     # roll our own VIM
     case $PLATFORM in
@@ -48,9 +53,7 @@ function build_vim {
 case $PLATFORM in
     Darwin)
         brew install cmake reattach-to-user-namespace
-        ln -s $HOME/dotfiles/.darwin $HOME/.darwin
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        touch .manta
         ~/.fzf/install
         ;;
     SunOS)
@@ -71,32 +74,16 @@ esac
 
 cd $HOME/dotfiles
 git submodule update --init --recursive
-
-cd $HOME
-if [ ! -d "$HOME/.config" ]; then
-    mkdir "$HOME/.config"
-fi
-if [ -a "$HOME/.zshrc" ]; then
-    mv .zshrc .zshrc.orig
-fi
-if [ -a "$HOME/.vimrc" ]; then
-    mv .vimrc .vimrc.orig
-fi
-if [ -a "$HOME/.gitconfig" ]; then
-    mv .gitconfig .gitconfig.orig
-fi
-touch .manta
-
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+ln -s ~/dotfiles/rickyn.zsh-theme ~/.oh-my-zsh/themes/rickyn.zsh-theme
 
-mkdir $HOME/bin
-ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
-ln -s $HOME/dotfiles/.gitconfig
-ln -s $HOME/dotfiles/.tmux.conf
-ln -s $HOME/dotfiles/.vim
-ln -s $HOME/dotfiles/.vimrc
-ln -s $HOME/dotfiles/.emacs.d
-ln -s $HOME/dotfiles/.zshrc
-ln -s $HOME/dotfiles/.ptconfig.toml $HOME/.ptconfig.toml
-
+stow config
+stow emacs
+stow git
+stow i3
+stow pt
+stow tmux
+stow vim
+stow weechat
+stow zsh
 
