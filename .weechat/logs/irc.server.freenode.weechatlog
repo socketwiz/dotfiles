@@ -1,0 +1,421 @@
+2017-09-19 19:46:31	--	irc: connecting to server chat.freenode.net/6667...
+2017-09-19 19:46:31	--	irc: connected to chat.freenode.net/6667 (162.213.39.42)
+2017-09-19 19:46:31	--	weber.freenode.net: *** Looking up your hostname...
+2017-09-19 19:46:31	--	weber.freenode.net: *** Checking Ident
+2017-09-19 19:46:31	--	weber.freenode.net: *** Found your hostname
+2017-09-19 19:46:34	--	weber.freenode.net: *** No Ident response
+2017-09-19 19:46:34	--	Welcome to the freenode Internet Relay Chat Network rickyn
+2017-09-19 19:46:34	--	Your host is weber.freenode.net[162.213.39.42/6667], running version ircd-seven-1.1.4
+2017-09-19 19:46:34	--	This server was created Thu Jan 26 2017 at 20:12:59 UTC
+2017-09-19 19:46:34	--	weber.freenode.net ircd-seven-1.1.4 DOQRSZaghilopswz CFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+2017-09-19 19:46:34	--	CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 :are supported by this server
+2017-09-19 19:46:34	--	CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 DEAF=D FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,ajrxz CLIENTVER=3.0 SAFELIST ELIST=CTU KNOCK :are supported by this server
+2017-09-19 19:46:34	--	CPRIVMSG CNOTICE WHOX ETRACE :are supported by this server
+2017-09-19 19:46:34	--	There are 111 users and 82583 invisible on 31 servers
+2017-09-19 19:46:34	--	32 :IRC Operators online
+2017-09-19 19:46:34	--	19 :unknown connection(s)
+2017-09-19 19:46:34	--	53633 :channels formed
+2017-09-19 19:46:34	--	I have 5828 clients and 1 servers
+2017-09-19 19:46:34	--	5828 6478 :Current local users 5828, max 6478
+2017-09-19 19:46:34	--	82694 90881 :Current global users 82694, max 90881
+2017-09-19 19:46:34	--	Highest connection count: 6479 (6478 clients) (531853 connections received)
+2017-09-19 19:46:34	--	- weber.freenode.net Message of the Day -
+2017-09-19 19:46:34	--	- Welcome to weber.freenode.net in California, USA.
+2017-09-19 19:46:34	--	- Thanks to https://www.cloudsigma.com/ for sponsoring
+2017-09-19 19:46:34	--	- this server!
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- WEBER, DAVID M. (1952-), an American fantasy and scifi
+2017-09-19 19:46:34	--	- author. Best known for his 'Honor Harrington' series, his
+2017-09-19 19:46:34	--	- works span several genres, including alternate history,
+2017-09-19 19:46:34	--	- epic fantasy, military scifi and space opera. He's also
+2017-09-19 19:46:34	--	- done wargame design mainly for the StarFire tabletop
+2017-09-19 19:46:34	--	- boardgame series, a job which later evolved into the novel,
+2017-09-19 19:46:34	--	- 'Insurrection' (collaboration with Steve White, published
+2017-09-19 19:46:34	--	- in 1990).
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	-   __                               _          _  _   _     _____     _______
+2017-09-19 19:46:34	--	-  / _|_ __ ___  ___ _ __   ___   __| | ___   _| || |_| |   |_ _\ \   / / ____|
+2017-09-19 19:46:34	--	- | |_| '__/ _ \/ _ \ '_ \ / _ \ / _` |/ _ \ |_  ..  _| |    | | \ \ / /|  _|
+2017-09-19 19:46:34	--	- |  _| | |  __/  __/ | | | (_) | (_| |  __/ |_      _| |___ | |  \ V / | |___
+2017-09-19 19:46:34	--	- |_| |_|  \___|\___|_| |_|\___/ \__,_|\___|   |_||_| |_____|___|  \_/  |_____|
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- October 28th - 29th, Bristol, United Kingdom - see http://freenode.live/
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- freenode #live is a community-focused live event designed to build and
+2017-09-19 19:46:34	--	- strengthen relationships between Free and Open Source Software (FOSS)
+2017-09-19 19:46:34	--	- developers and users. freenode live seeks to raise awareness of and
+2017-09-19 19:46:34	--	- promote FOSS alternatives to proprietary software.
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- Facilitating face-to-face interaction, creative workshops, talks and think
+2017-09-19 19:46:34	--	- tanks, freenode #live will bring developers and users together in a nurturing
+2017-09-19 19:46:34	--	- and dynamic environment stimulating the free exchange of ideas and
+2017-09-19 19:46:34	--	- information while fostering cross-project collaboration and dialogue for
+2017-09-19 19:46:34	--	- innovation.
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- Please join us in the #live channel on the freenode network, or send us an
+2017-09-19 19:46:34	--	- e-mail (2017-team@freenode.live) if you have any questions and would like to
+2017-09-19 19:46:34	--	- get involved! Further information will also be posted on the freenode.net
+2017-09-19 19:46:34	--	- website.
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- See https://freenode.live/ for more information and to get your tickets!
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- We hope to see you there!
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	-
+2017-09-19 19:46:34	--	- By connecting to freenode you indicate that you have read and
+2017-09-19 19:46:34	--	- agree with our policies and guidelines as published on
+2017-09-19 19:46:34	--	- https://freenode.net
+2017-09-19 19:46:34	--	End of /MOTD command.
+2017-09-19 19:46:34	--	User mode [+i] by rickyn
+2017-09-19 19:47:33	--	You are now known as socketwiz
+2017-09-19 19:47:33	--	NickServ (NickServ@services.): This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+2017-09-19 19:47:52	--	MSG(NickServ): identify *********
+2017-09-19 19:47:53	--	NickServ (NickServ@services.): You are now identified for Socketwiz.
+2017-09-19 19:52:33	--	Channel Users  Name
+2017-09-19 19:52:33	--	#emacs(592): Emacs is descended from a hairy, tailed macro, probably arboreal in its habits. --Charles Darwin | Emacs questions trump off-topic chatter, including Trump chatter, so ask! | No public logging! What happens in #emacs stays in #emacs | No racism, sexism, xenophobia, botwanking, or other asshattery, please.
+2017-09-19 19:52:33	--	End of /LIST
+2017-09-19 20:53:19	--	irc: disconnected from server
+2017-09-19 20:55:09	--	irc: connecting to server chat.freenode.net/6667...
+2017-09-19 20:55:09	--	irc: connected to chat.freenode.net/6667 (185.30.166.38)
+2017-09-19 20:55:09	--	orwell.freenode.net: *** Looking up your hostname...
+2017-09-19 20:55:09	--	orwell.freenode.net: *** Checking Ident
+2017-09-19 20:55:09	--	orwell.freenode.net: *** Found your hostname
+2017-09-19 20:55:18	--	orwell.freenode.net: *** No Ident response
+2017-09-19 20:55:18	--	Welcome to the freenode Internet Relay Chat Network rickyn
+2017-09-19 20:55:18	--	Your host is orwell.freenode.net[185.30.166.38/6667], running version ircd-seven-1.1.4
+2017-09-19 20:55:18	--	This server was created Sat Jan 7 2017 at 12:04:42 EST
+2017-09-19 20:55:18	--	orwell.freenode.net ircd-seven-1.1.4 DOQRSZaghilopswz CFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+2017-09-19 20:55:18	--	CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 :are supported by this server
+2017-09-19 20:55:18	--	CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 DEAF=D FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,ajrxz CLIENTVER=3.0 KNOCK CPRIVMSG CNOTICE :are supported by this server
+2017-09-19 20:55:18	--	SAFELIST ELIST=CTU ETRACE WHOX :are supported by this server
+2017-09-19 20:55:18	--	There are 112 users and 82072 invisible on 31 servers
+2017-09-19 20:55:18	--	32 :IRC Operators online
+2017-09-19 20:55:18	--	42 :unknown connection(s)
+2017-09-19 20:55:18	--	53588 :channels formed
+2017-09-19 20:55:18	--	I have 5759 clients and 1 servers
+2017-09-19 20:55:18	--	5759 6943 :Current local users 5759, max 6943
+2017-09-19 20:55:18	--	82184 97718 :Current global users 82184, max 97718
+2017-09-19 20:55:18	--	Highest connection count: 6944 (6943 clients) (3068894 connections received)
+2017-09-19 20:55:18	--	- orwell.freenode.net Message of the Day -
+2017-09-19 20:55:18	--	- Welcome to orwell.freenode.net in Amsterdam, NL.
+2017-09-19 20:55:18	--	- Thanks to http://www.hyperfilter.com/ for sponsoring
+2017-09-19 20:55:18	--	- this server!
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- ORWELL, GEORGE [1903 - 1950] Born in India, his mother
+2017-09-19 20:55:18	--	- moved him to England when he was one year old, and it
+2017-09-19 20:55:18	--	- was in England where he was educated and spent most of
+2017-09-19 20:55:18	--	- his life.  Orwell is perhaps best known for his novels
+2017-09-19 20:55:18	--	- Nineteen Eighty-Four and Animal Farm.
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	-   __                               _          _  _   _     _____     _______
+2017-09-19 20:55:18	--	-  / _|_ __ ___  ___ _ __   ___   __| | ___   _| || |_| |   |_ _\ \   / / ____|
+2017-09-19 20:55:18	--	- | |_| '__/ _ \/ _ \ '_ \ / _ \ / _` |/ _ \ |_  ..  _| |    | | \ \ / /|  _|
+2017-09-19 20:55:18	--	- |  _| | |  __/  __/ | | | (_) | (_| |  __/ |_      _| |___ | |  \ V / | |___
+2017-09-19 20:55:18	--	- |_| |_|  \___|\___|_| |_|\___/ \__,_|\___|   |_||_| |_____|___|  \_/  |_____|
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- October 28th - 29th, Bristol, United Kingdom - see http://freenode.live/
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- freenode #live is a community-focused live event designed to build and
+2017-09-19 20:55:18	--	- strengthen relationships between Free and Open Source Software (FOSS)
+2017-09-19 20:55:18	--	- developers and users. freenode live seeks to raise awareness of and
+2017-09-19 20:55:18	--	- promote FOSS alternatives to proprietary software.
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- Facilitating face-to-face interaction, creative workshops, talks and think
+2017-09-19 20:55:18	--	- tanks, freenode #live will bring developers and users together in a nurturing
+2017-09-19 20:55:18	--	- and dynamic environment stimulating the free exchange of ideas and
+2017-09-19 20:55:18	--	- information while fostering cross-project collaboration and dialogue for
+2017-09-19 20:55:18	--	- innovation.
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- Please join us in the #live channel on the freenode network, or send us an
+2017-09-19 20:55:18	--	- e-mail (2017-team@freenode.live) if you have any questions and would like to
+2017-09-19 20:55:18	--	- get involved! Further information will also be posted on the freenode.net
+2017-09-19 20:55:18	--	- website.
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- See https://freenode.live/ for more information and to get your tickets!
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- We hope to see you there!
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	-
+2017-09-19 20:55:18	--	- By connecting to freenode you indicate that you have read and
+2017-09-19 20:55:18	--	- agree with our policies and guidelines as published on
+2017-09-19 20:55:18	--	- https://freenode.net
+2017-09-19 20:55:18	--	End of /MOTD command.
+2017-09-19 20:55:18	--	User mode [+i] by rickyn
+2017-09-19 21:01:24	--	irc: disconnected from server
+2017-09-19 21:01:31	--	irc: connecting to server chat.freenode.net/6667...
+2017-09-19 21:01:31	--	irc: connected to chat.freenode.net/6667 (195.154.200.232)
+2017-09-19 21:01:31	--	barjavel.freenode.net: *** Looking up your hostname...
+2017-09-19 21:01:31	--	barjavel.freenode.net: *** Checking Ident
+2017-09-19 21:01:32	--	barjavel.freenode.net: *** Found your hostname
+2017-09-19 21:01:34	--	barjavel.freenode.net: *** No Ident response
+2017-09-19 21:01:34	--	Welcome to the freenode Internet Relay Chat Network socketwiz
+2017-09-19 21:01:34	--	MSG(nickserv): identify *********
+2017-09-19 21:01:34	--	Your host is barjavel.freenode.net[195.154.200.232/6667], running version ircd-seven-1.1.4
+2017-09-19 21:01:34	--	This server was created Sat Jan 7 2017 at 03:00:47 CET
+2017-09-19 21:01:34	--	barjavel.freenode.net ircd-seven-1.1.4 DOQRSZaghilopswz CFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+2017-09-19 21:01:34	--	CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 :are supported by this server
+2017-09-19 21:01:34	--	CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 DEAF=D FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,ajrxz CLIENTVER=3.0 SAFELIST ELIST=CTU WHOX :are supported by this server
+2017-09-19 21:01:34	--	ETRACE CPRIVMSG CNOTICE KNOCK :are supported by this server
+2017-09-19 21:01:34	--	There are 112 users and 82033 invisible on 31 servers
+2017-09-19 21:01:34	--	32 :IRC Operators online
+2017-09-19 21:01:34	--	43 :unknown connection(s)
+2017-09-19 21:01:34	--	53618 :channels formed
+2017-09-19 21:01:34	--	I have 5777 clients and 1 servers
+2017-09-19 21:01:34	--	5777 7620 :Current local users 5777, max 7620
+2017-09-19 21:01:34	--	82145 97718 :Current global users 82145, max 97718
+2017-09-19 21:01:34	--	Highest connection count: 7621 (7620 clients) (2513388 connections received)
+2017-09-19 21:01:34	--	- barjavel.freenode.net Message of the Day -
+2017-09-19 21:01:34	--	- Welcome to barjavel.freenode.net in Paris, FR, EU.
+2017-09-19 21:01:34	--	- Thanks to Bearstech (www.bearstech.com) for sponsoring
+2017-09-19 21:01:34	--	- this server!
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- BARJAVEL, RENE [1911-1985].  Born in Nyons, he was a
+2017-09-19 21:01:34	--	- science-fiction author, a journalist and a critic. He is
+2017-09-19 21:01:34	--	- credited with having written the first novel to introduce
+2017-09-19 21:01:34	--	- the Grandfather Paradox in time travel, in his 1943 work
+2017-09-19 21:01:34	--	- 'Le Voyageur imprudent'.
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	-   __                               _          _  _   _     _____     _______
+2017-09-19 21:01:34	--	-  / _|_ __ ___  ___ _ __   ___   __| | ___   _| || |_| |   |_ _\ \   / / ____|
+2017-09-19 21:01:34	--	- | |_| '__/ _ \/ _ \ '_ \ / _ \ / _` |/ _ \ |_  ..  _| |    | | \ \ / /|  _|
+2017-09-19 21:01:34	--	- |  _| | |  __/  __/ | | | (_) | (_| |  __/ |_      _| |___ | |  \ V / | |___
+2017-09-19 21:01:34	--	- |_| |_|  \___|\___|_| |_|\___/ \__,_|\___|   |_||_| |_____|___|  \_/  |_____|
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- October 28th - 29th, Bristol, United Kingdom - see http://freenode.live/
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- freenode #live is a community-focused live event designed to build and
+2017-09-19 21:01:34	--	- strengthen relationships between Free and Open Source Software (FOSS)
+2017-09-19 21:01:34	--	- developers and users. freenode live seeks to raise awareness of and
+2017-09-19 21:01:34	--	- promote FOSS alternatives to proprietary software.
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- Facilitating face-to-face interaction, creative workshops, talks and think
+2017-09-19 21:01:34	--	- tanks, freenode #live will bring developers and users together in a nurturing
+2017-09-19 21:01:34	--	- and dynamic environment stimulating the free exchange of ideas and
+2017-09-19 21:01:34	--	- information while fostering cross-project collaboration and dialogue for
+2017-09-19 21:01:34	--	- innovation.
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- Please join us in the #live channel on the freenode network, or send us an
+2017-09-19 21:01:34	--	- e-mail (2017-team@freenode.live) if you have any questions and would like to
+2017-09-19 21:01:34	--	- get involved! Further information will also be posted on the freenode.net
+2017-09-19 21:01:34	--	- website.
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- See https://freenode.live/ for more information and to get your tickets!
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- We hope to see you there!
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	-
+2017-09-19 21:01:34	--	- By connecting to freenode you indicate that you have read and
+2017-09-19 21:01:34	--	- agree with our policies and guidelines as published on
+2017-09-19 21:01:34	--	- https://freenode.net
+2017-09-19 21:01:34	--	End of /MOTD command.
+2017-09-19 21:01:34	--	User mode [+i] by socketwiz
+2017-09-19 21:01:34	--	NickServ (NickServ@services.): This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+2017-09-19 21:01:40	--	NickServ (NickServ@services.): You are now identified for Socketwiz.
+2017-09-19 21:14:50	=!=	irc: this buffer is not a channel!
+2017-09-19 21:15:12	=!=	irc: this buffer is not a channel!
+2017-09-19 21:15:37	=!=	irc: this buffer is not a channel!
+2017-09-19 21:15:39	=!=	irc: this buffer is not a channel!
+2017-09-19 21:15:50	--	IRC --
+2017-09-19 21:15:50	--	Based on the original code written by Jarkko Oikarinen
+2017-09-19 21:15:50	--	Copyright 1988, 1989, 1990, 1991 University of Oulu, Computing Center
+2017-09-19 21:15:50	--	Copyright (c) 1996-2001 Hybrid Development Team
+2017-09-19 21:15:50	--	Copyright (c) 2002-2009 ircd-ratbox Development Team
+2017-09-19 21:15:50	--	Copyright (c) 2005-2010 charybdis development team
+2017-09-19 21:15:50	--	Copyright (c) 2007-2010 ircd-seven development team
+2017-09-19 21:15:50	--	This program is free software; you can redistribute it and/or
+2017-09-19 21:15:50	--	modify it under the terms of the GNU General Public License as
+2017-09-19 21:15:50	--	published by the Free Software Foundation; either version 2, or
+2017-09-19 21:15:50	--	(at your option) any later version.
+2017-09-19 21:15:50	--	ircd-seven has been developed to meet the policy needs of the
+2017-09-19 21:15:50	--	freenode IRC network. The ircd is based closely on Charybdis
+2017-09-19 21:15:50	--	(http://www.atheme.org/project/charybdis) which in turn is an
+2017-09-19 21:15:50	--	evolution from ircd-ratbox. Charybdis has a dedicated, large
+2017-09-19 21:15:50	--	and active development team with whom we have worked closely
+2017-09-19 21:15:50	--	throughout the development of ircd-seven.
+2017-09-19 21:15:50	--	ircd-seven development is currently led by Stephen Bennett
+2017-09-19 21:15:50	--	(spb, stephen -at- freenode.net)
+2017-09-19 21:15:50	--	The following people have contributed to this ircd-seven release,
+2017-09-19 21:15:50	--	in nick-alphabetical order:
+2017-09-19 21:15:50	--	AndroSyn, Aaron Sethman <androsyn -at- ratbox.org>
+2017-09-19 21:15:50	--	anfl, Lee Hardy <lee -at- leeh.co.uk>
+2017-09-19 21:15:50	--	beu, Elfyn McBratney <elfyn.mcbratney -at- gmail.com>
+2017-09-19 21:15:50	--	dwr, Valery Yatsko <dwr -at- shadowircd.net>
+2017-09-19 21:15:50	--	Entrope, Michael Poole <mdpoole -at- trolius.org>
+2017-09-19 21:15:50	--	gxti, Michael Tharp <gxti -at- partiallystapled.com>
+2017-09-19 21:15:50	--	jilles, Jilles Tjoelker <jilles -at- stack.nl>
+2017-09-19 21:15:50	--	nenolod, William Pitcock <nenolod -at- nenolod.net>
+2017-09-19 21:15:50	--	jdhore, JD Horelick <jdhore1 -at- gmail.com>
+2017-09-19 21:15:50	--	mr_flea, Keith Buck <mr_flea -at- esper.net>
+2017-09-19 21:15:50	--	Taros, Brett Greenham <taros -at- shadowircd.net>
+2017-09-19 21:15:50	--	ThaPrince, Jon Christopherson <jon -at- vile.com>
+2017-09-19 21:15:50	--	twincest, River Tarnell <river -at- attenuate.org>
+2017-09-19 21:15:50	--	w00t, Robin Burchell <surreal.w00t -at- gmail.com>
+2017-09-19 21:15:50	--	Visit the freenode website at: http://www.freenode.net
+2017-09-19 21:15:50	--	Visit us on IRC at: irc.freenode.net #freenode-seven
+2017-09-19 21:15:50	--	Birth Date: Sat Jan 7 2017 at 03:00:47 CET, compile # 1
+2017-09-19 21:15:50	--	On-line since Sat Jan 7 02:06:05 2017
+2017-09-19 21:15:50	--	End of /INFO list.
+2017-09-19 21:15:54	--	INFO :This command could not be completed because it has been used recently, and is rate-limited.
+2017-09-19 21:15:54	--	End of /INFO list.
+2017-09-19 21:15:58		server
+2017-09-19 21:16:10		plugins
+2017-09-19 21:16:13		plugins.var
+2017-09-22 04:19:08	=!=	irc: reading data on socket: error 110 Connection timed out
+2017-09-22 04:19:08	--	irc: disconnecting from server...
+2017-09-22 04:19:08	--	irc: disconnected from server
+2017-09-22 04:19:08	--	irc: reconnecting to server in 10 seconds
+2017-09-22 04:19:18	--	irc: reconnecting to server...
+2017-09-22 04:19:18	--	irc: connecting to server chat.freenode.net/6667...
+2017-09-22 04:19:18	--	irc: connected to chat.freenode.net/6667 (91.217.189.42)
+2017-09-22 04:19:18	--	sinisalo.freenode.net: *** Looking up your hostname...
+2017-09-22 04:19:18	--	sinisalo.freenode.net: *** Checking Ident
+2017-09-22 04:19:18	--	sinisalo.freenode.net: *** Found your hostname
+2017-09-22 04:19:21	--	sinisalo.freenode.net: *** No Ident response
+2017-09-22 04:19:21	--	Welcome to the freenode Internet Relay Chat Network socketwiz
+2017-09-22 04:19:21	--	MSG(nickserv): identify *********
+2017-09-22 04:19:21	--	Your host is sinisalo.freenode.net[91.217.189.42/6667], running version ircd-seven-1.1.4
+2017-09-22 04:19:21	--	This server was created Wed Jan 18 2017 at 02:26:19 CET
+2017-09-22 04:19:21	--	sinisalo.freenode.net ircd-seven-1.1.4 DOQRSZaghilopswz CFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+2017-09-22 04:19:21	--	CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 :are supported by this server
+2017-09-22 04:19:21	--	CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 DEAF=D FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,ajrxz CLIENTVER=3.0 WHOX KNOCK ETRACE :are supported by this server
+2017-09-22 04:19:21	--	SAFELIST ELIST=CTU CPRIVMSG CNOTICE :are supported by this server
+2017-09-22 04:19:21	--	There are 117 users and 84749 invisible on 31 servers
+2017-09-22 04:19:21	--	32 :IRC Operators online
+2017-09-22 04:19:21	--	46 :unknown connection(s)
+2017-09-22 04:19:21	--	53913 :channels formed
+2017-09-22 04:19:21	--	I have 6035 clients and 1 servers
+2017-09-22 04:19:21	--	6035 10759 :Current local users 6035, max 10759
+2017-09-22 04:19:21	--	84866 97718 :Current global users 84866, max 97718
+2017-09-22 04:19:21	--	Highest connection count: 10760 (10759 clients) (1179368 connections received)
+2017-09-22 04:19:21	--	- sinisalo.freenode.net Message of the Day -
+2017-09-22 04:19:21	--	- Welcome to sinisalo.freenode.net in Stockholm, SE.
+2017-09-22 04:19:21	--	- Thanks to http://www.portlane.com/ for sponsoring
+2017-09-22 04:19:21	--	- this server!
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- SINISALO, (ANNA) JOHANNA (1958-), a Finnish science fiction
+2017-09-22 04:19:21	--	- and fantasy novelist and a script writer. Her novel 'Not
+2017-09-22 04:19:21	--	- Before Sundown' (orig. 'Ennen päivänlaskua ei voi'
+2017-09-22 04:19:21	--	- published in Finnish in 2000, when it also won the biggest
+2017-09-22 04:19:21	--	- literature award of Finland) was awarded The James Tiptree
+2017-09-22 04:19:21	--	- Jr. award in 2004.  She was nominated for a Nebula award in
+2017-09-22 04:19:21	--	- 2009 for her short story Baby Doll.  Their most recent work
+2017-09-22 04:19:21	--	- includes screenwriting for the film 'Iron Sky'.
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	-   __                               _          _  _   _     _____     _______
+2017-09-22 04:19:21	--	-  / _|_ __ ___  ___ _ __   ___   __| | ___   _| || |_| |   |_ _\ \   / / ____|
+2017-09-22 04:19:21	--	- | |_| '__/ _ \/ _ \ '_ \ / _ \ / _` |/ _ \ |_  ..  _| |    | | \ \ / /|  _|
+2017-09-22 04:19:21	--	- |  _| | |  __/  __/ | | | (_) | (_| |  __/ |_      _| |___ | |  \ V / | |___
+2017-09-22 04:19:21	--	- |_| |_|  \___|\___|_| |_|\___/ \__,_|\___|   |_||_| |_____|___|  \_/  |_____|
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- October 28th - 29th, Bristol, United Kingdom - see http://freenode.live/
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- freenode #live is a community-focused live event designed to build and
+2017-09-22 04:19:21	--	- strengthen relationships between Free and Open Source Software (FOSS)
+2017-09-22 04:19:21	--	- developers and users. freenode live seeks to raise awareness of and
+2017-09-22 04:19:21	--	- promote FOSS alternatives to proprietary software.
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- Facilitating face-to-face interaction, creative workshops, talks and think
+2017-09-22 04:19:21	--	- tanks, freenode #live will bring developers and users together in a nurturing
+2017-09-22 04:19:21	--	- and dynamic environment stimulating the free exchange of ideas and
+2017-09-22 04:19:21	--	- information while fostering cross-project collaboration and dialogue for
+2017-09-22 04:19:21	--	- innovation.
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- Please join us in the #live channel on the freenode network, or send us an
+2017-09-22 04:19:21	--	- e-mail (2017-team@freenode.live) if you have any questions and would like to
+2017-09-22 04:19:21	--	- get involved! Further information will also be posted on the freenode.net
+2017-09-22 04:19:21	--	- website.
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- See https://freenode.live/ for more information and to get your tickets!
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- We hope to see you there!
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	-
+2017-09-22 04:19:21	--	- By connecting to freenode you indicate that you have read and
+2017-09-22 04:19:21	--	- agree with our policies and guidelines as published on
+2017-09-22 04:19:21	--	- https://freenode.net
+2017-09-22 04:19:21	--	End of /MOTD command.
+2017-09-22 04:19:21	--	User mode [+i] by socketwiz
+2017-09-22 04:19:40	--	NickServ (NickServ@services.): This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+2017-09-22 04:19:40	--	NickServ (NickServ@services.): You are now identified for Socketwiz.
+2017-09-22 20:03:58	--	MSG(nickserv): identify *********
+2017-09-22 20:03:58	--	NickServ (NickServ@services.): You are already logged in as Socketwiz.
+2017-09-24 08:11:29	=!=	irc: reading data on socket: error 110 Connection timed out
+2017-09-24 08:11:29	--	irc: disconnecting from server...
+2017-09-24 08:11:29	--	irc: disconnected from server
+2017-09-24 08:11:29	--	irc: reconnecting to server in 10 seconds
+2017-09-24 08:11:39	--	irc: reconnecting to server...
+2017-09-24 08:11:39	--	irc: connecting to server chat.freenode.net/6667...
+2017-09-24 08:11:39	--	irc: connected to chat.freenode.net/6667 (94.125.182.252)
+2017-09-24 08:11:39	--	adams.freenode.net: *** Looking up your hostname...
+2017-09-24 08:11:39	--	adams.freenode.net: *** Checking Ident
+2017-09-24 08:11:39	--	adams.freenode.net: *** Found your hostname
+2017-09-24 08:11:42	--	adams.freenode.net: *** No Ident response
+2017-09-24 08:11:42	--	Welcome to the freenode Internet Relay Chat Network socketwiz
+2017-09-24 08:11:42	--	MSG(nickserv): identify *********
+2017-09-24 08:11:42	--	Your host is adams.freenode.net[94.125.182.252/6667], running version ircd-seven-1.1.4
+2017-09-24 08:11:42	--	This server was created Mon Jan 9 2017 at 14:25:49 CET
+2017-09-24 08:11:42	--	adams.freenode.net ircd-seven-1.1.4 DOQRSZaghilopswz CFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+2017-09-24 08:11:42	--	CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 :are supported by this server
+2017-09-24 08:11:42	--	CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 DEAF=D FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,ajrxz CLIENTVER=3.0 CPRIVMSG CNOTICE ETRACE :are supported by this server
+2017-09-24 08:11:42	--	KNOCK SAFELIST ELIST=CTU WHOX :are supported by this server
+2017-09-24 08:11:42	--	There are 120 users and 82223 invisible on 31 servers
+2017-09-24 08:11:42	--	31 :IRC Operators online
+2017-09-24 08:11:42	--	35 :unknown connection(s)
+2017-09-24 08:11:42	--	53606 :channels formed
+2017-09-24 08:11:42	--	I have 5808 clients and 1 servers
+2017-09-24 08:11:42	--	5808 6546 :Current local users 5808, max 6546
+2017-09-24 08:11:42	--	82343 90882 :Current global users 82343, max 90882
+2017-09-24 08:11:42	--	Highest connection count: 6547 (6546 clients) (447435 connections received)
+2017-09-24 08:11:42	--	- adams.freenode.net Message of the Day -
+2017-09-24 08:11:42	--	- Welcome to adams.freenode.net. Thanks to ATW Internet Kft
+2017-09-24 08:11:42	--	- (http://www.atw.hu) for sponsoring this server!
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- ADAMS, DOUGLAS (1952-2001).  Author of The Hitch Hikers Guide
+2017-09-24 08:11:42	--	- to the Galaxy and many other witty and humourous books,
+2017-09-24 08:11:42	--	- portrayed in his uniquely British irony. He is sorely missed
+2017-09-24 08:11:42	--	- by many millions of devoted fans. "So long and thanks for all
+2017-09-24 08:11:42	--	- the books!"
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	-   __                               _          _  _   _     _____     _______
+2017-09-24 08:11:42	--	-  / _|_ __ ___  ___ _ __   ___   __| | ___   _| || |_| |   |_ _\ \   / / ____|
+2017-09-24 08:11:42	--	- | |_| '__/ _ \/ _ \ '_ \ / _ \ / _` |/ _ \ |_  ..  _| |    | | \ \ / /|  _|
+2017-09-24 08:11:42	--	- |  _| | |  __/  __/ | | | (_) | (_| |  __/ |_      _| |___ | |  \ V / | |___
+2017-09-24 08:11:42	--	- |_| |_|  \___|\___|_| |_|\___/ \__,_|\___|   |_||_| |_____|___|  \_/  |_____|
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- October 28th - 29th, Bristol, United Kingdom - see http://freenode.live/
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- freenode #live is a community-focused live event designed to build and
+2017-09-24 08:11:42	--	- strengthen relationships between Free and Open Source Software (FOSS)
+2017-09-24 08:11:42	--	- developers and users. freenode live seeks to raise awareness of and
+2017-09-24 08:11:42	--	- promote FOSS alternatives to proprietary software.
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- Facilitating face-to-face interaction, creative workshops, talks and think
+2017-09-24 08:11:42	--	- tanks, freenode #live will bring developers and users together in a nurturing
+2017-09-24 08:11:42	--	- and dynamic environment stimulating the free exchange of ideas and
+2017-09-24 08:11:42	--	- information while fostering cross-project collaboration and dialogue for
+2017-09-24 08:11:42	--	- innovation.
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- Please join us in the #live channel on the freenode network, or send us an
+2017-09-24 08:11:42	--	- e-mail (2017-team@freenode.live) if you have any questions and would like to
+2017-09-24 08:11:42	--	- get involved, and see https://freenode.live/ for more information and to get
+2017-09-24 08:11:42	--	- your tickets!
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- A massive thank you to our sponsors and exibitors:
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- Private Internet Access, Canonical, Bytemark, yubico, Open Rights Group,
+2017-09-24 08:11:42	--	- Free Software Foundation, OpenSUSE, Minetest, KDE, bitcoin.com.
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	-
+2017-09-24 08:11:42	--	- By connecting to freenode you indicate that you have read and agree with
+2017-09-24 08:11:42	--	- our policies and guidelines as published on https://freenode.net
+2017-09-24 08:11:42	--	End of /MOTD command.
+2017-09-24 08:11:42	--	User mode [+i] by socketwiz
+2017-09-24 08:11:42	--	NickServ (NickServ@services.): This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+2017-09-24 08:11:48	--	NickServ (NickServ@services.): You are now identified for Socketwiz.
+2017-09-24 08:36:56	--	irc: disconnected from server
