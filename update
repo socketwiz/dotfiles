@@ -1,11 +1,3 @@
 #! /bin/sh
-PWD=`pwd`
-git pull origin master
-
-# update any existing modules
-git submodule foreach git pull origin master
-# in case there are new modules
-git submodule update --init --recursive
-
-cd "$PWD"
+git pull origin master --recurse-submodules=yes
 
