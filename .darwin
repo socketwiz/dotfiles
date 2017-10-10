@@ -7,7 +7,6 @@ WORKON_HOME=~/.virtualenvs
 alias ql='qlmanage -p'
 alias la='/bin/ls -ahG'
 alias ll='/bin/ls -lhG'
-alias vim='/usr/local/bin/mvim'
 
 # spotlight from the shell
 function spot {
