@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-PATH="/usr/local/bin:$PATH"
-trap "rm -f .git/tags.$$" EXIT
-ctags -h ".js" --tag-relative=yes --fields=+akst -Rf.git/tags.$$ --exclude=.git --exclude=node_modules --exclude=etc --languages=-Python
-mv .git/tags.$$ .git/tags
