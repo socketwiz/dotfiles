@@ -165,15 +165,6 @@ let g:ctrlp_use_caching = 0
 " END CtrlP
 
 
-" UltiSnips (requires UltiSnips addon)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:UltiSnipsEditSplit = 'horizontal'
-let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END UltiSnips
-
-
 " PreserveNoEOL
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let b:PreserveNoEOL = 1

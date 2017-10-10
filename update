@@ -7,8 +7,5 @@ git submodule foreach git pull origin master
 # in case there are new modules
 git submodule update --init --recursive
 
-# update YCM
-cd .vim/bundle/YouCompleteMe
-./install.sh
-
 cd "$PWD"
+
