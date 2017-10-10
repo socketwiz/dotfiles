@@ -18,7 +18,9 @@
 
   ;; init company mode
   (use-package company 
-    :diminish 'company-mode) 
+    :diminish 'company-mode
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
 
   (use-package "eldoc"
     :diminish eldoc-mode
@@ -62,6 +64,13 @@
               (setq org-directory "~/org")
               (setq org-startup-folded nil))
     )
+
+  ;; Respect editor configs
+  (use-package editorconfig
+    :ensure t
+    :diminish editorconfig-mode
+    :config
+    (editorconfig-mode 1))
   )
 
 (provide 'my-emacs)
