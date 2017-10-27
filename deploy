@@ -1,7 +1,7 @@
 #! /bin/bash
 PLATFORM=`uname`
 
-if !hash stow 2>/dev/null; then
+if ! hash stow 2>/dev/null; then
     echo The stow command seems to be missing, please install that before proceeding
     exit
 fi
@@ -67,7 +67,6 @@ case $PLATFORM in
         sudo apt-get -y install zsh
         sudo chsh -s /usr/bin/zsh $USER
         sudo apt-get -y install curl
-        ln -s $HOME/dotfiles/.linux $HOME/.linux
         build_vim
         ;;
 esac
