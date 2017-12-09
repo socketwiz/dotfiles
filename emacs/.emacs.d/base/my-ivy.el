@@ -5,7 +5,6 @@
   (use-package ivy
     :diminish ivy-mode
     :config
-    (setq ivy-use-virtual-buffers t)
     (setq ivy-re-builders-alist
           '((t . ivy--regex-fuzzy)))
     :bind
