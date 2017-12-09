@@ -1,7 +1,7 @@
 
 (defun my/init-makeup ()
   ;; hide column numbers
-  (setq column-number-mode nil)
+  (setq column-number-mode t)
 
   ;; always hightlight current line
   (global-hl-line-mode t)
@@ -25,8 +25,12 @@
 
   ;; theme
   ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
-  (use-package zerodark-theme
-    :config (zerodark-setup-modeline-format))
+  ;; https://github.com/emacs-jp/replace-colorthemes
+  (use-package color-theme-modern
+    :ensure t
+    :init
+    (progn (load-theme 'tty-dark t t)
+           (enable-theme 'tty-dark)))
 
   ;; window numbers
   (use-package winum)
