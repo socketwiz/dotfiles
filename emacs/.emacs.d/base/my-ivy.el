@@ -1,7 +1,5 @@
 
 (defun my/init-ivy ()
-  (use-package hydra)
-
   (use-package ivy
     :diminish ivy-mode
     :config
