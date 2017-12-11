@@ -93,6 +93,7 @@
     ("b" hydra-ibuffer-main/body "back" :color blue))
 
   (use-package hydra
+    :ensure t
     :config
     (add-hook 'ibuffer-hook #'hydra-ibuffer-main/body)))
 
