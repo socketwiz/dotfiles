@@ -8,10 +8,10 @@
 
 (defun my/init-base ()
   (my/init-evil-base)
+  (my/init-hydra)
   (my/init-ivy)
   (my/init-projectile)
   (my/init-emacs)
-  (my/init-git)
-  (my/init-hydra))
+  (my/init-git))
 
 (provide 'my-base)
