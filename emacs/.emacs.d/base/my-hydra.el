@@ -94,7 +94,7 @@
 
   (use-package hydra
     :ensure t
-    :config
-    (add-hook 'ibuffer-hook #'hydra-ibuffer-main/body)))
+    )
+  )
 
 (provide 'my-hydra)
