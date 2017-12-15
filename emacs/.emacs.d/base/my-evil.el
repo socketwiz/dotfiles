@@ -3,18 +3,26 @@
   (my/init-evil-escape) 
   (use-package evil
     :config
-    (evil-mode 1)
+    (progn
+      (evil-mode 1)
 
-    ;; disable this key sequence so we can use it in ivy
-    (define-key evil-normal-state-map (kbd "C-n") nil))
-  (use-package evil-surround 
-    :config (global-evil-surround-mode 1)))
+      (use-package evil-surround
+        :config (global-evil-surround-mode 1))
+
+      ;; disable this key sequence so we can use it in ivy
+      (define-key evil-normal-state-map (kbd "C-n") nil)
+
+      ;; disable evil for these modes
+      (add-to-list 'evil-emacs-state-modes 'magit-status-mode)
+      (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))))
 
 (defun my/init-evil-escape () 
   (use-package evil-escape 
     :diminish 'evil-escape-mode) 
+
   (setq-default evil-escape-key-sequence "fd") 
   (evil-escape-mode)
+
   ;; esc should escape everything possible
   (require 'evil) 
   (define-key evil-normal-state-map [escape] 'keyboard-quit) 

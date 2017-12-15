@@ -73,6 +73,10 @@
     (editorconfig-mode 1))
 
   (use-package dockerfile-mode
-    :defer t))
+    :defer t)
+
+  (use-package paradox
+    :config (progn (setq paradox-execute-asynchronously t)) 
+    :commands (paradox-upgrade-packages paradox-list-packages)))
 
 (provide 'my-emacs)
