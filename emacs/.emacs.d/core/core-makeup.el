@@ -23,12 +23,6 @@
 		      :family config-font-family
 		      :height config-font-height)
 
-  ;; modeline theme
-  (use-package zerodark-theme
-    :ensure t
-    :config
-    (zerodark-setup-modeline-format))
-
   ;; theme
   ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
   ;; https://github.com/emacs-jp/replace-colorthemes
@@ -38,7 +32,7 @@
     (progn (load-theme 'tty-dark t t)
            (enable-theme 'tty-dark)))
 
-  ;; override red with magenta
+  ;; ;; override red with magenta
   (custom-theme-set-faces
    'tty-dark
    '(cursor ((t (:background "magenta"))))

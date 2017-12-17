@@ -77,6 +77,21 @@
 
   (use-package paradox
     :config (progn (setq paradox-execute-asynchronously t)) 
-    :commands (paradox-upgrade-packages paradox-list-packages)))
+    :commands (paradox-upgrade-packages paradox-list-packages))
+
+  (use-package helpful
+    :ensure t)
+
+  (use-package moe-theme
+    :ensure t
+    :config
+    (progn
+      (powerline-moe-theme)
+      (use-package spaceline-config
+        :ensure spaceline
+        :config
+        :config (progn
+                  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+                  (spaceline-emacs-theme))))))
 
 (provide 'my-emacs)
