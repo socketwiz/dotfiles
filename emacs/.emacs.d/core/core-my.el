@@ -7,7 +7,6 @@
   (my/init-use-package)
   (my/init-diminish)
   (my/init-bind-map)
-  (my/init-evil)
   (my/init-which-key)
   (my/init-makeup))
 
@@ -23,11 +22,6 @@
 
 (defun my/init-bind-map ()
   (my/global-map))
-
-(defun my/init-evil ()
-  (use-package evil)
-  (require 'evil)
-  (evil-mode 1))
 
 (defun my/init-which-key ()
   (use-package which-key
