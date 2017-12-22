@@ -25,6 +25,8 @@
       (if this-win-2nd (other-window 1))))))
 
 (defun my/global-map () 
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x C-f") 'ido-find-file)
   (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
