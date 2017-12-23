@@ -28,9 +28,8 @@
 
   ;; Rainbow mode - displays color codes in their color
   (use-package rainbow-mode
-    :ensure t
-    :config
-    (rainbow-mode))
+    :delight
+    :ensure t)
 
   ;; Theme
   ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
