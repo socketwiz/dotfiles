@@ -5,8 +5,15 @@
 
   ;; always hightlight current line
   (global-hl-line-mode t)
+  (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+  (setq evil-insert-state-cursor '("charteuse3"  box))
+  (setq evil-visual-state-cursor '("gray" box))
+  (setq evil-operator-state-cursor '("cyan" box))
+  (setq evil-replace-state-cursor '("chocolate" box))
+  (setq evil-motion-state-cursor '("plum3" box))
+  (setq evil-emacs-state-cursor  '("SkyBlue2" box))
 
-  ;; y or n is enough for me
+  ;; Y or n is enough for me
   (fset 'yes-or-no-p 'y-or-n-p)
 
   ;; draw underline lower
@@ -24,24 +31,18 @@
 		      :height config-font-height)
 
   ;; theme
-  ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
-  ;; https://github.com/emacs-jp/replace-colorthemes
-  (use-package color-theme-modern
-    :ensure t
-    :init
-    (progn (load-theme 'tty-dark t t)
-           (enable-theme 'tty-dark)))
+  (use-package powerline
+    :ensure t)
 
-  ;; ;; override red with magenta
-  (custom-theme-set-faces
-   'tty-dark
-   '(cursor ((t (:background "magenta"))))
-   '(diary-face ((t (:foreground "magenta"))))
-   '(font-lock-keyword-face ((t (:foreground "magenta"))))
-   '(italic ((t (:underline t :background "magenta"))))
-   '(message-cited-text-face ((t (:foreground "magenta"))))
-   '(modeline-buffer-id ((t (:background "white" :foreground "magenta"))))
-   '(show-paren-match-face ((t (:background "magenta")))))
+  (use-package moe-theme
+    :after (powerline)
+    :ensure t
+    :config
+    (progn
+      (moe-light)
+      (powerline-moe-theme)
+      (show-paren-mode 1)
+      (setq show-paren-style 'expression)))
 
   ;; window numbers
   (use-package winum)
@@ -58,12 +59,6 @@
     :diminish 'linum-relative-mode
     :init (setq linum-relative-current-symbol "")
     :config (linum-relative-global-mode))
-
-  ;; parenthesis
-  (show-paren-mode 1)
-  (use-package highlight-parentheses
-    :diminish 'highlight-parentheses-mode
-    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
   ;; Frequently accessed files (C-x r j <letter>)
   (set-register ?i '(file . "~/.emacs.d/init.el"))
