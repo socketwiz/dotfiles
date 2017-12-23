@@ -31,7 +31,7 @@
  '(initial-major-mode (quote emacs-lisp-mode))
  '(package-selected-packages
    (quote
-    (flx-ido ido-completing-read+ powerline moe-theme helpful dockerfile-mode yasnippet winum tide smex web-mode google-this markdown-mode linum-relative exec-path-from-shell which-key evil use-package pt popup paredit highlight flyspell-popup flx evil-surround magit diff-hl company platformio-mode highlight-numbers parent-mode evil-escape evil-anzu anzu proceed editorconfig diminish))))
+    (highlight-parentheses zerodark-theme all-the-icons rainbow-mode flx-ido ido-completing-read+ helpful dockerfile-mode yasnippet winum tide smex web-mode google-this markdown-mode linum-relative exec-path-from-shell which-key evil use-package pt popup paredit highlight flyspell-popup flx evil-surround magit diff-hl company platformio-mode highlight-numbers parent-mode evil-escape evil-anzu anzu proceed editorconfig diminish))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
