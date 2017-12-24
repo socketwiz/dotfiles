@@ -2,7 +2,9 @@
 (defun my/init-ido ()
   (use-package ido
     :init
-    (ido-mode 1)
+    (progn
+      (ido-mode 1)
+      (setq ido-everywhere t))
     :defer t)
 
   (use-package ido-completing-read+
