@@ -76,6 +76,9 @@
     :defer t)
 
   (use-package helpful
+    :ensure t)
+
+  (use-package smex
     :ensure t))
 
 (provide 'my-emacs)
