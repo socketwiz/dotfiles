@@ -7,7 +7,11 @@
                               (unless recentf-mode (recentf-mode) 
                                       (recentf-track-opened-file)))) 
 
+  (use-package pt
+    :ensure t)
+
   (use-package projectile 
+    :after (pt)
     :bind (("C-c p *" . projectile-pt))
     :diminish 'projectile-mode) 
 
