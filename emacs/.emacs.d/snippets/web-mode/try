@@ -4,6 +4,6 @@
 # --
 try {
     $1
-} catch (Error) {
+} catch (error) {
     $2
 }$0
