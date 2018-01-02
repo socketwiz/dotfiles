@@ -25,6 +25,7 @@
       (if this-win-2nd (other-window 1))))))
 
 (defun my/global-map () 
+  (global-set-key (kbd "<f5>") #'revert-buffer)
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
   (global-set-key (kbd "C-c C-r") 'ido-recentf-open)
   (global-set-key (kbd "C-h b") 'describe-bindings)
