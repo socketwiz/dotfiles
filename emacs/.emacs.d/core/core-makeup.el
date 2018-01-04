@@ -49,11 +49,6 @@
   (winum-mode)
   (setq winum-auto-setup-mode-line nil)
 
-  ;; evil-anzu for improving search result rendering
-  (use-package evil-anzu
-    :config (global-anzu-mode +1)
-    :diminish 'anzu-mode)
-
   ;; Relative line numbers + centered mode FTW
   (use-package linum-relative
     :diminish 'linum-relative-mode

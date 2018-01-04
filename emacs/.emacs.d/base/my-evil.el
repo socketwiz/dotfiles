@@ -15,6 +15,11 @@
       (use-package evil-surround
         :config (global-evil-surround-mode 1))
 
+      ;; evil-anzu for improving search result rendering
+      (use-package evil-anzu
+        :config (global-anzu-mode +1)
+        :diminish 'anzu-mode)
+
       ;; set cursor color according to mode
       (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
       (setq evil-insert-state-cursor '("chartreuse3"  box))
