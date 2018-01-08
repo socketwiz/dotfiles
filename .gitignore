@@ -11,3 +11,5 @@ emacs/.emacs.d/url/
 emacs/.emacs.d/network-security.data
 emacs/.emacs.d/bookmarks
 
+vim/.vim/.netrwhist
+
