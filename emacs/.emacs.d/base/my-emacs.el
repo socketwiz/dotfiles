@@ -61,8 +61,13 @@
   (use-package org
     :ensure t
     :config (progn
-              (setq org-directory "~/org")
-              (setq org-src-fontify-natively t)))
+              ;; org
+              (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+              (setq org-agenda-include-diary t)
+              (setq org-src-fontify-natively t)
+              (setq org-agenda-files (list "~/Dropbox/Documents/org/"
+                                           "~/Dropbox/Documents/org/projects/"))
+              (setq org-default-notes-file "~/Dropbox/Documents/org/organizer.org")))
 
   ;; Respect editor configs
   (use-package editorconfig
