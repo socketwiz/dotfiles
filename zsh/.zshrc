@@ -103,5 +103,3 @@ case `uname` in
     ;;
 esac
 
-source /usr/local/bin/virtualenvwrapper.sh
-
