@@ -6,13 +6,12 @@
     (mapc #'disable-theme custom-enabled-themes))
   (cond ((string= theme "light")
          (disable-theme 'zerodark)
-         (use-package moe-theme
+         (use-package apropospriate-theme
            :ensure t)
-         (load-theme 'moe-light t)
-         (moe-theme-set-color 'green))
+         (load-theme 'apropospriate-light t))
 
         ((string= theme "dark")
-         (disable-theme 'moe)
+         (disable-theme 'apropospriate)
          (use-package zerodark-theme
            :ensure t)
          (load-theme 'zerodark t)
