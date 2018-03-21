@@ -1,7 +1,5 @@
 # -*- mode: snippet -*-
-# name: componentWillUnmount
-# key: cwu
+# name: ol
+# key: ol
 # --
-componentWillUnmount() {
-    $0
-}
+<ol>$1</ol>$0
