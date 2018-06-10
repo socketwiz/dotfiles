@@ -1,0 +1,26 @@
+{
+    "editor.fontSize": 14,
+    "editor.fontFamily": "'Source Code Pro', monospace",
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 0,
+    "editor.lineNumbers": "relative",
+    "sync.gist": "a0beffd367571bb28c2f06d83131c9e3",
+    "sync.lastUpload": "2018-05-18T20:08:48.916Z",
+    "sync.autoDownload": false,
+    "sync.autoUpload": false,
+    "sync.lastDownload": "",
+    "sync.forceDownload": false,
+    "sync.anonymousGist": false,
+    "sync.host": "",
+    "sync.pathPrefix": "",
+    "sync.quietSync": false,
+    "sync.askGistName": false,
+    "sync.removeExtensions": true,
+    "sync.syncExtensions": true,
+    "workbench.editor.enablePreview": false,
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.historyExplorer.enabled": true,
+    "workbench.colorTheme": "Dracula At Night"
+}
