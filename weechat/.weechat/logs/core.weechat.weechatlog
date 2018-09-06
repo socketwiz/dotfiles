@@ -18,3 +18,5 @@
 2018-01-02 14:43:53	=!=	Warning: /Users/rickynelson/.weechat/irc.conf, line 185: invalid value for option: freenode.default_msg_quit
 2018-01-02 14:43:53	=!=	Warning: /Users/rickynelson/.weechat/script.conf, line 50: unknown option for section "scripts": url_force_https = on
 2018-01-02 14:43:53		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, relay, script, tcl, trigger, xfer
+2018-06-18 14:21:36		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, relay, script, tcl, trigger, xfer
+2018-06-18 14:28:24		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, relay, script, tcl, trigger, xfer
