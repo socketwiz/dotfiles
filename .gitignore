@@ -12,7 +12,6 @@ emacs/.emacs.d/network-security.data
 emacs/.emacs.d/bookmarks
 
 vim/.vim/.netrwhist
-vim/.vim/plugged/
 
 weechat/.weechat/logs/
 weechat/.weechat/sec.conf

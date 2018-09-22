@@ -7,6 +7,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'arcticicestudio/nord-vim'
+Plug 'cohama/lexima.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'elzr/vim-json'
 Plug 'godlygeek/tabular'
