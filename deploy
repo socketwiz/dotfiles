@@ -8,14 +8,14 @@ fi
 
 case $PLATFORM in
     Darwin)
-        brew install cmake reattach-to-user-namespace
+        brew install cmake reattach-to-user-namespace wget
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
         ;;
     Linux)
         sudo apt-get -y install zsh
         sudo chsh -s /usr/bin/zsh "$USER"
-        sudo apt-get -y install curl
+        sudo apt-get -y install curl wget
         ;;
 esac
 
