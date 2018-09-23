@@ -48,7 +48,7 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 " Fix pbcopy/pbpaste on OS X terminal vim
-:set clipboard=unnamed
+set clipboard=unnamed
 
 " dont' worry about VI compatibility
 set nocompatible
@@ -137,7 +137,7 @@ call matchadd('ColorColumn', '\%81v', 100)
 
 " display tab and extra whitespace characters
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-exec "set list"
+set list
 
 
 " Fugitive
