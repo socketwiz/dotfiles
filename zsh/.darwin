@@ -11,18 +11,18 @@ alias ll='/bin/ls -lhG'
 
 # spotlight from the shell
 spot() {
-	#pass param to mdfind to search spotLight metadata in current directory
-	mdfind -onlyin "$PWD" "$@" | 
-	# sed will wrap the full path name in quotes (" ") 
-	sed s/^.\*\$/\"\&\"/g | 
-	# takes the wrapped path names and passes them to ls -lt, which will then 
-	# sort them in chronological order
-	xargs ls -lt | 
-	# remove from the path name the part from root up to the current directory
-	sed s:"$(pwd)"/:: | 
-	# Finally, sed will remove the output of ls -lt from the beginning of the 
-	# line, up to the modification date of the file
-	sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//"; 
+    #pass param to mdfind to search spotLight metadata in current directory
+    mdfind -onlyin "$PWD" "$@" |
+    # sed will wrap the full path name in quotes (" ")
+    sed s/^.\*\$/\"\&\"/g |
+    # takes the wrapped path names and passes them to ls -lt, which will then
+    # sort them in chronological order
+    xargs ls -lt |
+    # remove from the path name the part from root up to the current directory
+    sed s:"$(pwd)"/:: |
+    # Finally, sed will remove the output of ls -lt from the beginning of the
+    # line, up to the modification date of the file
+    sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//";
 }
 
 if [ -x "$HOME/.work" ]; then
@@ -41,4 +41,8 @@ export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rust
 
 export PATH=$HOME/.npm-packages/bin:$PATH
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+
+# Homebrew paths
+export BREW_PATHS=/usr/local/bin:/usr/local/sbin
+export PATH="/usr/local/opt/node@8/bin:$PATH"
 
