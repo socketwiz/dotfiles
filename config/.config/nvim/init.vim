@@ -18,6 +18,7 @@ Plug 'pangloss/vim-javascript'              " javascript syntax highlighter
 Plug 'plasticboy/vim-markdown'              " markdown syntax highlighter
 Plug 'ryanoasis/vim-devicons'               " filetype glyphs for popular addons,
                                             " nerdtree, vim-airline, ctrlp, etc...
+Plug 'rust-lang/rust.vim'                   " rust support
 Plug 'scrooloose/nerdtree'                  " file system explorer
 Plug 'scrooloose/syntastic'                 " syntax checker
 Plug 'tomtom/tcomment_vim'                  " commenter
