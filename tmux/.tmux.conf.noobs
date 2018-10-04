@@ -1,0 +1,41 @@
+# Fix pbcopy/pbpaste on OS X
+if-shell "uname | grep -q Darwin" 'set-option -g default-command "reattach-to-user-namespace -l /bin/zsh"'
+if-shell "uname | grep -q SunOS" 'set -g default-command /opt/local/bin/zsh'
+
+if-shell "uname | grep -q Darwin" 'set -g default-shell /bin/zsh'
+if-shell "uname | grep -q SunOS" 'set -g default-shell /opt/local/bin/zsh'
+
+set -g default-terminal "screen-256color"
+set-window-option -g clock-mode-style 12
+
+unbind C-b
+set -g prefix C-Space
+
+bind Space copy-mode
+
+set -sg escape-time 1
+
+bind | split-window -h
+bind - split-window -v
+
+bind h select-pane -L 
+bind j select-pane -D 
+bind k select-pane -U 
+bind l select-pane -R
+
+bind -r C-h select-window -t :- 
+bind -r C-l select-window -t :+
+
+setw -g monitor-activity on 
+set -g visual-activity on
+
+setw -g mode-keys vi
+
+# resize panes
+bind H resize-pane -L 5
+bind J resize-pane -D 5
+bind K resize-pane -U 5
+bind L resize-pane -R 5
+
+# don't rename window based on last command run
+set-option -g allow-rename off

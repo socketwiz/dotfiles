@@ -1,0 +1,43 @@
+
+# ssh
+source ~/bin/agent
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# aliases
+alias ec='emacsclient -c -n $1'
+alias emacs='emacs -nw'
+alias vim='nvim'
+
+# fix zsh globbing on some commands
+alias rspec='nocorrect rspec'
+alias hg='nocorrect hg'
+
+## for docker
+alias docker-rm-stopped='docker system prune'
+alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
+function docker-enter() { docker exec -it "$@" /bin/bash; }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fix the friggin del key
+bindkey "^[[3~" delete-char
+
+case `uname` in
+  Darwin)
+    source $HOME/.darwin
+    ;;
+  SunOS)
+    source $HOME/.sun
+    ;;
+  Linux)
+    source $HOME/.linux
+    ;;
+  CYGWIN_NT-10.0-WOW)
+    source $HOME/.windows
+    ;;
+esac
+

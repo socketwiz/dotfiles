@@ -1,7 +1,46 @@
-colorscheme vividchalk
+
+"
+" Plugins
+"
+
+" Load Plug and plugins
+call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'               " updates gutter with hunk locations
+Plug 'arcticicestudio/nord-vim'             " theme
+Plug 'cohama/lexima.vim'                    " auto-pairing
+Plug 'dyng/ctrlsf.vim'                      " pt-search wrapper
+Plug 'elzr/vim-json'                        " json syntax highlighter
+Plug 'godlygeek/tabular'                    " auto-align text
+Plug 'HerringtonDarkholme/yats.vim'         " typescript syntax highlighter
+Plug 'kien/ctrlp.vim'                       " fuzzy file finder
+Plug 'mxw/vim-jsx'                          " jsx syntax highlighter
+Plug 'pangloss/vim-javascript'              " javascript syntax highlighter
+Plug 'plasticboy/vim-markdown'              " markdown syntax highlighter
+Plug 'ryanoasis/vim-devicons'               " filetype glyphs for popular addons,
+                                            " nerdtree, vim-airline, ctrlp, etc...
+Plug 'rust-lang/rust.vim'                   " rust support
+Plug 'scrooloose/nerdtree'                  " file system explorer
+Plug 'scrooloose/syntastic'                 " syntax checker
+Plug 'tomtom/tcomment_vim'                  " commenter
+Plug 'tpope/vim-fugitive'                   " git wrapper
+Plug 'tpope/vim-surround'                   " quote, paranthesis wrapper
+Plug 'vim-airline/vim-airline'              " customized status line
+Plug 'vim-airline/vim-airline-themes'       " ^ status line themes
+call plug#end()
+
+
+"
+" Theme Settings
+"
+
+" Set colorsceme to nord
+silent! colorscheme nord
+" Activate nord airline theme
+let g:airline_theme='nord'
+
+
+
 syntax on
-set guifont=Source\ Code\ Pro:h14
-set tags+=.git/tags
 
 " disable the arrow keys
 noremap <Up> <Nop>
@@ -9,14 +48,8 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Causes weird formatting issues on SmartOS
-" :set lines=40 columns=140
-
-" Fix pbcopy/pbpase on OS X terminal vim
-:set clipboard=unnamed
-
-" suggestions from
-" http://stevelosh.com/blog/2010/09/coming-home-to-vim/#important-vimrc-lines 
+" Fix pbcopy/pbpaste on OS X terminal vim
+set clipboard=unnamed
 
 " dont' worry about VI compatibility
 set nocompatible
@@ -24,13 +57,15 @@ set nocompatible
 " for security
 set modelines=0
 
+filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+autocmd filetype python setlocal shiftwidth=4 softtabstop=2
+autocmd filetype ruby setlocal shiftwidth=2 softtabstop=2
+autocmd filetype css setlocal shiftwidth=4 softtabstop=4
+autocmd filetype javascript setlocal shiftwidth=2 softtabstop=2
 set expandtab
-autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
-autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 expandtab
-autocmd FileType css setlocal shiftwidth=4 softtabstop=4 expandtab
 
 set encoding=utf-8
 set scrolloff=3
@@ -70,7 +105,7 @@ if has('persistent_undo')
   set undodir=~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.
 endif
 
-" remap the leader key from \ to ,
+" remap the leader key from \ to space
 let mapleader = "\<space>"
 let maplocalleader = "\<space>"
 " don't throw away the reverse character search command
@@ -86,34 +121,16 @@ set showmatch
 set hlsearch
 " clear the search highlighting
 nnoremap <leader><space> :noh<cr>
-" use git grep to search
-nnoremap <Leader>f :Ggrep<Space>
 
 " handle long lines
 set wrap
 set textwidth=79
 set formatoptions=qrn1
 
-" change the status line based on mode
-if version >= 700
-  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* guibg=Red   guifg=White
-  au InsertLeave * hi StatusLine term=reverse ctermfg=0  ctermbg=2  guibg=Green guifg=Black
-endif
- 
-
-" enable TagBar
-nmap <leader>8 :TagbarToggle<CR>
-
 " pretty print json
 nmap <leader>1 :%!python -m json.tool<CR>
 " pretty print xml
 nmap <leader>2 :silent %!xmllint --encode UTF-8 --format -<CR>
-
-" If you prefer the Omni-Completion tip window to close when a selection is
-" " made, these lines close it on movement in insert mode or when leaving
-" " insert mode
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " make the 81st column stand out
 highlight ColorColumn ctermbg=magenta
@@ -121,17 +138,8 @@ call matchadd('ColorColumn', '\%81v', 100)
 
 " display tab and extra whitespace characters
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-" set list
+set list
 
-" pathogen (requires pathogen addon)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype off
-call pathogen#incubate()
-call pathogen#helptags()
-call pathogen#infect()
-filetype plugin indent on
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END pathogen
 
 " Fugitive
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,7 +152,7 @@ endif
 set diffopt=vertical
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Fugitive
- 
+
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -153,10 +161,11 @@ set wildignore+=*.pyc
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_custom_ignore = 'node_modules$\|bower_components$\|public/lib$\|build$\|third-party$'
 " 0) don't manage working directory
-" 1) the directory of the current file
-" 2) the nearest ancestor that contains one of these directories or files:
+" c) the directory of the current file
+" r) the nearest ancestor that contains one of these directories or files:
+" w) begin finding a root from the current working directory outside of CtrlP
 " .git/ .hg/ .svn/ .bzr/ _darcs/
-let g:ctrlp_working_path_mode = 1
+let g:ctrlp_working_path_mode = 'r'
 " increase the height of the match window
 let g:ctrlp_max_height = 30
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
@@ -198,6 +207,7 @@ let g:syntastic_mode_map={ 'mode': 'active',
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Syntastic
 
+
 " GitGutter
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap [h <Plug>GitGutterPrevHunk
@@ -205,9 +215,41 @@ nmap ]h <Plug>GitGutterNextHunk
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END GitGutter
 
-" vim-jsx
+
+" nerdtree
+map <C-n> :NERDTreeToggle<CR>
+map <leader>r :NERDTreeFind<cr>
+
+let g:NERDTreeWinSize = 80
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jsx_ext_required = 0
+" END nerdtree
+
+
+" CtrlSF
+" use git grep to search
+nnoremap <Leader>f :CtrlSF<Space>
+let g:ctrlsf_position = 'bottom'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END vim-jsx
+" END CtrlSF
+
+
+" vim-devicons
+" loading the plugin
+let g:webdevicons_enable = 1
+" adding the flags to NERDTree
+let g:webdevicons_enable_nerdtree = 1
+" adding to vim-airline's tabline
+let g:webdevicons_enable_airline_tabline = 1
+" adding to vim-airline's statusline
+let g:webdevicons_enable_airline_statusline = 1
+" ctrlp glyphs
+let g:webdevicons_enable_ctrlp = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END vim-devicons
+
+" rust.vim
+" use git grep to search
+let g:rustfmt_autosave = 1 " automatically run rustfmt when buffer is saved
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END rust.vim
 

@@ -1,41 +1,48 @@
 #! /bin/sh
 
-EDITOR="~/bin/edit"
 JAVA_HOME=$(/usr/libexec/java_home)
-WORKON_HOME=~/.virtualenvs
+
+export JAVA_HOME
+export WORKON_HOME=~/.virtualenvs
 
 alias ql='qlmanage -p'
 alias la='/bin/ls -ahG'
 alias ll='/bin/ls -lhG'
 
 # spotlight from the shell
-function spot {
-	#pass param to mdfind to search spotLight metadata in current directory
-	mdfind -onlyin $PWD "$@" | 
-	# sed will wrap the full path name in quotes (" ") 
-	sed s/^.\*\$/\"\&\"/g | 
-	# takes the wrapped path names and passes them to ls -lt, which will then 
-	# sort them in chronological order
-	xargs ls -lt | 
-	# remove from the path name the part from root up to the current directory
-	sed s:"`pwd`"/:: | 
-	# Finally, sed will remove the output of ls -lt from the beginning of the 
-	# line, up to the modification date of the file
-	sed "s/^[-dltrwx]*\ *[0-9]*\ [a-z]*\ *[a-z]*\ *[0-9]*//"; 
+spot() {
+    #pass param to mdfind to search spotLight metadata in current directory
+    mdfind -onlyin "$PWD" "$@" |
+    # sed will wrap the full path name in quotes (" ")
+    sed s/^.\*\$/\"\&\"/g |
+    # takes the wrapped path names and passes them to ls -lt, which will then
+    # sort them in chronological order
+    xargs ls -lt |
+    # remove from the path name the part from root up to the current directory
+    sed s:"$(pwd)"/:: |
+    # Finally, sed will remove the output of ls -lt from the beginning of the
+    # line, up to the modification date of the file
+    sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//";
 }
 
-if [ -x $HOME/.work ]; then
-  source $HOME/.work
+if [ -x "$HOME/.work" ]; then
+    # shellcheck source=/dev/null
+  . "$HOME/.work"
 fi
 
-# source ~/.xsh
-source ~/.fzf.zsh
+# shellcheck source=/dev/null
+. ~/.fzf.zsh
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
-# for homebrew
-PATH=/usr/local/opt/node@6/bin:$PATH
-
 # virtualenv
-source /usr/local/bin/virtualenvwrapper.sh
+# shellcheck disable=SC1091
+. /usr/local/bin/virtualenvwrapper.sh
+
+export PATH=$HOME/.npm-packages/bin:$PATH
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+
+# Homebrew paths
+export BREW_PATHS=/usr/local/bin:/usr/local/sbin
 export PATH="/usr/local/opt/node@8/bin:$PATH"
+
