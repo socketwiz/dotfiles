@@ -9,6 +9,7 @@ Plug 'airblade/vim-gitgutter'               " updates gutter with hunk locations
 Plug 'arcticicestudio/nord-vim'             " theme
 Plug 'cohama/lexima.vim'                    " auto-pairing
 Plug 'dyng/ctrlsf.vim'                      " pt-search wrapper
+Plug 'editorconfig/editorconfig-vim'        " honor editorconfig properties
 Plug 'elzr/vim-json'                        " json syntax highlighter
 Plug 'godlygeek/tabular'                    " auto-align text
 Plug 'HerringtonDarkholme/yats.vim'         " typescript syntax highlighter
