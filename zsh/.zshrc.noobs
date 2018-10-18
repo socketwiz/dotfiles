@@ -41,3 +41,10 @@ case `uname` in
     ;;
 esac
 
+# present a list of tmux sessions to choose from
+function tm() {
+    select sel in $(tmux ls -F '#S'); do
+        break;
+    done
+    tmux attach -t "$sel"
+}
