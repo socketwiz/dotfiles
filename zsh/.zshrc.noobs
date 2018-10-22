@@ -41,3 +41,7 @@ case `uname` in
     ;;
 esac
 
+function npm() {
+    $HOME/.npm-packages/bin/npm $@
+    ogg123 ~/dotfiles/VO_JobsDone.ogg
+}
