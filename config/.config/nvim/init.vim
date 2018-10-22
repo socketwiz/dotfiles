@@ -14,6 +14,7 @@ Plug 'elzr/vim-json'                        " json syntax highlighter
 Plug 'godlygeek/tabular'                    " auto-align text
 Plug 'HerringtonDarkholme/yats.vim'         " typescript syntax highlighter
 Plug 'kien/ctrlp.vim'                       " fuzzy file finder
+Plug 'mattn/webapi-vim'                     " dependency for rust.vim
 Plug 'mxw/vim-jsx'                          " jsx syntax highlighter
 Plug 'pangloss/vim-javascript'              " javascript syntax highlighter
 Plug 'plasticboy/vim-markdown'              " markdown syntax highlighter
