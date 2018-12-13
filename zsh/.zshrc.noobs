@@ -9,7 +9,6 @@ source ~/bin/agent
 #
 # aliases
 alias ec='emacsclient -c -n $1'
-alias emacs='emacs -nw'
 alias vim='nvim'
 
 # fix zsh globbing on some commands
