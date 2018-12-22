@@ -95,6 +95,9 @@
     :ensure t
     :config (progn
               (atomic-chrome-start-server)
-              (setq atomic-chrome-buffer-open-style 'frame))))
+              (setq atomic-chrome-buffer-open-style 'frame)))
+
+  ;; add /usr/local/bin to the path
+  (setq exec-path (append exec-path '("/usr/local/bin"))))
 
 (provide 'my-emacs)
