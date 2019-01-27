@@ -65,7 +65,6 @@
   (global-set-key (kbd "C-c c") #'org-capture)
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
   (global-set-key (kbd "C-c r") #'helm-recentf)
-  (global-set-key (kbd "C-c t") #'switch-theme)
   (global-set-key (kbd "C-h b") #'describe-bindings)
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h k") #'helpful-key)
@@ -85,26 +84,12 @@
   (setq which-key-idle-delay config-which-key-delay)
   #+END_SRC
 
-* Core makeup
+* Core packages
   #+BEGIN_SRC emacs-lisp
-(defun switch-theme (theme)
-  "Switch between light and dark themes"
-  (interactive "sLight or dark theme? ")
-  (defadvice load-theme (before theme-dont-propagate activate)
-    (mapc #'disable-theme custom-enabled-themes))
-  (cond ((string= theme "light")
-         (disable-theme 'dracula)
-         (use-package apropospriate-theme
-           :ensure t)
-         (load-theme 'apropospriate-light t))
-
-        ((string= theme "dark")
-         (disable-theme 'apropospriate)
-         (use-package dracula-theme
-           :ensure t)
-         (load-theme 'dracula t))
-
-        (t (message "Choices are only light or dark"))))
+  (use-package dracula-theme
+    :config
+    (load-theme 'dracula t)
+    :ensure t)
 
   ;; Set regex syntax to string for re-builder
   (setq reb-re-syntax 'string)
@@ -161,7 +146,7 @@
     :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
   ;; Frequently accessed files (C-x r j <letter>)
-  (set-register ?i '(file . "~/.emacs.d/init.el"))
+  (set-register ?i '(file . "~/.emacs.d/settings.org"))
   (set-register ?o '(file . "~/org/agenda/organizer.org"))
   (set-register ?w '(file . "~/org/wiki/index.org"))
 
@@ -601,20 +586,22 @@
 
   #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
-    :init
-    (add-hook 'rust-mode-hook #'racer-mode)
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
     :config
+    (use-package racer
+        :init
+        (add-hook 'racer-mode-hook #'eldoc-mode)
+        (add-hook 'rust-mode-hook #'racer-mode)
+        :ensure t)
+    (use-package flycheck-rust
+        :init
+        (add-hook 'rust-mode-hook #'flycheck-mode)
+        :ensure t)
     (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
     :ensure t)
+
   (use-package cargo
     :bind (:map rust-mode-map ("C-c C-r" . cargo-process-run))
-    :ensure t)
-  (use-package racer
-    :init
-    (add-hook 'racer-mode-hook #'eldoc-mode)
-    :ensure t)
-  (use-package flycheck-rust
     :ensure t)
 
   (setq company-tooltip-align-annotations t)
