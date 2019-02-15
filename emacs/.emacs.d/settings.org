@@ -338,6 +338,13 @@
 
 * ido
   #+BEGIN_SRC emacs-lisp
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
+    (interactive)
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting")))
+
   (use-package ido
     :init
     (ido-mode 1)
@@ -354,13 +361,6 @@
     :init
     (flx-ido-mode 1)
     :defer t)
-
-  (defun ido-recentf-open ()
-    "Use `ido-completing-read' to \\[find-file] a recent file"
-    (interactive)
-    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-        (message "Opening file...")
-      (message "Aborting")))
   #+END_SRC
 
 * projectile
