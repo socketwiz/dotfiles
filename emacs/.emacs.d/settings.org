@@ -5,7 +5,7 @@
 
   (defvar config-scratch-mode 'text-mode)
 
-  (defvar config-which-key-delay 3.0)
+  (defvar config-which-key-delay 1.4)
 
   (defvar config-keep-backups t)
 
@@ -268,6 +268,9 @@
         (evil-emacs-state)
       (evil-exit-emacs-state)))
 
+  ;; For some modes, setting default-state is not enough to get them into emacs state
+  (add-hook 'edebug-mode-hook 'temporarily-apply-emacs-state)
+
   ;; Extensible vi layer for emacs
   (use-package evil
     :config
@@ -282,9 +285,7 @@
     (evil-set-initial-state 'gfm-mode 'normal)
     (evil-set-initial-state 'org-mode 'normal)
     (evil-set-initial-state 'prog-mode 'normal)
-
-    ;; For some modes, setting default-state is not enough to get them into emacs state
-    (add-hook 'edebug-mode-hook 'temporarily-apply-emacs-state)
+    (evil-set-initial-state 'text-mode 'normal)
 
     ;; set cursor color according to mode
     (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
