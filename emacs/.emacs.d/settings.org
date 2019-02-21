@@ -81,6 +81,9 @@
 ;; Parenthesis
 (show-paren-mode 1)
 
+;; Enable narrow to region functionality
+(put 'narrow-to-region 'disabled nil)
+
 ;; Frequently accessed files (C-x r j <letter>)
 ;; jump-to-register
 (set-register ?i '(file . "~/.emacs.d/settings.org"))
@@ -119,15 +122,15 @@
 #+BEGIN_SRC emacs-lisp
 (use-package diminish)
 
-(use-package cyberpunk-theme
-  :config
-  (load-theme 'cyberpunk t))
-
 ;; Rainbow mode - displays color codes in their color
 (use-package rainbow-mode
   :delight)
 
 ;; Theme
+(use-package cyberpunk-theme
+  :config
+  (load-theme 'cyberpunk t))
+
 ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
 ;; https://github.com/emacs-jp/replace-colorthemes
 (use-package all-the-icons)
@@ -188,12 +191,10 @@
 
 ;; Flycheck
 (use-package flycheck
-  :diminish flycheck-mode
-  :ensure t)
+  :diminish flycheck-mode)
 
 ;; Yasnippet, a template system for emacs
 (use-package yasnippet
-  :ensure t
   :bind (("TAB" . yas-expand))
   :config
   (yas-reload-all))
@@ -213,7 +214,6 @@
 
 ;; Org mode, for keeping notes, todo lists, etc... in plain text
 (use-package org
-  :ensure t
   :config
   ;; org
   (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
@@ -225,7 +225,6 @@
 
 ;; Respect editor configs
 (use-package editorconfig
-  :ensure t
   :diminish editorconfig-mode
   :config
   (editorconfig-mode 1))
@@ -235,12 +234,10 @@
   :defer t)
 
 ;; A better "help" buffer
-(use-package helpful
-  :ensure t)
+(use-package helpful)
 
 ;; Edit text area in chrome with emacs
 (use-package atomic-chrome
-  :ensure t
   :config
   (atomic-chrome-start-server)
   (setq atomic-chrome-buffer-open-style 'frame))
@@ -333,7 +330,6 @@
 
 ;; Show diffs in the gutter
 (use-package diff-hl
-  :ensure t
   :config
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode t)
@@ -358,8 +354,7 @@
   :defer t)
 
 ;; M-x enhancement for emacs built on top of ido
-(use-package smex
-  :ensure t)
+(use-package smex)
 
 ;; Fancy matching for emacs
 (use-package flx-ido
@@ -371,8 +366,7 @@
 * projectile
 #+BEGIN_SRC emacs-lisp
 ;; The platinum searcher
-(use-package pt
-  :ensure t)
+(use-package pt)
 
 ;; A project interaction library
 (use-package projectile
@@ -507,7 +501,6 @@
 
 ;; Major mode for editing web templates
 (use-package web-mode
-  :ensure t
   :mode (("\\.html?\\'" . web-mode)
          ("\\.js[x]?\\'" . web-mode)
          ("\\.css\\'" . web-mode))
