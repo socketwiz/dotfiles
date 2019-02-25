@@ -35,10 +35,6 @@ fi
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
-# virtualenv
-# shellcheck disable=SC1091
-. /usr/local/bin/virtualenvwrapper.sh
-
 export PATH=$HOME/.npm-packages/bin:$PATH
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 
