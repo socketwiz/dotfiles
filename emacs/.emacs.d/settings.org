@@ -1,4 +1,4 @@
-
+`
 * Core
 #+BEGIN_SRC emacs-lisp
 (package-initialize)
@@ -28,8 +28,6 @@
 
 ;; Prevent the startup window
 (setq inhibit-startup-message t)
-(load (concat user-emacs-directory "dashboard.el"))
-(dashboard)
 
 ;; Hide ui elements
 (tool-bar-mode -1)
@@ -110,6 +108,7 @@
 * Core keybindings
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "<f5>") #'revert-buffer)
+(global-set-key (kbd "C-=") #'er/expand-region)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c C-.") #'helpful-at-point)
@@ -260,6 +259,20 @@
 ;; Display used hotkeys in another window
 (use-package command-log-mode
   :diminish command-log-mode)
+
+;; Minor mode for dealing with pairs, such as quotes
+(use-package smartparens-config
+  :ensure smartparens
+  :config
+  (show-smartparens-global-mode t)
+
+  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
+
+;; Expand selected region by semantic units
+(use-package expand-region
+  :config
+  (pending-delete-mode t))
 #+END_SRC
 
 
