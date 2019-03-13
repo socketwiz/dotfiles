@@ -499,13 +499,6 @@
 
 ;; TypeScript Interactive Development Environment
 (use-package tide)
-
-;; A simple emacs web server for use with skewer-mode
-(use-package simple-httpd
-  :defer t)
-;; Provides live interaction with JavaScript
-(use-package skewer-mode
-  :defer t)
 #+END_SRC
 
 * Language markdown
