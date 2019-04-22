@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ol
+# key: ol
+# --
+<ol>$1</ol>$0

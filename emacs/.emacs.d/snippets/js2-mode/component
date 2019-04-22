@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: component
+# key: component
+# --
+class $1 extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        $0
+    }
+}
