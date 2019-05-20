@@ -552,3 +552,11 @@
   :defer t
   :hook (clojure-mode . enable-paredit-mode))
 #+END_SRC
+* Language python
+#+BEGIN_SRC emacs-lisp
+(use-package elpy
+  :init
+  (elpy-enable))
+(use-package py-autopep8
+  :hook (elpy-mode-hook . py-autopep8-enable-on-save))
+#+END_SRC
