@@ -1,11 +1,9 @@
-# if [ -z "$TMUX" ] # When zsh is started attach to current tmux session or create a new one
-# then
-#     tmux attach -t TMUX || tmux new -s TMUX
-# fi
 
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell" # Set theme
+ZSH_THEME="powerlevel10k/powerlevel10k" # Set theme
+POWERLEVEL9K_MODE=nerdfont-complete
+PURE_POWER_MODE=portable
 
 plugins=(
     git # https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git
@@ -21,5 +19,8 @@ autoload -U compinit && compinit # reload completions for zsh-completions
 source $ZSH/oh-my-zsh.sh # required
 source ~/dotfiles/zsh/.zshrc.noobs
 
+
 export PATH="/usr/local/opt/texinfo/bin:$PATH"
 fpath=($fpath "/home/socketwiz/.zfunctions")
+
+source ~/.purepower
