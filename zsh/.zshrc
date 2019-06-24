@@ -19,7 +19,6 @@ autoload -U compinit && compinit # reload completions for zsh-completions
 source $ZSH/oh-my-zsh.sh # required
 source ~/dotfiles/zsh/.zshrc.noobs
 
-
 export PATH="/usr/local/opt/texinfo/bin:$PATH"
 fpath=($fpath "/home/socketwiz/.zfunctions")
 
