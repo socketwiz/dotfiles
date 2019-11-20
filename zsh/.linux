@@ -9,3 +9,11 @@ alias nocaps='xmodmap ~/.Xmodmap'
 alias ls='ls --color'
 alias ll='ls -l'
 alias la='ls -a'
+
+# python
+export PATH=$HOME/.pyenv/bin:$PATH
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+export PATH="$HOME/.local/bin:$PATH"
+
