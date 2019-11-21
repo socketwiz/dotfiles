@@ -11,9 +11,11 @@ alias ll='ls -l'
 alias la='ls -a'
 
 # python
-export PATH=$HOME/.pyenv/bin:$PATH
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
+if [ -f $HOME/.pyenv/bin ]; then
+    export PATH=$HOME/.pyenv/bin:$PATH
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+# python executables
 export PATH="$HOME/.local/bin:$PATH"
 
