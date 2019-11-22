@@ -534,10 +534,7 @@
 (use-package rustic
   :ensure t
   :hook (rustic-mode . setup-rustic)
-  :init
-;;  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
-  (setf (cdr (rassoc 'rust-mode auto-mode-alist)) 'rustic-mode))
-
+  :mode ("\\.rs\\'" . rustic-mode))
 
 ;; * Language clojure
 (use-package cider
