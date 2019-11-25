@@ -132,7 +132,6 @@ bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 
 # App specific settings
 for_window [class="Screenkey"] floating enable
-for_window [class="Gimp"] floating enable
 for_window [class="Zeal"] floating enable
 for_window [class="kdenlive"] floating enable
 for_window [class="notify-send"] floating enable
