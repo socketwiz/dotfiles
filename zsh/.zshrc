@@ -59,21 +59,24 @@ alias ed='emacs --daemon'
 alias vim='nvim'
 
 ## docker
-function docker-enter() { docker exec -it "$@" /bin/bash; }
-alias docker-rm-stopped='docker system prune'
-alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
-alias docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
-alias dcdestroy='docker-compose stop && docker-compose rm -f'
+function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
+alias docker='sudo docker'
+alias docker-compose='sudo docker-compose'
+alias dcdestroy='docker-compose stop && sudo docker-compose rm -f'
 alias dclogs='docker-compose logs -f'
-alias dcup='docker-compose up -d'
-alias dcstop='docker-compose stop'
 alias dcps='docker-compose ps'
+alias dcstop='docker-compose stop'
+alias dcup='docker-compose up -d'
+alias docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
+alias docker-rm-stopped='docker system prune'
+alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs sudo docker rmi'
 
 # git
 alias gb='git branch'
-alias gst='git status'
+alias gcb='git checkout -b'
 alias gd='git diff'
 alias glog='git log --oneline --decorate --graph'
+alias gst='git status'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -90,9 +93,6 @@ case `uname` in
   Linux)
     source $HOME/.linux
     ;;
-  CYGWIN_NT-10.0-WOW)
-    source $HOME/.windows
-    ;;
 esac
 
 # present a list of tmux sessions to choose from
@@ -102,4 +102,3 @@ function tm() {
     done
     tmux attach -t "$sel"
 }
-
