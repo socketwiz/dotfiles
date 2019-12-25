@@ -120,7 +120,6 @@
 ;; * Core keybindings
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'counsel-recentf)
@@ -435,8 +434,7 @@
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   ;; For some reason python mode is starting in emacs state, set it to normal
-  (evil-set-initial-state 'python-mode 'normal)
-  :bind (:map evil-normal-state-map ("M-." . 'tide-jump-to-definition)))
+  (evil-set-initial-state 'python-mode 'normal))
 
 ;; Surround text objects with characters
 (use-package evil-surround
@@ -486,12 +484,12 @@
   (setup-javascript))
 
 (defun setup-typescript ()
+  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (setup-javascript))
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
-  :config
   :hook (typescript-mode . setup-typescript))
 
 ;; JavaScript editing mode
@@ -567,6 +565,7 @@
 
 ;; * Language rust
 (defun setup-rustic ()
+  (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
   (yas-minor-mode))
 
 (use-package rustic
