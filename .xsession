@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 # set caps lock to control
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
@@ -12,6 +12,6 @@ feh --bg-center ~/Pictures/2018-golf-r-gray.jpg
 
 # setup keyring for storing secrets and making them available to applications
 dbus-update-activation-environment --systemd DISPLAY
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)
+eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)"
 export SSH_AUTH_SOCK
 
