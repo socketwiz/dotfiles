@@ -1,3 +1,12 @@
+;;; settings.el --- Emacs settings
+
+;; Author: Ricky Nelson <rickyn@socketwiz.com>
+
+;;; Commentary:
+
+;; This package provides customized personal settings
+
+;;; Code:
 
 ;; * Core
 (package-initialize)
@@ -9,14 +18,14 @@
 ;; Font settings
 (defvar config-font-family "Fira Code")
 (defvar config-font-height 160
-  "font-height is 1/10pt so 160 == 160/10 == 16pt")
+  "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
 (defvar config-indent-web-mode-spaces 2)
 
-(setq use-package-always-ensure t)
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;; Set regex syntax to string for re-builder
+(require 're-builder)
 (setq reb-re-syntax 'string)
 
 ;; Hide column numbers
@@ -84,6 +93,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 ;; Font
 (set-face-attribute 'default nil
@@ -105,6 +116,7 @@
 
 ;; Colorize compilation-mode
 (defun my-colorize-compilation-buffer ()
+  "Colorize the compilation buffer."
     (when (eq major-mode 'compilation-mode)
         (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
@@ -161,9 +173,9 @@
   (add-hook 'prog-mode-hook 'highlight-parentheses-mode))
 
 ;; Undo-tree
-(use-package undo-tree 
+(use-package undo-tree
   :config
-  (setq undo-tree-visualizer-timestamps t) 
+  (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
   (setq undo-tree-auto-save-history t)
   ;; save all undo histories to this location
@@ -189,8 +201,8 @@
 ;; Flyspell
 (use-package flyspell
   :config
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
-  :diminish 'flyspell-mode) 
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  :diminish 'flyspell-mode)
 ;; Correct the misspelled word in a popup menu
 (use-package flyspell-popup
   :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct))
@@ -202,7 +214,7 @@
 ;; Flycheck
 (use-package flycheck
   :diminish flycheck-mode
-  :hook (sh-mode . flycheck-mode))
+  :init (global-flycheck-mode))
 
 ;; Yasnippet, a template system for emacs
 (use-package yasnippet
@@ -221,7 +233,7 @@
   :diminish which-key-mode)
 
 ;; Highlight numbers for prog modes
-(use-package highlight-numbers 
+(use-package highlight-numbers
   :init
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
@@ -339,7 +351,7 @@
   :config
   (setq projectile-project-search-path '("~/dev"))
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (projectile-global-mode)
+  (projectile-mode)
   :init
   (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
         projectile-known-projects-file (concat user-emacs-directory
@@ -446,6 +458,7 @@
 
 ;; * Language javascript
 (defun configure-web-mode-flycheck-checkers ()
+  "Configure flycheck for web JavaScript and TypeScript."
   (flycheck-mode)
 
   ;; See if there is a node_modules directory
@@ -466,6 +479,7 @@
       (flycheck-select-checker 'javascript-eslint)))
 
 (defun setup-javascript ()
+  "When js2-mode is loaded setup linters, yas and such."
   (tide-setup)
   (configure-web-mode-flycheck-checkers)
   (yas-minor-mode)
@@ -473,29 +487,32 @@
   (tide-hl-identifier-mode +1))
 
 (defun setup-js2 ()
+  "Set indent when in js2-mode."
   (setq js-switch-indent-offset 2)
-  (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (setup-javascript))
 
 (defun setup-typescript ()
+  "Setup jump-to-definition when in tide-mode."
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (setup-javascript))
 
 ;; JavaScript editing mode
 (use-package js2-mode
-  :mode ("\\.js\\'" . js2-mode)
+  ;; :mode ("\\.js\\'" . js2-mode)
   :hook (js2-mode . setup-js2))
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
   :hook (typescript-mode . setup-typescript))
 
-(use-package rjsx-mode)
+;; JSX editing mode
+(use-package rjsx-mode
+  :mode ("\\.js\\'" . rjsx-mode))
 
 
 ;; * Language HTML, css
 (defun setup-template ()
+  "Setup yas when in web-mode."
   (interactive)
   (yas-minor-mode))
 
@@ -554,6 +571,7 @@
 
 ;; * Language rust
 (defun setup-rustic ()
+  "Setup find-definitions when in rustic-mode."
   (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
   (yas-minor-mode))
 
@@ -570,3 +588,7 @@
 (use-package elpy
   :init
   (elpy-enable))
+
+(provide 'settings)
+
+;;; settings.el ends here
