@@ -82,7 +82,7 @@
 (global-display-line-numbers-mode)
 (menu-bar-display-line-numbers-mode 'relative)
 
-;; Put apropos in current buffer so it can be read and exited with minimum effort
+;; Put these documents in current buffer so it can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist
              '("*Apropos*" display-buffer-same-window)
              '("*Info*" display-buffer-same-window))
@@ -115,12 +115,12 @@
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
 ;; Colorize compilation-mode
-(defun my-colorize-compilation-buffer ()
+(defun compilation-filter-init ()
   "Colorize the compilation buffer."
     (when (eq major-mode 'compilation-mode)
         (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
-(add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
+(add-hook 'compilation-filter-hook 'compilation-filter-init)
 
 ;; When on OSX, change meta to cmd key
 ;; Amethyst, an OSX app I use is mucking around with Option-Shift
@@ -174,6 +174,7 @@
 
 ;; Undo-tree
 (use-package undo-tree
+  :diminish 'undo-tree-mode
   :config
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
@@ -183,26 +184,25 @@
   (defadvice undo-tree-make-history-save-file-name
       (after undo-tree activate)
     (setq ad-return-value (concat ad-return-value ".gz")))
-  (global-undo-tree-mode)
-  :diminish 'undo-tree-mode)
+  (global-undo-tree-mode))
 
 ;; Company mode
 (use-package company
   :diminish 'company-mode
   :config
   (setq company-tooltip-align-annotations t)
-  (add-hook 'after-init-hook 'global-company-mode))
+  :init (global-company-mode))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
-  :diminish eldoc-mode
+  :diminish 'eldoc-mode
   :commands turn-on-eldoc-mode)
 
 ;; Flyspell
 (use-package flyspell
+  :diminish 'flyspell-mode
   :config
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  :diminish 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 ;; Correct the misspelled word in a popup menu
 (use-package flyspell-popup
   :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct))
@@ -213,7 +213,7 @@
 
 ;; Flycheck
 (use-package flycheck
-  :diminish flycheck-mode
+  :diminish 'flycheck-mode
   :init (global-flycheck-mode))
 
 ;; Yasnippet, a template system for emacs
@@ -227,10 +227,10 @@
 
 ;; Display available keybindings in a popup
 (use-package which-key
+  :diminish 'which-key-mode
   :config
   (which-key-mode)
-  (setq which-key-idle-delay config-which-key-delay)
-  :diminish which-key-mode)
+  (setq which-key-idle-delay config-which-key-delay))
 
 ;; Highlight numbers for prog modes
 (use-package highlight-numbers
@@ -252,7 +252,7 @@
 
 ;; Respect editor configs
 (use-package editorconfig
-  :diminish editorconfig-mode
+  :diminish 'editorconfig-mode
   :config
   (editorconfig-mode 1))
 
@@ -285,7 +285,7 @@
 
 ;; Display used hotkeys in another window
 (use-package command-log-mode
-  :diminish command-log-mode)
+  :diminish 'command-log-mode)
 
 ;; Minor mode for dealing with pairs, such as quotes
 (use-package smartparens-config
@@ -511,10 +511,13 @@
 
 
 ;; * Language HTML, css
-(defun setup-template ()
+(defun web-mode-init ()
   "Setup yas when in web-mode."
   (interactive)
-  (yas-minor-mode))
+  (yas-minor-mode)
+  ;; disable auto-pairing just in web-mode so in django templates
+  ;; you can do {% %} without it becoming {% %}}
+  (electric-pair-mode -1))
 
 
 ;; Major mode for editing web templates
@@ -549,10 +552,7 @@
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-enable-css-colorization t)
   
-  (add-hook 'web-mode-hook 'setup-template)
-  ;; disable auto-pairing just in web-mode so in django templates
-  ;; you can do {% %} without it becoming {% %}}
-  (add-hook 'web-mode-hook (lambda () (electric-pair-mode -1))))
+  (add-hook 'web-mode-hook 'web-mode-init))
 
 ;; SASS
 (use-package scss-mode
