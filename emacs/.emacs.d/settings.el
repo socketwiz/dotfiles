@@ -186,7 +186,7 @@
     (setq ad-return-value (concat ad-return-value ".gz")))
   (global-undo-tree-mode))
 
-;; Company mode
+;; A text completion framework
 (use-package company
   :diminish 'company-mode
   :config
@@ -198,7 +198,7 @@
   :diminish 'eldoc-mode
   :commands turn-on-eldoc-mode)
 
-;; Flyspell
+;; Spell checker
 (use-package flyspell
   :diminish 'flyspell-mode
   :config
@@ -211,12 +211,12 @@
   (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
   (define-key popup-menu-keymap (kbd "C-l") 'popup-select))
 
-;; Flycheck
+;; Syntax checker
 (use-package flycheck
   :diminish 'flycheck-mode
   :init (global-flycheck-mode))
 
-;; Yasnippet, a template system for emacs
+;; Snippets, a template system for emacs
 (use-package yasnippet
   :bind (("TAB" . yas-expand))
   :config
@@ -298,7 +298,7 @@
   :config
   (pending-delete-mode t))
 
-;; Doom modeline
+;; Modeline theme, bottom of each window
 (use-package doom-modeline
   ;; (setq doom-modeline-icon (display-graphic-p))
   :hook (after-init . doom-modeline-mode))
@@ -363,6 +363,40 @@
   (:map projectile-mode-map ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
 
+;; Extensible vi layer for emacs
+(use-package evil
+  :config
+  ;; Put vim bindings everywhere
+  (evil-mode)
+  ;; Except in these modes where I just want emacs proper
+  (evil-set-initial-state 'debugger-mode 'emacs)
+  (evil-set-initial-state 'diff-mode 'emacs)
+  (evil-set-initial-state 'dired-mode 'emacs)
+  (evil-set-initial-state 'emacs-lisp-mode 'emacs)
+  (evil-set-initial-state 'fundamental-mode 'emacs)
+  (evil-set-initial-state 'helpful-mode 'emacs)
+  (evil-set-initial-state 'help-mode 'emacs)
+  (evil-set-initial-state 'Info-mode 'emacs)
+  (evil-set-initial-state 'org-mode 'emacs)
+  (evil-set-initial-state 'rustic-popup-mode 'emacs)
+  (evil-set-initial-state 'rustic-cargo-outdated-mode 'emacs)
+  (evil-set-initial-state 'markdown-view-mode 'emacs)
+  ;; For some reason python mode is starting in emacs state, set it to normal
+  (evil-set-initial-state 'python-mode 'normal))
+
+;; Surround text objects with characters
+(use-package evil-surround
+  :after (evil)
+  :config
+  (global-evil-surround-mode 1))
+
+
+;; For macOS import PATH when launched as GUI
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)))
+
 
 ;; * Language cpp
 ;; A flycheck checker for C/C++
@@ -420,40 +454,6 @@
   (eldoc-add-command
    'paredit-backward-delete
    'paredit-close-round))
-
-;; Extensible vi layer for emacs
-(use-package evil
-  :config
-  ;; Put vim bindings everywhere
-  (evil-mode)
-  ;; Except in these modes where I just want emacs proper
-  (evil-set-initial-state 'debugger-mode 'emacs)
-  (evil-set-initial-state 'diff-mode 'emacs)
-  (evil-set-initial-state 'dired-mode 'emacs)
-  (evil-set-initial-state 'emacs-lisp-mode 'emacs)
-  (evil-set-initial-state 'fundamental-mode 'emacs)
-  (evil-set-initial-state 'helpful-mode 'emacs)
-  (evil-set-initial-state 'help-mode 'emacs)
-  (evil-set-initial-state 'Info-mode 'emacs)
-  (evil-set-initial-state 'org-mode 'emacs)
-  (evil-set-initial-state 'rustic-popup-mode 'emacs)
-  (evil-set-initial-state 'rustic-cargo-outdated-mode 'emacs)
-  (evil-set-initial-state 'markdown-view-mode 'emacs)
-  ;; For some reason python mode is starting in emacs state, set it to normal
-  (evil-set-initial-state 'python-mode 'normal))
-
-;; Surround text objects with characters
-(use-package evil-surround
-  :after (evil)
-  :config
-  (global-evil-surround-mode 1))
-
-
-;; For macOS import PATH when launched as GUI
-(use-package exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)))
 
 
 ;; * Language javascript
