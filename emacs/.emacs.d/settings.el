@@ -48,10 +48,6 @@
 ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
 (setq scroll-conservatively 101)
 
-;; Automatically scroll the compilation buffer
-(require 'compile)
-(setq compilation-scroll-output t)
-
 ;; Give focus to new help windows
 (setq help-window-select t)
 
@@ -103,6 +99,8 @@
                     :height config-font-height)
 ;; Font ligatures
 (load "~/.emacs.d/fira-code.el")
+(declare-function fira-code-mode--setup "~/.emacs.d/fira-code.el")
+(declare-function fira-code-mode--enable "~/.emacs.d/fira-code.el")
 (fira-code-mode--setup)
 (fira-code-mode--enable)
 
@@ -118,16 +116,20 @@
 ;; Colorize compilation-mode
 (defun compilation-filter-init ()
   "Colorize the compilation buffer."
-    (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (when (eq major-mode 'compilation-mode)
+    (ansi-color-apply-on-region compilation-filter-start (point-max))))
+
+;; Automatically scroll the compilation buffer
+(require 'compile)
+(setq compilation-scroll-output t)
 
 (add-hook 'compilation-filter-hook 'compilation-filter-init)
 
 ;; When on OSX, change meta to cmd key
 ;; Amethyst, an OSX app I use is mucking around with Option-Shift
 (when (eq system-type 'darwin)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier nil))
+  (defvar mac-command-modifier 'meta)
+  (defvar mac-option-modifier nil))
 
 
 ;; * Core keybindings
@@ -221,6 +223,7 @@
 (use-package yasnippet
   :bind (("TAB" . yas-expand))
   :config
+  (declare-function yas-reload-all "yasnippet.el")
   (yas-reload-all))
 
 ;; Language Server Protocol support for Emacs
@@ -242,9 +245,9 @@
 (use-package org
   :config
   (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
-  (setq org-agenda-include-diary t)
-  (setq org-src-fontify-natively t)
-  (setq org-agenda-files (list "~/org/agenda"
+  (defvar org-agenda-include-diary t)
+  (defvar org-src-fontify-natively t)
+  (defvar org-agenda-files (list "~/org/agenda"
                                "~/org/agenda/projects/"))
   (setq org-default-notes-file "~/org/agenda/organizer.org"))
 ;; Convert buffer to text and decorations to HTML
@@ -282,6 +285,7 @@
   (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
   (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
   (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
+  (declare-function recentf-save-list "recentf.el.gz")
   (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list))))
 
 ;; Display used hotkeys in another window
@@ -362,6 +366,7 @@
   (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
         projectile-known-projects-file (concat user-emacs-directory
                                                ".cache/projectile-bookmarks.eld"))
+  (declare-function recentf-track-opened-file "recentf.el.gz")
   (add-hook 'find-file-hook (lambda ()
                               (unless recentf-mode (recentf-mode)
                                       (recentf-track-opened-file))))
@@ -388,6 +393,7 @@
   (evil-set-initial-state 'rustic-cargo-outdated-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
   ;; For some reason python mode is starting in emacs state, set it to normal
+  (declare-function evil-set-initial-state "evil-core.el")
   (evil-set-initial-state 'python-mode 'normal))
 
 ;; Surround text objects with characters
@@ -481,6 +487,7 @@
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint)))
 
+  (declare-function flycheck-select-checker "flycheck.el")
   (if (boundp 'eslint)
       (flycheck-select-checker 'javascript-eslint)))
 
@@ -494,7 +501,7 @@
 
 (defun setup-js2 ()
   "Set indent when in js2-mode."
-  (setq js-switch-indent-offset 2)
+  (defvar js-switch-indent-offset 2)
   (setup-javascript))
 
 (defun setup-typescript ()
