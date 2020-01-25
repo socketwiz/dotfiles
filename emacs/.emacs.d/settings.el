@@ -20,6 +20,7 @@
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
 (defvar config-indent-web-mode-spaces 2)
+(defvar config-indent-js-mode-spaces 2)
 
 (setq gc-cons-threshold most-positive-fixnum)
 
@@ -63,7 +64,7 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 
-;; Y or n is enough for me
+;; y or n is enough for me
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Parenthesis
@@ -139,15 +140,19 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'counsel-recentf)
+(global-set-key (kbd "C-c C-s") 'swiper)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-x d") 'counsel-dired)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-(global-set-key (kbd "M-i") 'imenu)
+(global-set-key (kbd "M-i") 'counsel-imenu)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 
 
 ;; * Core packages
@@ -335,7 +340,7 @@
 ;; Sorting and filtering
 (use-package prescient)
 (use-package ivy-prescient
-  :after (counsel)
+  :after (ivy prescient)
   :config (ivy-prescient-mode))
 (use-package ivy-hydra)
 (use-package ivy
@@ -344,11 +349,11 @@
   (ivy-mode t)
   ;; make everything fuzzy except swiper
   (setq ivy-re-builders-alist
-        '((swiper . ivy--regex-plus)
+        '((counsel-M-x . ivy--regex-fuzzy)
           ;; To create a new file when a similar name is being fuzzy
           ;; matched <C-M j> instead of RET (ivy-immediate-done)
           ;; to temporarily turn off fuzzy matching
-          (t . ivy--regex-fuzzy))))
+          (t . ivy--regex-plus))))
 
 
 ;; * projectile
@@ -407,7 +412,7 @@
 (use-package exec-path-from-shell
   :config
   (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize)))
 
 
 ;; * Language cpp
@@ -501,7 +506,7 @@
 
 (defun setup-js2 ()
   "Set indent when in js2-mode."
-  (defvar js-switch-indent-offset 2)
+  (defvar js-switch-indent-offset config-indent-js-mode-spaces)
   (setup-javascript))
 
 (defun setup-typescript ()
@@ -511,7 +516,6 @@
 
 ;; JavaScript editing mode
 (use-package js2-mode
-  ;; :mode ("\\.js\\'" . js2-mode)
   :hook (js2-mode . setup-js2))
 
 ;; TypeScript Interactive Development Environment
