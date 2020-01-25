@@ -24,10 +24,6 @@
 
 (setq gc-cons-threshold most-positive-fixnum)
 
-;; Set regex syntax to string for re-builder
-(require 're-builder)
-(setq reb-re-syntax 'string)
-
 ;; Hide column numbers
 (setq column-number-mode t)
 
@@ -55,10 +51,6 @@
 ;; Add /usr/local/bin to the path
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-;; Disable flymake-mode
-(require 'flymake)
-(setq flymake-start-on-flymake-mode nil)
-
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -80,7 +72,7 @@
 (global-display-line-numbers-mode)
 (menu-bar-display-line-numbers-mode 'relative)
 
-;; Put these documents in current buffer so it can be read and exited with minimum effort
+;; Put these documents in current buffer so they can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist
              '("*Apropos*" display-buffer-same-window)
              '("*Info*" display-buffer-same-window))
@@ -114,18 +106,6 @@
 (set-register ?o '(file . "~/org/agenda/organizer.org"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
-;; Colorize compilation-mode
-(defun compilation-filter-init ()
-  "Colorize the compilation buffer."
-  (when (eq major-mode 'compilation-mode)
-    (ansi-color-apply-on-region compilation-filter-start (point-max))))
-
-;; Automatically scroll the compilation buffer
-(require 'compile)
-(setq compilation-scroll-output t)
-
-(add-hook 'compilation-filter-hook 'compilation-filter-init)
-
 ;; When on OSX, change meta to cmd key
 ;; Amethyst, an OSX app I use is mucking around with Option-Shift
 (when (eq system-type 'darwin)
@@ -158,14 +138,47 @@
 ;; * Core packages
 (use-package diminish)
 
+;; Construct a regex interactively
+(use-package re-builder
+  :config
+  ;; Set regex syntax to string for re-builder
+  (setq reb-re-syntax 'string))
+
+;; Flymake mode - syntax checking
+(use-package flymake
+  :config
+  ;; Disable flymake-mode
+  (setq flymake-start-on-flymake-mode nil))
+
+
+(defun compilation-filter-init ()
+  "Initialize \"compilation-mode\" settings."
+  ;; Colorize compilation-mode
+  (declare-function ansi-color-apply-on-region "ansi-color.el.gz")
+  (when (eq major-mode 'compilation-mode)
+    (ansi-color-apply-on-region compilation-filter-start (point-max))))
+
+;; Compilation mode - compilation of log buffers
+(use-package compile
+  :config
+  ;; Automatically scroll the compilation buffer
+  (setq compilation-scroll-output t)
+  :hook (compilation-filter . compilation-filter-init))
+
 ;; Rainbow mode - displays color codes in their color
 (use-package rainbow-mode
   :delight)
 
 ;; Theme
-(use-package cyberpunk-theme
+(use-package doom-themes
   :config
-  (load-theme 'cyberpunk t))
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-acario-dark t)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
 ;; https://github.com/emacs-jp/replace-colorthemes
