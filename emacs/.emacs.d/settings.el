@@ -439,6 +439,11 @@
   :config
   (global-evil-surround-mode 1))
 
+(when (not (featurep 'evil-mode))
+  ;; In evil-mode <C-z> swaps between normal and emacs states
+  ;; In terminal <C-z> suspends Emacs to the background, but doesn't work so well in GUI
+  (if (not (string= window-system nil))
+      (global-unset-key (kbd "C-z"))))
 
 ;; For macOS import PATH when launched as GUI
 (use-package exec-path-from-shell
