@@ -1,8 +1,5 @@
 #! /bin/sh
 
-JAVA_HOME=$(/usr/libexec/java_home)
-
-export JAVA_HOME
 export WORKON_HOME=~/.virtualenvs
 
 alias ql='qlmanage -p'
@@ -25,10 +22,7 @@ spot() {
     sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//";
 }
 
-if [ -x "$HOME/.work" ]; then
-    # shellcheck source=/dev/null
-  . "$HOME/.work"
-fi
+[ -x "$HOME/.work" ] && source "$HOME/.work"
 
 # shellcheck source=/dev/null
 . ~/.fzf.zsh

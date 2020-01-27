@@ -130,8 +130,8 @@
 ;; When on OSX, change meta to cmd key
 ;; Amethyst, an OSX app I use is mucking around with Option-Shift
 (when (eq system-type 'darwin)
-  (defvar mac-command-modifier 'meta)
-  (defvar mac-option-modifier nil))
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil))
 
 
 ;; * Core keybindings
