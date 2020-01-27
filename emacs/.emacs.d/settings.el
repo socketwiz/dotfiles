@@ -657,6 +657,10 @@
   :init
   (elpy-enable))
 
+(load "~/.emacs.d/dashboard.el")
+(declare-function load-dashboard "~/.emacs.d/dashboard.el")
+(load-dashboard)
+
 (provide 'settings)
 
 ;;; settings.el ends here
