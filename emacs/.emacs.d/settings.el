@@ -282,8 +282,7 @@
   (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
   (defvar org-agenda-include-diary t)
   (defvar org-src-fontify-natively t)
-  (setq org-agenda-files (list "~/org/agenda"
-                               "~/org/agenda/projects/"))
+  (setq org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
   (setq org-default-notes-file "~/org/agenda/organizer.org"))
 ;; Convert buffer to text and decorations to HTML
 (use-package htmlize
