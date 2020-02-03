@@ -39,3 +39,5 @@ export PATH=${BREW_PATHS}:${PATH}
 # up arrow history search
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
+
+source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
