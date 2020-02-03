@@ -16,6 +16,8 @@
   (let ((map (make-sparse-keymap)))
     (suppress-keymap map)
     (set-keymap-parent map button-buffer-map)
+    (define-key map "n" '(lambda () (interactive) (forward-button 1)))
+    (define-key map "p" '(lambda () (interactive) (backward-button 1)))
     (define-key map "q" 'exit-dashboard)
     map)
   "Keymap for dashboard buffer.")
@@ -91,7 +93,8 @@ START: point location to start the link."
 
 (defun dashboard ()
   "Initialize dashboard settings."
-  (add-hook 'recentf-mode-hook 'load-dashboard))
+  ;;(add-hook 'recentf-mode-hook 'load-dashboard)
+  (load-dashboard))
 
 (provide 'dashboard)
 
