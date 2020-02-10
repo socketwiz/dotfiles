@@ -45,9 +45,6 @@
 (defvar config-enable-command-log-mode nil
   "Whether or not to enable command-log-mode.")
 
-;; Number of bytes of consing between garbage collections.
-(setq gc-cons-threshold most-positive-fixnum)
-
 ;; Hide column numbers
 (setq column-number-mode t)
 
