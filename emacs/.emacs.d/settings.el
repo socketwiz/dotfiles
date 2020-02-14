@@ -129,8 +129,9 @@
 
 ;; Frequently accessed files (C-x r j <letter>)
 ;; jump-to-register
+(set-register ?b '(file . "~/org/blog/index.org"))
 (set-register ?i '(file . "~/.emacs.d/settings.el"))
-(set-register ?o '(file . "~/org/agenda/organizer.org"))
+(set-register ?o '(file . "~/org/agenda/inbox.org"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
 ;; When on MacOS, change meta to cmd key
@@ -293,7 +294,7 @@
   (defvar org-agenda-include-diary t)
   (defvar org-src-fontify-natively t)
   (setq org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
-  (setq org-default-notes-file "~/org/agenda/organizer.org")
+  (setq org-default-notes-file "~/org/agenda/inbox.org")
 
   ;; So we can execute these language blocks in org-mode
   (org-babel-do-load-languages
