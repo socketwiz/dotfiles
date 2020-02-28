@@ -286,8 +286,8 @@
 ;; sudo npm install -g bash-language-server
 ;;
 ;; Javascript / TypeScript
-;; sudo npm install -g typescript-language-server
 ;; sudo npm install -g typescript
+;; sudo npm i -g typescript-language-server
 ;;
 ;; HTML
 ;; sudo npm install -g vscode-html-languageserver-bin
@@ -304,7 +304,6 @@
   :commands lsp
   :hook ((json-mode . lsp)
          (python-mode . lsp)
-         ;;(rjsx-mode . lsp)
          (rustic-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
