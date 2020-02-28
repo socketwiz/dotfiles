@@ -130,8 +130,8 @@
 ;; Frequently accessed files (C-x r j <letter>)
 ;; jump-to-register
 (set-register ?b '(file . "~/org/blog/index.org"))
-(set-register ?i '(file . "~/.emacs.d/settings.el"))
-(set-register ?o '(file . "~/org/agenda/inbox.org"))
+(set-register ?i '(file . "~/org/agenda/inbox.org"))
+(set-register ?s '(file . "~/.emacs.d/settings.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
 ;; When on MacOS, change meta to cmd key
@@ -302,9 +302,9 @@
 ;; rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
   :commands lsp
-  :hook ((js-mode . lsp)
+  :hook ((json-mode . lsp)
          (python-mode . lsp)
-         (rjsx-mode . lsp)
+         ;;(rjsx-mode . lsp)
          (rustic-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
@@ -605,17 +605,21 @@
 
 (defun setup-javascript ()
   "When js2-mode is loaded setup linters, yas and such."
-  (tide-setup)
   (configure-web-mode-flycheck-checkers)
-  (yas-minor-mode)
   (eldoc-mode +1)
-  (tide-hl-identifier-mode +1))
+  (tide-hl-identifier-mode +1)
+  (tide-setup)
+  (yas-minor-mode))
 
 (defun setup-typescript ()
-  "Setup jump-to-definition when in tide-mode."
+  "When tide-mode is loaded setup linters, yas and such."
   (when (featurep 'evil-mode)
     (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
-  (setup-javascript))
+  (configure-web-mode-flycheck-checkers)
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (tide-setup)
+  (yas-minor-mode))
 
 ;; JavaScript editing mode
 (use-package js2-mode
@@ -630,12 +634,17 @@
 ;; JSX editing mode
 (use-package rjsx-mode
   :if config-enable-web-mode
-  :mode ("\\.js\\'" . rjsx-mode)
+  :mode (("\\.js\\'" . rjsx-mode)
+         ("\\.jsx\\'" . rjsx-mode)
+         ("\\.tsx\\'" . rjsx-mode))
   :config
   :bind (:map rjsx-mode-map ("<" . nil)))
 
+(use-package json-mode
+  :mode ("\\.json\\'" . json-mode))
 
-;; * Language HTML, css
+
+;; * Language HTML, CSS
 (defun web-mode-init ()
   "Setup yas when in web-mode."
   (interactive)
@@ -723,9 +732,6 @@
   :init
   (elpy-enable))
 
-;; (load "~/.emacs.d/dashboard.el")
-;; (declare-function dashboard "~/.emacs.d/dashboard.el")
-;; (dashboard)
 (use-package dashboard
   :ensure t
   :config
