@@ -26,11 +26,6 @@
 (defvar js-switch-indent-offset 2
   "How many spaces to indent in \"js-mode\".")
 
-(defvar project-root "~/"
-  "Directory where coding projects are kept.")
-(defvar current-project
-  "Project directory defined by whether or not it contains a .git directory.")
-
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
 (defvar config-enable-cider-mode nil
@@ -43,38 +38,12 @@
   "Whether or not to enable evil-mode.")
 (defvar config-enable-markdown-mode t
   "Whether or not to enable markdown-mode.")
-(defvar config-enable-rustic-mode t
-  "Whether or not to enable rustic-mode.")
+(defvar config-enable-rust-mode t
+  "Whether or not to enable rust-mode.")
 (defvar config-enable-undo-tree t
   "Whether or not to enable undo-tree.")
 (defvar config-enable-web-mode t
   "Whether or not to enable web, js, css.")
-
-
-;; Common functions
-(defun socketwiz/directory-files (directory &optional full match nosort)
-  "Like `directory-files', but with some exclusions.
-Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\".)"
-  (let* ((files (cons nil (directory-files directory full match nosort)))
-         (parent files)
-         (current (cdr files))
-         (exclude (list "." ".." ".git" "node_modules"))
-         (file nil))
-    (while (and current exclude)
-      (setq file (car current))
-      (if (not (member file exclude))
-          (setq parent current)
-        (setcdr parent (cdr current))
-        (setq exclude (delete file exclude)))
-      (setq current (cdr current)))
-    (cdr files)))
-
-(defun socketwiz/filter-unwanted (file)
-  "Filter unwanted directories from \"FILE\"."
-  (or (string-match ".git" file)
-      (string-match "dist" file)
-      (string-match "node_modules" file)
-      (string-match "target" file)))
 
 
 ;; Hide column numbers
@@ -202,20 +171,18 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   ;; Disable flymake-mode
   (setq flymake-start-on-flymake-mode nil))
 
-
-(defun compilation-filter-init ()
-  "Initialize \"compilation-mode\" settings."
-  ;; Colorize compilation-mode
-  (declare-function ansi-color-apply-on-region "ansi-color.el.gz")
-  (when (eq major-mode 'compilation-mode)
-    (ansi-color-apply-on-region compilation-filter-start (point-max))))
-
 ;; Compilation mode - compilation of log buffers
 (use-package compile
   :config
+  (defun socketwiz/compilation-filter-init ()
+    "Initialize \"compilation-mode\" settings."
+    ;; Colorize compilation-mode
+    (declare-function ansi-color-apply-on-region "ansi-color.el.gz")
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
   ;; Automatically scroll the compilation buffer
   (setq compilation-scroll-output t)
-  :hook (compilation-filter . compilation-filter-init))
+  :hook (compilation-filter . socketwiz/compilation-filter-init))
 
 ;; Rainbow mode - displays color codes in their color
 (use-package rainbow-mode
@@ -269,7 +236,7 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   :config
   (setq company-tooltip-align-annotations t)
   (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0) ;; default is 0.2
+        company-idle-delay 0.2)
   :init (global-company-mode))
 (use-package company-lsp
   :config (push 'company-lsp company-backends))
@@ -295,7 +262,7 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
 
 ;; Snippets, a template system for emacs
 (use-package yasnippet
-  :bind (("TAB" . yas-expand))
+  :bind ("TAB" . yas-expand)
   :config
   (declare-function yas-reload-all "yasnippet.el")
   (yas-reload-all))
@@ -328,7 +295,7 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   :commands lsp
   :hook ((json-mode . lsp)
          (python-mode . lsp)
-         (rustic-mode . lsp)
+         (rust-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
          (web-mode . lsp)
@@ -379,7 +346,7 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
 (use-package editorconfig
   :diminish 'editorconfig-mode
   :config
-  (editorconfig-mode 1))
+  (editorconfig-mode t))
 
 ;; Syntax highlighting for docker files
 (use-package dockerfile-mode
@@ -401,7 +368,7 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
         recentf-max-menu-items 5
         recentf-save-file (concat user-emacs-directory ".cache/recentf")
         recentf-auto-cleanup 'never)
-  (recentf-mode 1)
+  (recentf-mode t)
 
   (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
   (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
@@ -447,41 +414,42 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
 
 
 ;; Switch between buffers and visit files
+;; Ivy is nice but I wasn't really using much of it so I'm going back to ido
+;; which is built-in
 (use-package ido
   :init
   (setq ido-everywhere t)
+  (setq ido-use-filename-at-point 'guess)
   :config
   (ido-mode t))
+;; Enable ido just about everywhere by replacing "completing-read"
+(use-package ido-completing-read+
+  :config
+  (ido-ubiquitous-mode t))
+;; Make results vertical similar to ivy
+(use-package ido-vertical-mode
+  :config
+  (ido-vertical-mode t)
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
 
 ;; Project management
-
 ;; Projectile is an amazing project but I found that I was only
 ;; really using 2 functions, open project, and find file in project so I've
-;; written my own functions for those two items and trimmed that library
-;; from my system
+;; decided to use Emacs built-in project management
 (use-package project
   :config
-  (defun socketwiz/find-project-file ()
-    "Locate files within the current project."
+  (defun socketwiz/project ()
+    "Reset the project directory before calling \"project-or-external-find-file\".
+Otherwise it will act just like \"project-find-file\" which is
+not quite what we want."
     (interactive)
-    (find-file (ido-completing-read "Find project file: "
-                                    (seq-remove 'socketwiz/filter-unwanted (directory-files-recursively current-project "")))))
-
-  (defun socketwiz/find-project-dir ()
-    "Locate project directories."
-    (interactive)
-    (setq current-project project-root)
-    (while (not (file-directory-p (concat current-project "/.git")))
-      (let* ((project-list (socketwiz/directory-files current-project))
-             (projects (mapc 'directory-file-name project-list)))
-        (setq current-project (concat current-project "/"
-                                  (ido-completing-read "Find project: " projects nil t)))))
-    (socketwiz/find-project-file))
+    (setq default-directory "~")
+    (project-or-external-find-file))
 
   :bind
-  ("C-c p f" . socketwiz/find-project-file)
-  ("C-c p p" . socketwiz/find-project-dir))
+  ("C-c p f" . project-find-file)
+  ("C-c p p" . socketwiz/project))
 
 
 ;; ripgrep
@@ -506,8 +474,6 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
-  (evil-set-initial-state 'rustic-popup-mode 'emacs)
-  (evil-set-initial-state 'rustic-cargo-outdated-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
   ;; For some reason python mode is starting in emacs state, set it to normal
   (declare-function evil-set-initial-state "evil-core.el")
@@ -560,24 +526,6 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
     (setq irony-additional-clang-options '("-std=c++14")))
   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-
-;; Embedded platform development
-(use-package platformio-mode
-  :if config-enable-c-mode
-  :commands (platformio-conditionally-enable)
-  :mode (("\\.ino\\'" . c++-mode))
-  :init
-  (defun platformio-hook ()
-    (platformio-conditionally-enable))
-
-  (eval-after-load 'flycheck
-    '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-
-  (add-hook 'c++-mode-hook 'platformio-hook)
-  (add-hook 'irony-mode-hook
-            (lambda ()
-              (irony-cdb-autosetup-compile-options)))
-  (add-hook 'c++-mode-hook 'flycheck-mode))
 
 ;; * Language elisp
 ;; Minor mode for performing structured editing of S-expression data
@@ -652,7 +600,6 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   :mode (("\\.js\\'" . rjsx-mode)
          ("\\.jsx\\'" . rjsx-mode)
          ("\\.tsx\\'" . rjsx-mode))
-  :config
   :bind (:map rjsx-mode-map ("<" . nil)))
 
 (use-package json-mode
@@ -721,18 +668,17 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
 
 
 ;; * Language Rust
-(defun setup-rustic ()
-  "Do these things after rustic-mode is enabled."
-  (push 'rustic-clippy flycheck-checkers)
+(defun setup-rust ()
+  "Do these things after rust-mode is enabled."
   (when (featurep 'evil-mode)
-    ;; Setup find-definitions when in rustic-mode
+    ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
-(use-package rustic
-  :if config-enable-rustic-mode
-  :hook (rustic-mode . setup-rustic)
-  :mode ("\\.rs\\'" . rustic-mode))
+(use-package rust-mode
+  :if config-enable-rust-mode
+  :hook (rust-mode . setup-rust)
+  :mode ("\\.rs\\'" . rust-mode))
 
 
 ;; * Language Clojure
