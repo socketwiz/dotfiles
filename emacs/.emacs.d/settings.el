@@ -434,22 +434,25 @@
 
 
 ;; Project management
-;; Projectile is an amazing project but I found that I was only
-;; really using 2 functions, open project, and find file in project so I've
-;; decided to use Emacs built-in project management
-(use-package project
+(use-package projectile
+  :after (rg)
   :config
-  (defun socketwiz/project ()
-    "Reset the project directory before calling \"project-or-external-find-file\".
-Otherwise it will act just like \"project-find-file\" which is
-not quite what we want."
-    (interactive)
-    (setq default-directory "~")
-    (project-or-external-find-file))
-
+  (setq projectile-project-search-path '("~/dev"))
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (projectile-mode)
+  :init
+  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+        projectile-known-projects-file (concat user-emacs-directory
+                                               ".cache/projectile-bookmarks.eld"))
+  (declare-function recentf-track-opened-file "recentf.el.gz")
+  (add-hook 'find-file-hook (lambda ()
+                              (unless recentf-mode (recentf-mode)
+                                      (recentf-track-opened-file))))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :bind
-  ("C-c p f" . project-find-file)
-  ("C-c p p" . socketwiz/project))
+  (:map projectile-mode-map ("C-c p s p" . rg-project))
+  :diminish 'projectile-mode)
 
 
 ;; ripgrep
@@ -697,6 +700,7 @@ not quite what we want."
   :ensure t
   :config
   (setq dashboard-items '((agenda . 10)
+                          (projects . 5)
                           (registers . 5)))
   (setq dashboard-set-heading-icons t)
   (dashboard-setup-startup-hook))
