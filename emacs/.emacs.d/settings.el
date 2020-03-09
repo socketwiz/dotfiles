@@ -22,24 +22,24 @@
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
 (defvar config-indent-web-mode-spaces 2
-  "How many spaces to indent in web-mode.")
+  "How many spaces to indent in \"web-mode\".")
 (defvar js-switch-indent-offset 2
   "How many spaces to indent in \"js-mode\".")
 
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
 (defvar config-enable-cider-mode nil
-  "Whether or not to enable cider-mode.")
+  "Whether or not to enable \"cider-mode\".")
 (defvar config-enable-command-log-mode nil
-  "Whether or not to enable command-log-mode.")
+  "Whether or not to enable \"command-log-mode\".")
 (defvar config-enable-elpy-mode t
-  "Whether or not to enable elpy-mode.")
+  "Whether or not to enable \"elpy-mode\".")
 (defvar config-enable-evil-mode nil
-  "Whether or not to enable evil-mode.")
+  "Whether or not to enable \"evil-mode\".")
 (defvar config-enable-markdown-mode t
-  "Whether or not to enable markdown-mode.")
+  "Whether or not to enable \"markdown-mode\".")
 (defvar config-enable-rust-mode t
-  "Whether or not to enable rust-mode.")
+  "Whether or not to enable \"rust-mode\".")
 (defvar config-enable-undo-tree t
   "Whether or not to enable undo-tree.")
 (defvar config-enable-web-mode t
@@ -168,8 +168,8 @@
 ;; Flymake mode - syntax checking
 (use-package flymake
   :config
-  ;; Disable flymake-mode
-  (setq flymake-start-on-flymake-mode nil))
+  ;;(flymake-mode nil)
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
 
 ;; Compilation mode - compilation of log buffers
 (use-package compile
@@ -296,11 +296,12 @@
   :hook ((json-mode . lsp)
          (python-mode . lsp)
          (rust-mode . lsp)
-         (sh-mode . lsp)
+         ;;(sh-mode . lsp)
          (typescript-mode . lsp)
          (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
+  (setq lsp-diagnostic-package :flycheck)
   (defvar lsp-clients-angular-language-server-command
     '("node"
       "/usr/local/lib/node_modules/@angular/language-server"
@@ -569,7 +570,7 @@
       (flycheck-select-checker 'javascript-eslint)))
 
 (defun setup-javascript ()
-  "When js2-mode is loaded setup linters, yas and such."
+  "When \"js2-mode\" is loaded setup linters, yas and such."
   (configure-web-mode-flycheck-checkers)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
@@ -577,7 +578,7 @@
   (yas-minor-mode))
 
 (defun setup-typescript ()
-  "When tide-mode is loaded setup linters, yas and such."
+  "When \"tide-mode\" is loaded setup linters, yas and such."
   (when (featurep 'evil-mode)
     (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
   (configure-web-mode-flycheck-checkers)
@@ -610,7 +611,7 @@
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
-  "Setup yas when in web-mode."
+  "Setup yas when in \"web-mode\"."
   (interactive)
   (yas-minor-mode)
   ;; disable auto-pairing just in web-mode so in django templates
@@ -671,7 +672,7 @@
 
 ;; * Language Rust
 (defun setup-rust ()
-  "Do these things after rust-mode is enabled."
+  "Do these things after \"rust-mode\" is enabled."
   (when (featurep 'evil-mode)
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
