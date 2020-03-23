@@ -111,7 +111,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; Font
@@ -168,8 +167,19 @@
 ;; Flymake mode - syntax checking
 (use-package flymake
   :config
-  ;;(flymake-mode nil)
-  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+  ;; Enable flymake for all programming modes
+  (add-hook 'prog-mode-hook 'flymake-mode)
+  ;; Tell which key what to display for the documentation keybind rather than display "lambda"
+  (which-key-add-key-based-replacements "C-c ! i" "flymake-documentation")
+  :bind (("C-c ! ?" . flymake-running-backends)
+         ("C-c ! i" . (lambda ()
+                        "Display Flymake documentation."
+                        (interactive)
+                        (info-display-manual "flymake")))
+         ("C-c ! l" . flymake-show-diagnostics-buffer)
+         ("C-c ! n" . flymake-goto-next-error)
+         ("C-c ! p" . flymake-goto-prev-error)))
 
 ;; Compilation mode - compilation of log buffers
 (use-package compile
@@ -192,8 +202,8 @@
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (setq doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil) ; if nil, italics is universally disabled
   (load-theme 'doom-acario-dark t)
   ;; This theme makes the selections too dark, lighten them up
   (set-face-background 'hl-line "#1F2324")
@@ -256,9 +266,9 @@
   :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct)))
 
 ;; Syntax checker
-(use-package flycheck
-  :diminish 'flycheck-mode
-  :init (global-flycheck-mode))
+;; (use-package flycheck
+;;   :diminish 'flycheck-mode
+;;   :init (global-flycheck-mode))
 
 ;; Snippets, a template system for emacs
 (use-package yasnippet
@@ -301,7 +311,7 @@
          (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
-  (setq lsp-diagnostic-package :flycheck)
+  (setq lsp-diagnostic-package :flymake)
   (defvar lsp-clients-angular-language-server-command
     '("node"
       "/usr/local/lib/node_modules/@angular/language-server"
@@ -503,12 +513,6 @@
 
 
 ;; * Language cpp
-;; A flycheck checker for C/C++
-(use-package flycheck-irony
-  :if config-enable-c-mode
-  :after (irony)
-  :defer t)
-
 ;; Irony support for C/C++
 (use-package irony-eldoc
   :if config-enable-c-mode
@@ -571,10 +575,10 @@
 
 (defun setup-javascript ()
   "When \"js2-mode\" is loaded setup linters, yas and such."
-  (configure-web-mode-flycheck-checkers)
+  ;;(configure-web-mode-flycheck-checkers)
   (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (tide-setup)
+  ;; (tide-hl-identifier-mode +1)
+  ;; (tide-setup)
   (yas-minor-mode))
 
 (defun setup-typescript ()
@@ -593,9 +597,9 @@
   :hook (js2-mode . setup-javascript))
 
 ;; TypeScript Interactive Development Environment
-(use-package tide
-  :if config-enable-web-mode
-  :hook (typescript-mode . setup-typescript))
+;; (use-package tide
+;;   :if config-enable-web-mode
+;;   :hook (typescript-mode . setup-typescript))
 
 ;; JSX editing mode
 (use-package rjsx-mode
