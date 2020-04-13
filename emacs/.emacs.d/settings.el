@@ -588,7 +588,8 @@
   "When \"tide-mode\" is loaded setup linters, yas and such."
   (when (featurep 'evil-mode)
     (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
-;;  (configure-web-mode-flycheck-checkers)
+  ;;  (configure-web-mode-flycheck-checkers)
+  (lsp-mode)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (tide-setup)
@@ -600,9 +601,9 @@
   :hook (js2-mode . setup-javascript))
 
 ;; TypeScript Interactive Development Environment
-;; (use-package tide
-;;   :if config-enable-web-mode
-;;   :hook (typescript-mode . setup-typescript))
+(use-package tide
+  :if config-enable-web-mode
+  :hook (typescript-mode . setup-typescript))
 
 ;; JSX editing mode
 (use-package rjsx-mode
