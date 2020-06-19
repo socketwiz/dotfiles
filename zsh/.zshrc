@@ -77,6 +77,7 @@ alias gcb='git checkout -b'
 alias gd='git diff'
 alias glog='git log --oneline --decorate --graph'
 alias gst='git status'
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -108,3 +109,5 @@ function tm() {
         tmux attach -t "$sel"
     fi
 }
+
+source /home/hackerzol/.config/broot/launcher/bash/br

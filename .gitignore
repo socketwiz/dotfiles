@@ -19,13 +19,12 @@ emacs/.emacs.d/transient
 emacs/.emacs.d/undo/
 emacs/.emacs.d/url/
 emacs/.emacs.d/var/
-        
+
 vim/.vim/.netrwhist
 
 weechat/.weechat/logs/
 weechat/.weechat/sec.conf
 weechat/.weechat/weechat.log
-
 
 config/.config/GIMP/
 config/.config/Hyper/
@@ -66,3 +65,5 @@ config/.config/user-dirs.dirs
 config/.config/user-dirs.locale
 config/.config/vlc/
 config/.config/web-starter-kit/
+
+.cfg
