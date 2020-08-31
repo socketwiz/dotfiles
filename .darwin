@@ -40,5 +40,4 @@ export PATH=${BREW_PATHS}:${PATH}
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
-source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
