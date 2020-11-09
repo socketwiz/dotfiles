@@ -4,11 +4,15 @@ alias open='/usr/bin/xdg-open'
 alias blog='~/dev/Zolmok/dev'
 alias CAPS='xmodmap ~/.Xmodmap-caps'
 alias nocaps='xmodmap ~/.Xmodmap'
+alias refresh='gnome-shell --replace & disown'
 
 # ls
-alias ls='ls --color'
+alias ls='/home/hackerzol/.cargo/bin/exa'
 alias ll='ls -l'
 alias la='ls -a'
+
+# cat
+alias cat='/home/hackerzol/.cargo/bin/bat'
 
 # copy/paste
 alias pbcopy='xsel --clipboard --input'
