@@ -1,5 +1,5 @@
 
-.emacs.d/%backup%~
+.emacs.d/*~
 .emacs.d/.cache/
 .emacs.d/.lsp-session-v1
 .emacs.d/.nrepl-port

@@ -66,7 +66,7 @@ function find-commits() {
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
 alias docker='sudo docker'
-#alias docker-compose='sudo docker-compose'
+alias docker-compose='sudo docker-compose'
 alias dcdestroy='docker-compose stop && sudo docker-compose rm -f'
 alias dclogs='docker-compose logs -f'
 alias dcps='docker-compose ps'
