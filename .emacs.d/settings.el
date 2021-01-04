@@ -10,7 +10,7 @@
 ;; * Core
 (package-initialize)
 
-(defvar config-which-key-delay 0.4
+(defvar config-which-key-delay 0.0
   "How long before which-key displays.")
 
 (defvar config-keep-backups t
@@ -34,7 +34,7 @@
   "Whether or not to enable \"command-log-mode\".")
 (defvar config-enable-elpy-mode t
   "Whether or not to enable \"elpy-mode\".")
-(defvar config-enable-evil-mode nil
+(defvar config-enable-evil-mode t
   "Whether or not to enable \"evil-mode\".")
 (defvar config-enable-markdown-mode t
   "Whether or not to enable \"markdown-mode\".")
@@ -44,6 +44,10 @@
   "Whether or not to enable undo-tree.")
 (defvar config-enable-web-mode t
   "Whether or not to enable web, js, css.")
+(defvar config-enable-dockerfile-mode t
+  "Whether or not to enable \"dockerfile-mode\".")
+(defvar config-enable-yaml-mode t
+  "Whether or not to enable \"yaml-mode\".")
 
 
 ;; Hide column numbers
@@ -65,6 +69,7 @@
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
 ;; Disable locking of files (files with a # prefix)
+;; ... at least until I can figure out how to move where they get saved
 (setq create-lockfiles nil)
 
 ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
@@ -109,8 +114,8 @@
              '("*Info*" display-buffer-same-window))
 
 ;; Package management
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -158,7 +163,7 @@
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
 
 ;; * Core packages
@@ -208,8 +213,8 @@
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold nil    ; if nil, bold is universally disabled
-        doom-themes-enable-italic nil) ; if nil, italics is universally disabled
+  (setq doom-themes-enable-bold nil
+        doom-themes-enable-italic nil)
   (load-theme 'doom-acario-dark t)
   ;; This theme makes the selections too dark, lighten them up
   (set-face-background 'hl-line "#1F2324")
@@ -278,11 +283,6 @@
 (use-package flyspell-popup
   :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct)))
 
-;; Syntax checker
-;; (use-package flycheck
-;;   :diminish 'flycheck-mode
-;;   :init (global-flycheck-mode))
-
 ;; Snippets, a template system for emacs
 (use-package yasnippet
   :bind ("TAB" . yas-expand)
@@ -327,11 +327,11 @@
   (setq lsp-diagnostic-package :flymake)
   (defvar lsp-clients-angular-language-server-command
     '("node"
-      "/usr/local/lib/node_modules/@angular/language-server"
+      "/usr/lib/node_modules/@angular/language-server"
       "--ngProbeLocations"
-      "/usr/local/lib/node_modules"
+      "/usr/lib/node_modules"
       "--tsProbeLocations"
-      "/usr/local/lib/node_modules"
+      "/usr/lib/node_modules"
       "--stdio")))
 (use-package lsp-ui :commands lsp-ui-mode)
 
@@ -362,7 +362,7 @@
    '((python . t)))
   (defvar python-shell-completion-native-disabled-interpreters "python3"))
 
-;; Convert buffer to text and decorations to HTML
+;; Convert Org buffer to text and decorations to HTML
 (use-package htmlize
   :mode (("\\.org\\'" . org-mode)))
 
@@ -371,10 +371,6 @@
   :diminish 'editorconfig-mode
   :config
   (editorconfig-mode t))
-
-;; Syntax highlighting for docker files
-(use-package dockerfile-mode
-  :defer t)
 
 ;; A better "help" buffer
 (use-package helpful)
@@ -436,7 +432,6 @@
   (global-diff-hl-mode t)
   (diff-hl-flydiff-mode t))
 
-
 ;; Switch between buffers and visit files
 ;; Ivy is nice but I wasn't really using much of it so I'm going back to ido
 ;; which is built-in
@@ -457,7 +452,12 @@
   :config
   (ido-vertical-mode t)
   (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file."
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
 
 ;; Project management
 (use-package projectile
@@ -479,33 +479,39 @@
          ("C-c p s p" . rg-menu))
   :diminish 'projectile-mode)
 
-
 ;; ripgrep
 (use-package rg
   :config
   (rg-enable-default-bindings))
 
-
 ;; Extensible vi layer for Emacs
+(declare-function evil-set-initial-state "evil-core.el")
 (use-package evil
   :if config-enable-evil-mode
   :config
   ;; Put vim bindings everywhere
   (evil-mode)
   ;; Except in these modes where I just want emacs proper
+  (evil-set-initial-state 'dashboard-mode 'emacs)
   (evil-set-initial-state 'debugger-mode 'emacs)
   (evil-set-initial-state 'diff-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'emacs-lisp-mode 'emacs)
+  (evil-set-initial-state 'finder-mode 'emacs)
   (evil-set-initial-state 'fundamental-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
+  (evil-set-initial-state 'snippet-mode 'emacs)
+
   ;; For some reason python mode is starting in emacs state, set it to normal
-  (declare-function evil-set-initial-state "evil-core.el")
-  (evil-set-initial-state 'python-mode 'normal))
+  (evil-set-initial-state 'python-mode 'normal)
+
+  (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
+  (define-key evil-normal-state-map (kbd "u") 'undo-tree-undo)
+)
 
 ;; Surround text objects with characters
 (use-package evil-surround
@@ -567,7 +573,7 @@
 
 ;; * Language javascript
 (defun configure-flymake-checker ()
-  "Configure flymake for JavaScript"
+  "Configure flymake for JavaScript."
 
   ;; See if there is a node_modules directory
   (let* ((root (locate-dominating-file
@@ -587,11 +593,11 @@
 
 (defun setup-javascript ()
   "When \"js2-mode\" is loaded setup linters, yas and such."
+  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (tide-setup)
   (configure-flymake-checker)
-
   (yas-minor-mode))
 
 (defun setup-typescript ()
@@ -719,9 +725,18 @@
   :init
   (elpy-enable))
 
+
+;; Syntax highlighting for docker files
+(use-package dockerfile-mode
+  :if config-enable-dockerfile-mode
+  :defer t)
+
+
 ;; Language YAML
 (use-package yaml-mode
-    :mode ("\\.yml\\'" . yaml-mode))
+  :if config-enable-yaml-mode
+  :mode ("\\.yml\\'" . yaml-mode))
+
 
 (use-package dashboard
   :ensure t
