@@ -164,7 +164,6 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c r") 'recompile)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
-(global-set-key (kbd "C-c C-i") 'imenu)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
@@ -251,7 +250,7 @@
 
 ;; dired (directory editor)
 (use-package dired
-  :ensure nil
+  :ensure nil ;; needed for some built-in packages
   :commands (dired dired-jump)
   :custom ((dired-listing-switches "-ahgo --group-directories-first"))
   :bind (("C-x C-j" . dired-jump)))
@@ -380,7 +379,9 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)))
-  (defvar python-shell-completion-native-disabled-interpreters "python3"))
+  (defvar python-shell-completion-native-disabled-interpreters "python3")
+  ;; tell org-open-at-point to open files in a new window
+  (add-to-list 'org-link-frame-setup '(file . find-file)))
 
 ;; Convert Org buffer to text and decorations to HTML
 (use-package htmlize
@@ -508,6 +509,7 @@
   :after (rg)
   :config
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-other-file-alist '("test.js" "js"))
   (projectile-mode)
   :init
   (declare-function recentf-track-opened-file "recentf.el.gz")
@@ -516,9 +518,8 @@
                                       (recentf-track-opened-file))))
   :custom
   (projectile-project-search-path '("~/dev"))
-  (projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-                         projectile-known-projects-file (concat user-emacs-directory
-                                                                ".cache/projectile-bookmarks.eld"))
+  (projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache"))
+  (projectile-known-projects-file (concat user-emacs-directory ".cache/projectile-bookmarks.eld"))
   :bind (("C-c p" . projectile-command-map)
          :map projectile-mode-map
          ("C-c p s p" . rg-menu))
@@ -547,19 +548,22 @@
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
+  (evil-set-initial-state 'messages-buffer-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'reb-mode 'emacs)
   (evil-set-initial-state 'rg-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
 
-
   ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
   (define-key evil-normal-state-map (kbd "u") 'undo-tree-undo)
-)
+
+  (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-region)
+  (define-key evil-normal-state-map (kbd "C-c C-\\") 'uncomment-region)
+  )
 
 ;; Surround text objects with characters
 (use-package evil-surround
