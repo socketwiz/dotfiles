@@ -18,7 +18,7 @@
 	url = https://github.com/majutsushi/tagbar.git
 [submodule ".vim/bundle/vim-dispatch"]
 	path = .vim/bundle/vim-dispatch
-	url = git://github.com/tpope/vim-dispatch.git
+	url = https://github.com/tpope/vim-dispatch.git
 [submodule ".vim/bundle/YouCompleteMe"]
 	path = .vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
@@ -27,13 +27,13 @@
 	url = https://github.com/SirVer/ultisnips.git
 [submodule ".vim/bundle/vim-startify"]
 	path = .vim/bundle/vim-startify
-	url = git@github.com:mhinz/vim-startify.git
+	url = https://github.com/mhinz/vim-startify.git
 [submodule ".vim/bundle/dash.vim"]
 	path = .vim/bundle/dash.vim
-	url = git@github.com:rizzatti/dash.vim.git
+	url = https://github.com/rizzatti/dash.vim.git
 [submodule ".vim/bundle/vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
-	url = git@github.com:tpope/vim-unimpaired.git
+	url = https://github.com/tpope/vim-unimpaired.git
 [submodule ".vim/bundle/jsoncodecs.vim"]
 	path = .vim/bundle/jsoncodecs.vim
 	url = https://github.com/michalliu/jsoncodecs.vim.git
@@ -42,28 +42,28 @@
 	url = https://github.com/michalliu/jsruntime.vim.git
 [submodule ".vim/bundle/sourcebeautify.vim"]
 	path = .vim/bundle/sourcebeautify.vim
-	url = git@github.com:michalliu/sourcebeautify.vim.git
+	url = https://github.com/michalliu/sourcebeautify.vim.git
 [submodule ".vim/bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
-	url = git@github.com:honza/vim-snippets.git
+	url = https://github.com/honza/vim-snippets.git
 [submodule ".vim/bundle/dustjs"]
 	path = .vim/bundle/dustjs
-	url = git@github.com:jimmyhchan/dustjs.vim.git
+	url = https://github.com/jimmyhchan/dustjs.vim.git
 [submodule ".vim/bundle/PreserveNoEOL"]
 	path = .vim/bundle/PreserveNoEOL
 	url = https://github.com/vim-scripts/PreserveNoEOL.git
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/bundle/vim-json
-	url = git@github.com:elzr/vim-json.git
+	url = https://github.com/elzr/vim-json.git
 [submodule ".vim/bundle/vim-kangaroo"]
 	path = .vim/bundle/vim-kangaroo
-	url = git@github.com:tommcdo/vim-kangaroo.git
+	url = https://github.com/tommcdo/vim-kangaroo.git
 [submodule ".vim/bundle/vim-oblique"]
 	path = .vim/bundle/vim-oblique
-	url = git@github.com:junegunn/vim-oblique.git
+	url = https://github.com/junegunn/vim-oblique.git
 [submodule ".vim/bundle/vim-pseudocl"]
 	path = .vim/bundle/vim-pseudocl
-	url = git@github.com:junegunn/vim-pseudocl.git
+	url = https://github.com/junegunn/vim-pseudocl.git
 [submodule ".vim/bundle/vim-jsx"]
 	path = .vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
