@@ -8,9 +8,11 @@ ZSH_THEME="rickyn"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
+PATH=$HOME/.rvm/bin:/usr/local/bin:$PATH # Add RVM to PATH for scripting
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git node brew npm urltools virtualenv, docker, rvm)
+plugins=(git node brew npm urltools virtualenvwrapper docker)
 
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
@@ -47,6 +49,11 @@ case `uname` in
     source $HOME/.linux
     ;;
 esac
+
+source ~/.fzf.zsh
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
 
 ## for docker
 eval $(boot2docker shellinit 2>/dev/null)
