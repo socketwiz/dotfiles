@@ -15,9 +15,6 @@ plugins=(git node brew npm urltools)
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
-PS1="(%n@%m) $PS1"
-SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
-
 # powerline PROMPT
 . $HOME/dotfiles/powerline/powerline/bindings/zsh/powerline.zsh
 
