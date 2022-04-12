@@ -75,7 +75,7 @@
 
   ;; Frequently accessed files (C-x r j <letter>)
   (set-register ?i '(file . "~/.emacs.d/init.el"))
-  (set-register ?o '(file . "~/Dropbox/Documents/org/organizer.org"))
+  (set-register ?o '(file . "~/org/agenda/organizer.org"))
   (set-register ?w '(file . "~/org/wiki/index.org"))
 
   ;; Save ALL backup files to this location
