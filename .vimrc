@@ -95,6 +95,8 @@ endif
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
+" tell ack.vim to use Silver Searcher instead of Ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
