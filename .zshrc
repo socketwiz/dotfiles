@@ -77,7 +77,3 @@ case `uname` in
     source $HOME/sun.sh
     ;;
 esac
-
-function git_diff() {
-  git diff --no-ext-diff -w "$@" | vim -R -
-}

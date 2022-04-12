@@ -1,0 +1,17 @@
+[user]
+	name = Ricky Nelson
+  email = rickyn@larksoftware.com
+[diff]
+  external = git_diff_wrapper
+[pager]
+      diff =
+[core]
+	excludesfile = /Users/socketwiz/.gitignore_global
+[color]
+	ui = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
