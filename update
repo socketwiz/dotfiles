@@ -12,4 +12,4 @@ cd .vim/bundle/YouCompleteMe
 ./install.sh
 cd ../tern_for_vim
 npm install
-cd $PWD
+cd "$PWD"
