@@ -87,17 +87,3 @@
                     :height 130
                     :width 'normal
                     :family "Source Code Pro")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
