@@ -219,5 +219,11 @@ let g:syntastic_mode_map={ 'mode': 'active',
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END Syntastic
+" END GitGutter
+
+" vim-jsx
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jsx_ext_required = 0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END vim-jsx
 
