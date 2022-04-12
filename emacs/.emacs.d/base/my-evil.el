@@ -11,6 +11,8 @@
 
       ;; disable this key sequence so we can use it in ivy
       (define-key evil-normal-state-map (kbd "C-n") nil)
+      ;; disable this key sequence so we can use it in tide
+      (define-key evil-normal-state-map (kbd "M-.") nil)
 
       ;; disable evil for these modes
       (add-to-list 'evil-emacs-state-modes 'magit-status-mode)

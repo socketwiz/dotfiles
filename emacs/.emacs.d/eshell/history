@@ -1,0 +1,36 @@
+cd ..
+tail -f ims.log
+ll
+alias ll 'ls -l $*'
+ll
+ll
+ll
+cd dev/dev
+cd dev/dev_7_docker/
+ls -a
+cd ims
+ls -a
+cat .gitignore 
+ls
+clear
+
+ls
+docker-machine ls
+cat .gitignore
+cd ..
+ls
+cat docker-compose.yml 
+ssh devbox
+ll
+cat up 
+docker-compose up -d
+ssh devbox
+ll
+pwd
+cd ..
+ll
+cd sonar/
+ll
+cat docker-compose.yml 
+docker-compose up
+docker-compose ps
