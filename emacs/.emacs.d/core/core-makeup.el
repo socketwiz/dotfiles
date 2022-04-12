@@ -5,13 +5,6 @@
 
   ;; always hightlight current line
   (global-hl-line-mode t)
-  (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-  (setq evil-insert-state-cursor '("charteuse3"  box))
-  (setq evil-visual-state-cursor '("gray" box))
-  (setq evil-operator-state-cursor '("cyan" box))
-  (setq evil-replace-state-cursor '("chocolate" box))
-  (setq evil-motion-state-cursor '("plum3" box))
-  (setq evil-emacs-state-cursor  '("SkyBlue2" box))
 
   ;; Y or n is enough for me
   (fset 'yes-or-no-p 'y-or-n-p)

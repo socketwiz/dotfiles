@@ -15,6 +15,15 @@
       (use-package evil-surround
         :config (global-evil-surround-mode 1))
 
+      ;; set cursor color according to mode
+      (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+      (setq evil-insert-state-cursor '("charteuse3"  box))
+      (setq evil-visual-state-cursor '("gray" box))
+      (setq evil-operator-state-cursor '("cyan" box))
+      (setq evil-replace-state-cursor '("chocolate" box))
+      (setq evil-motion-state-cursor '("plum3" box))
+      (setq evil-emacs-state-cursor  '("SkyBlue2" box))
+
       ;; disable this key sequence so we can use it in ivy
       (define-key evil-normal-state-map (kbd "C-n") nil)
       ;; disable this key sequence so we can use it in tide
