@@ -1,38 +1,71 @@
 #! /bin/sh
+function build_vim {
+    # roll our own VIM
+  case `uname` in
+    SunOS)
+      sudo pkgin -y install mercurial
+      ;;
+    Linux)
+      sudo apt-get -y install libncurses5-dev python-dev mercurial
+      sudo apt-get -y install cmake
+      sudo apt-get -y remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common
+      ;;
+  esac
+
+  cd ~
+  hg clone https://code.google.com/p/vim/
+  cd vim
+  hg checkout v7-3-1314
+  case `uname` in
+    SunOS)
+      ./configure --with-features=huge \
+        --enable-rubyinterp \
+        --enable-pythoninterp \
+        --enable-cscope --prefix=/opt/local
+      make VIMRUNTIMEDIR=/opt/local/share/vim/vim73
+      ;;
+    Linux)
+      ./configure --with-features=huge \
+        --enable-rubyinterp \
+        --enable-pythoninterp \
+        --enable-perlinterp \
+        --enable-cscope --prefix=/usr
+      make VIMRUNTIMEDIR=/usr/share/vim/vim73
+      ;;
+  esac
+  sudo make install
+
+  case `uname` in
+    SunOS)
+      ln -s $HOME/.sun
+      ;;
+    Linux)
+      sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+      sudo update-alternatives --set editor /usr/bin/vim
+      sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+      sudo update-alternatives --set vi /usr/bin/vim
+      ;;
+  esac
+}
 
 case `uname` in
   Darwin)
     ln -s $HOME/.darwin
     ;;
   SunOS)
+		sudo pkgin -y install p5-ack
+		sudo pkgin -y install zsh
+		sudo usermod -s /opt/local/bin/zsh $USER
     ln -s $HOME/.sun
+		build_vim
     ;;
   Linux)
     sudo apt-get -y install ack-grep
     sudo apt-get -y install zsh
-    sudo apt-get -y install curl
     sudo chsh -s /usr/bin/zsh $USER
+    sudo apt-get -y install curl
     ln -s $HOME/dotfiles/.linux
-
-    # roll our own VIM
-    sudo apt-get -y install libncurses5-dev python-dev mercurial
-    sudo apt-get -y install cmake
-    sudo apt-get -y remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common
-    cd ~
-    hg clone https://code.google.com/p/vim/
-    hg checkout v7-3-1314
-    cd vim
-    ./configure --with-features=huge \
-      --enable-rubyinterp \
-      --enable-pythoninterp \
-      --enable-perlinterp \
-      --enable-cscope --prefix=/usr
-    make VIMRUNTIMEDIR=/usr/share/vim/vim73
-    sudo make install
-    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
-    sudo update-alternatives --set editor /usr/bin/vim
-    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
-    sudo update-alternatives --set vi /usr/bin/vim
+		build_vim
     ;;
 esac
 
