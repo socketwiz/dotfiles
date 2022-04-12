@@ -92,8 +92,8 @@ set formatoptions=qrn1
 
 " change the status line based on mode
 if version >= 700
-  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
-  au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
+  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* guibg=Red   guifg=White
+  au InsertLeave * hi StatusLine term=reverse ctermfg=0  ctermbg=2  guibg=Green guifg=Black
 endif
  
 
