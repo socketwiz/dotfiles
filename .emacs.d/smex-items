@@ -1,0 +1,50 @@
+
+;; ----- smex-history -----
+(
+ projectile-switch-project
+ eval-defun
+ counsel-projectile-on
+ projectile-find-file
+ projectile-mode
+ projectile-run-project
+ projectile-find-dir
+)
+
+;; ----- smex-data -----
+(
+ (eval-buffer . 31)
+ (recover-file . 2)
+ (package-list-packages . 4)
+ (package-install . 2)
+ (customize . 4)
+ (counsel-git . 1)
+ (swiper . 1)
+ (open-wiki . 12)
+ (package-autoremove . 9)
+ (evil-org-open-links . 1)
+ (projectile-dired . 3)
+ (ivy-help . 1)
+ (flycheck-info . 2)
+ (flycheck-mode . 3)
+ (flycheck-clear . 3)
+ (flycheck-describe-checker . 2)
+ (flycheck-set-checker-executable . 1)
+ (flycheck-error-list-mode . 1)
+ (flycheck-list-errors . 4)
+ (flycheck-verify-setup . 2)
+ (projectile-switch-project . 17)
+ (projectile-run-project . 2)
+ (counsel-projectile-find-dir . 2)
+ (projectile-add-known-project . 1)
+ (customize-face . 1)
+ (emacs-lisp-mode . 4)
+ (switch-to-buffer . 1)
+ (footnote-mode . 1)
+ (foo . 4)
+ (eval-defun . 2)
+ (toggle-debug-on-error . 1)
+ (projectile-find-dir . 3)
+ (projectile-mode . 2)
+ (projectile-find-file . 2)
+ (counsel-projectile-on . 1)
+)
