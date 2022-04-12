@@ -1,8 +1,6 @@
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-#[[ -s "$HOME/.rvm/bin/rvm-prompt" ]] && PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
-
 EDITOR="/usr/local/bin/mvim"
 SVN_EDITOR="/usr/local/bin/mvim"
 JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
