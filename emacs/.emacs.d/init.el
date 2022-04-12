@@ -30,7 +30,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet winum tide smex web-mode google-this markdown-mode highlight-parentheses linum-relative exec-path-from-shell zerodark-theme which-key evil use-package skewer-mode pt projectile popup paredit highlight numbers helm-smex helm-pt helm-projectile helm-git-grep helm-fuzzier helm-flx helm-descbinds helm-core helm flyspell-popup flx evil-surround evil-magit diff-hl company platformio-mode highlight-numbers parent-mode evil-escape evil-anzu anzu proceed))))
+    (color-theme-modern swiper counsel counsel-projectile hydra ivy yasnippet winum tide smex web-mode google-this markdown-mode highlight-parentheses linum-relative exec-path-from-shell zerodark-theme which-key evil use-package skewer-mode pt popup paredit highlight numbers flyspell-popup flx evil-surround evil-magit diff-hl company platformio-mode highlight-numbers parent-mode evil-escape evil-anzu anzu proceed editorconfig diminish))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

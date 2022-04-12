@@ -3,7 +3,6 @@
   (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
         projectile-known-projects-file (concat user-emacs-directory
                                                ".cache/projectile-bookmarks.eld"))
-  (use-package recentf) 
   (add-hook 'find-file-hook (lambda () 
                               (unless recentf-mode (recentf-mode) 
                                       (recentf-track-opened-file)))) 
@@ -13,16 +12,18 @@
         recentf-auto-cleanup 'never
         recentf-auto-save-timer (run-with-idle-timer 600 t 'recentf-save-list))
 
-  (add-to-list 'recentf-exclude (expand-file-name package-user-dir)) 
-  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'") 
-  (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
+  ;; (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
+  ;; (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+  ;; (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
 
   (use-package projectile 
+    :bind (("C-c p *" . projectile-pt))
     :diminish 'projectile-mode) 
 
-  (use-package helm-projectile) 
+  (use-package counsel-projectile)
 
-  (setq projectile-completion-system 'helm projectile-sort-order 'recentf
+  (setq projectile-completion-system 'ivy
+        projectile-sort-order 'recentf
         projectile-globally-ignored-directories (append '(".cache")))
   (projectile-global-mode))
 
