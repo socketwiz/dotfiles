@@ -1,1 +1,3 @@
-/Users/socketwiz/Dropbox/Home/ackrc
+--type-add
+js=.coffee
+--ignore-dir=.idea
