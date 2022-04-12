@@ -46,3 +46,6 @@
 [submodule "angular-vim-snippets"]
 	path = angular-vim-snippets
 	url = git@github.com:matthewsimo/angular-vim-snippets.git
+[submodule ".vim/bundle/vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
