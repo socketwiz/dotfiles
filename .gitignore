@@ -18,4 +18,6 @@
 .emacs.d/smex-items
 .emacs.d/backups/
 .emacs.d/network-security.data
+.emacs.d/.cache
+.emacs.d/undo
 
