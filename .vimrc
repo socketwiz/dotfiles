@@ -113,6 +113,14 @@ nmap <leader>2 :silent %!xmllint --encode UTF-8 --format -<CR>
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
+" make the 81st column stand out
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" display tab and extra whitespace characters
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype off
@@ -181,5 +189,3 @@ let g:tern_show_argument_hints='on_hold'
 set updatetime=1000
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
-
-
