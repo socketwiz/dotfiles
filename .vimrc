@@ -30,7 +30,7 @@ set softtabstop=4
 set expandtab
 autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 expandtab
-autocmd FileType css setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType css setlocal shiftwidth=4 softtabstop=4 expandtab
 
 set encoding=utf-8
 set scrolloff=3
@@ -183,18 +183,25 @@ let b:PreserveNoEOL = 1
 
 " Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! FindConfig(prefix, what, where)
+    let cfg = findfile(a:what, escape(a:where, ' ') . ';')
+    return cfg !=# '' ? ' ' . a:prefix . ' ' . shellescape(cfg) : ''
+endfunction
+autocmd FileType javascript let b:syntastic_javascript_eslint_args =
+    \ get(g:, 'syntastic_javascript_eslint_args', '') .
+    \ FindConfig('-c', '.eslintrc.json', expand('<afile>:p:h', 1))
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_javascript_checkers=['jshint','jscs']
+let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_jshint_args = "--config ~/.jshintrc"
 let g:syntastic_mode_map={ 'mode': 'active',
-                     \ 'active_filetypes': ['javascript'],
+                     \ 'active_filetypes': ['javascript', 'javascript.jsx'],
                      \ 'passive_filetypes': ['html'] }
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Syntastic
