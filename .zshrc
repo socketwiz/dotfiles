@@ -56,7 +56,7 @@ source ~/.fzf.zsh
 export PATH="/usr/local/heroku/bin:$PATH"
 
 ## for docker
-eval "$(docker-machine env development 2>/dev/null)"
+eval "$(docker-machine env default 2>/dev/null)"
 alias docker-rm-stopped='docker rm $(docker ps -a -q)'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
