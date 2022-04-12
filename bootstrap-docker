@@ -13,6 +13,9 @@ fi
 if [ -a "$HOME/.vimrc" ]; then
     mv .vimrc .vimrc.orig
 fi
+if [ ! -d "$HOME/.vim" ]; then
+    mv .vim .vim.orig
+fi
 if [ -a "$HOME/.gitconfig" ]; then
     mv .gitconfig .gitconfig.orig
 fi
