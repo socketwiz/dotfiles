@@ -93,7 +93,7 @@ set formatoptions=qrn1
 " change the status line based on mode
 if version >= 700
   au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
-  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
+  au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
 endif
  
 
@@ -126,6 +126,8 @@ if has('win32') || has('win64')
 else
   set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
 endif
+" let Gdiff default to vertical layout
+set diffopt=vertical
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Fugitive
  
