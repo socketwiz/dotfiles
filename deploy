@@ -67,29 +67,26 @@ case $PLATFORM in
     sudo chsh -s /usr/bin/zsh $USER
     sudo apt-get -y install curl
     ln -s $HOME/dotfiles/.linux $HOME/.linux
-		build_vim
+    build_vim
     ;;
 esac
 
 cd $HOME/dotfiles
-git submodule init
-git submodule update
-cd .vim/bundle/YouCompleteMe
 git submodule update --init --recursive
 ./install.sh
 
 cd $HOME
 if [ ! -d "$HOME/.config" ]; then
-	mkdir "$HOME/.config"
+    mkdir "$HOME/.config"
 fi
 if [ -d "$HOME/.zshrc" ]; then
-  mv .zshrc .zshrc.orig
+    mv .zshrc .zshrc.orig
 fi
 if [ -d "$HOME/.vimrc" ]; then
-  mv .vimrc .vimrc.orig
+    mv .vimrc .vimrc.orig
 fi
 if [ -d "$HOME/.gitconfig" ]; then
-  mv .gitconfig .gitconfig.orig
+    mv .gitconfig .gitconfig.orig
 fi
 
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
