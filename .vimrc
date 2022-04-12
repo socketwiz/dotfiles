@@ -154,7 +154,7 @@ let g:ctrlp_use_caching = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:UltiSnipsEditSplit = 'horizontal'
 let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
+let g:UltiSnipsSnippetDirectories = ["bundle/vim-snippets/UltiSnips", "UltiSnipsAngular", "UltiSnips"]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END UltiSnips
 
