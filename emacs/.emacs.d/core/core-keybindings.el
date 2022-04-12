@@ -38,7 +38,6 @@
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
   (global-set-key (kbd "M-i") 'imenu)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
+  (global-set-key (kbd "M-x") 'helm-M-x))
 
 (provide 'core-keybindings)

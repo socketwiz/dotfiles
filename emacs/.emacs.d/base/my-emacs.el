@@ -77,7 +77,12 @@
   (use-package helpful
     :ensure t)
 
-  (use-package smex
-    :ensure t))
+  (use-package helm
+    :ensure t
+    :diminish helm-mode
+    :config
+    (progn
+      (require 'helm-config)
+      (helm-mode 1))))
 
 (provide 'my-emacs)
