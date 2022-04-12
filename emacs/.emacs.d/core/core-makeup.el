@@ -1,43 +1,60 @@
 
 (defun my/init-makeup ()
-  ;; hide column numbers
+  ;; Set regex syntax to string for re-builder
+  (setq reb-re-syntax 'string)
+
+  ;; Hide column numbers
   (setq column-number-mode t)
 
-  ;; always hightlight current line
+  ;; Always hightlight current line
   (global-hl-line-mode t)
 
   ;; Y or n is enough for me
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  ;; draw underline lower
+  ;; Draw underline lower
   (setq x-underline-at-descent-line t)
 
-  ;; hide ui elements
+  ;; Hide ui elements
   (setq inhibit-startup-message t)
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (toggle-scroll-bar -1)
 
-  ;; font
+  ;; Font
   (set-face-attribute 'default nil
 		      :family config-font-family
 		      :height config-font-height)
 
-  ;; theme
-  (use-package powerline
+  ;; Rainbow mode - displays color codes in their color
+  (use-package rainbow-mode
+    :ensure t
+    :config
+    (rainbow-mode))
+
+  ;; Theme
+  ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
+  ;; https://github.com/emacs-jp/replace-colorthemes
+  (use-package all-the-icons
     :ensure t)
 
-  (use-package moe-theme
-    :after (powerline)
+  (use-package zerodark-theme
     :ensure t
     :config
     (progn
-      (moe-light)
-      (powerline-moe-theme)
-      (show-paren-mode 1)
-      (setq show-paren-style 'expression)))
+      (zerodark-setup-modeline-format)
 
-  ;; window numbers
+      (let ((class '((class color) (min-colors 89)))
+            (default (if (true-color-p) "#abb2bf" "#afafaf"))
+            (background (if (true-color-p) "#282c34" "#333333")))
+        (custom-theme-set-faces
+         'zerodark
+         ;; Make the background black instead of charcoal
+         `(default ((,class (:background, "#000000"))))
+         `(cursor ((,class (:background ,default))))))))
+
+
+  ;; Window numbers
   (use-package winum)
   (winum-mode)
   (setq winum-auto-setup-mode-line nil)
@@ -47,11 +64,17 @@
     :config (global-anzu-mode +1)
     :diminish 'anzu-mode)
 
-  ;; relative line numbers + centered mode FTW
+  ;; Relative line numbers + centered mode FTW
   (use-package linum-relative
     :diminish 'linum-relative-mode
     :init (setq linum-relative-current-symbol "")
     :config (linum-relative-global-mode))
+
+  ;; parenthesis
+  (show-paren-mode 1)
+  (use-package highlight-parentheses
+    :diminish 'highlight-parentheses-mode
+    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
   ;; Frequently accessed files (C-x r j <letter>)
   (set-register ?i '(file . "~/.emacs.d/init.el"))

@@ -1,6 +1,10 @@
 
 (defun my/init-git ()
   (use-package magit
+    :init
+    (setq vc-handled-backends nil)
+    :config
+    (setq magit-refresh-status-buffer nil)
     :diminish 'auto-revert-mode
     :bind (("C-x g" . magit-status))
     :defer t)
