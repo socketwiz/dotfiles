@@ -2,8 +2,6 @@
 emacs/.emacs.d/.cache/
 emacs/.emacs.d/auto-save-list/
 emacs/.emacs.d/backups/
-emacs/.emacs.d/base/my-ido.el
-emacs/.emacs.d/base/my-ivy.el
 emacs/.emacs.d/elpa/
 emacs/.emacs.d/ido.last
 emacs/.emacs.d/recentf
