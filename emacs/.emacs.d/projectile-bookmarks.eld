@@ -1,1 +1,0 @@
-("~/dev/dev_7_docker/ims/" "~/dev/angular-seed/" "~/dotfiles/" "~/dev/sprint_names/" "~/dev/dev_7_docker/sprint_names/" "~/bin/" "~/dev/dev_7_docker/" "~/org/")
