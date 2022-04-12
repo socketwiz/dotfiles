@@ -67,7 +67,7 @@
               (setq org-src-fontify-natively t)
               (setq org-agenda-files (list "~/Dropbox/Documents/org/"
                                            "~/Dropbox/Documents/org/projects/"))
-              ))
+              (setq org-default-notes-file "~/Dropbox/Documents/org/organizer.org")))
 
   ;; Respect editor configs
   (use-package editorconfig
