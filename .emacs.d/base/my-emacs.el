@@ -62,8 +62,7 @@
     :ensure t
     :config (progn
               (setq org-directory "~/org")
-              (setq org-startup-folded nil)
-              (setq org-return-follows-link t))
+              (setq org-startup-folded nil))
     )
 
   ;; Respect editor configs
