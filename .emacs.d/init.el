@@ -11,18 +11,29 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(load "~/.emacs.d/configs/ivy")
 (load "~/.emacs.d/configs/web-mode")
 (load "~/.emacs.d/configs/flycheck")
 (load "~/.emacs.d/configs/tide")
 (load "~/.emacs.d/configs/projectile")
 (load "~/.emacs.d/configs/evil")
 
+(use-package helm-core
+  :ensure t)
+(use-package helm
+  :ensure t
+  :config
+  (setq helm-buffers-fuzzy-matching t)
+  (helm-mode 1))
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on))
+(use-package helm-git-grep
+  :ensure t)
 (use-package magit
   :ensure t
   :config
   (global-set-key (kbd "C-x g") 'magit-status))
-
 (use-package linum-relative
   :ensure t
   :config
@@ -31,7 +42,6 @@
   :init
   ;; display real line number instead of 0
   (setq linum-relative-current-symbol ""))
-
 (use-package alect-themes
   :ensure t
   :config
@@ -41,16 +51,6 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
-;; Emacs commands that are customized to make the best use of Ivy
-(use-package counsel :ensure t)
-;; Create customized short keybinds
-(use-package hydra :ensure t)
-(use-package ivy-hydra :ensure t)
-;; Show an indicator when a buffer has been modified
-(use-package ivy-rich
-  :ensure t
-  :config
-  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 (use-package org :ensure t)
 (use-package yasnippet
   :ensure t
@@ -59,8 +59,6 @@
   (yas-reload-all)
   :init
   (add-hook 'prog-mode-hook #'yas-minor-mode))
-;; Provide MRU data to file lists
-(use-package smex :ensure t)
 (use-package undo-tree
   :ensure t
   :config
