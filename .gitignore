@@ -10,3 +10,5 @@ emacs/.emacs.d/undo/
 emacs/.emacs.d/url/
 emacs/.emacs.d/bookmarks
 
+vim/.vim/.netrwhist
+
