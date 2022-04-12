@@ -1,0 +1,75 @@
+2018-06-18 14:30:28	-->	socketwiz (~Ricky_Nel@c-73-147-143-101.hsd1.va.comcast.net) has joined #vim
+2018-06-18 14:30:28	--	Topic for #vim is "Can't talk? Register https://freenode.net/kb/answer/registration | Vim 8.1.0001 http://www.vim.org | Don't ask to ask! | Use :help and :helpgrep | WIKI: http://vim.wikia.com | PASTE: http://vpaste.net/?ft=vim | https://www.vi-improved.org"
+2018-06-18 14:30:28	--	Topic set by phy1729 on Fri, 18 May 2018 09:54:44
+2018-06-18 14:30:28	--	Channel #vim: 1164 nicks (0 ops, 0 voices, 1164 normals)
+2018-06-18 14:30:28	--	PvNotice(ChanServ): vim discussion .. www.vim.org, vim.sf.net, :help
+2018-06-18 14:30:28	--	URL for #vim: http://vi-improved.org
+2018-06-18 14:30:30	<--	bariscant (~bariscant@78.181.119.196) has quit (Remote host closed the connection)
+2018-06-18 14:30:30	--	Channel created on Sun, 26 Nov 2006 01:42:44
+2018-06-18 14:30:39	<--	enki (~enki@dynamic-78-30-165-161.adsl.eunet.rs) has quit (Ping timeout: 268 seconds)
+2018-06-18 14:31:48	-->	enki (~enki@dynamic-78-30-165-161.adsl.eunet.rs) has joined #vim
+2018-06-18 14:34:19	-->	ejr (~no@80-108-134-69.cable.dynamic.surfer.at) has joined #vim
+2018-06-18 14:35:50	<--	ejr (~no@80-108-134-69.cable.dynamic.surfer.at) has quit (Client Quit)
+2018-06-18 14:36:44	-->	ejr (~no@80-108-134-69.cable.dynamic.surfer.at) has joined #vim
+2018-06-18 14:38:45	<--	sleepymario (~ashwin@36-236-230-164.dynamic-ip.hinet.net) has quit (Quit: WeeChat 2.0.1)
+2018-06-18 14:38:45	-->	solonado (63899ecf@gateway/web/freenode/ip.99.137.158.207) has joined #vim
+2018-06-18 14:39:12	-->	crobbins (~crobbins@2601:2c7:780:416e::4f9b) has joined #vim
+2018-06-18 14:39:41	-->	[r4] (~r4]@staticline-31-183-168-75.toya.net.pl) has joined #vim
+2018-06-18 14:39:53	-->	Simonious_ (~simonious@71-83-41-250.dhcp.dlth.mn.charter.com) has joined #vim
+2018-06-18 14:39:58	<--	z_fudge (~fudge@62.217.45.26) has quit (Ping timeout: 264 seconds)
+2018-06-18 14:40:13	-->	sleepymario (~ashwin@36-236-230-164.dynamic-ip.hinet.net) has joined #vim
+2018-06-18 14:41:10	<--	TheFuzzball (~TheFuzzba@cpc130782-camd17-2-0-cust454.know.cable.virginm.net) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2018-06-18 14:41:21	-->	sdothum_ (~znc@otwaon0812w-lp130-03-174-92-140-117.dsl.bell.ca) has joined #vim
+2018-06-18 14:41:34	<--	dbmikus (~dbmikus@ec2-52-1-79-1.compute-1.amazonaws.com) has quit (Ping timeout: 260 seconds)
+2018-06-18 14:42:22	<--	sdothum (~znc@dsl-173-206-164-148.tor.primus.ca) has quit (Ping timeout: 268 seconds)
+2018-06-18 14:42:40	<--	nickenchuggets (~gousuto@unaffiliated/zeromodulus) has quit (Read error: Connection reset by peer)
+2018-06-18 14:43:03	-->	nickenchuggets (~gousuto@unaffiliated/zeromodulus) has joined #vim
+2018-06-18 14:46:03	solonado	is there a reason function keys in insert mode print <F2>, <F3>, etc? is the only way to avoid this by mapping each of them?
+2018-06-18 14:47:43	romainl	first question should be asked on the vim_dev mailing list
+2018-06-18 14:48:07	romainl	second question: yeah, sounds like it
+2018-06-18 14:48:55	<--	kimchi (~pop@80.217.59.126) has quit (Changing host)
+2018-06-18 14:48:55	-->	kimchi (~pop@unaffiliated/kimchi) has joined #vim
+2018-06-18 14:49:18	<--	cdown (~cdown@199.201.65.130) has quit (Remote host closed the connection)
+2018-06-18 14:49:29	<--	gehn (gehn@gateway/vpn/privateinternetaccess/gehn) has quit (Quit: Leaving)
+2018-06-18 14:50:12	-->	most_enter (~most_ente@91-113-67-189.adsl.highway.telekom.at) has joined #vim
+2018-06-18 14:50:49	-->	gehn (gehn@gateway/vpn/privateinternetaccess/gehn) has joined #vim
+2018-06-18 14:51:34	-->	cdown (~cdown@199.201.65.130) has joined #vim
+2018-06-18 14:52:18	OMGOMG	kimchi: hi
+2018-06-18 14:53:06	kimchi	:nohi
+2018-06-18 14:53:18	-->	greggerz (~greggerz@unaffiliated/greggerz) has joined #vim
+2018-06-18 14:54:33	-->	kishmesh (~weechat@gateway/tor-sasl/kishmesh) has joined #vim
+2018-06-18 14:55:05	-->	dbmikus (~dbmikus@rrcs-50-74-152-162.nyc.biz.rr.com) has joined #vim
+2018-06-18 14:55:22	kishmesh	so the "==" filters (formats) a range that I have selected. However, which program is used to actually accomplish that? Can i reuse it from outside of vim?
+2018-06-18 14:56:18	romainl	:h 'equalprg'
+2018-06-18 14:56:19	digmbot	:help 'equalprg' -> http://vimhelp.appspot.com/options.txt.html#%27equalprg%27
+2018-06-18 14:56:53	<--	most_enter (~most_ente@91-113-67-189.adsl.highway.telekom.at) has quit (Quit: Leaving)
+2018-06-18 14:59:32	-->	bariscant (~bariscant@78.181.119.196) has joined #vim
+2018-06-18 15:00:12	-->	dbmikus_ (~dbmikus@ec2-52-1-79-1.compute-1.amazonaws.com) has joined #vim
+2018-06-18 15:00:15	<--	dbmikus (~dbmikus@rrcs-50-74-152-162.nyc.biz.rr.com) has quit (Ping timeout: 268 seconds)
+2018-06-18 15:02:35	-->	darkSeid (~textual@2a02:c7d:281c:e200:11ba:59f3:8261:97f7) has joined #vim
+2018-06-18 15:02:41	-->	banttu (~bantu@102.166.112.122) has joined #vim
+2018-06-18 15:03:17	<--	ArturShaik (~artur-sha@212.112.100.88) has quit (Ping timeout: 256 seconds)
+2018-06-18 15:04:07	<--	rasputozen (~chris@24.115.182.39.res-cmts.gld.ptd.net) has quit (Quit: I'm not a vimpire)
+2018-06-18 15:04:11	-->	andyhoang (~andyhoang@123.20.74.48) has joined #vim
+2018-06-18 15:04:34	<--	tdy (~tdy@unaffiliated/tdy) has quit (Ping timeout: 264 seconds)
+2018-06-18 15:06:27	<--	ian (~ian@2620:116:8082:b8:7546:5574:53f8:2695) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2018-06-18 15:07:15	kishmesh	cheers
+2018-06-18 15:07:29	<--	jsatk (~jesseatki@208.185.155.170) has quit (Ping timeout: 276 seconds)
+2018-06-18 15:09:07	-->	tdy (~tdy@unaffiliated/tdy) has joined #vim
+2018-06-18 15:09:30	<--	Kryptron (~Kryptron@unaffiliated/kryptron) has quit (Ping timeout: 268 seconds)
+2018-06-18 15:10:01	-->	NCS_One (~NCS_One@bl5-242-173.dsl.telepac.pt) has joined #vim
+2018-06-18 15:10:41	kishmesh	"When Vim was compiled without internal formatting, the "indent" program is used." <-- how can I see it was compiled with internal formatting? vim --version? But which flag?
+2018-06-18 15:11:21	-->	Kryptron_ (~Kryptron@unaffiliated/kryptron) has joined #vim
+2018-06-18 15:11:27	<--	gef3233 (~gef3233@imdea-networks.net.redimadrid.es) has quit (Read error: Connection reset by peer)
+2018-06-18 15:11:48	-->	jsatk (~jesseatki@208.185.155.170) has joined #vim
+2018-06-18 15:12:35	-->	Justproof (~justproof@63.96.245.136) has joined #vim
+2018-06-18 15:13:10	-->	Longbottom (~torsten@ppp-93-104-140-255.dynamic.mnet-online.de) has joined #vim
+2018-06-18 15:13:40	romainl	+cindent  I think
+2018-06-18 15:15:27	<--	solonado (63899ecf@gateway/web/freenode/ip.99.137.158.207) has quit (Quit: Page closed)
+2018-06-18 15:15:38	-->	arora (~ashok@92.99.140.255) has joined #vim
+2018-06-18 15:16:59	<--	jsatk (~jesseatki@208.185.155.170) has quit (Ping timeout: 256 seconds)
+2018-06-18 15:18:09	<--	cagomez (~cagomez@sb0-cf9a61b1.dsl.impulse.net) has quit (Remote host closed the connection)
+2018-06-18 15:22:47	-->	ian (~ian@2620:116:8082:b8:e09c:a1f8:595d:6633) has joined #vim
+2018-06-18 15:23:48	<--	lognoz (~mark@modemcable094.61-21-96.mc.videotron.ca) has quit (Remote host closed the connection)
+2018-06-18 15:24:08	-->	kitsunenokenja (~kitsuneno@89.39.107.197) has joined #vim
+2018-06-18 15:24:14	-->	ivokh (~ivokleinh@145.130.113.232) has joined #vim
