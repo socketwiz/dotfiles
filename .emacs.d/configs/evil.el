@@ -12,3 +12,6 @@
   ;; disable this key so we can use it in yasnippets
   (define-key evil-motion-state-map (kbd "TAB") nil))
 
+(use-package evil-surround
+  :ensure t
+  :config (global-evil-surround-mode 1))
