@@ -17,7 +17,7 @@
 
       ;; set cursor color according to mode
       (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-      (setq evil-insert-state-cursor '("charteuse3"  box))
+      (setq evil-insert-state-cursor '("chartreuse3"  box))
       (setq evil-visual-state-cursor '("gray" box))
       (setq evil-operator-state-cursor '("cyan" box))
       (setq evil-replace-state-cursor '("chocolate" box))
