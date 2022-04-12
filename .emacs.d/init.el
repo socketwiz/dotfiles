@@ -13,7 +13,6 @@
 (load "~/.emacs.d/configs/helm")
 (load "~/.emacs.d/configs/undo")
 (load "~/.emacs.d/configs/markdown")
-(load "~/.emacs.d/configs/powerline")
 (load "~/.emacs.d/configs/org")
 (load "~/.emacs.d/configs/which-key")
 
@@ -40,15 +39,18 @@
   (occur "^[A-Z]"))
 (define-key package-menu-mode-map "a" #'filter-packages-to-update)
 
-;; Disable startup screen
-(setq inhibit-startup-screen t)
 ;; Display column number
 (setq column-number-mode t)
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
-;; Don't display the menu or toolbar
+
+;; Disable startup screen
+(setq inhibit-startup-screen t)
+;; Don't display the menu, toolbar or scroll-bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(toggle-scroll-bar -1)
+
 ;; Set default font
 (set-face-attribute 'default nil
                     :weight 'normal
@@ -57,7 +59,6 @@
                     :family "Source Code Pro")
 ;; Start the server every time on startup
 (server-start)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -66,7 +67,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes smex helm-smex helm-flx helm-fuzzier powerline helm-pt))))
+    (telephone-line telephone-line-config helm-descbinds yasnippet web-mode use-package tide smex markdown-mode magit linum-relative ivy-rich ivy-hydra helm-projectile helm-git-grep flycheck-color-mode-line evil counsel company alect-themes smex helm-smex helm-flx helm-fuzzier powerline helm-pt paredit which-key evil-surround diff-hl))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

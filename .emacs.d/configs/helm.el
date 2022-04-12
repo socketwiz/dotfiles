@@ -57,3 +57,5 @@
 (use-package helm-pt
   :ensure t
   :bind (("C-c p *" . helm-projectile-pt)))
+
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
