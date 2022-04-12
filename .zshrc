@@ -61,10 +61,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 eval $(boot2docker shellinit 2>/dev/null)
 alias docker-rm-stopped='docker rm $(docker ps -a -q)'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
-docker-enter() {
-  boot2docker ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
-  boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
-}
+function docker-enter() { docker exec -it "$@" /bin/bash; }
 
 ## manta
 source ~/.manta
