@@ -1,7 +1,7 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set tags=.git/tags,.git/tags.usat
+set tags+=.git/tags
 
 " disable the arrow keys
 noremap <Up> <Nop>
@@ -179,3 +179,17 @@ let b:PreserveNoEOL = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
 
+
+" Syntastic
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_javascript_checkers=['jshint','jscs']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END Syntastic
