@@ -17,7 +17,7 @@
   (define-key my-leader-map (kbd "g s") 'magit-status)
   (define-key my-leader-map (kbd "p f") 'projectile-find-file)
   (define-key my-leader-map (kbd "p p") 'projectile-switch-project)
-  (define-key my-leader-map "*" 'counsel-pt)
+  (define-key my-leader-map "*" 'counsel-git-grep)
 
   ;; change the "leader" key to space
   (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
