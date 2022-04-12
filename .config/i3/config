@@ -165,3 +165,8 @@ bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 for_window [class="Screenkey"] floating enable
 for_window [class="Gimp"] floating enable
 for_window [class="Zeal"] floating enable
+for_window [class="Shutter"] floating enable
+
+# App specific keybinds
+bindsym $mod+Shift+w exec shutter -w
+bindsym $mod+Shift+s exec shutter -s

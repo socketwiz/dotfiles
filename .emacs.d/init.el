@@ -64,6 +64,9 @@
                     :width 'normal
                     :family "Source Code Pro")
 
+;; Save recentf (recent files list) every 5 minutes
+(run-at-time nil (* 5 60) 'recentf-save-list)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
