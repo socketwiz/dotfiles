@@ -17,6 +17,8 @@ noremap <Down> <Nop>
 noremap <Left> <Nop> 
 noremap <Right> <Nop>
 
+:set lines=40 columns=140
+
 " enable the matchit plugin (built-in)
 " allows % to match between things like beginning and ending html tags
 runtime macros/matchit.vim
