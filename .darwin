@@ -8,7 +8,7 @@ PATH=$PATH:$HOME/.rvm/bin:/usr/local/share/npm/bin
 # Homebrew paths
 BREW_PATHS=/usr/local/bin:/usr/local/sbin
 # Add stuff scripts I've written to the PATH.
-PATH=$HOME/bin:$HOME/.aws/bin:$BREW_PATHS:$AWS_PATHS:${PATH}
+PATH=$HOME/bin:$HOME/.aws/bin:$BREW_PATHS:${PATH}
 
 alias ql='qlmanage -p'
 alias la='/bin/ls -ahG'
