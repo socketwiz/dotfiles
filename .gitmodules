@@ -64,3 +64,6 @@
 [submodule "powerline-fonts"]
 	path = powerline-fonts
 	url = git@github.com:Lokaltog/powerline-fonts.git
+[submodule ".vim/bundle/vim-snippets"]
+	path = .vim/bundle/vim-snippets
+	url = git@github.com:honza/vim-snippets.git
