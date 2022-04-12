@@ -1,3 +1,39 @@
-[submodule ".vim/bundle/vim-javascript-syntax"]
-	path = .vim/bundle/vim-javascript-syntax
-	url = git://github.com/jelera/vim-javascript-syntax.git
+[submodule ".vim/bundle/ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = git://github.com/mileszs/ack.vim.git
+[submodule ".vim/bundle/ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule ".vim/bundle/neocomplcache"]
+	path = .vim/bundle/neocomplcache
+	url = git://github.com/Shougo/neocomplcache.git
+[submodule ".vim/bundle/tcomment_vim"]
+	path = .vim/bundle/tcomment_vim
+	url = git://github.com/tomtom/tcomment_vim.git
+[submodule ".vim/bundle/ultisnips"]
+	path = .vim/bundle/ultisnips
+	url = git://github.com/SirVer/ultisnips.git
+[submodule ".vim/bundle/vim-coffee-script"]
+	path = .vim/bundle/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/vim-jade"]
+	path = .vim/bundle/vim-jade
+	url = git://github.com/digitaltoad/vim-jade.git
+[submodule ".vim/bundle/vim-objc"]
+	path = .vim/bundle/vim-objc
+	url = git://github.com/thedjinn/vim-objc.git
+[submodule ".vim/bundle/vim-rails"]
+	path = .vim/bundle/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule ".vim/bundle/vim-tail"]
+	path = .vim/bundle/vim-tail
+	url = git://github.com/tony/vim-tail.git
+[submodule ".vim/bundle/web-indent"]
+	path = .vim/bundle/web-indent
+	url = https://github.com/concise/web-indent
