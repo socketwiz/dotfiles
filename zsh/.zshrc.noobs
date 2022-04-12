@@ -1,18 +1,4 @@
 
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# User configuration
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-export EDITOR='nvim'
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
 # ssh
 source ~/bin/agent
 
@@ -54,7 +40,4 @@ case `uname` in
     source $HOME/.windows
     ;;
 esac
-
-# setup Rust
-export PATH=$HOME/.cargo/bin:$PATH
 
