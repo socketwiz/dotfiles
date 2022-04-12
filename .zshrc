@@ -10,7 +10,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git node brew npm urltools, vi-mode)
+plugins=(git node brew npm urltools)
 
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
