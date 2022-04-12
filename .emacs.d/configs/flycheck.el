@@ -18,5 +18,4 @@
 
   ;; use eslint with web-mode for jsx files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
-  )
+  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers))
