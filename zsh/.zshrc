@@ -37,7 +37,7 @@ export EDITOR='vim'
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-~/bin/agent
+source ~/bin/agent
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
