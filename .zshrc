@@ -17,6 +17,8 @@ source $ZSH/oh-my-zsh.sh
  
 PAGER='less -x4 -X'
 
+setopt CORRECT
+
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
 alias more='less -x4 -X'
