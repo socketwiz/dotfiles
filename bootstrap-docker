@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 
 ln -s $HOME/dotfiles/.linux $HOME/.linux
