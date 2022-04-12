@@ -14,6 +14,7 @@
 
       ;; disable evil for these modes
       (add-to-list 'evil-emacs-state-modes 'magit-status-mode)
+      (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
       (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))))
 
 (defun my/init-evil-escape () 
