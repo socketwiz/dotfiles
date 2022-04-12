@@ -12,3 +12,7 @@ emacs/.emacs.d/bookmarks
 
 vim/.vim/.netrwhist
 
+weechat/.weechat/logs/
+weechat/.weechat/sec.conf
+weechat/.weechat/weechat.log
+
