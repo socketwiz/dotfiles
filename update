@@ -2,14 +2,13 @@
 PWD=`pwd`
 git pull origin master
 
-# in case there are new modules
-git submodule init
-#git submodule update
-git submodule update --init --recursive
-
 # update any existing modules
 git submodule foreach git pull origin master
-cd .vim/bundle/YouCompleteMe
+# in case there are new modules
 git submodule update --init --recursive
+
+# update YCM
+cd .vim/bundle/YouCompleteMe
 ./install.sh
+
 cd "$PWD"
