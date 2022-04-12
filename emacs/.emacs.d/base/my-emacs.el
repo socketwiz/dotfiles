@@ -65,8 +65,8 @@
               (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
               (setq org-agenda-include-diary t)
               (setq org-src-fontify-natively t)
-              (setq org-agenda-files (list "~/Dropbox/Documents/org/organizer.org"
-                                           "~/Dropbox/Documents/org/someday.org"))
+              (setq org-agenda-files (list "~/Dropbox/Documents/org/"
+                                           "~/Dropbox/Documents/org/projects/"))
               ))
 
   ;; Respect editor configs
