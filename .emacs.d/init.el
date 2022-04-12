@@ -49,6 +49,9 @@
                     :height 130
                     :width 'normal
                     :family "Source Code Pro")
+;; Start the server every time on startup
+(server-start)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
