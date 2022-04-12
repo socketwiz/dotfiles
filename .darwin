@@ -7,6 +7,7 @@ WORKON_HOME=~/.virtualenvs
 alias ql='qlmanage -p'
 alias la='/bin/ls -ahG'
 alias ll='/bin/ls -lhG'
+alias vim='/usr/local/bin/mvim'
 
 # spotlight from the shell
 function spot {
@@ -34,7 +35,7 @@ source ~/.fzf.zsh
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
 # for the homebrew python
-PATH=/usr/local/opt/python/libexec/bin:$PATH
+PATH=/usr/local/opt/node@6/bin:/usr/local/opt/python/libexec/bin:$PATH
 
 # virtualenv
 source /usr/local/bin/virtualenvwrapper.sh
