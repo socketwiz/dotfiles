@@ -87,6 +87,7 @@
     :config
     (progn
       (powerline-moe-theme)
+      (moe-theme-set-color 'green)
       (use-package spaceline-config
         :ensure spaceline
         :config
