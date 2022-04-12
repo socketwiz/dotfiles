@@ -44,10 +44,6 @@
     :init (setq linum-relative-current-symbol "")
     :config (linum-relative-global-mode))
 
-  (use-package centered-cursor-mode
-    :config (global-centered-cursor-mode)
-    :diminish 'centered-cursor-mode)
-
   ;; parenthesis
   (show-paren-mode 1)
   (use-package highlight-parentheses
