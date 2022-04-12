@@ -10,6 +10,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'elzr/vim-json'
 Plug 'godlygeek/tabular'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
@@ -231,15 +232,11 @@ nmap ]h <Plug>GitGutterNextHunk
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END GitGutter
 
-" vim-jsx
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jsx_ext_required = 0
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END vim-jsx
-
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
 map <leader>r :NERDTreeFind<cr>
+
+let g:NERDTreeWinSize = 80
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END nerdtree
 
