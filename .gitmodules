@@ -13,9 +13,6 @@
 [submodule ".vim/bundle/tcomment_vim"]
 	path = .vim/bundle/tcomment_vim
 	url = https://github.com/tomtom/tcomment_vim.git
-[submodule ".vim/bundle/ultisnips"]
-	path = .vim/bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule ".vim/bundle/vim-coffee-script"]
 	path = .vim/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
@@ -31,9 +28,6 @@
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule ".vim/bundle/vim-tail"]
-	path = .vim/bundle/vim-tail
-	url = https://github.com/tony/vim-tail.git
 [submodule ".vim/bundle/web-indent"]
 	path = .vim/bundle/web-indent
 	url = https://github.com/concise/web-indent
@@ -46,6 +40,3 @@
 [submodule ".vim/bundle/vim-javascript-indent"]
 	path = .vim/bundle/vim-javascript-indent
 	url = https://github.com/pangloss/vim-javascript.git
-[submodule ".vim/bundle/headlights"]
-	path = .vim/bundle/headlights
-	url = https://github.com/mbadran/headlights.git
