@@ -41,7 +41,7 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
-;; Command Emacs commands that are customized to make the best use of Ivy
+;; Emacs commands that are customized to make the best use of Ivy
 (use-package counsel :ensure t)
 ;; Create customized short keybinds
 (use-package hydra :ensure t)
