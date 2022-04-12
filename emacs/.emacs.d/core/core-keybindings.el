@@ -26,6 +26,7 @@
 
 (defun my/global-map () 
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
+  (global-set-key (kbd "C-c C-r") 'ido-recentf-open)
   (global-set-key (kbd "C-h b") 'describe-bindings)
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h k") #'helpful-key)
@@ -33,7 +34,6 @@
   (global-set-key (kbd "C-x |") 'toggle-window-split)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x C-f") 'ido-find-file)
-  (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
   (global-set-key (kbd "M-i") 'imenu)
