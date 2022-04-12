@@ -29,6 +29,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
+autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 expandtab
 
 set encoding=utf-8
 set scrolloff=3

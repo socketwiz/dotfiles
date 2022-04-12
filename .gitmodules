@@ -76,3 +76,12 @@
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/bundle/vim-json
 	url = git@github.com:elzr/vim-json.git
+[submodule ".vim/bundle/vim-kangaroo"]
+	path = .vim/bundle/vim-kangaroo
+	url = git@github.com:tommcdo/vim-kangaroo.git
+[submodule ".vim/bundle/vim-oblique"]
+	path = .vim/bundle/vim-oblique
+	url = git@github.com:junegunn/vim-oblique.git
+[submodule ".vim/bundle/vim-pseudocl"]
+	path = .vim/bundle/vim-pseudocl
+	url = git@github.com:junegunn/vim-pseudocl.git
