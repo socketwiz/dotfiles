@@ -91,3 +91,5 @@ REACT_EDITOR=mvim
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
+source ~/.fzf.zsh
+
