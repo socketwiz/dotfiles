@@ -23,6 +23,7 @@ ignore = [
     ".svn",
     ".peru",
     ".precomp",
+    "bower_components",
     "node_modules",
     ".gitattributes",
     ".gitignore",
