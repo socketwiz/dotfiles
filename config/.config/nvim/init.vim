@@ -175,29 +175,23 @@ let g:ctrlp_use_caching = 0
 " END CtrlP
 
 
+" vim-jsx
+" use git grep to search
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END vim-jsx
+
+
 " Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" use local eslint (under node_modules)
-let s:lcd = fnameescape(getcwd())
-silent! exec "lcd" expand('%:p:h')
-let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
-exec "lcd" s:lcd
-let b:syntastic_javascript_eslint_exec = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-" end use local eslint
-
-function! FindConfig(prefix, what, where)
-    let cfg = findfile(a:what, escape(a:where, ' ') . ';')
-    return cfg !=# '' ? ' ' . a:prefix . ' ' . shellescape(cfg) : ''
-endfunction
-autocmd FileType javascript let b:syntastic_javascript_eslint_args =
-    \ get(g:, 'syntastic_javascript_eslint_args', '') .
-    \ FindConfig('-c', '.eslintrc.json', expand('<afile>:p:h', 1))
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_javascript_checkers=['eslint']
+" use local eslint (under node_modules)
+let g:syntastic_javascript_eslint_exec = 'eslint-vim'
+
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -247,6 +241,7 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_ctrlp = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END vim-devicons
+
 
 " rust.vim
 " use git grep to search
