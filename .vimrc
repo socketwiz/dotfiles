@@ -81,8 +81,8 @@ set showmatch
 set hlsearch
 " clear the search highlighting
 nnoremap <leader><space> :noh<cr>
-" use Ack to search files under current directory
-nnoremap <Leader>f :Ag<Space>
+" use git grep to search
+nnoremap <Leader>f :Ggrep<Space>
 
 " handle long lines
 set wrap
