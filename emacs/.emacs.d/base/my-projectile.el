@@ -15,7 +15,13 @@
     :bind (("C-c p *" . projectile-pt))
     :diminish 'projectile-mode) 
 
-  (setq projectile-sort-order 'recentf
+  (use-package helm-projectile
+    :config
+    (progn
+      (setq projectile-completion-system 'helm)
+      (helm-projectile-on)))
+
+  (setq projectile-sort-order 'helm projectile-sort-order 'recentf
         projectile-globally-ignored-directories (append '(".cache")))
   (projectile-global-mode))
 
