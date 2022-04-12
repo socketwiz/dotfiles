@@ -24,6 +24,7 @@
 
 (use-package magit :ensure t)
 (use-package org :ensure t)
+(use-package pt :ensure t)
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
@@ -51,6 +52,7 @@
                     :family "Source Code Pro")
 ;; Start the server every time on startup
 (server-start)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

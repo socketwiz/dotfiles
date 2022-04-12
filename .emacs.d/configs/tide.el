@@ -8,6 +8,8 @@
 (use-package tide
   :ensure t
   :defer 1
+  :bind (("M-?" . tide-documentation-at-point)
+         ("M-/" . tide-jump-to-definition))
   :config
   (add-hook 'web-mode-hook
             (lambda ()
