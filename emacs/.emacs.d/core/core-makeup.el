@@ -1,4 +1,22 @@
 
+(defun switch-theme (theme)
+  "Switch between light and dark themes"
+  (interactive "slight or dark theme? ")
+  (cond ((string= theme "light")
+         (use-package moe-theme
+           :ensure t)
+
+         (load-theme 'moe-light t)
+         (moe-theme-set-color 'green))
+        ((string= theme "dark")
+         (use-package zerodark-theme
+           :ensure t)
+
+         (load-theme 'zerodark t)
+         (zerodark-setup-modeline-format))
+        (t (message "Choices are only light or dark")))
+  )
+
 (defun my/init-makeup ()
   ;; Set regex syntax to string for re-builder
   (setq reb-re-syntax 'string)
@@ -37,12 +55,7 @@
   (use-package all-the-icons
     :ensure t)
 
-  (use-package zerodark-theme
-    :ensure t
-    :config
-    (progn
-      (zerodark-setup-modeline-format)))
-
+  (switch-theme "dark")
 
   ;; Window numbers
   (use-package winum)
