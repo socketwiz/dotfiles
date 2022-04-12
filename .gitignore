@@ -14,6 +14,7 @@
 .emacs.d/projectile-bookmarks.eld
 .emacs.d/recentf
 .emacs.d/recentf~
+.emacs.d/eshell
 .emacs.d/smex-items
 .emacs.d/backups/
 .emacs.d/network-security.data

@@ -5,7 +5,7 @@
   (load-theme 'alect-black-alt t))
 
 ;; An implementation of Powerline
-(use-package telephone-line
+(use-package smart-mode-line
   :ensure t
   :demand t
-  :init (telephone-line-mode 1))
+  :init (sml/setup))
