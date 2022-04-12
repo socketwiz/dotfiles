@@ -4,5 +4,6 @@
   :bind (("TAB" . yas-expand))
   :config
   (yas-reload-all)
+  :mode (("\\.js[x]?'" . web-mode))
   :init
-  (add-hook 'prog-mode-hook #'yas-minor-mode))
+  (add-hook 'web-mode-hook #'yas-minor-mode))
