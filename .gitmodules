@@ -13,24 +13,12 @@
 [submodule ".vim/bundle/vim-markdown"]
 	path = .vim/bundle/vim-markdown
 	url = https://github.com/tpope/vim-markdown.git
-[submodule ".vim/bundle/tagbar"]
-	path = .vim/bundle/tagbar
-	url = https://github.com/majutsushi/tagbar.git
-[submodule ".vim/bundle/vim-dispatch"]
-	path = .vim/bundle/vim-dispatch
-	url = https://github.com/tpope/vim-dispatch.git
 [submodule ".vim/bundle/YouCompleteMe"]
 	path = .vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule ".vim/bundle/ultisnips"]
 	path = .vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
-[submodule ".vim/bundle/vim-startify"]
-	path = .vim/bundle/vim-startify
-	url = https://github.com/mhinz/vim-startify.git
-[submodule ".vim/bundle/dash.vim"]
-	path = .vim/bundle/dash.vim
-	url = https://github.com/rizzatti/dash.vim.git
 [submodule ".vim/bundle/vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired.git
@@ -46,18 +34,12 @@
 [submodule ".vim/bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
-[submodule ".vim/bundle/dustjs"]
-	path = .vim/bundle/dustjs
-	url = https://github.com/jimmyhchan/dustjs.vim.git
 [submodule ".vim/bundle/PreserveNoEOL"]
 	path = .vim/bundle/PreserveNoEOL
 	url = https://github.com/vim-scripts/PreserveNoEOL.git
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/bundle/vim-json
 	url = https://github.com/elzr/vim-json.git
-[submodule ".vim/bundle/vim-kangaroo"]
-	path = .vim/bundle/vim-kangaroo
-	url = https://github.com/tommcdo/vim-kangaroo.git
 [submodule ".vim/bundle/vim-oblique"]
 	path = .vim/bundle/vim-oblique
 	url = https://github.com/junegunn/vim-oblique.git
@@ -76,15 +58,6 @@
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/vimproc.vim"]
-	path = .vim/bundle/vimproc.vim
-	url = https://github.com/Shougo/vimproc.vim.git
 [submodule ".vim/bundle/tsuquyomi"]
 	path = .vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
-[submodule ".vim/bundle/typescript-vim"]
-	path = .vim/bundle/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim.git
-[submodule ".vim/bundle/neocomplete"]
-	path = .vim/bundle/neocomplete
-	url = https://github.com/Shougo/neocomplete.vim.git
