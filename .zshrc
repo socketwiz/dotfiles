@@ -15,8 +15,7 @@ plugins=(git node brew npm urltools virtualenv)
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
-# powerline PROMPT
-. $HOME/dotfiles/powerline/powerline/bindings/zsh/powerline.zsh
+PS1="(%n@%m) $PS1"
 
 PAGER='less -x4 -X'
 
@@ -29,6 +28,8 @@ alias emacs='emacs -nw'
 alias gpg='nocorrect gpg'
 alias rspec='nocorrect rspec'
 alias hg='nocorrect hg'
+
+alias glsf='git ls-files . -co --exclude-standard'
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
