@@ -1,10 +1,11 @@
 
 ;; Automatically install missing packages
 (setq package-list '(use-package)) ;; Bootstrap use-package so it can install the rest
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("org" . "http://orgmode.org/elpa/"))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -55,6 +56,13 @@
   (setq undo-tree-auto-save-history t)
   ;; Save ALL undo histories to this location
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
@@ -65,16 +73,9 @@
 (setq column-number-mode t)
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+;; Don't display the toolbar
+(tool-bar-mode -1)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (tide web-mode use-package smex projectile magit linum-relative ivy-rich ivy-hydra flycheck evil counsel alect-themes)))
- '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

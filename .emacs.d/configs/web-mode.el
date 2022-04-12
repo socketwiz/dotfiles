@@ -1,6 +1,7 @@
 
 (use-package web-mode
   :ensure t
+  :bind (("C-n" . web-mode-tag-match))
   :config
   (add-to-list 'auto-mode-alist '("\\.html?\\'"  . web-mode))       ;; HTML
   (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))       ;; JS/JSX
