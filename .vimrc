@@ -82,7 +82,7 @@ set hlsearch
 " clear the search highlighting
 nnoremap <leader><space> :noh<cr>
 " use Ack to search files under current directory
-nnoremap <Leader>f :Ack<Space>
+nnoremap <Leader>f :Ag<Space>
 
 " handle long lines
 set wrap
@@ -106,9 +106,6 @@ nmap <leader>1 :%!python -m json.tool<CR>
 " " insert mode
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-" tell ack.vim to use Silver Searcher instead of Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
