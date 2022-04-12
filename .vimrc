@@ -66,6 +66,9 @@ set relativenumber
 " save undo history to an undo file
 set undofile
 
+" Store swap files in fixed location, not current directory.
+set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+
 " remap the leader key from \ to ,
 let mapleader = ","
 
