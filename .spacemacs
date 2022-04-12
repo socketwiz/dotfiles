@@ -31,6 +31,12 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-private-snippets-directory nil)
      emacs-lisp
      git
      helm
@@ -41,11 +47,11 @@ values."
      osx
      python
      react
+     rust
      shell-scripts
      spell-checking
      syntax-checking
      yaml
-     ;; auto-completion
      ;; better-defaults
      ;; (shell :variables
      ;;        shell-default-height 30
