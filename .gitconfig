@@ -2,7 +2,7 @@
     name = Ricky Nelson
     email = rickyn@socketwiz.com
 [core]
-    editor = /usr/local/bin/vim
+    editor = ~/bin/edit
     excludesfile = /Users/socketwiz/.gitignore_global
 [color]
     ui = true
