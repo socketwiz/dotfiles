@@ -47,7 +47,10 @@ function build_vim {
 
 case $PLATFORM in
     Darwin)
+        brew install cmake reattach-to-user-namespace
         ln -s $HOME/dotfiles/.darwin $HOME/.darwin
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        ~/.fzf/install
         ;;
     SunOS)
         sudo pkgin -y install p5-ack
@@ -85,9 +88,12 @@ fi
 if [ -a "$HOME/.gitconfig" ]; then
     mv .gitconfig .gitconfig.orig
 fi
+touch .manta
 
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
+rmdir $HOME/.emacs.d/private/snippets
 mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
 ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
@@ -98,4 +104,7 @@ ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
 ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
 ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
+ln -s $HOME/dotfiles/.config/.spacemacs $HOME/.config/.spacemacs
+ln -s $HOME/dotfiles/.config/.weechat $HOME/.config/.weechat
+ln -s $HOME/dotfiles/.emacs.d/private/snippets $HOME/.emacs.d/private/snippets
 
