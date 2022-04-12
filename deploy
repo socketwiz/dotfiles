@@ -1,7 +1,9 @@
 #! /bin/sh
+PLATFORM=`uname`
+
 function build_vim {
     # roll our own VIM
-  case `uname` in
+  case $PLATFORM in
     SunOS)
       sudo pkgin -y install mercurial
       ;;
@@ -16,7 +18,7 @@ function build_vim {
   hg clone https://code.google.com/p/vim/
   cd vim
   hg checkout v7-3-1314
-  case `uname` in
+  case $PLATFORM in
     SunOS)
       ./configure --with-features=huge \
         --enable-rubyinterp \
@@ -35,10 +37,7 @@ function build_vim {
   esac
   sudo make install
 
-  case `uname` in
-    SunOS)
-      ln -s $HOME/.sun
-      ;;
+  case $PLATFORM in
     Linux)
       sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
       sudo update-alternatives --set editor /usr/bin/vim
@@ -48,7 +47,7 @@ function build_vim {
   esac
 }
 
-case `uname` in
+case $PLATFORM in
   Darwin)
     ln -s $HOME/.darwin
     ;;
@@ -56,7 +55,7 @@ case `uname` in
 		sudo pkgin -y install p5-ack
 		sudo pkgin -y install zsh
 		sudo usermod -s /opt/local/bin/zsh $USER
-    ln -s $HOME/.sun
+    ln -s $HOME/dotfiles/.sun
 		build_vim
     ;;
   Linux)
