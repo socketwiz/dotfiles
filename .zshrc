@@ -45,3 +45,5 @@ case `uname` in
     source $HOME/.linux
     ;;
 esac
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
