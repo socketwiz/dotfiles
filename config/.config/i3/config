@@ -122,8 +122,8 @@ bar {
 }
 
 # Configure workspaces to monitors
-workspace 2 output DP-1
-workspace 3 output DVI-D-0
+workspace 2 output DP-2
+workspace 3 output DP-0
 
 # Configure media keys
 bindsym XF86AudioRaiseVolume exec amixer sset Master 2%+ unmute
