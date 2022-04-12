@@ -70,3 +70,9 @@
 [submodule ".vim/bundle/vim-less"]
 	path = .vim/bundle/vim-less
 	url = git@github.com:groenewege/vim-less.git
+[submodule ".vim/bundle/PreserveNoEOL"]
+	path = .vim/bundle/PreserveNoEOL
+	url = git@github.com:vim-scripts/PreserveNoEOL.git
+[submodule ".vim/bundle/vim-json"]
+	path = .vim/bundle/vim-json
+	url = git@github.com:elzr/vim-json.git
