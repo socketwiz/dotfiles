@@ -4,12 +4,6 @@ set guifont=Source\ Code\ Pro:h14
 set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
-" enable spell checking
-noremap <F3> :setlocal spell spelllang=en_us<cr>
-
-" toggle undo manager
-noremap <F6> :GundoToggle<cr>
-
 " disable the arrow keys
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -105,9 +99,18 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
-" disable autoindent when F2 is pressed
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+" disable autoindent when <leader>2 is pressed
+nnoremap <leader>2 :set invpaste paste?<CR>
+set pastetoggle=<leader>2
+
+" enable spell checking
+noremap <leader>3 :setlocal spell spelllang=en_us<cr>
+
+" toggle undo manager
+noremap <leader>6 :GundoToggle<cr>
+
+" enable TagBar
+nmap <leader>8 :TagbarToggle<CR>
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -147,8 +150,3 @@ let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END neocomplcache
-
-" TagBar
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
