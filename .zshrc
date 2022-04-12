@@ -45,7 +45,3 @@ case `uname` in
     source $HOME/.linux
     ;;
 esac
-
-if [ -x $HOME/.gannett ]; then
-  source $HOME/.gannett
-fi
