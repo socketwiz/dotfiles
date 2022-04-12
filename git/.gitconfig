@@ -1,6 +1,5 @@
 [user]
     name = Ricky Nelson
-    email = rickyn@socketwiz.com
 [core]
     editor = nvim
     excludesfile = ~/.gitignore_global
@@ -16,3 +15,5 @@
     prompt = false
 [push]
     default = current
+[include]
+  path = ~/.gitconfig.local
