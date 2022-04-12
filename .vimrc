@@ -111,6 +111,14 @@ nmap <leader>1 :%!python -m json.tool<CR>
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
+" show an indicator when we have moved past 80 lines
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" show tab characters and empty space
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype off
@@ -179,5 +187,3 @@ let g:tern_show_argument_hints='on_hold'
 set updatetime=1000
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
-
-
