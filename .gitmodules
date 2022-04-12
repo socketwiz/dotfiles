@@ -37,3 +37,9 @@
 [submodule ".vim/bundle/web-indent"]
 	path = .vim/bundle/web-indent
 	url = https://github.com/concise/web-indent
+[submodule ".vim/bundle/vim-cocoa"]
+	path = .vim/bundle/vim-cocoa
+	url = git@github.com:socketwiz/cocoa.vim.git
+[submodule ".vim/bundle/headlights"]
+	path = .vim/bundle/headlights
+	url = git://github.com/mbadran/headlights.git
