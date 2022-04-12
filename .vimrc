@@ -25,9 +25,9 @@ set nocompatible
 " for security
 set modelines=0
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
 
@@ -162,3 +162,9 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
+
+" PreserveNoEOL
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let b:PreserveNoEOL = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END PreserveNoEOL
