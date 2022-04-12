@@ -10,7 +10,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git node brew npm urltools virtualenv)
+plugins=(git node brew npm urltools virtualenv, docker)
 
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
@@ -53,7 +53,14 @@ source ~/.fzf.zsh
 export PATH="/usr/local/heroku/bin:$PATH"
 
 ## for docker
-export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2376
-export DOCKER_CERT_PATH=/Users/socketwiz/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
+eval $(boot2docker shellinit 2>/dev/null)
+docker-enter() {
+  boot2docker ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
+  boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
+}
 
+## Go
+export GOPATH=$HOME/go
+
+## manta
+source ~/.manta
