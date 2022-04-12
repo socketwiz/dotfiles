@@ -34,19 +34,6 @@ alias hg='nocorrect hg'
 # fix the friggin del key
 bindkey "^[[3~" delete-char
 
-# web2.0 domain generator
-domain_gen()
-{
-  for domain in $(pwgen -1A0B 6 10); do 
-    echo -ne "$domain.com "; 
-    if [ -z "$(whois $domain.com | grep -o 'No match for')" ]; then 
-      echo -ne "Not "; 
-    fi; 
-    echo "Available for register"; 
-  done  
-}
-
-
 case `uname` in
   Darwin)
     source $HOME/.darwin
@@ -58,3 +45,7 @@ case `uname` in
     source $HOME/.linux
     ;;
 esac
+
+if [ -x $HOME/.gannett ]; then
+  source $HOME/.gannett
+fi
