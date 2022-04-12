@@ -1,0 +1,38 @@
+#! /bin/sh
+
+case `uname` in
+  Darwin)
+    ln -s $HOME/.darwin
+    ;;
+  SunOS)
+    ln -s $HOME/.sun
+    ;;
+  Linux)
+    sudo apt-get -y install ack-grep
+    sudo apt-get -y install zsh
+    sudo apt-get -y install curl
+    sudo chsh -s /usr/bin/zsh $USER
+    ln -s $HOME/dotfiles/.linux
+    ;;
+esac
+
+cd $HOME/dotfiles
+git submodule init
+git submodule update
+cd .vim/bundle/YouCompleteMe
+./install.sh
+
+cd $HOME
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
+mv .zshrc .zshrc.orig
+mv .vimrc .vimrc.orig
+mv .gitconfig .gitconfig.orig
+
+mkdir $HOME/bin
+ln -s $HOME/dotfiles/.ackrc
+ln -s $HOME/dotfiles/.default-difftools $HOME/bin/default-difftool.sh
+ln -s $HOME/dotfiles/.gitconfig
+ln -s $HOME/dotfiles/.vim
+ln -s $HOME/dotfiles/.vimrc
+ln -s $HOME/dotfiles/.zshrc
