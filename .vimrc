@@ -69,6 +69,7 @@ endif
 
 " remap the leader key from \ to ,
 let mapleader = "\<space>"
+let maplocalleader = "\<space>"
 " don't throw away the reverse character search command
 noremap \ ,
 
@@ -175,14 +176,6 @@ let b:PreserveNoEOL = 1
 let g:tern_map_keys = 1
 let g:tern_show_argument_hints='on_hold'
 set updatetime=1000
-noremap <leader>R :TernRename<cr>
-noremap <leader>r :TernRefs<cr>
-noremap <leader>td :TernDefTab<cr>
-noremap <leader>sd :TernDefSplit<cr>
-noremap <leader>pd :TernDefPreview<cr>
-noremap <leader>t :TernType<cr>
-noremap <leader>b :TernDocBrowse<cr>
-noremap <leader>d :TernDef<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
 
