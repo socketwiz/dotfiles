@@ -15,3 +15,7 @@
 
 (use-package helm-git-grep
   :ensure t)
+
+(use-package helm-descbinds
+  :bind (("C-h b" . helm-descbinds))
+  :ensure t)
