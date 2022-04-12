@@ -1,7 +1,7 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set tags=.git/tags,.git/gemtags
+set tags=.git/tags,.git/tags.usat
 
 " disable the arrow keys
 noremap <Up> <Nop>
