@@ -26,12 +26,12 @@
   (tide-hl-identifier-mode +1))
 
 (defun my/init-javascript ()
+  (use-package scss-mode)
   (use-package web-mode
     :ensure t
     :mode (("\\.html?\\'" . web-mode)
            ("\\.js[x]?\\'" . web-mode)
-           ("\\.css\\'" . web-mode)
-           ("\\.scss\\'" . web-mode))
+           ("\\.css\\'" . web-mode))
     :config
     (defadvice web-mode-highlight-part (around tweak-jsx activate)
       (if (equal web-mode-content-type "jsx")
