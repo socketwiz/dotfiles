@@ -50,7 +50,9 @@ case $PLATFORM in
         brew install cmake reattach-to-user-namespace
         ln -s $HOME/dotfiles/.darwin $HOME/.darwin
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        touch .manta
         ~/.fzf/install
+        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
         ;;
     SunOS)
         sudo pkgin -y install p5-ack
@@ -105,6 +107,5 @@ ln -s $HOME/dotfiles/.zshrc
 ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
 ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
 ln -s $HOME/dotfiles/.config/.spacemacs $HOME/.config/.spacemacs
-ln -s $HOME/dotfiles/.config/.weechat $HOME/.config/.weechat
 ln -s $HOME/dotfiles/.emacs.d/private/snippets $HOME/.emacs.d/private/snippets
 
