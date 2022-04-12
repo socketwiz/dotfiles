@@ -51,8 +51,14 @@
   :ensure t
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
-(use-package js2-mode :ensure t)
 (use-package org :ensure t)
+(use-package yasnippet
+  :ensure t
+  :bind (("TAB" . yas-expand))
+  :config
+  (yas-reload-all)
+  :init
+  (add-hook 'prog-mode-hook #'yas-minor-mode))
 ;; Provide MRU data to file lists
 (use-package smex :ensure t)
 (use-package undo-tree
@@ -81,7 +87,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (tide web-mode use-package smex projectile magit linum-relative js2-mode ivy-rich ivy-hydra flycheck evil counsel alect-themes)))
+    (tide web-mode use-package smex projectile magit linum-relative ivy-rich ivy-hydra flycheck evil counsel alect-themes)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
