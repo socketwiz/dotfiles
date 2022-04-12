@@ -2,6 +2,12 @@
 (defun my/init-evil-base () 
   (my/init-evil-escape) 
   (use-package evil
+    :init
+    ;; don't let modes override any states (!)
+    (setq evil-overriding-maps nil
+          evil-intercept-maps nil
+          evil-pending-intercept-maps nil
+          evil-pending-overriding-maps nil)
     :config
     (progn
       (evil-mode 1)
@@ -15,8 +21,17 @@
       (define-key evil-normal-state-map (kbd "M-.") nil)
 
       ;; disable evil for these modes
+      (add-to-list 'evil-emacs-state-modes 'dired-mode)
+      (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
+      (add-to-list 'evil-emacs-state-modes 'help-mode)
+      (add-to-list 'evil-emacs-state-modes 'Info-mode)
       (add-to-list 'evil-emacs-state-modes 'magit-status-mode)
-      (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode))))
+      (add-to-list 'evil-emacs-state-modes 'pt-search-mode)
+
+      ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
+      (advice-add 'evil-make-overriding-map :override #'ignore)
+      (advice-add 'evil-make-intercept-map  :override #'ignore)
+      (advice-add 'evil-add-hjkl-bindings   :override #'ignore))))
 
 (defun my/init-evil-escape () 
   (use-package evil-escape 
