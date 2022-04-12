@@ -14,7 +14,8 @@
 
 (use-package tide
   :ensure t
-  :config
+
+  :init
   (add-hook 'web-mode-hook
             (lambda ()
               (when (string-equal "jsx" (file-name-extension buffer-file-name))
