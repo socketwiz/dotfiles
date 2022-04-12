@@ -24,9 +24,9 @@ set nocompatible
 " for security
 set modelines=0
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 expandtab
@@ -192,5 +192,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_jshint_args = "--config ~/.jshintrc"
+let g:syntastic_mode_map={ 'mode': 'active',
+                     \ 'active_filetypes': ['javascript'],
+                     \ 'passive_filetypes': ['html'] }
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END Syntastic
