@@ -71,6 +71,7 @@ fi
 #
 # aliases
 alias ec='emacsclient -c -n $1'
+alias emacs='emacs -nw'
 
 # fix zsh globbing on some commands
 alias rspec='nocorrect rspec'

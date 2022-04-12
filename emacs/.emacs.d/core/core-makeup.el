@@ -5,17 +5,16 @@
   (defadvice load-theme (before theme-dont-propagate activate)
     (mapc #'disable-theme custom-enabled-themes))
   (cond ((string= theme "light")
-         (disable-theme 'zerodark)
+         (disable-theme 'dracula)
          (use-package apropospriate-theme
            :ensure t)
          (load-theme 'apropospriate-light t))
 
         ((string= theme "dark")
          (disable-theme 'apropospriate)
-         (use-package zerodark-theme
+         (use-package dracula-theme
            :ensure t)
-         (load-theme 'zerodark t)
-         (zerodark-setup-modeline-format))
+         (load-theme 'dracula t))
 
         (t (message "Choices are only light or dark"))))
 
