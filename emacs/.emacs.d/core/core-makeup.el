@@ -32,6 +32,17 @@
     (progn (load-theme 'tty-dark t t)
            (enable-theme 'tty-dark)))
 
+  ;; override red with magenta
+  (custom-theme-set-faces
+   'tty-dark
+   '(cursor ((t (:background "magenta"))))
+   '(diary-face ((t (:foreground "magenta"))))
+   '(font-lock-keyword-face ((t (:foreground "magenta"))))
+   '(italic ((t (:underline t :background "magenta"))))
+   '(message-cited-text-face ((t (:foreground "magenta"))))
+   '(modeline-buffer-id ((t (:background "white" :foreground "magenta"))))
+   '(show-paren-match-face ((t (:background "magenta")))))
+
   ;; window numbers
   (use-package winum)
   (winum-mode)
