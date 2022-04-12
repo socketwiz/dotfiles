@@ -18,6 +18,8 @@
 	(let ((web-mode-enable-part-face nil))
 	  ad-do-it)
       ad-do-it))
+  ;; disable auto-quoting
+  (setq web-mode-enable-auto-quoting nil)
   :init
   (setq web-mode-content-types-alist
 	'(("jsx" . "\\.js[x]?\\'")
