@@ -34,7 +34,7 @@
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-x |") 'toggle-window-split)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (global-set-key (kbd "C-x C-f") 'ido-find-file)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
   (global-set-key (kbd "M-i") 'imenu)
