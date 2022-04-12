@@ -1,5 +1,5 @@
 
-export PAGER='less -x4 -X'
+export PAGER='less -x4 -XFR'
 
 # Homebrew paths
 export BREW_PATHS=/usr/local/bin:/usr/local/sbin
