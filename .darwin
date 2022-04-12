@@ -39,9 +39,10 @@ mongostop_func () {
 }
 alias mongostop="mongostop_func"
 
-if [ -x $HOME/.gannett ]; then
-  source $HOME/.gannett
+if [ -x $HOME/.work ]; then
+  source $HOME/.work
 fi
 
 # source ~/.xsh
+source ~/.fzf.zsh
 
