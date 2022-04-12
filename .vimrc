@@ -7,7 +7,7 @@ set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
 " enable spell checking
-noremap <F5> :setlocal spell spelllang=en_us<cr>
+:setlocal spell spelllang=en_us
 " toggle undo manager
 noremap <F6> :GundoToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
