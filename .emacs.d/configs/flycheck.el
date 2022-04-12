@@ -13,10 +13,7 @@
   :ensure t
 
   :config
-  ;; turn on flychecking globally
-  ;; (global-flycheck-mode)
-
-  ;; use eslint with web-mode for jsx files
+  ;; use eslint with web-mode for js[x]? files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers))
 
