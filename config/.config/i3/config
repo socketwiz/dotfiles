@@ -144,10 +144,10 @@ bar {
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Set caps lock as control
-exec_always xmodmap ~/.xmodmap
+#exec_always xmodmap ~/.xmodmap
 
 # Setup monitors
-exec xrandr --output DVI-D-1 --pos 0x0 --output DP-1 --pos 1920x0 --output DVI-D-0 --pos 3840x0
+#exec xrandr --output DVI-D-1 --pos 0x0 --output DP-1 --pos 1920x0 --output DVI-D-0 --pos 3840x0
 
 # Setup x3lock
 #exec --no-startup-id xautolock -time 10 -locker 'i3lock -d -c 000000'
@@ -157,8 +157,8 @@ workspace 2 output DP-1
 workspace 3 output DVI-D-0
 
 # Configure media keys
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+ unmute
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%- unmute
+bindsym XF86AudioRaiseVolume exec mixer vol +2
+bindsym XF86AudioLowerVolume exec mixer vol -2
 bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 
 # App specific settings
@@ -171,3 +171,4 @@ for_window [class="notify-send"] floating enable
 # App specific keybinds
 bindsym $mod+Shift+w exec shutter -w
 bindsym $mod+Shift+s exec shutter -s
+

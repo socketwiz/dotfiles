@@ -6,13 +6,15 @@
     (mapc #'disable-theme custom-enabled-themes))
   (cond ((string= theme "light")
          (disable-theme 'zerodark)
-         (use-package moe-theme)
+         (use-package moe-theme
+           :ensure t)
          (load-theme 'moe-light t)
          (moe-theme-set-color 'green))
 
         ((string= theme "dark")
          (disable-theme 'moe)
-         (use-package zerodark-theme)
+         (use-package zerodark-theme
+           :ensure t)
          (load-theme 'zerodark t)
          (zerodark-setup-modeline-format))
 
