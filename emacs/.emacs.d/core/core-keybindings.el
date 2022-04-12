@@ -26,6 +26,7 @@
 
 (defun my/global-map () 
   (global-set-key (kbd "<f5>") #'revert-buffer)
+  (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
   (global-set-key (kbd "C-c C-r") #'ido-recentf-open)
   (global-set-key (kbd "C-c t") #'switch-theme)
