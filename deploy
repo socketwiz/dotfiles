@@ -17,9 +17,9 @@ function build_vim {
   esac
 
   cd ~
-  hg clone https://code.google.com/p/vim/
+  git clone https://github.com/vim/vim.git
   cd vim
-  hg checkout v7-4-355
+  git checkout v7.4.900
   case $PLATFORM in
     SunOS)
       ./configure --with-features=huge \
@@ -59,7 +59,7 @@ case $PLATFORM in
     sudo pkgin -y install tmux
     sudo usermod -s /opt/local/bin/zsh $USER
     ln -s $HOME/dotfiles/.sun $HOME/.sun
-		build_vim
+    build_vim
     ;;
   Linux)
     sudo apt-get -y install ack-grep
@@ -67,20 +67,18 @@ case $PLATFORM in
     sudo chsh -s /usr/bin/zsh $USER
     sudo apt-get -y install curl
     ln -s $HOME/dotfiles/.linux $HOME/.linux
-		build_vim
+    build_vim
     ;;
 esac
 
 cd $HOME/dotfiles
-git submodule init
-git submodule update
-cd .vim/bundle/YouCompleteMe
 git submodule update --init --recursive
+cd .vim/bundle/YouCompleteMe
 ./install.sh
 
 cd $HOME
 if [ ! -d "$HOME/.config" ]; then
-	mkdir "$HOME/.config"
+    mkdir "$HOME/.config"
 fi
 if [ -d "$HOME/.zshrc" ]; then
   mv .zshrc .zshrc.orig
@@ -104,3 +102,4 @@ ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
 ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
 ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
+
