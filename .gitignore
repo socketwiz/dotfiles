@@ -5,3 +5,10 @@
 .vim/UltiSnipsAngular
 /tags
 /core
+
+# emacs stuff
+.emacs.d/elpa/
+.emacs.d/projectile-bookmarks.eld
+.emacs.d/recentf
+.emacs.d/recentf~
+.emacs.d/smex-items
