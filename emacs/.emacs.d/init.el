@@ -32,7 +32,7 @@
  '(initial-major-mode (quote emacs-lisp-mode))
  '(package-selected-packages
    (quote
-    (apropospriate-theme atomic-chrome evil evil-surround evil-escape evil-anzu undo-tree helm helm-config helm-projectile highlight-parentheses zerodark-theme all-the-icons rainbow-mode flx-ido ido-completing-read+ helpful dockerfile-mode yasnippet winum tide web-mode google-this markdown-mode linum-relative exec-path-from-shell which-key use-package pt popup paredit highlight flyspell-popup flx magit diff-hl company platformio-mode highlight-numbers parent-mode anzu proceed editorconfig diminish))))
+    (irony-eldoc flycheck-irony irony apropospriate-theme atomic-chrome evil evil-surround evil-escape evil-anzu undo-tree helm helm-config helm-projectile highlight-parentheses zerodark-theme all-the-icons rainbow-mode flx-ido ido-completing-read+ helpful dockerfile-mode yasnippet winum tide web-mode google-this markdown-mode linum-relative exec-path-from-shell which-key use-package pt popup paredit highlight flyspell-popup flx magit diff-hl company platformio-mode highlight-numbers parent-mode anzu proceed editorconfig diminish))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

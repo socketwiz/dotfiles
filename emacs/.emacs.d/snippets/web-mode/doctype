@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
-# name: doctype
-# key: doctype
+# name: p
+# key: p
 # --
-<!DOCTYPE html>
-$0
+<p>$1</p>$0
