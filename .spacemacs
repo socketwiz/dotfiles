@@ -31,29 +31,25 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     emacs-lisp
+     git
+     helm
      html
      javascript
      markdown
+     org
      osx
      python
      react
+     shell-scripts
+     spell-checking
+     syntax-checking
      yaml
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     helm
      ;; auto-completion
      ;; better-defaults
-     emacs-lisp
-     git
-     org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     spell-checking
-     syntax-checking
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -106,7 +102,7 @@ values."
    ;; `hybrid state' with `emacs' key bindings. The value can also be a list
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
-   ;; (default 'vim)
+   ;; (default 'hybrid)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
@@ -298,20 +294,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   )
 
-(defun setup-eslint-local ()
-  "Find a locally installed eslint and .eslintrc"
-  (let ((rc-path (if (projectile-project-p)
-                     (concat (projectile-project-root) ".eslintrc"))))
-  (let ((eslint-path (if (projectile-project-p)
-                      (concat (projectile-project-root) "node_modules/.bin/eslint"))))
-    (if (and (file-exists-p rc-path)
-             (file-exists-p eslint-path))
-        (progn
-          (message rc-path)
-          (message eslint-path)
-          (setq-local flycheck-eslintrc rc-path)
-          (setq-local flycheck-javascript-eslint-executable eslint-path))))))
-
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -321,14 +303,6 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; Open up our wiki-page
   (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
-
-  ;; Setup Ruby environment
-  (setenv "GEM_HOME" "/Users/socketwiz/.rvm/gems/ruby-2.2.1")
-  (setenv "GEM_PATH" "/Users/socketwiz/.rvm/gems/ruby-2.2.1:/Users/socketwiz/.rvm/gems/ruby-2.2.1@global")
-  (setenv "RUBY_VERION" "ruby-2.2.1")
-
-  ;; Help emacs find eslint locally
-  (add-hook 'flycheck-mode-hook 'setup-eslint-local)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -343,7 +317,7 @@ you should place your code here."
     ("/Users/socketwiz/.rvm/gems/ruby-2.2.1/bin/" "/Users/socketwiz/.rvm/gems/ruby-2.2.1@global/bin/" "/Users/socketwiz/.rvm/rubies/ruby-2.2.1/bin/" "/usr/local/heroku/bin/" "/usr/local/Cellar/fzf/0.9.1/bin/" "/Users/socketwiz/bin/" "/Users/socketwiz/.aws/bin/" "/usr/local/bin/" "/usr/local/sbin/" "/usr/local/heroku/bin/" "/usr/local/share/npm/bin/" "/Users/socketwiz/.config/yarn/global/node_modules/.bin/" "/usr/local/bin/" "/Users/socketwiz/bin/" "/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/opt/X11/bin/" "/Users/socketwiz/.rvm/bin/" "/Users/socketwiz/.rvm/bin/" "/Users/socketwiz/go-workspace/bin/")))
  '(package-selected-packages
    (quote
-    (org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct auto-dictionary web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org mmm-mode markdown-toc markdown-mode magit-gitflow less-css-mode helm-gitignore helm-css-scss haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode yaml-mode tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (pyvenv live-py-mode anaconda-mode org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot flyspell-correct-helm flyspell-correct auto-dictionary web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org mmm-mode markdown-toc markdown-mode magit-gitflow less-css-mode helm-gitignore helm-css-scss haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode yaml-mode tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

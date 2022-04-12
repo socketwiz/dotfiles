@@ -8,8 +8,6 @@ ZSH_THEME="rickyn"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
-PATH=$HOME/.config/yarn/global/node_modules/.bin:/usr/local/bin:$HOME/bin:$PATH
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git node brew npm urltools virtualenvwrapper docker)
@@ -50,13 +48,7 @@ case `uname` in
     ;;
 esac
 
-source ~/.fzf.zsh
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 ## for docker
-eval "$(docker-machine env default 2>/dev/null)"
 alias docker-rm-stopped='docker rm $(docker ps -a -q)'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
@@ -73,11 +65,10 @@ then
     export SSH_AUTH_SOCK=$SOCK
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 REACT_EDITOR=mvim
 
-export GOPATH="$HOME/go-workspace"
-export PATH="$PATH:$GOPATH/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+source ~/.fzf.zsh
+
 
