@@ -10,6 +10,16 @@ set tags=tags,gemtags
 :setlocal spell spelllang=en_us
 " toggle undo manager
 noremap <F6> :GundoToggle<cr>
+
+" disable the arrow keys
+noremap <Up> <Nop> 
+noremap <Down> <Nop> 
+noremap <Left> <Nop> 
+noremap <Right> <Nop>
+
+" enable the matchit plugin (built-in)
+" allows % to match between things like beginning and ending html tags
+runtime macros/matchit.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END my own settings
 
@@ -62,7 +72,7 @@ set backspace=indent,eol,start
 " make sure the last window always has a status line
 set laststatus=2
 
-if has('relativenumber')
+if version >= 703
   " show the line number relative to the line with the cursor
   set relativenumber
 endif
@@ -79,6 +89,8 @@ endif
 
 " remap the leader key from \ to ,
 let mapleader = ","
+" don't throw away the reverse character search command
+noremap \ ,
 
 " tame search
 nnoremap / /\v
@@ -141,3 +153,7 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END neocomplcache
 
+" TagBar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <F8> :TagbarToggle<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
