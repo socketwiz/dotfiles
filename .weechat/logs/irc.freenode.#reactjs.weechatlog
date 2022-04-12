@@ -1,0 +1,1107 @@
+2017-03-10 19:04:46	-->	Socketwiz (~Socketwiz@c-73-147-143-101.hsd1.va.comcast.net) has joined #reactjs
+2017-03-10 19:04:46	--	Topic for #reactjs is "React, a JS library for building UIs | http://reactjs.org/ | logs: https://botbot.me/freenode/reactjs/ | See also #reactnative, #flowtype, #fluxjs, #jestjs."
+2017-03-10 19:04:46	--	Topic set by spicyj (sid15886@gateway/web/irccloud.com/x-ioedgcsvyenjbhby) on Tue, 29 Sep 2015 15:39:35
+2017-03-10 19:04:47	--	Channel #reactjs: 580 nicks (1 op, 1 voice, 578 normals)
+2017-03-10 19:04:47	<--	realisation (~textual@ip-64-134-70-68.public.wayport.net) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 19:04:48	--	Channel created on Mon, 27 May 2013 20:25:47
+2017-03-10 19:05:31	-->	dopesong (~dopesong@34.250.46.84.mobile.mezon.lt) has joined #reactjs
+2017-03-10 19:07:36	<--	aboudreault (~aboudreau@osgeo/member/aboudreault) has quit (Excess Flood)
+2017-03-10 19:08:35	<--	gvanderest (~gvanderes@S01066c709fd71834.ok.shawcable.net) has quit (Remote host closed the connection)
+2017-03-10 19:09:06	<--	newbie666 (~nobody@86.127.42.117) has quit (Read error: Connection reset by peer)
+2017-03-10 19:09:54	<--	dopesong (~dopesong@34.250.46.84.mobile.mezon.lt) has quit (Ping timeout: 260 seconds)
+2017-03-10 19:10:08	-->	aboudreault (~aboudreau@osgeo/member/aboudreault) has joined #reactjs
+2017-03-10 19:10:53	<--	aboudreault (~aboudreau@osgeo/member/aboudreault) has quit (Excess Flood)
+2017-03-10 19:11:44	<--	waqas (~Adium@216.174.114.140) has quit (Quit: Leaving.)
+2017-03-10 19:12:31	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-10 19:14:27	--	zz_dimtruck is now known as dimtruck
+2017-03-10 19:14:39	-->	aboudreault (~aboudreau@osgeo/member/aboudreault) has joined #reactjs
+2017-03-10 19:15:37	<--	howitdo (~howitdo@unaffiliated/howitdo) has quit (Read error: Connection reset by peer)
+2017-03-10 19:15:53	<--	Berra (~arch@84-55-91-6.customers.ownit.se) has quit (Read error: Connection reset by peer)
+2017-03-10 19:15:57	<--	jimklo (~jimklo@192.12.16.110) has quit (Remote host closed the connection)
+2017-03-10 19:16:07	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-10 19:16:13	<--	hashpuppy (uid43164@gateway/web/irccloud.com/x-ezxabhwkbxoxuxsc) has quit (Quit: Connection closed for inactivity)
+2017-03-10 19:16:13	-->	howitdo (~howitdo@unaffiliated/howitdo) has joined #reactjs
+2017-03-10 19:16:20	-->	Berra (~arch@84-55-91-6.customers.ownit.se) has joined #reactjs
+2017-03-10 19:16:26	<--	Elyx0 (~Elyx0@24.53.49.197) has quit (Ping timeout: 256 seconds)
+2017-03-10 19:16:32	-->	jimklo (~jimklo@192.12.16.110) has joined #reactjs
+2017-03-10 19:17:25	<--	merch (~merch@209.153.220.50) has quit (Quit: merch)
+2017-03-10 19:18:08	-->	rchavik (~rchavik@unaffiliated/rchavik) has joined #reactjs
+2017-03-10 19:18:58	<--	aboudreault (~aboudreau@osgeo/member/aboudreault) has quit (Excess Flood)
+2017-03-10 19:19:45	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-10 19:21:07	<--	jimklo (~jimklo@192.12.16.110) has quit (Ping timeout: 268 seconds)
+2017-03-10 19:21:38	-->	aboudreault (~aboudreau@osgeo/member/aboudreault) has joined #reactjs
+2017-03-10 19:21:46	<--	Velveeta (~velveeta@63.139.193.153) has quit (Remote host closed the connection)
+2017-03-10 19:22:00	-->	Elyx0 (~Elyx0@24.53.49.197) has joined #reactjs
+2017-03-10 19:22:12	-->	Velveeta (~velveeta@63.139.193.153) has joined #reactjs
+2017-03-10 19:22:54	<--	aboudreault (~aboudreau@osgeo/member/aboudreault) has quit (Excess Flood)
+2017-03-10 19:23:09	<--	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has quit (Quit: ~(˘▾˘~)     \ (•◡•) /      (~˘▾˘)~)
+2017-03-10 19:23:38	<--	weaksauce (~weaksauce@ip72-194-65-47.oc.oc.cox.net) has quit (Read error: Connection reset by peer)
+2017-03-10 19:24:19	-->	jimklo (~jimklo@192.12.16.110) has joined #reactjs
+2017-03-10 19:25:09	-->	aboudreault (~aboudreau@osgeo/member/aboudreault) has joined #reactjs
+2017-03-10 19:25:33	--	Notice(GitHub45): [react] spicyj opened pull request #9155: Use fiber by default (master...fiber-flag) https://github.com/facebook/react/pull/9155
+2017-03-10 19:26:13	-->	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has joined #reactjs
+2017-03-10 19:26:28	<--	Velveeta (~velveeta@63.139.193.153) has quit (Ping timeout: 240 seconds)
+2017-03-10 19:27:19	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 258 seconds)
+2017-03-10 19:29:02	-->	TbobbyZ_ (~TbobbyZ@cpe-45-48-60-105.socal.res.rr.com) has joined #reactjs
+2017-03-10 19:29:18	<--	gopar (~gopar@2603:3024:1828:b3e1:dcaa:9859:38ee:add5) has quit (Remote host closed the connection)
+2017-03-10 19:29:53	<--	trevor (~trevor@gradient/cofounder/trevor) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 19:29:56	-->	gopar (~gopar@2603:3024:1828:b3e1:dcaa:9859:38ee:add5) has joined #reactjs
+2017-03-10 19:30:54	<--	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has quit (Ping timeout: 260 seconds)
+2017-03-10 19:30:58	-->	ruid (~ruid@unaffiliated/ruid) has joined #reactjs
+2017-03-10 19:31:08	<--	gopar (~gopar@2603:3024:1828:b3e1:dcaa:9859:38ee:add5) has quit (Remote host closed the connection)
+2017-03-10 19:31:26	-->	gopar (~gopar@2603:3024:1828:b3e1:dcaa:9859:38ee:add5) has joined #reactjs
+2017-03-10 19:31:33	<--	ruid (~ruid@unaffiliated/ruid) has quit (Quit: Leaving)
+2017-03-10 19:31:36	<--	visualshock (~visualsho@host-37-191-204-248.lynet.no) has quit (Ping timeout: 268 seconds)
+2017-03-10 19:32:13	<--	TbobbyZ (~TbobbyZ@cpe-45-48-60-105.socal.res.rr.com) has quit (Ping timeout: 268 seconds)
+2017-03-10 19:34:04	<--	TbobbyZ_ (~TbobbyZ@cpe-45-48-60-105.socal.res.rr.com) has quit (Ping timeout: 268 seconds)
+2017-03-10 19:34:14	-->	zumba_addict (~zumba_add@108-197-162-97.lightspeed.cicril.sbcglobal.net) has joined #reactjs
+2017-03-10 19:38:15	<--	jhack (~jhack@unaffiliated/jhack) has quit (Quit: Leaving)
+2017-03-10 19:38:51	<--	al-damiri (uid142631@gateway/web/irccloud.com/x-oqfsnyowbeowhuge) has quit (Quit: Connection closed for inactivity)
+2017-03-10 19:40:53	-->	leebyron (~leebyron@2620:10d:c090:200::3:294e) has joined #reactjs
+2017-03-10 19:41:31	-->	realisation (~textual@73.81.120.224) has joined #reactjs
+2017-03-10 19:44:14	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-10 19:45:35	<--	PaulCapestany (~PaulCapes@2604:5500:17:2ea:bdab:df8e:3885:5518) has quit (Quit: .)
+2017-03-10 19:45:43	<--	montanonic (~nicholas@209.216.165.145) has quit (Ping timeout: 246 seconds)
+2017-03-10 19:47:03	-->	PaulCapestany (~PaulCapes@2604:5500:17:2ea:4d4a:97cf:7cf0:199) has joined #reactjs
+2017-03-10 19:47:26	-->	bomb-on (~bomb-on@139-142-17-89.fiber.hringdu.is) has joined #reactjs
+2017-03-10 19:48:51	<--	PaulCapestany (~PaulCapes@2604:5500:17:2ea:4d4a:97cf:7cf0:199) has quit (Remote host closed the connection)
+2017-03-10 19:49:13	<--	brent__ (~brent@128.177.113.106) has quit (Remote host closed the connection)
+2017-03-10 19:49:34	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 264 seconds)
+2017-03-10 19:50:06	<--	EyePulp (~eyepulp@98.215.57.107) has quit (Remote host closed the connection)
+2017-03-10 19:51:37	-->	merch (~merch@209.153.220.50) has joined #reactjs
+2017-03-10 19:52:01	<--	nabo (~Thunderbi@178235234182.legnica.vectranet.pl) has quit (Ping timeout: 246 seconds)
+2017-03-10 19:53:13	-->	montanonic (~nicholas@209.216.165.145) has joined #reactjs
+2017-03-10 19:53:53	-->	umpc (~umpc@unaffiliated/umpc) has joined #reactjs
+2017-03-10 19:54:36	-->	PaulCapestany (~PaulCapes@2604:5500:17:2ea:1d44:ad2f:dd6:1495) has joined #reactjs
+2017-03-10 19:56:05	--	dimtruck is now known as zz_dimtruck
+2017-03-10 19:57:38	<--	chenghiz (~Adium@96-89-96-217-static.hfc.comcastbusiness.net) has quit (Quit: Leaving.)
+2017-03-10 19:59:26	<--	montanonic (~nicholas@209.216.165.145) has quit (Ping timeout: 240 seconds)
+2017-03-10 19:59:40	<--	steeze (~steeze@63.76.231.82) has quit (Quit: My Mac has gone to sleep. ZZZzzz…)
+2017-03-10 19:59:58	<--	r0ute (~matt@185.89.35.33) has quit (Ping timeout: 268 seconds)
+2017-03-10 20:02:24	-->	platzhirsch (~konrad@2601:647:4c01:b391:f005:8b2d:a16a:b789) has joined #reactjs
+2017-03-10 20:02:45	platzhirsch	How is a css file typically named in a component? Is it src/components/App/index.css?
+2017-03-10 20:04:37	<--	gopar (~gopar@2603:3024:1828:b3e1:dcaa:9859:38ee:add5) has quit (Ping timeout: 246 seconds)
+2017-03-10 20:06:16	--	Notice(GitHub137): [react] spicyj closed pull request #9155: Use fiber by default (master...fiber-flag) https://github.com/facebook/react/pull/9155
+2017-03-10 20:06:21	--	Notice(GitHub54): [react] spicyj pushed 1 new commit to master: https://github.com/facebook/react/commit/19c2649e020101fead96780a8208b6c31f50b42d
+2017-03-10 20:06:21	--	Notice(GitHub54): react/master 19c2649 Ben Alpert: Use fiber by default (#9155)...
+2017-03-10 20:06:56	<--	realisation (~textual@73.81.120.224) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 20:09:51	<--	Bnaya (~Bnaya@unaffiliated/bnaya) has quit (Quit: Bnaya)
+2017-03-10 20:10:16	-->	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has joined #reactjs
+2017-03-10 20:11:15	--	zz_dimtruck is now known as dimtruck
+2017-03-10 20:11:53	-->	commodious (~textual@pool-100-36-16-231.washdc.fios.verizon.net) has joined #reactjs
+2017-03-10 20:11:55	<--	leebyron (~leebyron@2620:10d:c090:200::3:294e) has quit (Remote host closed the connection)
+2017-03-10 20:13:10	<--	commodious (~textual@pool-100-36-16-231.washdc.fios.verizon.net) has quit (Client Quit)
+2017-03-10 20:13:37	-->	jhack (~jhack@pool-108-46-212-224.nycmny.fios.verizon.net) has joined #reactjs
+2017-03-10 20:13:37	<--	jhack (~jhack@pool-108-46-212-224.nycmny.fios.verizon.net) has quit (Changing host)
+2017-03-10 20:13:37	-->	jhack (~jhack@unaffiliated/jhack) has joined #reactjs
+2017-03-10 20:14:37	-->	gopar (~gopar@2603:3024:1828:b3e1:d0e:31a7:9346:5818) has joined #reactjs
+2017-03-10 20:14:50	<--	gopar (~gopar@2603:3024:1828:b3e1:d0e:31a7:9346:5818) has quit (Remote host closed the connection)
+2017-03-10 20:15:30	<--	merch (~merch@209.153.220.50) has quit (Quit: merch)
+2017-03-10 20:15:57	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-10 20:16:31	-->	realisation (~textual@73.81.123.204) has joined #reactjs
+2017-03-10 20:17:14	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-10 20:17:55	-->	merch (~merch@209.153.220.50) has joined #reactjs
+2017-03-10 20:18:35	<--	merch (~merch@209.153.220.50) has quit (Client Quit)
+2017-03-10 20:18:57	<--	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-10 20:20:15	<--	LeBlaaanc (~textual@unaffiliated/leblaaanc) has quit (Remote host closed the connection)
+2017-03-10 20:20:54	-->	LeBlaaanc (~textual@unaffiliated/leblaaanc) has joined #reactjs
+2017-03-10 20:21:49	-->	leebyron (~leebyron@2620:10d:c090:200::3:294e) has joined #reactjs
+2017-03-10 20:24:35	<--	Katepillar (~CiikA@dsl-jklbrasgw2-50dcff-232.dhcp.inet.fi) has quit (Quit: Leaving)
+2017-03-10 20:25:27	<--	LeBlaaanc (~textual@unaffiliated/leblaaanc) has quit (Ping timeout: 240 seconds)
+2017-03-10 20:28:34	<--	vicmarcal (uid12224@reactos/tester/vicmarcal) has quit (Quit: Connection closed for inactivity)
+2017-03-10 20:29:52	<--	dso1 (~dso@8.18.218.175) has quit (Quit: Leaving.)
+2017-03-10 20:31:34	<--	n3o` (~n3o_`@ns27315.ip-91-121-84.eu) has quit (Ping timeout: 255 seconds)
+2017-03-10 20:32:46	-->	Lann (~Lann@p2446130-ipngn17201hodogaya.kanagawa.ocn.ne.jp) has joined #reactjs
+2017-03-10 20:32:58	Lann	can anyone help me understand why my node.js script is not doing anything when it says "webpack built 1cc00f5dcab5d337de94 in 3628ms". My bunde.js is not updated unless i run "webpack" from teh command line. I am trying to use webpack-dev-middleware/webpack-hot-middleware
+2017-03-10 20:35:48	<--	ourss (~Null@50-255-22-49-static.hfc.comcastbusiness.net) has quit (Quit: Leaving)
+2017-03-10 20:39:00	-->	n3o` (~n3o_`@ns27315.ip-91-121-84.eu) has joined #reactjs
+2017-03-10 20:41:22	<--	kd0t (~kd0t@gateway/vpn/privateinternetaccess/kd0t) has quit (Quit: Leaving)
+2017-03-10 20:43:48	rodd	anyone using ant.design? do you like it?
+2017-03-10 20:45:07	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-10 20:45:43	<--	zumba_addict (~zumba_add@108-197-162-97.lightspeed.cicril.sbcglobal.net) has quit (Read error: Connection reset by peer)
+2017-03-10 20:47:09	-->	dso (~dso@8.18.218.175) has joined #reactjs
+2017-03-10 20:48:17	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 20:49:26	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-10 20:52:33	<--	dso (~dso@8.18.218.175) has quit (Quit: Leaving.)
+2017-03-10 20:56:27	-->	jimklo_ (~jimklo@75-128-4-186.dhcp.snlo.ca.charter.com) has joined #reactjs
+2017-03-10 20:59:56	<--	jimklo (~jimklo@192.12.16.110) has quit (Ping timeout: 240 seconds)
+2017-03-10 21:00:52	<--	jimklo_ (~jimklo@75-128-4-186.dhcp.snlo.ca.charter.com) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:01:37	-->	hyfrehyfre (~hyfrehyfr@static-200-105-219-160.acelerate.net) has joined #reactjs
+2017-03-10 21:02:37	<--	OverCoder (OverCoder@codebottle.io/staff/overcoder) has quit (Quit: The impossible happened)
+2017-03-10 21:06:29	-->	r033fl (~roeefl@bzq-82-81-4-52.red.bezeqint.net) has joined #reactjs
+2017-03-10 21:08:29	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-10 21:09:12	<--	gmhafiz (~gmhafiz@180-150-102-8.cust.aussiebb.net) has quit (Ping timeout: 256 seconds)
+2017-03-10 21:09:25	<--	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has quit (Remote host closed the connection)
+2017-03-10 21:11:20	<--	steelbrain (~steelbrai@39.50.73.38) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 21:13:37	-->	noethics (~noethics@109.201.154.243) has joined #reactjs
+2017-03-10 21:14:24	-->	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has joined #reactjs
+2017-03-10 21:14:44	<--	ahrs (~quassel@46.166.137.200) has quit (Remote host closed the connection)
+2017-03-10 21:14:44	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 21:15:53	-->	ahrs (~quassel@gateway/vpn/privateinternetaccess/ahrs) has joined #reactjs
+2017-03-10 21:18:57	<--	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has quit (Ping timeout: 240 seconds)
+2017-03-10 21:19:14	<--	cotko (~ahmed@BSN-143-164-191.dynamic.siol.net) has quit (Quit: Konversation terminated!)
+2017-03-10 21:19:22	-->	waqas (~Adium@2602:306:836c:4a50:79d9:c7aa:cae0:712c) has joined #reactjs
+2017-03-10 21:20:56	<--	pedro__ (~pedro_@2001:1c00:1502:c600:d085:a70c:bd1d:acb5) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:21:32	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-10 21:22:47	-->	leftoverpizza (~Null@50-255-22-49-static.hfc.comcastbusiness.net) has joined #reactjs
+2017-03-10 21:23:11	leftoverpizza	hey, i'm using redux with react-router, i can't find any easy guide on how to simply authorize the route basd on a value in my store state
+2017-03-10 21:23:14	-->	pedro_ (~pedro_@2001:1c00:1502:c600:71bf:7ad2:119c:fa15) has joined #reactjs
+2017-03-10 21:23:51	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-10 21:23:58	<--	willardg (~willardg@ip98-165-9-253.ph.ph.cox.net) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-10 21:24:46	<--	marcdel (~marcdel@198.8.80.140) has quit (Ping timeout: 246 seconds)
+2017-03-10 21:25:10	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-10 21:25:15	-->	TbobbyZ (~TbobbyZ@cpe-76-95-127-210.socal.res.rr.com) has joined #reactjs
+2017-03-10 21:25:35	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 240 seconds)
+2017-03-10 21:28:27	-->	marcdel (~marcdel@198.8.80.18) has joined #reactjs
+2017-03-10 21:28:52	-->	merch (~merch@209.153.220.50) has joined #reactjs
+2017-03-10 21:29:48	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:32:09	<--	domino14 (~domino14@97.65.119.186) has quit (Read error: Connection reset by peer)
+2017-03-10 21:32:38	-->	bbankes_ (~bbankes@162.218.222.150) has joined #reactjs
+2017-03-10 21:32:49	-->	domino14 (~domino14@97.65.119.186) has joined #reactjs
+2017-03-10 21:33:54	-->	montanonic (~nicholas@c-73-37-88-126.hsd1.or.comcast.net) has joined #reactjs
+2017-03-10 21:35:08	-->	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has joined #reactjs
+2017-03-10 21:35:59	-->	smccarthy (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has joined #reactjs
+2017-03-10 21:36:20	<--	bbankes (~bbankes@162.218.222.150) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:36:20	<--	TbobbyZ (~TbobbyZ@cpe-76-95-127-210.socal.res.rr.com) has quit (Remote host closed the connection)
+2017-03-10 21:36:47	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has joined #reactjs
+2017-03-10 21:37:08	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has quit (Remote host closed the connection)
+2017-03-10 21:37:14	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has joined #reactjs
+2017-03-10 21:37:15	<--	iliketurtles (~iliketurt@173.205.0.166) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 21:37:50	<--	hyfrehyfre (~hyfrehyfr@static-200-105-219-160.acelerate.net) has quit (Quit: Leaving)
+2017-03-10 21:39:12	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Remote host closed the connection)
+2017-03-10 21:40:32	<--	bbankes_ (~bbankes@162.218.222.150) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:44:43	-->	systemfault (~rcyr@unaffiliated/rcyr) has joined #reactjs
+2017-03-10 21:45:39	-->	iliketurtles (~iliketurt@173.205.0.166) has joined #reactjs
+2017-03-10 21:45:52	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-10 21:45:55	<--	merch (~merch@209.153.220.50) has quit (Quit: merch)
+2017-03-10 21:46:41	<--	orbyt_ (~orbyt@2600:8801:c500:1380:b146:982:d26a:39bf) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 21:48:42	-->	Velveeta (~velveeta@63.139.193.153) has joined #reactjs
+2017-03-10 21:49:35	<--	iliketurtles (~iliketurt@173.205.0.166) has quit (Client Quit)
+2017-03-10 21:50:26	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-10 21:50:40	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-10 21:52:25	<--	leftoverpizza (~Null@50-255-22-49-static.hfc.comcastbusiness.net) has quit (Quit: Leaving)
+2017-03-10 21:52:50	<--	smccarthy (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has quit (Remote host closed the connection)
+2017-03-10 21:53:27	-->	gvanderest (~gvanderes@S01061cabc0b0f193.ok.shawcable.net) has joined #reactjs
+2017-03-10 21:53:27	-->	smccarthy (~smccarthy@64.202.160.233) has joined #reactjs
+2017-03-10 21:53:49	<--	jblz (~jblz@unaffiliated/jblz) has quit (Quit: hasta la byebye)
+2017-03-10 21:54:24	<--	LennardW (~LennardW@ip503cfcfb.speed.planet.nl) has quit (Ping timeout: 260 seconds)
+2017-03-10 21:55:42	-->	LennardW|afk (~LennardW@ip503cfcfb.speed.planet.nl) has joined #reactjs
+2017-03-10 21:55:45	<--	Berra (~arch@84-55-91-6.customers.ownit.se) has quit (Remote host closed the connection)
+2017-03-10 21:55:50	--	LennardW|afk is now known as LennardW
+2017-03-10 21:57:22	<--	r033fl (~roeefl@bzq-82-81-4-52.red.bezeqint.net) has quit (Ping timeout: 264 seconds)
+2017-03-10 22:00:22	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-10 22:00:35	<--	waqas (~Adium@2602:306:836c:4a50:79d9:c7aa:cae0:712c) has quit (Read error: Connection reset by peer)
+2017-03-10 22:00:59	-->	waqas (~Adium@ec2-54-165-240-18.compute-1.amazonaws.com) has joined #reactjs
+2017-03-10 22:02:00	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-10 22:02:39	-->	Emperor_Earth (~Emperor_E@cpe-98-14-184-255.nyc.res.rr.com) has joined #reactjs
+2017-03-10 22:08:24	--	dimtruck is now known as zz_dimtruck
+2017-03-10 22:13:05	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-10 22:13:16	<--	jhack (~jhack@unaffiliated/jhack) has quit (Quit: Leaving)
+2017-03-10 22:16:34	<--	marcdel (~marcdel@198.8.80.18) has quit (Ping timeout: 264 seconds)
+2017-03-10 22:19:32	<--	gvanderest (~gvanderes@S01061cabc0b0f193.ok.shawcable.net) has quit (Remote host closed the connection)
+2017-03-10 22:19:32	-->	orbyt_ (~orbyt@2600:8801:c500:1380:2cd1:36ba:f789:6e31) has joined #reactjs
+2017-03-10 22:19:54	<--	platzhirsch (~konrad@2601:647:4c01:b391:f005:8b2d:a16a:b789) has quit (Quit: WeeChat 1.5)
+2017-03-10 22:20:12	<--	jaziz (~jaziz@unaffiliated/jaziz) has quit (Ping timeout: 260 seconds)
+2017-03-10 22:20:53	-->	jaziz (~jaziz@unaffiliated/jaziz) has joined #reactjs
+2017-03-10 22:21:01	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 22:21:24	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has quit (Remote host closed the connection)
+2017-03-10 22:21:51	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has joined #reactjs
+2017-03-10 22:21:52	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Client Quit)
+2017-03-10 22:22:23	<--	leebyron (~leebyron@2620:10d:c090:200::3:294e) has quit (Remote host closed the connection)
+2017-03-10 22:23:55	<--	Agro (~Agro@2602:306:c4f1:6960:29c7:c9b5:4130:60d0) has quit (Ping timeout: 246 seconds)
+2017-03-10 22:24:01	-->	leebyron (~leebyron@2620:10d:c090:200::3:294e) has joined #reactjs
+2017-03-10 22:24:20	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 22:25:53	Agamemnus	.
+2017-03-10 22:26:22	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:8976:f11f:6f6a:9430) has quit (Ping timeout: 246 seconds)
+2017-03-10 22:26:39	-->	marcdel (~marcdel@cpe-45-49-11-203.socal.res.rr.com) has joined #reactjs
+2017-03-10 22:27:57	-->	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has joined #reactjs
+2017-03-10 22:28:35	<--	gambl0re (~gambl0re@unaffiliated/gambl0re) has quit (Ping timeout: 240 seconds)
+2017-03-10 22:30:15	posi	I click an anchor tag, it returns a 302, and rather than being redirected to the 302 page, It seems as though I am redirected to the page I was on before I was 302ed. After that if i reset, it takes me to the page that the 302 was pointing to after all. This is for oauth, should I not be using 302s
+2017-03-10 22:30:57	<--	marcdel (~marcdel@cpe-45-49-11-203.socal.res.rr.com) has quit (Ping timeout: 240 seconds)
+2017-03-10 22:32:30	<--	phated (~phated@ip68-0-180-121.tc.ph.cox.net) has quit (Ping timeout: 256 seconds)
+2017-03-10 22:33:23	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-10 22:33:35	-->	jeffreylevesque (~chatzilla@pool-100-15-106-25.washdc.fios.verizon.net) has joined #reactjs
+2017-03-10 22:33:59	<--	leebyron (~leebyron@2620:10d:c090:200::3:294e) has quit (Remote host closed the connection)
+2017-03-10 22:34:15	<--	evilbug (~evilbug@cpe-23-242-2-251.socal.res.rr.com) has quit (Quit: WeeChat 1.7)
+2017-03-10 22:34:23	<--	bomb-on (~bomb-on@139-142-17-89.fiber.hringdu.is) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 22:35:14	<--	LennardW (~LennardW@ip503cfcfb.speed.planet.nl) has quit (Ping timeout: 260 seconds)
+2017-03-10 22:35:35	-->	evilbug (~evilbug@cpe-23-242-2-251.socal.res.rr.com) has joined #reactjs
+2017-03-10 22:35:57	-->	marcdel (~marcdel@107.152.98.144) has joined #reactjs
+2017-03-10 22:36:13	-->	LennardW|afk (~LennardW@ip503cfcfb.speed.planet.nl) has joined #reactjs
+2017-03-10 22:36:24	--	LennardW|afk is now known as LennardW
+2017-03-10 22:39:41	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-10 22:39:51	-->	leebyron (~leebyron@2620:10d:c090:200::c:e595) has joined #reactjs
+2017-03-10 22:40:16	-->	JBreit (~JBreit4@2601:985:300:d853::4e54) has joined #reactjs
+2017-03-10 22:43:52	<--	leebyron (~leebyron@2620:10d:c090:200::c:e595) has quit (Ping timeout: 246 seconds)
+2017-03-10 22:44:27	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 240 seconds)
+2017-03-10 22:46:38	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-10 22:50:09	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-10 22:50:30	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-10 22:51:13	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 246 seconds)
+2017-03-10 22:52:02	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-10 22:53:48	-->	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has joined #reactjs
+2017-03-10 22:55:06	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 268 seconds)
+2017-03-10 22:55:07	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-10 22:57:31	-->	steelbrain (~steelbrai@39.50.73.38) has joined #reactjs
+2017-03-10 23:02:14	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 23:02:45	<--	steelbrain (~steelbrai@39.50.73.38) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:05:25	-->	steelbrain (~steelbrai@103.255.6.250) has joined #reactjs
+2017-03-10 23:06:38	Agamemnus	https://codepen.io/ericnakagawa/pen/ALxakj
+2017-03-10 23:06:42	Agamemnus	where is the key here?
+2017-03-10 23:07:32	Agamemnus	https://facebook.github.io/react/docs/lists-and-keys.html#keys
+2017-03-10 23:10:10	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-10 23:12:26	<--	Cache_Money (~Cache_Mon@c-24-18-214-173.hsd1.wa.comcast.net) has quit (Quit: Cache_Money)
+2017-03-10 23:12:58	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-10 23:14:27	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 240 seconds)
+2017-03-10 23:15:31	-->	leebyron (~leebyron@104-193-168-109.PUBLIC.monkeybrains.net) has joined #reactjs
+2017-03-10 23:15:54	-->	exegesis (~exegesis@bl23-15-230.dsl.telepac.pt) has joined #reactjs
+2017-03-10 23:15:57	<--	steelbrain (~steelbrai@103.255.6.250) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:17:26	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 240 seconds)
+2017-03-10 23:17:31	<--	realisation (~textual@73.81.123.204) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:18:24	--	exegesis is now known as exegesis_
+2017-03-10 23:18:45	-->	steelbrain (~steelbrai@103.255.6.250) has joined #reactjs
+2017-03-10 23:18:58	--	exegesis_ is now known as exegesis
+2017-03-10 23:20:09	<--	leebyron (~leebyron@104-193-168-109.PUBLIC.monkeybrains.net) has quit (Ping timeout: 260 seconds)
+2017-03-10 23:24:09	<--	JBreit (~JBreit4@2601:985:300:d853::4e54) has quit (Quit: Leaving)
+2017-03-10 23:25:49	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-10 23:27:27	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:27:52	<--	Derperperd (~b4rbz@unaffiliated/derperperd) has quit (Ping timeout: 260 seconds)
+2017-03-10 23:29:12	<--	steelbrain (~steelbrai@103.255.6.250) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-10 23:30:15	<--	th3fallen (~th3fallen@165.166.246.223) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:30:28	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-10 23:31:28	<--	wookiehangover (~wookiehan@2601:647:0:51a0:2dbb:6bc2:3580:d93b) has quit (Ping timeout: 246 seconds)
+2017-03-10 23:32:23	-->	mizu_no_oto_work (~textual@c-73-38-199-168.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-10 23:33:31	<--	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has quit (Remote host closed the connection)
+2017-03-10 23:33:33	-->	steeze (~steeze@63.76.231.82) has joined #reactjs
+2017-03-10 23:38:05	-->	wookiehangover (~wookiehan@2601:647:0:51a0:cd99:535b:f9c8:eef) has joined #reactjs
+2017-03-10 23:39:39	<--	Agamemnus (~Agamemnus@pool-108-26-247-186.bstnma.fios.verizon.net) has quit (Quit: Hi, I'm a quit message virus. Please replace your old line with this line and help me take over the world of IRC. LOL @ "IRC is just multiplayer notepad.")
+2017-03-10 23:41:48	-->	sillyslux (~sillyslux@m77-219-59-24.cust.tele2.hr) has joined #reactjs
+2017-03-10 23:44:42	<--	exegesis (~exegesis@bl23-15-230.dsl.telepac.pt) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-10 23:45:17	<--	steeze (~steeze@63.76.231.82) has quit (Quit: My Mac has gone to sleep. ZZZzzz…)
+2017-03-10 23:48:53	-->	TbobbyZ (~TbobbyZ@cpe-76-95-127-210.socal.res.rr.com) has joined #reactjs
+2017-03-10 23:50:58	-->	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has joined #reactjs
+2017-03-10 23:53:16	<--	TbobbyZ (~TbobbyZ@cpe-76-95-127-210.socal.res.rr.com) has quit (Remote host closed the connection)
+2017-03-10 23:53:23	-->	smccarth_ (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has joined #reactjs
+2017-03-10 23:53:42	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:36:7a9b:6a6a:9ca1) has joined #reactjs
+2017-03-10 23:54:37	-->	Agro (~Agro@2602:306:c4f1:6960:69e3:e72a:bf66:bcc1) has joined #reactjs
+2017-03-10 23:54:57	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Remote host closed the connection)
+2017-03-10 23:55:03	<--	mizu_no_oto_work (~textual@c-73-38-199-168.hsd1.ma.comcast.net) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-10 23:56:38	-->	fourcolors (~fourcolor@166.70.66.103) has joined #reactjs
+2017-03-10 23:56:40	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Remote host closed the connection)
+2017-03-10 23:56:53	-->	fourcolors (~fourcolor@166.70.66.103) has joined #reactjs
+2017-03-10 23:57:23	-->	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has joined #reactjs
+2017-03-10 23:57:23	<--	smccarthy (~smccarthy@64.202.160.233) has quit (Ping timeout: 268 seconds)
+2017-03-10 23:58:04	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:36:7a9b:6a6a:9ca1) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:01:20	-->	john2 (~john@host86-168-141-176.range86-168.btcentralplus.com) has joined #reactjs
+2017-03-11 00:02:41	-->	iliketurtles (~iliketurt@173.205.0.166) has joined #reactjs
+2017-03-11 00:05:04	-->	dopesong (~dopesong@34.250.46.84.mobile.mezon.lt) has joined #reactjs
+2017-03-11 00:06:00	<--	john2 (~john@host86-168-141-176.range86-168.btcentralplus.com) has quit (Ping timeout: 258 seconds)
+2017-03-11 00:06:01	-->	mdurbar (~mdurbar@39.48.10.110) has joined #reactjs
+2017-03-11 00:06:54	<--	domino14 (~domino14@97.65.119.186) has quit (Remote host closed the connection)
+2017-03-11 00:07:09	<--	iliketurtles (~iliketurt@173.205.0.166) has quit (Ping timeout: 258 seconds)
+2017-03-11 00:07:37	-->	domino14 (~domino14@97.65.119.186) has joined #reactjs
+2017-03-11 00:09:52	<--	dopesong (~dopesong@34.250.46.84.mobile.mezon.lt) has quit (Ping timeout: 260 seconds)
+2017-03-11 00:11:48	<--	domino14 (~domino14@97.65.119.186) has quit (Ping timeout: 240 seconds)
+2017-03-11 00:14:33	-->	john2 (~john@host86-168-141-176.range86-168.btcentralplus.com) has joined #reactjs
+2017-03-11 00:15:23	<--	rchavik (~rchavik@unaffiliated/rchavik) has quit (Quit: -)
+2017-03-11 00:17:09	<--	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has quit (Quit: Leaving.)
+2017-03-11 00:17:38	-->	steeze (~steeze@c-50-134-186-242.hsd1.co.comcast.net) has joined #reactjs
+2017-03-11 00:22:14	<--	systemfault (~rcyr@unaffiliated/rcyr) has quit (Quit: Bye!)
+2017-03-11 00:23:16	<--	mdurbar (~mdurbar@39.48.10.110) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:24:02	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-11 00:25:06	-->	gambl0re (~gambl0re@unaffiliated/gambl0re) has joined #reactjs
+2017-03-11 00:26:32	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 00:27:13	<--	steeze (~steeze@c-50-134-186-242.hsd1.co.comcast.net) has quit (Quit: My Mac has gone to sleep. ZZZzzz…)
+2017-03-11 00:27:42	-->	d4rklit3 (~textual@cpe-76-169-83-62.socal.res.rr.com) has joined #reactjs
+2017-03-11 00:31:52	--	zz_dimtruck is now known as dimtruck
+2017-03-11 00:31:55	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 268 seconds)
+2017-03-11 00:32:58	<--	orbyt_ (~orbyt@2600:8801:c500:1380:2cd1:36ba:f789:6e31) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 00:33:19	-->	pootpoot (~pootpoot@2601:8c:c301:1116:98e7:639f:11ff:ef84) has joined #reactjs
+2017-03-11 00:33:58	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-11 00:35:13	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 00:35:31	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:35:31	<--	blackfry_ghost (~blackfry@2607:fcd0:100:4d03::bd9b:38ba) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:35:53	-->	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has joined #reactjs
+2017-03-11 00:36:38	-->	blackfry (~blackfry@unaffiliated/blackfry) has joined #reactjs
+2017-03-11 00:37:38	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 00:38:13	-->	merch (~merch@216-71-192-69.dyn.novuscom.net) has joined #reactjs
+2017-03-11 00:39:28	<--	jameser (~textual@60.24.158.237) has quit (Ping timeout: 240 seconds)
+2017-03-11 00:41:08	<--	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has quit (Ping timeout: 260 seconds)
+2017-03-11 00:43:22	<--	smccarth_ (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has quit
+2017-03-11 00:43:44	--	dimtruck is now known as zz_dimtruck
+2017-03-11 00:47:04	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:48:01	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 00:48:18	--	Notice(GitHub9): [react] addyosmani opened pull request #9157: Add DEV mode note to installation doc (#8784) (master...dev-mode-docs) https://github.com/facebook/react/pull/9157
+2017-03-11 00:49:40	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 00:50:13	<--	blackfry (~blackfry@unaffiliated/blackfry) has quit (Ping timeout: 246 seconds)
+2017-03-11 00:51:27	<--	BreakerZero (~M00N@falcon.whatbox.ca) has quit (Max SendQ exceeded)
+2017-03-11 00:51:42	-->	blackfry (~blackfry@unaffiliated/blackfry) has joined #reactjs
+2017-03-11 00:51:45	-->	BreakerZero (~M00N@falcon.whatbox.ca) has joined #reactjs
+2017-03-11 00:52:35	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 00:54:53	<--	d4rklit3 (~textual@cpe-76-169-83-62.socal.res.rr.com) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-11 00:56:43	<--	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has quit (Remote host closed the connection)
+2017-03-11 01:06:17	-->	realisation (~textual@73.81.115.174) has joined #reactjs
+2017-03-11 01:10:10	<--	realisation (~textual@73.81.115.174) has quit (Client Quit)
+2017-03-11 01:14:06	-->	Tawonga (~tawonga@185.21.216.188) has joined #reactjs
+2017-03-11 01:14:08	-->	resurtm (~resurtm@2.132.97.143) has joined #reactjs
+2017-03-11 01:15:46	-->	ousmaneo (~ousmaneo@213.55.105.16) has joined #reactjs
+2017-03-11 01:20:33	-->	cam_y (~cam_y@136.24.96.24) has joined #reactjs
+2017-03-11 01:21:45	<--	ousmaneo (~ousmaneo@213.55.105.16) has quit (Remote host closed the connection)
+2017-03-11 01:23:36	<--	Derperperd (~b4rbz@unaffiliated/derperperd) has quit (Ping timeout: 260 seconds)
+2017-03-11 01:29:19	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 01:30:02	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 01:31:29	<--	Stevearzh (~zzzzzzzz@unaffiliated/stevearzh) has quit (Ping timeout: 258 seconds)
+2017-03-11 01:31:34	<--	\s (~zzzzzzzz@103.37.140.12) has quit (Ping timeout: 264 seconds)
+2017-03-11 01:32:09	-->	\s (~zzzzzzzz@103.37.140.15) has joined #reactjs
+2017-03-11 01:32:10	<--	merch (~merch@216-71-192-69.dyn.novuscom.net) has quit (Quit: merch)
+2017-03-11 01:32:56	-->	Stevearzh (~zzzzzzzz@unaffiliated/stevearzh) has joined #reactjs
+2017-03-11 01:33:57	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 01:34:58	<--	jameser (~textual@60.24.158.237) has quit (Ping timeout: 256 seconds)
+2017-03-11 01:55:53	<--	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-11 01:56:30	<--	cam_y (~cam_y@136.24.96.24) has quit (Remote host closed the connection)
+2017-03-11 01:57:12	<--	montanonic (~nicholas@c-73-37-88-126.hsd1.or.comcast.net) has quit (Ping timeout: 260 seconds)
+2017-03-11 02:00:31	<--	sndcrb (~sndcrb@dsl-hkibrasgw5-58c05c-146.dhcp.inet.fi) has quit (Read error: Connection reset by peer)
+2017-03-11 02:02:00	-->	sndcrb (~sndcrb@dsl-hkibrasgw5-58c05c-146.dhcp.inet.fi) has joined #reactjs
+2017-03-11 02:03:23	-->	cam_y (~cam_y@136.24.96.24) has joined #reactjs
+2017-03-11 02:03:34	<--	cam_y (~cam_y@136.24.96.24) has quit (Remote host closed the connection)
+2017-03-11 02:06:49	-->	cam_y (~cam_y@136.24.96.24) has joined #reactjs
+2017-03-11 02:08:25	-->	resurtm2 (~resurtm@178.88.20.91) has joined #reactjs
+2017-03-11 02:11:48	<--	resurtm (~resurtm@2.132.97.143) has quit (Ping timeout: 240 seconds)
+2017-03-11 02:27:19	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 02:32:08	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 02:32:17	<--	zero1one0 (~blah@ip70-170-55-9.lv.lv.cox.net) has quit
+2017-03-11 02:34:06	-->	stasg (~stasg@95.67.100.5) has joined #reactjs
+2017-03-11 02:45:25	-->	zero1one0 (~blah@ip70-170-55-9.lv.lv.cox.net) has joined #reactjs
+2017-03-11 02:46:24	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 02:47:02	<--	Agro (~Agro@2602:306:c4f1:6960:69e3:e72a:bf66:bcc1) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 02:47:53	-->	Agamemnus (~Agamemnus@pool-108-26-247-186.bstnma.fios.verizon.net) has joined #reactjs
+2017-03-11 02:48:03	Agamemnus	ok so still some work to make the code cleaner
+2017-03-11 02:48:15	Agamemnus	but I reworked the tic-tac-toe example.... and made it Connect 4
+2017-03-11 02:48:16	Agamemnus	https://codepen.io/Agamemnus/pen/MppMby?editors=1010
+2017-03-11 02:48:50	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:a800:46b8:4e35:1486) has joined #reactjs
+2017-03-11 02:49:30	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 02:50:52	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 260 seconds)
+2017-03-11 02:50:56	-->	brent__ (~brent@76.102.193.10) has joined #reactjs
+2017-03-11 02:51:41	-->	bbankes (~bbankes@75-169-222-172.slkc.qwest.net) has joined #reactjs
+2017-03-11 02:52:25	<--	Agamemnus (~Agamemnus@pool-108-26-247-186.bstnma.fios.verizon.net) has quit (Client Quit)
+2017-03-11 02:52:36	<--	bbankes (~bbankes@75-169-222-172.slkc.qwest.net) has quit (Client Quit)
+2017-03-11 02:54:18	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 256 seconds)
+2017-03-11 02:55:27	<--	brent__ (~brent@76.102.193.10) has quit (Ping timeout: 240 seconds)
+2017-03-11 02:57:44	<--	LennardW (~LennardW@ip503cfcfb.speed.planet.nl) has quit (Ping timeout: 260 seconds)
+2017-03-11 02:59:50	-->	LennardW|afk (~LennardW@ip503cfcfb.speed.planet.nl) has joined #reactjs
+2017-03-11 03:00:02	--	LennardW|afk is now known as LennardW
+2017-03-11 03:01:47	<--	umpc (~umpc@unaffiliated/umpc) has quit (Quit: ^D)
+2017-03-11 03:02:23	<--	jaziz (~jaziz@unaffiliated/jaziz) has quit (Ping timeout: 268 seconds)
+2017-03-11 03:06:47	-->	squallstter (~fkdsiafgk@pD9526A88.dip0.t-ipconnect.de) has joined #reactjs
+2017-03-11 03:12:57	-->	nabo (~Thunderbi@178235234182.legnica.vectranet.pl) has joined #reactjs
+2017-03-11 03:18:53	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Remote host closed the connection)
+2017-03-11 03:19:32	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-11 03:35:04	<--	LennardW (~LennardW@ip503cfcfb.speed.planet.nl) has quit (Ping timeout: 260 seconds)
+2017-03-11 03:35:51	-->	LennardW|afk (~LennardW@ip503cfcfb.speed.planet.nl) has joined #reactjs
+2017-03-11 03:36:01	--	LennardW|afk is now known as LennardW
+2017-03-11 03:38:37	-->	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has joined #reactjs
+2017-03-11 03:39:16	-->	inhortte (~polaris@201.red-88-15-251.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 03:43:08	<--	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has quit (Ping timeout: 260 seconds)
+2017-03-11 03:44:11	-->	BadApe (~badape@cpc92712-cmbg20-2-0-cust161.5-4.cable.virginm.net) has joined #reactjs
+2017-03-11 03:44:40	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 03:45:32	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 03:48:01	<--	resurtm2 (~resurtm@178.88.20.91) has quit (Ping timeout: 268 seconds)
+2017-03-11 03:50:08	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 03:50:27	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 03:55:16	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 260 seconds)
+2017-03-11 03:59:43	-->	resurtm2 (~resurtm@188.166.50.200) has joined #reactjs
+2017-03-11 04:03:40	-->	codeme (~codeme@2a02:a452:b133:1:644e:4ec5:82a2:369e) has joined #reactjs
+2017-03-11 04:04:21	<--	codeme (~codeme@2a02:a452:b133:1:644e:4ec5:82a2:369e) has quit (Client Quit)
+2017-03-11 04:12:12	-->	Bnaya (~Bnaya@unaffiliated/bnaya) has joined #reactjs
+2017-03-11 04:12:34	-->	hetii (~hetii@89-64-46-249.dynamic.chello.pl) has joined #reactjs
+2017-03-11 04:13:55	-->	pikachu (~pikachu@108.38.63.95) has joined #reactjs
+2017-03-11 04:15:52	<--	pikachu (~pikachu@108.38.63.95) has left #reactjs ("WeeChat 1.7")
+2017-03-11 04:17:59	-->	SuperHans (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 04:18:52	-->	tomphp (~tomphp@194.75.227.106) has joined #reactjs
+2017-03-11 04:26:45	-->	cotko (~ahmed@BSN-143-164-191.dynamic.siol.net) has joined #reactjs
+2017-03-11 04:27:34	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 246 seconds)
+2017-03-11 04:28:18	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 04:28:50	<--	SuperHans (~alex@89-253-127-136.customers.ownit.se) has quit (Remote host closed the connection)
+2017-03-11 04:28:58	<--	blackfry (~blackfry@unaffiliated/blackfry) has quit (Ping timeout: 246 seconds)
+2017-03-11 04:29:30	-->	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has joined #reactjs
+2017-03-11 04:30:04	-->	blackfry (~blackfry@unaffiliated/blackfry) has joined #reactjs
+2017-03-11 04:30:34	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 04:30:58	-->	Kkiro (~yoo200181@218.144.115.24) has joined #reactjs
+2017-03-11 04:30:58	<--	Kkiro (~yoo200181@218.144.115.24) has quit (Changing host)
+2017-03-11 04:30:58	-->	Kkiro (~yoo200181@unaffiliated/kkiro) has joined #reactjs
+2017-03-11 04:33:22	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 264 seconds)
+2017-03-11 04:33:50	-->	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has joined #reactjs
+2017-03-11 04:34:39	-->	goggg (~Null@2601:646:8681:1a2c:f849:6d53:39cf:c3d7) has joined #reactjs
+2017-03-11 04:35:05	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 04:36:08	<--	BadApe (~badape@cpc92712-cmbg20-2-0-cust161.5-4.cable.virginm.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 04:39:00	<--	Bnaya (~Bnaya@unaffiliated/bnaya) has quit (Quit: Bnaya)
+2017-03-11 04:39:58	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 264 seconds)
+2017-03-11 04:44:25	-->	mintuz (~mintuz@97e0d0c6.skybroadband.com) has joined #reactjs
+2017-03-11 04:45:07	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 04:45:55	-->	pl_ (~quassel@ip-88-82-52-170.reverse.destiny.be) has joined #reactjs
+2017-03-11 04:48:41	-->	vicmarcal (uid12224@reactos/tester/vicmarcal) has joined #reactjs
+2017-03-11 04:49:40	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 258 seconds)
+2017-03-11 04:55:56	<--	delevoper (~Michi@70-91-98-226-chicago-il.hfc.comcastbusiness.net) has quit (Read error: Connection reset by peer)
+2017-03-11 05:01:20	-->	kutagh (~kutagh@ip565f4db9.direct-adsl.nl) has joined #reactjs
+2017-03-11 05:02:37	<--	cam_y (~cam_y@136.24.96.24) has quit (Remote host closed the connection)
+2017-03-11 05:06:39	-->	brent__ (~brent@76.102.193.10) has joined #reactjs
+2017-03-11 05:08:15	-->	visualshock (~visualsho@host-37-191-204-248.lynet.no) has joined #reactjs
+2017-03-11 05:11:53	<--	brent__ (~brent@76.102.193.10) has quit (Ping timeout: 268 seconds)
+2017-03-11 05:13:25	<--	goggg (~Null@2601:646:8681:1a2c:f849:6d53:39cf:c3d7) has quit (Quit: Leaving)
+2017-03-11 05:14:28	<--	wookiehangover (~wookiehan@2601:647:0:51a0:cd99:535b:f9c8:eef) has quit (Ping timeout: 240 seconds)
+2017-03-11 05:16:40	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:a800:46b8:4e35:1486) has quit (Remote host closed the connection)
+2017-03-11 05:16:53	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 258 seconds)
+2017-03-11 05:17:06	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:a800:46b8:4e35:1486) has joined #reactjs
+2017-03-11 05:17:53	<--	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has quit (Quit: mr_jolly)
+2017-03-11 05:19:27	-->	wookiehangover (~wookiehan@2601:647:0:51a0:ec68:7d2a:c2:43dd) has joined #reactjs
+2017-03-11 05:19:39	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 05:20:56	-->	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has joined #reactjs
+2017-03-11 05:21:28	<--	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:a800:46b8:4e35:1486) has quit (Ping timeout: 246 seconds)
+2017-03-11 05:26:59	<--	Ishida983_ (521af7a2@gateway/web/freenode/ip.82.26.247.162) has quit (Ping timeout: 260 seconds)
+2017-03-11 05:27:46	<--	cotko (~ahmed@BSN-143-164-191.dynamic.siol.net) has quit (Quit: Konversation terminated!)
+2017-03-11 05:29:29	-->	cotko (~ahmed@BSN-143-164-191.dynamic.siol.net) has joined #reactjs
+2017-03-11 05:30:31	<--	cotko (~ahmed@BSN-143-164-191.dynamic.siol.net) has quit (Client Quit)
+2017-03-11 05:31:36	-->	softeng (~textual@190.219.24.62) has joined #reactjs
+2017-03-11 05:31:54	-->	inoas (~leo@unaffiliated/ionas) has joined #reactjs
+2017-03-11 05:33:34	<--	stasg (~stasg@95.67.100.5) has quit (Remote host closed the connection)
+2017-03-11 05:33:56	-->	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has joined #reactjs
+2017-03-11 05:35:17	<--	mintuz (~mintuz@97e0d0c6.skybroadband.com) has quit (Remote host closed the connection)
+2017-03-11 05:45:46	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 05:50:32	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 05:52:19	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 05:53:36	-->	dopesong (~dopesong@34.250.46.84.mobile.mezon.lt) has joined #reactjs
+2017-03-11 05:56:41	<--	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has quit (Quit: mr_jolly)
+2017-03-11 05:56:54	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 268 seconds)
+2017-03-11 05:58:57	<--	ket389 (~ket389@82.102.99.155) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:01:44	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 06:03:08	<--	squallstter (~fkdsiafgk@pD9526A88.dip0.t-ipconnect.de) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:03:15	<--	inoas (~leo@unaffiliated/ionas) has quit (Quit: inoas)
+2017-03-11 06:03:40	-->	Bnaya (~Bnaya@unaffiliated/bnaya) has joined #reactjs
+2017-03-11 06:06:05	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:11:32	<--	Bnaya (~Bnaya@unaffiliated/bnaya) has quit (Ping timeout: 260 seconds)
+2017-03-11 06:12:57	-->	Bnaya (~Bnaya@unaffiliated/bnaya) has joined #reactjs
+2017-03-11 06:17:28	<--	siba (~textual@CPE-58-173-14-32.ecxf2.cht.bigpond.net.au) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-11 06:29:04	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 06:33:27	<--	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:33:35	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:34:11	-->	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has joined #reactjs
+2017-03-11 06:34:14	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 06:35:42	-->	fourcolors (~fourcolor@166.70.66.103) has joined #reactjs
+2017-03-11 06:36:11	<--	noethics (~noethics@109.201.154.243) has quit (Quit: Leaving)
+2017-03-11 06:38:21	-->	dos000 (ae5e7d86@gateway/web/freenode/ip.174.94.125.134) has joined #reactjs
+2017-03-11 06:38:28	dos000	howdy ...
+2017-03-11 06:38:57	dos000	anyone can help .. please .. i am a newbie. I need to include https://github.com/jgraph/mxgraph/tree/master/javascript/mxClient.js in my react app i cant figure how i would import all of the "objects" in one shot is this a dead end ? meaning just impossible with the way the lib s written ?
+2017-03-11 06:39:04	<--	jameser (~textual@60.24.158.237) has quit (Ping timeout: 260 seconds)
+2017-03-11 06:39:29	dos000	i tried import mxClient from '../js/mxClient.js' but that does not import everything i also tried puting it i nthe index.html .. the browser always complains about mxClient objects being undefined
+2017-03-11 06:40:12	dos000	i tried to import mxClient from my index.html using  '../js/mxClient.js' but that does not import everything i also tried puting it i nthe index.html .. the browser always complains about mxClient objects being undefined
+2017-03-11 06:40:34	dos000	any help would be appreciated
+2017-03-11 06:41:00	-->	Berra (~arch@84-55-91-6.customers.ownit.se) has joined #reactjs
+2017-03-11 06:41:32	GreenJello	dos000, not really react specific; but this looks very poorly documented
+2017-03-11 06:41:52	dos000	GreenJello: indeed :((
+2017-03-11 06:42:05	<--	gambl0re (~gambl0re@unaffiliated/gambl0re) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:42:17	dos000	this is what i have in my component header
+2017-03-11 06:42:25	dos000	```// import mxClient from '../js/mxClient.js' ```
+2017-03-11 06:42:48	dos000	that does not import evrything
+2017-03-11 06:43:45	dos000	i am not even sure what it imports
+2017-03-11 06:44:08	GreenJello	dos000, so just looking at mxClient.js, it looks like you can't import it, you have to use a <script> tag
+2017-03-11 06:44:37	dos000	GreenJello: i did :)) pray tell me how i can call those from my component now ?
+2017-03-11 06:45:01	GreenJello	dos000, make sure the <script> tag is before your bundle's script tag, and then it'll be the global variable mxClient
+2017-03-11 06:45:05	-->	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has joined #reactjs
+2017-03-11 06:45:21	-->	Tew[D] (~no@92.240.183.209) has joined #reactjs
+2017-03-11 06:45:24	GreenJello	and you'll likely use it from componentDidMount
+2017-03-11 06:45:25	dos000	shoot ! ...
+2017-03-11 06:45:36	dos000	GreenJello: you are a hero man :)))
+2017-03-11 06:45:57	dos000	i spent the night on this :((
+2017-03-11 06:46:40	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 06:47:53	GreenJello	I've spent the night debugging other things
+2017-03-11 06:48:04	GreenJello	it happens :-p
+2017-03-11 06:48:06	dos000	heh :))
+2017-03-11 06:48:09	<--	Tew (~no@92.240.183.209) has quit (Ping timeout: 260 seconds)
+2017-03-11 06:48:19	dos000	thank you so much :))
+2017-03-11 06:51:38	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 06:51:57	<--	Bnaya (~Bnaya@unaffiliated/bnaya) has quit (Ping timeout: 240 seconds)
+2017-03-11 06:52:30	-->	Bnaya (~Bnaya@unaffiliated/bnaya) has joined #reactjs
+2017-03-11 06:53:27	dos000	GreenJello: if i add it to package.json would that have the same effect ? it seems with your fix its working .. just trying to see if it would
+2017-03-11 06:53:57	dos000	meaning remove from the index.html and put it in package.json
+2017-03-11 06:54:01	GreenJello	dos000, nope
+2017-03-11 06:54:25	GreenJello	adding it to package.json doesn't change anything, and you can't require/import it because it's written in a weird way
+2017-03-11 06:54:48	<--	Kkiro (~yoo200181@unaffiliated/kkiro) has quit (Quit: ZNC 1.6.1 - http://znc.in)
+2017-03-11 06:54:49	dos000	aha :)) cool
+2017-03-11 06:57:16	<--	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has quit (Remote host closed the connection)
+2017-03-11 06:58:54	-->	reactjs210 (d5761639@gateway/web/freenode/ip.213.118.22.57) has joined #reactjs
+2017-03-11 07:00:56	<--	sndcrb (~sndcrb@dsl-hkibrasgw5-58c05c-146.dhcp.inet.fi) has quit (Quit: Leaving)
+2017-03-11 07:01:50	-->	sndcrb (~sndcrb@dsl-hkibrasgw5-58c05c-146.dhcp.inet.fi) has joined #reactjs
+2017-03-11 07:03:14	<--	reactjs210 (d5761639@gateway/web/freenode/ip.213.118.22.57) has quit (Ping timeout: 260 seconds)
+2017-03-11 07:07:14	<--	kutagh (~kutagh@ip565f4db9.direct-adsl.nl) has quit (Quit: Leaving.)
+2017-03-11 07:09:50	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 07:14:09	<--	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has quit (Quit: Leaving.)
+2017-03-11 07:14:44	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Remote host closed the connection)
+2017-03-11 07:20:25	<--	Xiti (~Xiti-@unaffiliated/xiti) has quit (Quit: Xiti)
+2017-03-11 07:20:42	<--	Copperis (~Tadas@unaffiliated/varis) has quit (Ping timeout: 258 seconds)
+2017-03-11 07:25:16	<--	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has quit (Ping timeout: 260 seconds)
+2017-03-11 07:28:27	<--	sysrage (~sysrage@cpe-174-109-148-178.nc.res.rr.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 07:28:28	-->	subhojit777 (uid210026@gateway/web/irccloud.com/x-dadyiqyrjgwhusaw) has joined #reactjs
+2017-03-11 07:31:44	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 07:32:06	-->	sysrage (~sysrage@cpe-174-109-148-178.nc.res.rr.com) has joined #reactjs
+2017-03-11 07:32:06	-->	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has joined #reactjs
+2017-03-11 07:38:19	-->	someone235 (~someone23@unaffiliated/someone235) has joined #reactjs
+2017-03-11 07:39:37	-->	Katepillar (~CiikA@dsl-jklbrasgw2-50dcff-232.dhcp.inet.fi) has joined #reactjs
+2017-03-11 07:42:07	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 07:47:35	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 07:47:42	-->	r033fl (~roeefl@2.55.159.74) has joined #reactjs
+2017-03-11 07:47:43	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 07:48:40	<--	r033fl (~roeefl@2.55.159.74) has quit (Client Quit)
+2017-03-11 07:50:58	-->	brent__ (~brent@76.102.193.10) has joined #reactjs
+2017-03-11 07:51:48	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 07:51:56	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 07:52:53	-->	cannap (~cannap@132.142.5.85.dynamic.wline.res.cust.swisscom.ch) has joined #reactjs
+2017-03-11 07:52:56	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 07:53:41	<--	fhoffmann (~fh@c-73-181-226-80.hsd1.wa.comcast.net) has quit (Remote host closed the connection)
+2017-03-11 07:53:41	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 07:55:36	<--	brent__ (~brent@76.102.193.10) has quit (Ping timeout: 260 seconds)
+2017-03-11 07:56:39	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 07:57:00	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 07:57:56	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 08:01:03	<--	Velveeta (~velveeta@63.139.193.153) has quit (Remote host closed the connection)
+2017-03-11 08:01:31	-->	Velveeta (~velveeta@63.139.193.153) has joined #reactjs
+2017-03-11 08:04:26	-->	Velveeta_ (~velveeta@63.139.193.153) has joined #reactjs
+2017-03-11 08:04:58	<--	Velveeta (~velveeta@63.139.193.153) has quit (Read error: Connection reset by peer)
+2017-03-11 08:08:09	reznord	GreenJello:  o/
+2017-03-11 08:09:05	<--	jameser (~textual@60.24.158.237) has quit (Max SendQ exceeded)
+2017-03-11 08:09:32	<--	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has quit (Quit: Leaving.)
+2017-03-11 08:10:06	<--	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has quit (Ping timeout: 268 seconds)
+2017-03-11 08:10:18	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 08:11:16	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 08:11:59	<--	Velveeta_ (~velveeta@63.139.193.153) has quit (Remote host closed the connection)
+2017-03-11 08:12:26	-->	Velveeta (~velveeta@63.139.193.153) has joined #reactjs
+2017-03-11 08:15:35	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 240 seconds)
+2017-03-11 08:16:35	<--	Velveeta (~velveeta@63.139.193.153) has quit (Ping timeout: 240 seconds)
+2017-03-11 08:18:10	-->	skinux (~skinux@unaffiliated/skinux) has joined #reactjs
+2017-03-11 08:18:21	skinux	Can I get some help with using Webpack with React?
+2017-03-11 08:18:24	skinux	https://gist.github.com/skinuxgeek/cdbf641cee5da636385ed70278dd4341
+2017-03-11 08:19:04	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 08:22:27	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Read error: Connection reset by peer)
+2017-03-11 08:23:14	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 08:24:52	GreenJello	skinux, try deleting node_modules and shrinkwrap/lock
+2017-03-11 08:26:56	<--	Stevearzh (~zzzzzzzz@unaffiliated/stevearzh) has quit (Max SendQ exceeded)
+2017-03-11 08:28:26	-->	Stevearzh (~zzzzzzzz@unaffiliated/stevearzh) has joined #reactjs
+2017-03-11 08:29:48	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 08:29:52	GreenJello	skinux, oh wait
+2017-03-11 08:30:11	GreenJello	it looks like your client side code is require()ing these files
+2017-03-11 08:30:27	GreenJello	which means you require()d something that only works in node
+2017-03-11 08:30:51	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 08:30:53	<--	tsglove (~tsglove@12.205.72.46) has quit (Read error: Connection reset by peer)
+2017-03-11 08:31:10	GreenJello	even like you might have done require('webpack') in your client code, or some dep did so
+2017-03-11 08:31:46	skinux	GreenJello MY code isn't requiring any of it
+2017-03-11 08:32:02	<--	pootpoot (~pootpoot@2601:8c:c301:1116:98e7:639f:11ff:ef84) has quit (Ping timeout: 256 seconds)
+2017-03-11 08:32:10	reznord	skinux: can you paste your "./public/ReactJS/src/react-components/ApplicationList.js" file?
+2017-03-11 08:32:56	skinux	https://gist.github.com/skinuxgeek/cdbf641cee5da636385ed70278dd4341#file-applicationlist-js
+2017-03-11 08:32:59	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 08:33:51	reznord	forgot to close the div?
+2017-03-11 08:34:46	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 268 seconds)
+2017-03-11 08:34:58	reznord	skinux: you have forgot to close the div which you opened at https://gist.github.com/skinuxgeek/cdbf641cee5da636385ed70278dd4341#file-applicationlist-js-L8
+2017-03-11 08:35:36	skinux	That's not causing the problem though, right?
+2017-03-11 08:35:49	GreenJello	probably not
+2017-03-11 08:36:15	skinux	Right now I'm only getting an error about style-loader
+2017-03-11 08:36:22	skinux	Says it cannot resolve that
+2017-03-11 08:36:24	reznord	skinux: well, it is saying - https://gist.github.com/skinuxgeek/cdbf641cee5da636385ed70278dd4341#file-errors-L19
+2017-03-11 08:37:15	reznord	GreenJello: it is the problem.
+2017-03-11 08:37:18	reznord	isn't it?
+2017-03-11 08:37:50	skinux	I believe I fixed it. I updated the gist
+2017-03-11 08:38:03	skinux	So, it's just the style-loader error now
+2017-03-11 08:39:01	-->	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has joined #reactjs
+2017-03-11 08:39:05	reznord	skinux: updated gist please
+2017-03-11 08:39:11	skinux	I did update the gist
+2017-03-11 08:39:20	skinux	https://gist.github.com/skinuxgeek/cdbf641cee5da636385ed70278dd4341
+2017-03-11 08:40:32	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 08:41:25	reznord	skinux: you cannot have two divs rendered separately. You have to wrap the two divs in a single one
+2017-03-11 08:41:27	-->	devx136 (31cc28fa@gateway/web/freenode/ip.49.204.40.250) has joined #reactjs
+2017-03-11 08:42:02	skinux	What are you talking about?
+2017-03-11 08:42:44	-->	rednaw (~Thunderbi@a83-160-121-205.adsl.xs4all.nl) has joined #reactjs
+2017-03-11 08:43:22	devx136	http://pastebin.com/dikiCh18 can someone check this paste and help me find out what's wrong
+2017-03-11 08:44:07	reznord	skinux: try this - https://gist.github.com/reznord/c916d95ecd1cc5e0cbb27d5dc9dd76b1
+2017-03-11 08:44:24	devx136	this is how the state looks http://pastebin.com/GMY0u3PH
+2017-03-11 08:44:37	devx136	in correspondence with http://pastebin.com/dikiCh18 can someone check this paste and help me find out what's wrong
+2017-03-11 08:46:34	<--	Derperperd (~b4rbz@unaffiliated/derperperd) has quit (Ping timeout: 264 seconds)
+2017-03-11 08:48:19	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 08:49:03	devx136	nevermind, figured it out
+2017-03-11 08:49:15	<--	devx136 (31cc28fa@gateway/web/freenode/ip.49.204.40.250) has quit (Quit: Page closed)
+2017-03-11 08:50:05	skinux	Okay, now the only problem is style-loader not foudn
+2017-03-11 08:53:10	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 264 seconds)
+2017-03-11 08:54:19	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 08:55:30	-->	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has joined #reactjs
+2017-03-11 08:55:46	<--	blackfry (~blackfry@unaffiliated/blackfry) has quit (Ping timeout: 258 seconds)
+2017-03-11 08:55:49	<--	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has quit (Changing host)
+2017-03-11 08:55:49	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 08:56:09	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Client Quit)
+2017-03-11 08:56:30	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 08:56:45	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 08:58:25	-->	blackfry (~blackfry@unaffiliated/blackfry) has joined #reactjs
+2017-03-11 08:58:28	-->	steeze (~steeze@c-50-134-186-242.hsd1.co.comcast.net) has joined #reactjs
+2017-03-11 08:58:34	<--	vicmarcal (uid12224@reactos/tester/vicmarcal) has quit (Quit: Connection closed for inactivity)
+2017-03-11 08:58:47	-->	th3fallen (~th3fallen@165.166.246.223) has joined #reactjs
+2017-03-11 08:58:49	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 09:00:31	skinux	I got it. Webpack compiled without error
+2017-03-11 09:00:40	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-11 09:01:51	-->	lightheaded (~lighthead@4523-b82d-e54b-75a5-c880-87ee-07d0-2001.dyn.estpak.ee) has joined #reactjs
+2017-03-11 09:02:25	reznord	skinux: still getting the error?
+2017-03-11 09:02:31	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-11 09:03:05	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 09:04:29	skinux	Nope.
+2017-03-11 09:04:41	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Quit: This computer has gone to sleep)
+2017-03-11 09:05:46	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 09:06:33	-->	jhack (~jhack@unaffiliated/jhack) has joined #reactjs
+2017-03-11 09:07:24	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Client Quit)
+2017-03-11 09:07:29	-->	codeme (~codeme@2a02:a452:b133:1:28d7:c6e3:24b9:1520) has joined #reactjs
+2017-03-11 09:07:32	<--	codeme (~codeme@2a02:a452:b133:1:28d7:c6e3:24b9:1520) has left #reactjs ("Leaving...")
+2017-03-11 09:08:48	<--	skinux (~skinux@unaffiliated/skinux) has quit (Ping timeout: 240 seconds)
+2017-03-11 09:09:15	-->	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has joined #reactjs
+2017-03-11 09:09:15	<--	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has quit (Changing host)
+2017-03-11 09:09:15	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 09:11:01	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Client Quit)
+2017-03-11 09:11:23	-->	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has joined #reactjs
+2017-03-11 09:11:23	<--	koalalorenzo (~koalalore@94.191.188.214.bredband.3.dk) has quit (Changing host)
+2017-03-11 09:11:23	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 09:12:10	-->	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has joined #reactjs
+2017-03-11 09:13:31	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 09:15:02	-->	jtomasek (~jtomasek@27-143.gtt-net.cz) has joined #reactjs
+2017-03-11 09:15:11	reznord	cool :)
+2017-03-11 09:18:18	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 09:19:06	-->	vicmarcal (uid12224@reactos/tester/vicmarcal) has joined #reactjs
+2017-03-11 09:20:04	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Quit: Sto andando via)
+2017-03-11 09:20:25	<--	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has left #reactjs
+2017-03-11 09:21:20	-->	kd0t (~kd0t@gateway/vpn/privateinternetaccess/kd0t) has joined #reactjs
+2017-03-11 09:21:24	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-11 09:22:28	<--	saadq (~saadq@2601:81:4000:bf3::6e77) has quit (Ping timeout: 256 seconds)
+2017-03-11 09:24:27	-->	tamj0rd2 (~tam@82.129.113.26) has joined #reactjs
+2017-03-11 09:24:58	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-11 09:27:10	-->	martinnov92 (4e9c8023@gateway/web/freenode/ip.78.156.128.35) has joined #reactjs
+2017-03-11 09:28:04	martinnov92	Hello, I started to learn ReactJS recently and this https://github.com/martinnov92/React-Splitters is my first bigger component, will be happy to get any feedback or star on github from you :D thank you
+2017-03-11 09:28:08	<--	nabo (~Thunderbi@178235234182.legnica.vectranet.pl) has quit (Ping timeout: 256 seconds)
+2017-03-11 09:28:33	-->	saadq (~saadq@c-73-160-215-136.hsd1.nj.comcast.net) has joined #reactjs
+2017-03-11 09:29:48	tamj0rd2	martinnov92 that's really cool, nice! Only thing is, when you drag the first splitter it doesn't preview like the others do. That might have been intentional of you though?
+2017-03-11 09:30:43	-->	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has joined #reactjs
+2017-03-11 09:34:54	<--	martinnov92 (4e9c8023@gateway/web/freenode/ip.78.156.128.35) has quit (Ping timeout: 260 seconds)
+2017-03-11 09:37:01	<--	jaddison (~jaddison@104.142.118.140) has quit (Read error: Connection reset by peer)
+2017-03-11 09:37:40	-->	c0d3x (~c0d3x@cm-84.209.242.111.getinternet.no) has joined #reactjs
+2017-03-11 09:40:53	<--	c0d3x (~c0d3x@cm-84.209.242.111.getinternet.no) has quit (Client Quit)
+2017-03-11 09:43:43	-->	jaddison (~jaddison@104.142.118.140) has joined #reactjs
+2017-03-11 09:43:49	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-11 09:45:46	-->	Jacquie (1f0aaaa0@gateway/web/cgi-irc/kiwiirc.com/ip.31.10.170.160) has joined #reactjs
+2017-03-11 09:46:11	Jacquie	Guys how do we set state on a array value
+2017-03-11 09:47:10	Jacquie	theres a problem of mutability so i think that part of the solution is on the immutability classes helper provided by facebook
+2017-03-11 09:47:51	-->	jameser (~textual@60.24.158.237) has joined #reactjs
+2017-03-11 09:48:13	-->	leolrrj (~leolrrj@c-66-176-137-129.hsd1.fl.comcast.net) has joined #reactjs
+2017-03-11 09:49:06	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 09:51:21	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-11 09:51:36	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-11 09:51:59	Jacquie	I've done it like this
+2017-03-11 09:52:04	Jacquie	onCheck={update(this.state.branches,{['checked']:{$set:!branch['checked']})}
+2017-03-11 09:53:26	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 09:56:06	Jacquie	or this onCheck={this.setState({branches:update(this.state.branches,{['checked']:{$set:!branch['checked']}))}}
+2017-03-11 09:59:17	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 09:59:54	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 10:00:02	-->	BadApe (~badape@cpc92712-cmbg20-2-0-cust161.5-4.cable.virginm.net) has joined #reactjs
+2017-03-11 10:00:14	-->	jsframe_bot (~jsframe_b@p5088C867.dip0.t-ipconnect.de) has joined #reactjs
+2017-03-11 10:00:44	<--	th3fallen (~th3fallen@165.166.246.223) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 10:03:16	<--	jaddison (~jaddison@104.142.118.140) has quit (Ping timeout: 256 seconds)
+2017-03-11 10:03:18	-->	SuperHans (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 10:03:25	-->	devc (~devc@unaffiliated/devc) has joined #reactjs
+2017-03-11 10:03:56	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 10:04:34	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 264 seconds)
+2017-03-11 10:05:24	-->	DLSteve (~DLSteve@c-73-109-135-169.hsd1.wa.comcast.net) has joined #reactjs
+2017-03-11 10:06:57	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 10:07:10	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Remote host closed the connection)
+2017-03-11 10:07:27	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 10:07:59	tamj0rd2	Jacquie I'm not sure which was is the best practice, but usually I create a new array and then set the state using that
+2017-03-11 10:08:05	tamj0rd2	which way*
+2017-03-11 10:08:58	Jacquie	tamj0rd2 yeah from what i see update helpers is a bit in this perspective too
+2017-03-11 10:09:10	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-11 10:11:28	-->	fhoffmann (~fh@c-73-181-226-80.hsd1.wa.comcast.net) has joined #reactjs
+2017-03-11 10:13:26	<--	rednaw (~Thunderbi@a83-160-121-205.adsl.xs4all.nl) has quit (Ping timeout: 240 seconds)
+2017-03-11 10:13:57	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 10:16:15	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 10:17:08	<--	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has quit (Ping timeout: 268 seconds)
+2017-03-11 10:20:48	<--	jsframe_bot (~jsframe_b@p5088C867.dip0.t-ipconnect.de) has quit (Remote host closed the connection)
+2017-03-11 10:24:18	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Max SendQ exceeded)
+2017-03-11 10:25:06	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 10:27:10	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Read error: Connection reset by peer)
+2017-03-11 10:28:30	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 10:30:37	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 10:31:22	-->	Copperis (~Tadas@unaffiliated/varis) has joined #reactjs
+2017-03-11 10:32:23	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-11 10:34:44	<--	kd0t (~kd0t@gateway/vpn/privateinternetaccess/kd0t) has quit (Ping timeout: 260 seconds)
+2017-03-11 10:35:45	-->	fees (~fees@d54c22e1c.access.telenet.be) has joined #reactjs
+2017-03-11 10:35:57	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 10:37:54	Jacquie	Update doesn't work on render so how do i set a state on an array state value ^^=
+2017-03-11 10:38:42	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Max SendQ exceeded)
+2017-03-11 10:38:54	-->	orbyt_ (~orbyt@2600:8801:c500:1380:2cd1:36ba:f789:6e31) has joined #reactjs
+2017-03-11 10:40:01	-->	nettoweb (~nettoweb@49.231.237.146) has joined #reactjs
+2017-03-11 10:40:47	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 10:41:10	<--	orbyt_ (~orbyt@2600:8801:c500:1380:2cd1:36ba:f789:6e31) has quit (Client Quit)
+2017-03-11 10:42:26	-->	dreh (~jedimind@unaffiliated/jedimind) has joined #reactjs
+2017-03-11 10:43:33	-->	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has joined #reactjs
+2017-03-11 10:44:29	<--	SuperHans (~alex@89-253-127-136.customers.ownit.se) has quit (Read error: Connection reset by peer)
+2017-03-11 10:44:47	-->	SuperHans (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 10:47:36	tamj0rd2	Jacquie I usually make a copy of the array state by using let currentVals = this.state.myarray.slice(0)
+2017-03-11 10:47:41	tamj0rd2	then I modify the currentVals array
+2017-03-11 10:47:56	<--	SuperHans (~alex@89-253-127-136.customers.ownit.se) has quit (Read error: Connection reset by peer)
+2017-03-11 10:47:57	tamj0rd2	then use this.setState({myArray: currentVals})
+2017-03-11 10:47:57	-->	alex--- (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 10:48:17	tamj0rd2	there might be a better way to do it, but that's what I do
+2017-03-11 10:48:44	<--	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has quit (Ping timeout: 260 seconds)
+2017-03-11 10:48:50	<--	tamj0rd2 (~tam@82.129.113.26) has quit (Read error: Connection reset by peer)
+2017-03-11 10:48:53	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+2017-03-11 10:49:15	-->	tamj0rd2 (~tam@82.129.113.26) has joined #reactjs
+2017-03-11 10:52:03	<--	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has quit (Quit: mr_jolly)
+2017-03-11 10:52:34	-->	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has joined #reactjs
+2017-03-11 10:52:53	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-11 10:56:48	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 10:59:56	<--	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has quit (Ping timeout: 256 seconds)
+2017-03-11 11:00:24	-->	bengillies (~bengillie@146.185.172.247) has joined #reactjs
+2017-03-11 11:04:48	<--	bengillies (~bengillie@146.185.172.247) has quit (Ping timeout: 260 seconds)
+2017-03-11 11:10:33	fees	https://gist.github.com/anomaly44/05fe2c480d0511a7a4f70a6066521956 What's the best way to cancel this loadAddresses saga when there aren't more than 3 characters in the search string?
+2017-03-11 11:11:16	<--	nettoweb (~nettoweb@49.231.237.146) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 11:13:48	<--	hetii (~hetii@89-64-46-249.dynamic.chello.pl) has quit (Quit: Leaving)
+2017-03-11 11:14:48	<--	jhack (~jhack@unaffiliated/jhack) has quit (Quit: Leaving)
+2017-03-11 11:15:05	efdee	fees: if (action.searchStr.length < 3) return ?
+2017-03-11 11:16:28	fees	ok thanks efdee , thats what I had, but hadnt seen anyone use a conditional statement in a saga :D
+2017-03-11 11:16:50	fees	so I thought maybe there was a special saga function or something :)
+2017-03-11 11:17:02	fees	still trying to figure sagas out, but liking it so far
+2017-03-11 11:17:54	<--	alex--- (~alex@89-253-127-136.customers.ownit.se) has quit (Read error: No route to host)
+2017-03-11 11:18:18	-->	SuperHans (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 11:18:57	efdee	i never really got into them so far
+2017-03-11 11:19:28	-->	jaddison (~jaddison@104.142.118.140) has joined #reactjs
+2017-03-11 11:22:14	-->	LeBlaaanc (~textual@unaffiliated/leblaaanc) has joined #reactjs
+2017-03-11 11:25:23	<--	Strom (strom@120-132-191-90.dyn.estpak.ee) has quit (Remote host closed the connection)
+2017-03-11 11:25:55	-->	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has joined #reactjs
+2017-03-11 11:25:59	-->	realisation (~textual@73.81.125.146) has joined #reactjs
+2017-03-11 11:26:57	-->	alex--- (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 11:27:14	<--	SuperHans (~alex@89-253-127-136.customers.ownit.se) has quit (Read error: No route to host)
+2017-03-11 11:27:42	-->	Strom (strom@120-132-191-90.dyn.estpak.ee) has joined #reactjs
+2017-03-11 11:28:34	<--	vicmarcal (uid12224@reactos/tester/vicmarcal) has quit (Quit: Connection closed for inactivity)
+2017-03-11 11:29:29	<--	alex--- (~alex@89-253-127-136.customers.ownit.se) has quit (Read error: Connection reset by peer)
+2017-03-11 11:30:22	<--	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has quit (Ping timeout: 246 seconds)
+2017-03-11 11:30:57	-->	SuperHans (~alex@89-253-127-136.customers.ownit.se) has joined #reactjs
+2017-03-11 11:34:20	-->	JBreit (~JBreit4@2601:985:300:d853::4e54) has joined #reactjs
+2017-03-11 11:34:41	-->	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has joined #reactjs
+2017-03-11 11:35:05	<--	dreh (~jedimind@unaffiliated/jedimind) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 11:37:54	<--	wookiehangover (~wookiehan@2601:647:0:51a0:ec68:7d2a:c2:43dd) has quit (Ping timeout: 256 seconds)
+2017-03-11 11:38:09	<--	tomphp (~tomphp@194.75.227.106) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 11:40:32	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 11:42:43	-->	wookiehangover (~wookiehan@2601:647:0:51a0:ec68:7d2a:c2:43dd) has joined #reactjs
+2017-03-11 11:44:38	-->	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has joined #reactjs
+2017-03-11 11:45:48	<--	jameser (~textual@60.24.158.237) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 11:46:21	<--	SuperHans (~alex@89-253-127-136.customers.ownit.se) has quit (Ping timeout: 258 seconds)
+2017-03-11 11:46:40	<--	mYDY (~mYDX@mail.shyim.de) has quit (Read error: Connection reset by peer)
+2017-03-11 11:46:50	-->	skinux (~skinux@unaffiliated/skinux) has joined #reactjs
+2017-03-11 11:47:11	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Remote host closed the connection)
+2017-03-11 11:47:39	-->	systemfault (~rcyr@unaffiliated/rcyr) has joined #reactjs
+2017-03-11 11:48:08	-->	exegesis (~exegesis@a89-153-212-132.cpe.netcabo.pt) has joined #reactjs
+2017-03-11 11:48:18	-->	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has joined #reactjs
+2017-03-11 11:48:57	-->	dannysantos (052b093f@gateway/web/cgi-irc/kiwiirc.com/ip.5.43.9.63) has joined #reactjs
+2017-03-11 11:49:24	<--	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has quit (Ping timeout: 260 seconds)
+2017-03-11 11:50:49	-->	dreh (~jedimind@unaffiliated/jedimind) has joined #reactjs
+2017-03-11 11:53:27	<--	pl_ (~quassel@ip-88-82-52-170.reverse.destiny.be) has quit (Ping timeout: 240 seconds)
+2017-03-11 11:53:46	dannysantos	I know some ReactJS. I don't know any Twitter Bootstrap. What would be the simple way for me to build a responsive website: to use/learn react+react-bootstrap or use/learn only bootstrap?
+2017-03-11 11:54:02	Migs	dive right into it
+2017-03-11 11:54:02	<--	exegesis (~exegesis@a89-153-212-132.cpe.netcabo.pt) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-11 11:54:26	-->	exegesis (~exegesis@a89-153-212-132.cpe.netcabo.pt) has joined #reactjs
+2017-03-11 11:54:29	Migs	Pick a project that interests you and just mess around. When you keep failing, that's how you learn.
+2017-03-11 11:55:26	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-11 11:55:28	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 256 seconds)
+2017-03-11 11:55:56	GreenJello	dannysantos, how dynamic is the site?
+2017-03-11 11:56:22	GreenJello	if you're just doing a landing page or similar, you don't need react
+2017-03-11 11:56:45	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 11:57:07	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 11:57:31	dannysantos	it will be a static website GreenJello
+2017-03-11 11:58:01	GreenJello	dannysantos, then just go with bootstrap
+2017-03-11 11:58:07	cannap	and the mixins
+2017-03-11 11:58:14	cannap	and not the whole bootstrap
+2017-03-11 11:58:16	cannap	:P
+2017-03-11 11:58:17	Migs	why are you using reactjs for a static web site?
+2017-03-11 11:58:45	dannysantos	it will be a static webpage but i will be using a firebase database. so it will be fetching data from that database
+2017-03-11 11:58:47	cannap	or use react to generate and then generate the static html output
+2017-03-11 11:58:54	Migs	gotcha
+2017-03-11 11:58:55	cannap	then is not static
+2017-03-11 11:59:04	Migs	yeah, lol, that's not static at all
+2017-03-11 11:59:30	dannysantos	yes, but will be hosted on github. sorry for the misinformation
+2017-03-11 12:00:09	Jacquie	Guys can u help me with the controlled checkbox kin struggling :S
+2017-03-11 12:00:09	Jacquie	https://gist.github.com/anonymous/73f218dc9949733c0e1b6d783aabd07e
+2017-03-11 12:00:30	Jacquie	I tried several things but i'm doing shit
+2017-03-11 12:01:42	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 256 seconds)
+2017-03-11 12:01:50	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-11 12:01:51	Jacquie	To make it simple i got an array [0,N] and inside got [branchname,checked] where i store the boolean
+2017-03-11 12:02:26	GreenJello	Jacquie, this.branches[i]['checked']: !this.branches[i]['checked']
+2017-03-11 12:02:31	GreenJello	on L61
+2017-03-11 12:02:57	GreenJello	Jacquie, also remove the 'i' argument on L168
+2017-03-11 12:03:11	GreenJello	you want the 'i' from the .map callback
+2017-03-11 12:03:49	Jacquie	The first time i noticed i couldnt modify part of the array it ll go against mutation principle then that immutable functions are not allowed in rendering so i created a method handle normal (had forgotten)
+2017-03-11 12:04:04	Jacquie	Thank you GreenJello
+2017-03-11 12:05:51	dannysantos	so, to a dynamic website using firebase it will be best the reactjs + react-bootstrap?
+2017-03-11 12:06:00	GreenJello	yeah
+2017-03-11 12:07:11	Jacquie	GreenJello on L61 i put it inside the update ?
+2017-03-11 12:07:27	skinux	When Components don't get passed data, should the HTML elements within still get shown?
+2017-03-11 12:07:46	GreenJello	Jacquie, does this code have a syntax error? not sure if I'm just reading it wrong
+2017-03-11 12:08:18	Jacquie	on the xor operator
+2017-03-11 12:08:28	GreenJello	Jacquie, oh, this isn't how the update addon is used
+2017-03-11 12:08:33	Jacquie	But i dont need the update function ?
+2017-03-11 12:08:48	GreenJello	you do need it, but you're trying to use it in an invalid way
+2017-03-11 12:08:57	GreenJello	look over the examples for it again
+2017-03-11 12:09:36	dannysantos	GreenJello: ok. I read that bootstrap is a html, css and js framework. What parts of bootstrap will i need to learn to use react-bootstrap?
+2017-03-11 12:10:10	Jacquie	GreenJello Aw ok from what i understood it will recreate a copy of the array that ill reassign to my state inside setState to avoid mutations
+2017-03-11 12:11:02	GreenJello	dannysantos, the grid system and just about it in general, like the variations of buttons, etc.
+2017-03-11 12:11:13	GreenJello	dannysantos, the rest is react-bootstrap specific
+2017-03-11 12:11:55	GreenJello	Jacquie, yeah
+2017-03-11 12:12:31	GreenJello	Jacquie, you're just not passing the right arguments to the function
+2017-03-11 12:12:58	-->	fourcolors (~fourcolor@166.70.66.103) has joined #reactjs
+2017-03-11 12:12:58	Jacquie	ah and i need $set the value no?
+2017-03-11 12:13:01	GreenJello	you need to pass this.state.branches as the first argument, and then an update descriptor as the second argument
+2017-03-11 12:13:03	GreenJello	yeah
+2017-03-11 12:13:08	GreenJello	well here you'll use $apply
+2017-03-11 12:13:39	GreenJello	you could use $set, it's just more repetition
+2017-03-11 12:13:42	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Read error: Connection reset by peer)
+2017-03-11 12:14:34	Jacquie	thank you ? What it does these methods are they a bit like concatenating strings on java that looks like we muted but on background doesn't ?
+2017-03-11 12:15:57	GreenJello	I guess you could say that
+2017-03-11 12:16:53	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Remote host closed the connection)
+2017-03-11 12:17:38	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 12:17:44	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 12:21:38	skinux	Is this.props an object if it contains an object?
+2017-03-11 12:22:23	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 12:22:51	-->	umpc (~umpc@unaffiliated/umpc) has joined #reactjs
+2017-03-11 12:23:16	GreenJello	skinux, it's always an object
+2017-03-11 12:23:26	<--	dannysantos (052b093f@gateway/web/cgi-irc/kiwiirc.com/ip.5.43.9.63) has left #reactjs
+2017-03-11 12:23:34	GreenJello	I'm not following your logic there
+2017-03-11 12:23:48	skinux	I'm just trying to understand how I need to create my JSON in order for it to work right with React.
+2017-03-11 12:26:08	<--	devc (~devc@unaffiliated/devc) has quit (Ping timeout: 240 seconds)
+2017-03-11 12:26:34	-->	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has joined #reactjs
+2017-03-11 12:29:17	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Remote host closed the connection)
+2017-03-11 12:29:33	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 12:31:18	skinux	I've never really worked with JSON before and this is my first time developing with React. So, I'm in all new waters here
+2017-03-11 12:31:34	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 12:33:50	-->	montanonic (~nicholas@c-73-37-88-126.hsd1.or.comcast.net) has joined #reactjs
+2017-03-11 12:34:56	-->	Xiti (~Xiti-@unaffiliated/xiti) has joined #reactjs
+2017-03-11 12:36:30	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 268 seconds)
+2017-03-11 12:38:27	<--	JBreit (~JBreit4@2601:985:300:d853::4e54) has quit (Quit: Leaving)
+2017-03-11 12:38:31	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 12:38:42	<--	exegesis (~exegesis@a89-153-212-132.cpe.netcabo.pt) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 12:38:47	<--	jaddison (~jaddison@104.142.118.140) has quit (Quit: 0xDEADBEEF)
+2017-03-11 12:42:27	-->	th3fallen (~th3fallen@165.166.246.223) has joined #reactjs
+2017-03-11 12:42:55	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 12:44:16	theskillwithin	any security things i should look at before i launch?
+2017-03-11 12:44:19	theskillwithin	GreenJello
+2017-03-11 12:44:30	theskillwithin	would be nice to have some sort of testing tool
+2017-03-11 12:45:29	-->	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has joined #reactjs
+2017-03-11 12:45:57	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 12:46:08	GreenJello	theskillwithin, mostly comes down the server side validation
+2017-03-11 12:46:31	GreenJello	checking the protocol on urls, ensuring that things are strings, etc.
+2017-03-11 12:47:08	theskillwithin	i gave the BE team a link to the OWASP top 10
+2017-03-11 12:47:19	theskillwithin	but id hate for there to be some js vulnerability
+2017-03-11 12:47:33	theskillwithin	it seems like reactjs is pretty good at escaping stuff so XSS might not be an issue
+2017-03-11 12:47:37	GreenJello	yeah, I'm just talking about things that cause client side exploits here
+2017-03-11 12:48:03	GreenJello	pass a custom header on all ajax requests and ensure it's there on the server
+2017-03-11 12:48:04	theskillwithin	checking the protocal on urls? what is that
+2017-03-11 12:48:15	GreenJello	to avoid javascript:alert(1) urls
+2017-03-11 12:48:26	GreenJello	or other things
+2017-03-11 12:48:49	theskillwithin	for logged in users we pass a token in the header
+2017-03-11 12:48:57	GreenJello	that works
+2017-03-11 12:50:04	<--	hphuoc25 (~hphuoc25@bb121-7-103-152.singnet.com.sg) has quit (Ping timeout: 260 seconds)
+2017-03-11 12:50:27	<--	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 12:51:21	-->	gambl0re (~gambl0re@unaffiliated/gambl0re) has joined #reactjs
+2017-03-11 12:53:46	<--	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has quit (Ping timeout: 264 seconds)
+2017-03-11 12:54:13	<--	leolrrj (~leolrrj@c-66-176-137-129.hsd1.fl.comcast.net) has quit (Remote host closed the connection)
+2017-03-11 12:54:35	<--	kaiza (~kaiza@71-17-31-175.sktn.hsdb.sasknet.sk.ca) has quit (Ping timeout: 240 seconds)
+2017-03-11 12:54:49	-->	leolrrj (~leolrrj@c-66-176-137-129.hsd1.fl.comcast.net) has joined #reactjs
+2017-03-11 12:55:16	-->	hetii (~hetii@89-64-46-249.dynamic.chello.pl) has joined #reactjs
+2017-03-11 12:55:23	-->	gk- (~1wm-su@91.221.67.227) has joined #reactjs
+2017-03-11 12:55:40	<--	gk- (~1wm-su@91.221.67.227) has quit (K-Lined)
+2017-03-11 12:56:30	-->	merch (~merch@216-71-192-69.dyn.novuscom.net) has joined #reactjs
+2017-03-11 12:56:49	<--	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has quit (Ping timeout: 246 seconds)
+2017-03-11 12:59:00	<--	tamj0rd2 (~tam@82.129.113.26) has quit (Quit: Ex-Chat)
+2017-03-11 12:59:11	<--	leolrrj (~leolrrj@c-66-176-137-129.hsd1.fl.comcast.net) has quit (Ping timeout: 258 seconds)
+2017-03-11 12:59:16	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 12:59:41	-->	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has joined #reactjs
+2017-03-11 12:59:59	-->	gk- (~1wm-su@119.81.230.159) has joined #reactjs
+2017-03-11 13:00:58	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Read error: Connection reset by peer)
+2017-03-11 13:01:26	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 13:01:45	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 13:02:30	-->	noethics (~noethics@46.166.137.204) has joined #reactjs
+2017-03-11 13:03:07	<--	gk- (~1wm-su@119.81.230.159) has quit (K-Lined)
+2017-03-11 13:03:29	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 13:04:10	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 258 seconds)
+2017-03-11 13:04:47	-->	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has joined #reactjs
+2017-03-11 13:05:05	-->	Agamemnus (~Agamemnus@pool-108-26-247-186.bstnma.fios.verizon.net) has joined #reactjs
+2017-03-11 13:05:22	Agamemnus	@dminuoso
+2017-03-11 13:05:35	Agamemnus	https://codepen.io/Agamemnus/pen/MppMby?editors=1010
+2017-03-11 13:05:50	Agamemnus	I am done re-coding this into what I think is an ideal.
+2017-03-11 13:05:55	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 246 seconds)
+2017-03-11 13:06:08	Agamemnus	What do you think? How do we get them to replace the terrible code on their site with mine?
+2017-03-11 13:06:34	-->	gk- (~1wm-su@178.18.201.99) has joined #reactjs
+2017-03-11 13:06:52	-->	orbyt_ (~orbyt@2600:8801:c500:1380:2cd1:36ba:f789:6e31) has joined #reactjs
+2017-03-11 13:07:30	-->	smccarthy (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has joined #reactjs
+2017-03-11 13:08:42	Agamemnus	also, how about that warning? Why is it showing up?
+2017-03-11 13:09:10	<--	gk- (~1wm-su@178.18.201.99) has quit (K-Lined)
+2017-03-11 13:10:16	<--	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has quit (Ping timeout: 256 seconds)
+2017-03-11 13:10:31	<--	fees (~fees@d54c22e1c.access.telenet.be) has quit (Remote host closed the connection)
+2017-03-11 13:12:35	reznord	I am going to have a React Interview, what could they possibly ask in an interview on React.js ?
+2017-03-11 13:12:47	-->	Manchotix (~Manchotix@ip-84-118-239-217.unity-media.net) has joined #reactjs
+2017-03-11 13:12:47	reznord	I know this is a  stupid question though :P
+2017-03-11 13:13:07	-->	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has joined #reactjs
+2017-03-11 13:19:46	<--	eago (~eago@181.59.244.38) has quit (Remote host closed the connection)
+2017-03-11 13:21:09	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Read error: Connection reset by peer)
+2017-03-11 13:21:23	<--	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has quit (Quit: mr_jolly)
+2017-03-11 13:21:29	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 13:21:46	Agamemnus	make a small react app
+2017-03-11 13:21:49	Agamemnus	and send it to them
+2017-03-11 13:22:03	Agamemnus	And if you do that, it won't matter what your answer is
+2017-03-11 13:22:46	<--	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has quit (Remote host closed the connection)
+2017-03-11 13:22:53	-->	jhack (~jhack@unaffiliated/jhack) has joined #reactjs
+2017-03-11 13:23:00	-->	fourcolors (~fourcolor@166.70.66.103) has joined #reactjs
+2017-03-11 13:23:18	-->	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has joined #reactjs
+2017-03-11 13:27:27	<--	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has quit (Ping timeout: 240 seconds)
+2017-03-11 13:27:33	<--	fourcolors (~fourcolor@166.70.66.103) has quit (Ping timeout: 258 seconds)
+2017-03-11 13:28:38	-->	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has joined #reactjs
+2017-03-11 13:29:07	-->	phpnode (~phpnode@host86-165-204-63.range86-165.btcentralplus.com) has joined #reactjs
+2017-03-11 13:34:06	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 13:35:01	reznord	Agamemnus: well, it is going to be an hangout interview :P
+2017-03-11 13:35:23	reznord	and they didn't ask me to do any task
+2017-03-11 13:35:43	Agamemnus	doesn't matter
+2017-03-11 13:36:00	<--	DLSteve (~DLSteve@c-73-109-135-169.hsd1.wa.comcast.net) has quit (Quit: All rise, the honorable DLSteve has left the channel.)
+2017-03-11 13:36:10	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 13:36:27	<--	\s (~zzzzzzzz@103.37.140.15) has quit (Ping timeout: 240 seconds)
+2017-03-11 13:37:04	-->	\s (~zzzzzzzz@103.37.140.17) has joined #reactjs
+2017-03-11 13:37:23	-->	ahmedelgabri (~ahmedelga@2a02:a441:9f5:1:5:d9d6:3c00:fcfc) has joined #reactjs
+2017-03-11 13:37:28	<--	tass01024 (~Thunderbi@customer-212-237-97-69.ip4.gigabit.dk) has quit (Ping timeout: 256 seconds)
+2017-03-11 13:40:34	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 246 seconds)
+2017-03-11 13:41:21	<--	Copperis (~Tadas@unaffiliated/varis) has quit (Ping timeout: 258 seconds)
+2017-03-11 13:43:47	<--	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has quit (Remote host closed the connection)
+2017-03-11 13:44:20	-->	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has joined #reactjs
+2017-03-11 13:44:50	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 256 seconds)
+2017-03-11 13:44:59	<--	hetii (~hetii@89-64-46-249.dynamic.chello.pl) has quit (Quit: Leaving)
+2017-03-11 13:48:52	<--	jimklo (~jimklo@71-84-19-18.dhcp.trlk.ca.charter.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 13:50:08	-->	vicmarcal (uid12224@reactos/tester/vicmarcal) has joined #reactjs
+2017-03-11 13:53:23	-->	clemf (~textual@c-50-139-41-63.hsd1.or.comcast.net) has joined #reactjs
+2017-03-11 13:57:01	-->	squallstter (~fkdsiafgk@pD9526A88.dip0.t-ipconnect.de) has joined #reactjs
+2017-03-11 13:57:28	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-11 13:59:21	-->	jhack_ (~jhack@pool-108-46-212-224.nycmny.fios.verizon.net) has joined #reactjs
+2017-03-11 13:59:46	-->	bradfordli123 (~bradfordl@107.3.183.154) has joined #reactjs
+2017-03-11 13:59:57	<--	jhack (~jhack@unaffiliated/jhack) has quit (Ping timeout: 240 seconds)
+2017-03-11 14:00:16	--	jhack_ is now known as jhack
+2017-03-11 14:00:31	<--	jhack (~jhack@pool-108-46-212-224.nycmny.fios.verizon.net) has quit (Changing host)
+2017-03-11 14:00:31	-->	jhack (~jhack@unaffiliated/jhack) has joined #reactjs
+2017-03-11 14:01:14	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 14:02:06	<--	LeBlaaanc (~textual@unaffiliated/leblaaanc) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 14:02:24	<--	eago (~eago@181.59.244.38) has quit (Ping timeout: 260 seconds)
+2017-03-11 14:02:39	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 14:02:48	<--	BadApe (~badape@cpc92712-cmbg20-2-0-cust161.5-4.cable.virginm.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 14:05:48	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 256 seconds)
+2017-03-11 14:06:57	-->	mdurbar (~mdurbar@124.29.237.171) has joined #reactjs
+2017-03-11 14:07:04	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 260 seconds)
+2017-03-11 14:09:39	-->	nabo (~Thunderbi@178235234182.legnica.vectranet.pl) has joined #reactjs
+2017-03-11 14:10:05	<--	dk0r (~dk0r@unaffiliated/dk0r) has quit (Read error: Connection reset by peer)
+2017-03-11 14:10:26	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Remote host closed the connection)
+2017-03-11 14:11:02	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 14:15:28	-->	dk0r (~dk0r@unaffiliated/dk0r) has joined #reactjs
+2017-03-11 14:23:43	-->	mr_jolly (~simonoram@cpc73568-benw11-2-0-cust876.16-2.cable.virginm.net) has joined #reactjs
+2017-03-11 14:31:42	<--	Bnaya (~Bnaya@unaffiliated/bnaya) has quit (Quit: Bnaya)
+2017-03-11 14:32:19	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 14:37:17	<--	atomi (~atomi@71-83-179-177.dhcp.lnbh.ca.charter.com) has quit (Remote host closed the connection)
+2017-03-11 14:37:25	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 14:42:04	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 14:45:00	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 14:45:29	-->	mintuz (~mintuz@2a02:c7f:a61c:6000:c851:7e2:86b6:bdaa) has joined #reactjs
+2017-03-11 14:45:44	-->	roadrunneratwast (~mitchell@ool-1826db6a.dyn.optonline.net) has joined #reactjs
+2017-03-11 14:46:27	<--	Derperperd (~b4rbz@unaffiliated/derperperd) has quit (Ping timeout: 240 seconds)
+2017-03-11 14:46:44	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 260 seconds)
+2017-03-11 14:48:47	<--	mintuz (~mintuz@2a02:c7f:a61c:6000:c851:7e2:86b6:bdaa) has quit (Remote host closed the connection)
+2017-03-11 14:48:56	-->	TbobbyZ (~TbobbyZ@2605:e000:1804:c431:b11d:328a:a45c:5ea5) has joined #reactjs
+2017-03-11 14:49:21	-->	mintuz (~mintuz@2a02:c7f:a61c:6000:c851:7e2:86b6:bdaa) has joined #reactjs
+2017-03-11 14:50:04	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-11 14:50:10	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 264 seconds)
+2017-03-11 14:53:28	<--	mintuz (~mintuz@2a02:c7f:a61c:6000:c851:7e2:86b6:bdaa) has quit (Ping timeout: 240 seconds)
+2017-03-11 14:53:30	-->	alan_w (~alan_w@c-73-19-140-147.hsd1.al.comcast.net) has joined #reactjs
+2017-03-11 14:54:53	-->	Agro (~Agro@2602:306:c4f1:6960:1162:1a52:5985:edfa) has joined #reactjs
+2017-03-11 14:56:22	<--	realisation (~textual@73.81.125.146) has quit (Quit: My MacBook has gone to sleep. ZZZzzz…)
+2017-03-11 14:56:52	-->	koalalorenzo (~koalalore@90.184.23.169) has joined #reactjs
+2017-03-11 14:56:52	<--	koalalorenzo (~koalalore@90.184.23.169) has quit (Changing host)
+2017-03-11 14:56:52	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 14:57:19	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 15:01:55	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 15:03:27	-->	bengillies (~bengillie@bengillies.net) has joined #reactjs
+2017-03-11 15:03:28	-->	pootpoot (~pootpoot@2601:8c:c301:1116:98e7:639f:11ff:ef84) has joined #reactjs
+2017-03-11 15:03:58	<--	mdurbar (~mdurbar@124.29.237.171) has quit (Remote host closed the connection)
+2017-03-11 15:04:59	-->	tomphp (~tomphp@194.75.227.106) has joined #reactjs
+2017-03-11 15:05:43	<--	LennardW (~LennardW@ip503cfcfb.speed.planet.nl) has quit (Ping timeout: 260 seconds)
+2017-03-11 15:05:49	Agamemnus	https://facebook.github.io/react/tutorial/tutorial.html
+2017-03-11 15:05:52	Agamemnus	the whole thing is dumb
+2017-03-11 15:05:56	Agamemnus	needs to be rewritten
+2017-03-11 15:06:13	<--	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has quit (Remote host closed the connection)
+2017-03-11 15:06:51	-->	SrPx (b3377d56@gateway/web/freenode/ip.179.55.125.86) has joined #reactjs
+2017-03-11 15:07:15	-->	LennardW|afk (~LennardW@ip503cfcfb.speed.planet.nl) has joined #reactjs
+2017-03-11 15:07:28	--	LennardW|afk is now known as LennardW
+2017-03-11 15:07:59	<--	bengillies (~bengillie@bengillies.net) has quit (Ping timeout: 258 seconds)
+2017-03-11 15:08:28	SrPx	A friend PMed me some code which has this: `this.setState({x: 7}); console.log(this.state.x)`, and the output is 8. Under what circumstances that could happen? I'd assume the line following this.setState would always reflect the state set
+2017-03-11 15:09:55	Agamemnus	you can set a getter and setter to any property
+2017-03-11 15:09:58	pootpoot	setState is an asyncronous function
+2017-03-11 15:10:29	Agamemnus	what is the reason for this?
+2017-03-11 15:10:42	pootpoot	so updates can be batched for performance
+2017-03-11 15:10:52	pootpoot	you can pass a callback after like, this.setState({x:7}, function() { console.log(this.state.x) })
+2017-03-11 15:11:00	-->	Copperis (~Tadas@unaffiliated/varis) has joined #reactjs
+2017-03-11 15:11:03	Agamemnus	how do you tell it the end of the batch?
+2017-03-11 15:11:22	Agamemnus	or is it more like
+2017-03-11 15:11:26	Agamemnus	the end of that tick?
+2017-03-11 15:11:38	Agamemnus	somehow it figures out that the instruction chain is done?
+2017-03-11 15:11:54	pootpoot	what are you trying to do
+2017-03-11 15:12:20	Agamemnus	just asking questions
+2017-03-11 15:12:33	SrPx	I wasn't aware it was async, thanks! I think I never tried to do something after this.setState before, it is always my last call
+2017-03-11 15:13:00	pootpoot	generally you dont care WHEN states change, you just render the current state
+2017-03-11 15:13:06	Agamemnus	hey, can we add local variables inside Reacy classes?
+2017-03-11 15:13:09	Agamemnus	React
+2017-03-11 15:13:10	SrPx	My friend was debugging something and said that was a strange behavior, I agreed and asked here. That's all I know. I let him know that this wasn't his problem
+2017-03-11 15:13:18	SrPx	Thanks!
+2017-03-11 15:13:41	Agamemnus	like function x () {var bleh = "bleh"..}
+2017-03-11 15:14:39	-->	neoncontrails (~neoncontr@99-26-122-26.lightspeed.sndgca.sbcglobal.net) has joined #reactjs
+2017-03-11 15:15:30	netameta__	not using react-router what's a good substitute to extract query params
+2017-03-11 15:15:58	GreenJello	netameta__, you can use qs
+2017-03-11 15:16:23	netameta__	hmm found https://www.npmjs.com/package/query-string
+2017-03-11 15:16:26	netameta__	it seems nice
+2017-03-11 15:16:28	<--	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 15:16:35	netameta__	GreenJello, What's qs ?
+2017-03-11 15:17:04	GreenJello	netameta__, another package, much more popular
+2017-03-11 15:17:17	netameta__	will check moment
+2017-03-11 15:17:17	<--	michaelcuneo (~michaelcu@2001:8003:3546:8300:6c0a:353:ce3:9592) has quit (Read error: Connection reset by peer)
+2017-03-11 15:17:46	-->	michaelcuneo (~michaelcu@2001:8003:3546:8300:6c0a:353:ce3:9592) has joined #reactjs
+2017-03-11 15:18:42	netameta__	GreenJello, Ah nice this looks better
+2017-03-11 15:19:18	<--	dk0r (~dk0r@unaffiliated/dk0r) has quit (Ping timeout: 268 seconds)
+2017-03-11 15:20:00	-->	blackfisk (~blackfisk@185.red-83-56-145.dynamicip.rima-tde.net) has joined #reactjs
+2017-03-11 15:21:03	-->	dk0r (~dk0r@unaffiliated/dk0r) has joined #reactjs
+2017-03-11 15:21:58	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 15:22:20	<--	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has quit (Quit: This computer has gone to sleep)
+2017-03-11 15:22:37	<--	bmac (~bmac@c-24-218-80-114.hsd1.ma.comcast.net) has quit (Quit: Textual IRC Client: www.textualapp.com)
+2017-03-11 15:23:09	-->	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has joined #reactjs
+2017-03-11 15:24:12	netameta__	GreenJello, Its by ljh
+2017-03-11 15:24:17	netameta__	it must be good !
+2017-03-11 15:24:50	-->	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has joined #reactjs
+2017-03-11 15:26:55	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 240 seconds)
+2017-03-11 15:27:58	<--	johnstorey (~somebody@71-81-126-62.dhcp.spbg.sc.charter.com) has quit (Ping timeout: 256 seconds)
+2017-03-11 15:28:46	<--	smccarthy (~smccarthy@ip68-3-181-10.ph.ph.cox.net) has quit (Remote host closed the connection)
+2017-03-11 15:30:10	-->	devc (~devc@unaffiliated/devc) has joined #reactjs
+2017-03-11 15:31:11	-->	Lauven (~textual@cable-24-135-110-224.dynamic.sbb.rs) has joined #reactjs
+2017-03-11 15:32:42	-->	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has joined #reactjs
+2017-03-11 15:33:17	<--	BigJono (~bigjono@61-69-96-158.mel.static-ipl.aapt.com.au) has quit (Ping timeout: 258 seconds)
+2017-03-11 15:34:46	<--	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has quit (Remote host closed the connection)
+2017-03-11 15:35:00	-->	EyePulp (~eyepulp@173-18-225-16.client.mchsi.com) has joined #reactjs
+2017-03-11 15:37:36	<--	kingarmadillo (~kingarmad@c-98-195-204-9.hsd1.tx.comcast.net) has quit (Ping timeout: 260 seconds)
+2017-03-11 15:42:36	<--	Derperperd (~b4rbz@unaffiliated/derperperd) has quit (Quit: WeeChat 1.5)
+2017-03-11 15:42:49	-->	Derperperd (~b4rbz@unaffiliated/derperperd) has joined #reactjs
+2017-03-11 15:44:27	<--	resurtm2 (~resurtm@188.166.50.200) has quit (Quit: Leaving)
+2017-03-11 15:45:58	-->	eago (~eago@181.59.244.38) has joined #reactjs
+2017-03-11 15:50:38	<--	eago (~eago@181.59.244.38) has quit (Ping timeout: 256 seconds)
+2017-03-11 15:50:46	<--	duoi (~duoi@unaffiliated/duoi) has quit (Ping timeout: 246 seconds)
+2017-03-11 15:51:12	-->	koalalorenzo (~koalalore@unaffiliated/koalalorenzo) has joined #reactjs
+2017-03-11 15:53:13	-->	duoi (~duoi@unaffiliated/duoi) has joined #reactjs
+2017-03-11 15:55:48	<--	merch (~merch@216-71-192-69.dyn.novuscom.net) has quit (Quit: merch)
+2017-03-11 15:56:05	netameta__	GreenJello, does qs suppose to ignore leading "?" ?
+2017-03-11 15:56:45	GreenJello	netameta__, probably not
+2017-03-11 15:57:02	<--	skinux (~skinux@unaffiliated/skinux) has quit (Quit: Leaving)
+2017-03-11 15:57:05	--	irc: disconnected from server
