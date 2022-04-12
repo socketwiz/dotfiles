@@ -41,16 +41,7 @@
     :ensure t
     :config
     (progn
-      (zerodark-setup-modeline-format)
-
-      (let ((class '((class color) (min-colors 89)))
-            (default (if (true-color-p) "#abb2bf" "#afafaf"))
-            (background (if (true-color-p) "#282c34" "#333333")))
-        (custom-theme-set-faces
-         'zerodark
-         ;; Make the background black instead of charcoal
-         `(default ((,class (:background, "#000000"))))
-         `(cursor ((,class (:background ,default))))))))
+      (zerodark-setup-modeline-format)))
 
 
   ;; Window numbers
