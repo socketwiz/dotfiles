@@ -19,3 +19,9 @@
   ;; use eslint with web-mode for jsx files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers))
+
+(use-package flycheck-color-mode-line
+  :ensure t
+
+  :init
+  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
