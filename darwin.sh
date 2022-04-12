@@ -6,7 +6,7 @@
 EDITOR="/usr/local/bin/mvim"
 SVN_EDITOR="/usr/local/bin/mvim"
 JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin:/usr/local/share/npm/bin
 
 # Homebrew paths
 BREW_PATHS=/usr/local/bin:/usr/local/sbin
