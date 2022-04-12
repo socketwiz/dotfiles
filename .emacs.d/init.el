@@ -11,25 +11,13 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(load "~/.emacs.d/configs/helm")
 (load "~/.emacs.d/configs/web-mode")
 (load "~/.emacs.d/configs/flycheck")
 (load "~/.emacs.d/configs/tide")
 (load "~/.emacs.d/configs/projectile")
 (load "~/.emacs.d/configs/evil")
 
-(use-package helm-core
-  :ensure t)
-(use-package helm
-  :ensure t
-  :config
-  (setq helm-buffers-fuzzy-matching t)
-  (helm-mode 1))
-(use-package helm-projectile
-  :ensure t
-  :config
-  (helm-projectile-on))
-(use-package helm-git-grep
-  :ensure t)
 (use-package magit
   :ensure t
   :config
