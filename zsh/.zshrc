@@ -35,3 +35,10 @@ zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
 source ~/dotfiles/zsh/.zshrc.noobs
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt spaceship
+
+export SPACESHIP_PACKAGE_SHOW=false
+
