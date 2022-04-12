@@ -69,9 +69,6 @@
     ;; don't lineup element attributes
     (setq web-mode-attr-indent-offset 4))
 
-  (use-package skewer-mode
-    :ensure t)
-
   (use-package tide
     :ensure t
     :defer 1
