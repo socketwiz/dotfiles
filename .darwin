@@ -38,14 +38,12 @@ pman()
 
 alias mongostart="sudo mongod run --config /usr/local/Cellar/mongodb/1.6.5-x86_64/mongod.conf"
 mongostop_func () {
-#  local mongopid=`ps -o pid,command -ax | grep mongod | awk '!/awk/ && !/grep/{print $1}'`;
-#  just find a simpler way
     local mongopid=`less /usr/local/var/mongodb/mongod.lock`;
     if [[ $mongopid =~ [[:digit:]] ]]; then
         sudo kill -15 $mongopid;
         echo mongod process $mongopid terminated;
     else
-        echo mongo process $mongopid not exist;
+        echo mongo process $mongopid does not exist;
     fi
 }
 alias mongostop="mongostop_func"
