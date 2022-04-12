@@ -1,8 +1,9 @@
 [user]
     name = Ricky Nelson
-    email = rickyn@socketwiz.com
+    email = ricky.nelson@invincea.com
 [core]
-    excludesfile = /Users/fnelson/.gitignore_global
+    editor = /usr/local/bin/vim
+    excludesfile = /Users/francis.nelson/.gitignore_global
 [color]
     ui = true
 [diff]
