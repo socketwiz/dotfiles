@@ -82,6 +82,3 @@ esac
 # setup Rust
 export PATH=$HOME/.cargo/bin:$PATH
 
-# setup npm
-export PATH=~/.npm-global/bin:$PATH
-
