@@ -24,6 +24,9 @@ esac
 cd "$HOME/dotfiles" || exit
 git submodule update --init --recursive
 sh -c "$(wget -q https://raw.githubusercontent.com/aaronkjones/noobs-term/master/noobs-term.sh -O -)"
+npm install -g spaceship-prompt
+mkdir ~/.zfunc
+rustup completions zsh > ~/.zfunc/_rustup
 
 stow config
 stow emacs
