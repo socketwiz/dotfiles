@@ -12,3 +12,7 @@ source ~/.fzf.zsh
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
 
+alias open='/usr/bin/xdg-open'
+
+source /usr/local/bin/virtualenvwrapper.sh
+
