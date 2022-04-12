@@ -56,8 +56,6 @@
   (use-package all-the-icons
     :ensure t)
 
-  (switch-theme "dark")
-
   ;; Window numbers
   (use-package winum)
   (winum-mode)
