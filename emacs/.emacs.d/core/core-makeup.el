@@ -86,6 +86,9 @@
   (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
   ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
-  (setq scroll-conservatively 101))
+  (setq scroll-conservatively 101)
+
+  ;; Automatically scroll the compilation buffer
+  (setq compilation-scroll-output t))
 
 (provide 'core-makeup)
