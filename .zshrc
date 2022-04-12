@@ -1,24 +1,16 @@
-#! /bin/zsh
-
 # Path to your oh-my-zsh configuration.
-export ZSH=$HOME/.oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell"
 
-# Set to this to use case-sensitive completion
-# export CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-# export DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# export DISABLE_LS_COLORS="true"
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(rails3 git textmate ruby brew gem)
+plugins=(rails git textmate ruby brew gem)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -29,11 +21,9 @@ alias fixssh="exec ssh-agent /bin/zsh"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 #PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
-PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
+[[ -s "$HOME/.rvm/bin/rvm-prompt" ]] && PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
 SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
 
-#EDITOR="mate -w"
-#SVN_EDITOR="mate -w"
 EDITOR="/usr/local/bin/mvim"
 SVN_EDITOR="/usr/local/bin/mvim"
 
@@ -46,7 +36,7 @@ BREW_PATHS=/usr/local/bin:/usr/local/sbin
 # Add stuff scripts I've written to the PATH.
 PATH=/Users/socketwiz/bin:/Users/socketwiz/bin/pygments-main:/Users/socketwiz/bin/appengine-java-sdk-1.7.0/bin:/Users/socketwiz/.aws/bin:$BREW_PATHS:$AWS_PATHS:${PATH}
 
-export PS1 EDITOR SVN_EDITOR PAGER PATH JAVA_HOME
+# export PS1 EDITOR SVN_EDITOR PAGER PATH JAVA_HOME
 
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
