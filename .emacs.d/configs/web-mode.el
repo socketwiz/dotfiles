@@ -2,12 +2,11 @@
 (use-package web-mode
   :ensure t
   :bind (("C-n" . web-mode-tag-match))
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.js[x]?\\'" . web-mode)
+         ("\\.css\\'" . web-mode)
+         ("\\.scss\\'" . web-mode))
   :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'"  . web-mode))       ;; HTML
-  (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))       ;; JS/JSX
-  (add-to-list 'auto-mode-alist '("\\.css\\'"    . web-mode))       ;; CSS
-  (add-to-list 'auto-mode-alist '("\\.scss\\'"   . web-mode))       ;; SCSS
-
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
     (if (equal web-mode-content-type "jsx")
 	(let ((web-mode-enable-part-face nil))
