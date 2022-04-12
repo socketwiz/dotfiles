@@ -41,7 +41,10 @@ case `uname` in
     ;;
 esac
 
-function npm() {
-    $HOME/.npm-packages/bin/npm $@
-    ogg123 ~/dotfiles/VO_JobsDone.ogg
+# present a list of tmux sessions to choose from
+function tm() {
+    select sel in $(tmux ls -F '#S'); do
+        break;
+    done
+    tmux attach -t "$sel"
 }
