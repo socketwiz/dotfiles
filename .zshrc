@@ -45,7 +45,7 @@ PAGER='less -x4 -X'
 JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
 
 # Homebrew paths
-BREW_PATHS=/usr/local/bin:/usr/local/sbin
+BREW_PATHS=/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin
 # Add stuff scripts I've written to the PATH.
 PATH=/Users/socketwiz/bin:/Users/socketwiz/bin/pygments-main:/Users/socketwiz/bin/appengine-java-sdk-1.7.0/bin:/Users/socketwiz/.aws/bin:$BREW_PATHS:$AWS_PATHS:${PATH}
 
