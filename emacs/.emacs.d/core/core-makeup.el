@@ -75,13 +75,6 @@
   (set-register ?i '(file . "~/.emacs.d/init.el"))
   (set-register ?w '(file . "~/org/wiki/index.org"))
 
-  ;; package-list-packages, then U, then filter-packages-to-update to see what will be updated
-  (defun filter-packages-to-update()
-    "Find packages marked for action in *Packages*."
-    (interactive)
-    (occur "^[A-Z]"))
-  (define-key package-menu-mode-map "a" #'filter-packages-to-update)
-
   ;; Save ALL backup files to this location
   (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
