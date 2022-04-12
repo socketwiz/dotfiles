@@ -1,7 +1,7 @@
 colorscheme vividchalk
 syntax on
 set guifont=Source\ Code\ Pro:h14
-set tags=tags,gemtags
+set tags=.git/tags,.git/gemtags
 
 " disable the arrow keys
 noremap <Up> <Nop>
@@ -24,9 +24,9 @@ set nocompatible
 " for security
 set modelines=0
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 autocmd FileType python setlocal shiftwidth=4 softtabstop=2 expandtab
 
@@ -69,6 +69,7 @@ endif
 
 " remap the leader key from \ to ,
 let mapleader = "\<space>"
+let maplocalleader = "\<space>"
 " don't throw away the reverse character search command
 noremap \ ,
 
@@ -163,3 +164,19 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
+
+" PreserveNoEOL
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let b:PreserveNoEOL = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END PreserveNoEOL
+
+" Tern
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:tern_map_keys = 1
+let g:tern_show_argument_hints='on_hold'
+set updatetime=1000
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END PreserveNoEOL
+
+
