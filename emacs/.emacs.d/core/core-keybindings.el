@@ -29,7 +29,7 @@
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
-  (global-set-key (kbd "C-c C-r") #'ido-recentf-open)
+  (global-set-key (kbd "C-c r") #'helm-recentf)
   (global-set-key (kbd "C-c t") #'switch-theme)
   (global-set-key (kbd "C-h b") #'describe-bindings)
   (global-set-key (kbd "C-h f") #'helpful-callable)
