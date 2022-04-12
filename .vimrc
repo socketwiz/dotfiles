@@ -137,3 +137,9 @@ let g:UltiSnipsEditSplit = 'horizontal'
 let g:UltiSnipsExpandTrigger = "<c-j>"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END UltiSnips
+
+" javascript-libraries-syntax
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:used_javascript_libs = 'jquery,angularjs'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END javascript-libraries-syntax
