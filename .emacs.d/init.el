@@ -14,6 +14,7 @@
 (load "~/.emacs.d/configs/ivy")
 (load "~/.emacs.d/configs/web-mode")
 (load "~/.emacs.d/configs/flycheck")
+(load "~/.emacs.d/configs/tide")
 (load "~/.emacs.d/configs/projectile")
 (load "~/.emacs.d/configs/evil")
 
@@ -35,6 +36,10 @@
   :ensure t
   :config
   (load-theme 'alect-black-alt t))
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
 (use-package counsel :ensure t)
 (use-package hydra :ensure t)
 (use-package ivy-hydra :ensure t)
@@ -51,7 +56,9 @@
   :config
   (global-undo-tree-mode)
   :init
-  (setq undo-tree-auto-save-history t))
+  (setq undo-tree-auto-save-history t)
+  ;; Save ALL undo histories to this location
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
@@ -60,12 +67,17 @@
 (setq inhibit-startup-screen t)
 ;; Display column number
 (setq column-number-mode t)
+;; Save ALL backup files to this location
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (tide web-mode use-package smex projectile magit linum-relative js2-mode ivy-rich ivy-hydra flycheck evil counsel alect-themes)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
