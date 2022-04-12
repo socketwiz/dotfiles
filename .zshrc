@@ -17,14 +17,11 @@ plugins=(git node brew npm urltools virtualenvwrapper docker)
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
-# PS1="(%n@%m) $PS1"
-
 PAGER='less -x4 -X'
 
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
 alias more='less -x4 -X'
-alias emacs='emacs -nw'
 
 # fix zsh globbing on some commands
 alias rspec='nocorrect rspec'
@@ -35,6 +32,7 @@ alias glsf='git ls-files . -co --exclude-standard'
 
 alias devbox='VBoxManage startvm DevBox --type headless'
 
+# print a list of shell functions
 alias lsfuncs="print -l ${(ok)functions}"
 
 # fix the friggin del key
@@ -76,3 +74,5 @@ then
 fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
