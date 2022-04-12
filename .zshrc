@@ -8,8 +8,6 @@ ZSH_THEME="rickyn"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
-PATH=$HOME/.config/yarn/global/node_modules/.bin:/usr/local/bin:$HOME/bin:$PATH
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git node brew npm urltools docker)
@@ -18,6 +16,8 @@ plugins=(git node brew npm urltools docker)
 source $ZSH/oh-my-zsh.sh
  
 PAGER='less -x4 -X'
+
+setopt CORRECT
 
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
@@ -48,15 +48,12 @@ case `uname` in
   Linux)
     source $HOME/.linux
     ;;
+  CYGWIN_NT-10.0-WOW)
+    source $HOME/.windows
+    ;;
 esac
 
-source ~/.fzf.zsh
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 ## for docker
-eval "$(docker-machine env default 2>/dev/null)"
 alias docker-rm-stopped='docker rm $(docker ps -a -q)'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
@@ -64,20 +61,35 @@ function docker-enter() { docker exec -it "$@" /bin/bash; }
 ## manta
 source ~/.manta
 
-# Predictable SSH authentication socket location.
-SOCK="/tmp/ssh-agent-$USER-screen"
-if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
-then
-    rm -f /tmp/ssh-agent-$USER-screen
-    ln -sf $SSH_AUTH_SOCK $SOCK
-    export SSH_AUTH_SOCK=$SOCK
+# Setup user agent
+env=~/.ssh/agent.env
+
+agent_load_env () {
+    test -f "$env" && . "$env" >| /dev/null;
+}
+
+agent_start () {
+    (umask 077; ssh-agent >| "$env")
+    . "$env" >| /dev/null;
+}
+
+agent_load_env
+
+# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+    agent_start
+    ssh-add
+elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+    ssh-add
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+unset env
 
 REACT_EDITOR=mvim
 
-export GOPATH="$HOME/go-workspace"
-export PATH="$PATH:$GOPATH/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

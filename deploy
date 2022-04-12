@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 PLATFORM=`uname`
 
 function build_vim {
@@ -19,14 +19,15 @@ function build_vim {
     cd ~
     git clone https://github.com/vim/vim.git
     cd vim
-    git checkout v7.4.900
+    git checkout v8.0.0325
     case $PLATFORM in
         SunOS)
             ./configure --with-features=huge \
                 --enable-rubyinterp \
                 --enable-pythoninterp \
                 --enable-cscope --prefix=/opt/local
-            make VIMRUNTIMEDIR=/opt/local/share/vim/vim74
+            make VIMRUNTIMEDIR=/opt/local/share/vim/vim80
+            sudo make install
             ;;
         Linux)
             ./configure --with-features=huge \
@@ -34,12 +35,8 @@ function build_vim {
                 --enable-pythoninterp \
                 --enable-perlinterp \
                 --enable-cscope --prefix=/usr
-            make VIMRUNTIMEDIR=/usr/share/vim/vim74
-            ;;
-    esac
-    sudo make install
-    case $PLATFORM in
-        Linux)
+            make VIMRUNTIMEDIR=/usr/share/vim/vim80
+            sudo make install
             sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
             sudo update-alternatives --set editor /usr/bin/vim
             sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
@@ -50,7 +47,12 @@ function build_vim {
 
 case $PLATFORM in
     Darwin)
+        brew install cmake reattach-to-user-namespace
         ln -s $HOME/dotfiles/.darwin $HOME/.darwin
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        touch .manta
+        ~/.fzf/install
+        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
         ;;
     SunOS)
         sudo pkgin -y install p5-ack
@@ -88,9 +90,12 @@ fi
 if [ -a "$HOME/.gitconfig" ]; then
     mv .gitconfig .gitconfig.orig
 fi
+touch .manta
 
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
+rmdir $HOME/.emacs.d/private/snippets
 mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
 ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
@@ -101,4 +106,6 @@ ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
 ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
 ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
+ln -s $HOME/dotfiles/.config/.spacemacs $HOME/.config/.spacemacs
+ln -s $HOME/dotfiles/.emacs.d/private/snippets $HOME/.emacs.d/private/snippets
 
