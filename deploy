@@ -89,3 +89,4 @@ ln -s $HOME/dotfiles/.gitconfig
 ln -s $HOME/dotfiles/.vim
 ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
+ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
