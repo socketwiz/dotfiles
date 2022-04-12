@@ -75,10 +75,6 @@
   (use-package dockerfile-mode
     :defer t)
 
-  (use-package paradox
-    :config (progn (setq paradox-execute-asynchronously t)) 
-    :commands (paradox-upgrade-packages paradox-list-packages))
-
   (use-package helpful
     :ensure t)
 

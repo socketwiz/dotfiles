@@ -20,10 +20,7 @@
     :bind (("C-c p *" . projectile-pt))
     :diminish 'projectile-mode) 
 
-  (use-package counsel-projectile)
-
-  (setq projectile-completion-system 'ivy
-        projectile-sort-order 'recentf
+  (setq projectile-sort-order 'recentf
         projectile-globally-ignored-directories (append '(".cache")))
   (projectile-global-mode))
 
