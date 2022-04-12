@@ -1,6 +1,12 @@
 
 (defun my/init-evil-base () 
   (my/init-evil-escape) 
+  (use-package evil
+    :config
+    (evil-mode 1)
+
+    ;; disable this key sequence so we can use it in ivy
+    (define-key evil-normal-state-map (kbd "C-n") nil))
   (use-package evil-surround 
     :config (global-evil-surround-mode 1)))
 

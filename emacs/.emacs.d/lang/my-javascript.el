@@ -18,7 +18,7 @@
 (defun my/init-javascript ()
   (use-package web-mode
     :ensure t
-    :bind (("C-n" . web-mode-tag-match))
+    :bind (:map web-mode-map ("C-n" . web-mode-tag-match))
     :mode (("\\.html?\\'" . web-mode)
            ("\\.js[x]?\\'" . web-mode)
            ("\\.css\\'" . web-mode)
