@@ -1,6 +1,6 @@
 " my own settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme koehler
+colorscheme vividchalk
 syntax on
 set guifont=Menlo\ Regular:h14
 set guioptions-=T  "remove toolbar
@@ -8,6 +8,7 @@ set tags=tags,gemtags
 
 " enable spell checking
 map <F5> :setlocal spell spelllang=en_us<cr>
+" toggle undo manager
 noremap <F6> :GundoToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END my own settings
@@ -89,9 +90,6 @@ set formatoptions=qrn1
 " disable autoindent when F2 is pressed
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-
-" show the current eding mode on the last line
-set showmode
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
