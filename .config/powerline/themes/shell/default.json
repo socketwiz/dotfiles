@@ -27,6 +27,13 @@
 				"name": "user"
 			},
 			{
+				"module": "powerline.segments.shell",
+				"name": "last_pipe_status"
+			},
+			{
+				"name": "branch"
+			},
+			{
 				"name": "virtualenv"
 			},
 			{
@@ -41,13 +48,6 @@
 			}
 		],
 		"right": [
-			{
-				"module": "powerline.segments.shell",
-				"name": "last_pipe_status"
-			},
-			{
-				"name": "branch"
-			}
 		]
 	}
 }
