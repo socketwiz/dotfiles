@@ -15,14 +15,21 @@
 (load "~/.emacs.d/configs/markdown")
 (load "~/.emacs.d/configs/powerline")
 (load "~/.emacs.d/configs/org")
-(load "~/.emacs.d/configs/magit")
+(load "~/.emacs.d/configs/which-key")
 
 ;; JavaScript development
 (load "~/.emacs.d/configs/web")
 (load "~/.emacs.d/configs/flycheck")
 (load "~/.emacs.d/configs/tide")
+
+;; Lisp development
+(load "~/.emacs.d/configs/paredit")
+
+;; General development
+(load "~/.emacs.d/configs/magit")
 (load "~/.emacs.d/configs/completions")
 (load "~/.emacs.d/configs/snippets")
+(load "~/.emacs.d/configs/gutter")
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
