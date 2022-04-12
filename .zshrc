@@ -13,7 +13,6 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git node brew npm urltools)
 
 # add any zsh script fixes to bin in $HOME directory
-PATH=$HOME/bin:$PATH
 source $ZSH/oh-my-zsh.sh
  
 PS1="(%n@%m) $PS1"
