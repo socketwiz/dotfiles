@@ -106,9 +106,6 @@ set pastetoggle=<leader>2
 " enable spell checking
 noremap <leader>3 :setlocal spell spelllang=en_us<cr>
 
-" toggle undo manager
-noremap <leader>6 :GundoToggle<cr>
-
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
