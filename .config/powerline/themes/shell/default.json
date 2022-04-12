@@ -17,24 +17,16 @@
 	"segments": {
 		"left": [
 			{
-				"module": "powerline.segments.shell",
-				"name": "mode"
-			},
-			{
 				"name": "hostname"
 			},
 			{
 				"name": "user"
 			},
 			{
-				"module": "powerline.segments.shell",
-				"name": "last_pipe_status"
+				"name": "virtualenv"
 			},
 			{
 				"name": "branch"
-			},
-			{
-				"name": "virtualenv"
 			},
 			{
 				"name": "cwd",
@@ -45,9 +37,11 @@
 			{
 				"module": "powerline.segments.shell",
 				"name": "jobnum"
+			},
+			{
+				"name": "last_status",
+				"module": "powerline.segments.shell"
 			}
-		],
-		"right": [
 		]
 	}
 }
