@@ -4,3 +4,6 @@ SVN_EDITOR="/usr/bin/vim"
 if [ -x $HOME/.invincea ]; then
   source $HOME/.invincea
 fi
+
+source ~/.fzf.zsh
+
