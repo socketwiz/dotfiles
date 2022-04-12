@@ -86,9 +86,17 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
+" change the status line based on mode
+if version >= 700
+  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
+  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
+endif
+
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
+" tell ack.vim to use Silver Searcher instead of Ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -112,9 +120,9 @@ endif
 
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*,*.pyc
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|public/lib'
+let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|public/lib|build'
 " 0) don't manage working directory
 " 1) the directory of the current file
 " 2) the nearest ancestor that contains one of these directories or files:
