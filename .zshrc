@@ -48,6 +48,9 @@ case `uname` in
   Linux)
     source $HOME/.linux
     ;;
+  CYGWIN_NT-10.0-WOW)
+    source $HOME/.windows
+    ;;
 esac
 
 ## for docker
@@ -58,19 +61,33 @@ function docker-enter() { docker exec -it "$@" /bin/bash; }
 ## manta
 source ~/.manta
 
-# Predictable SSH authentication socket location.
-SOCK="/tmp/ssh-agent-$USER-screen"
-if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
-then
-    rm -f /tmp/ssh-agent-$USER-screen
-    ln -sf $SSH_AUTH_SOCK $SOCK
-    export SSH_AUTH_SOCK=$SOCK
+# Setup user agent
+env=~/.ssh/agent.env
+
+agent_load_env () {
+    test -f "$env" && . "$env" >| /dev/null;
+}
+
+agent_start () {
+    (umask 077; ssh-agent >| "$env")
+    . "$env" >| /dev/null;
+}
+
+agent_load_env
+
+# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+    agent_start
+    ssh-add
+elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+    ssh-add
 fi
+
+unset env
 
 REACT_EDITOR=mvim
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-
-source ~/.fzf.zsh
-source ~/.config/snoo
 
