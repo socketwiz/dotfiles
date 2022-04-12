@@ -40,6 +40,22 @@ case `uname` in
     ;;
 esac
 
+function npm() {
+    case `uname` in
+        Darwin)
+            $HOME/.npm-packages/bin/npm $@
+            ogg123 ~/dotfiles/VO_JobsDone.ogg
+            ;;
+        SunOS)
+            ;;
+        Linux)
+            /usr/bin/npm $@
+            ;;
+        CYGWIN_NT-10.0-WOW)
+            ;;
+    esac
+}
+
 # present a list of tmux sessions to choose from
 function tm() {
     select sel in $(tmux ls -F '#S'); do
