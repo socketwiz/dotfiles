@@ -64,8 +64,7 @@ alias gpg='nocorrect gpg'
 alias rspec='nocorrect rspec'
 alias hg='nocorrect hg'
 alias npm='nocorrect npm'
-alias role='nocorrect role'
-alias cookbook='nocorrect cookbook'
+alias nodemon='/usr/local/share/npm/bin/nodemon'
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
