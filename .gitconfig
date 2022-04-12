@@ -1,8 +1,8 @@
 [user]
     name = Ricky Nelson
-    email = rickyn@socketwiz.com
+    email = fnelson@gannett.com
 [core]
-    excludesfile = /Users/socketwiz/.gitignore_global
+    excludesfile = /Users/fnelson/.gitignore_global
 [color]
     ui = true
 [diff]
