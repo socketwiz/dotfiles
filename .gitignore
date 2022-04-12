@@ -3,4 +3,5 @@
 .vim/.netrwhist
 .vim/bundle/dash.vim/doc/tags
 .vim/UltiSnipsAngular
-.DS_Store
+/tags
+/core
