@@ -98,6 +98,15 @@ endif
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
+" pretty print json
+nmap <leader>1 :%!python -m json.tool<CR>
+
+" If you prefer the Omni-Completion tip window to close when a selection is
+" " made, these lines close it on movement in insert mode or when leaving
+" " insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
 " tell ack.vim to use Silver Searcher instead of Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
