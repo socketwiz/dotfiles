@@ -17,14 +17,14 @@ function build_vim {
   cd ~
   hg clone https://code.google.com/p/vim/
   cd vim
-  hg checkout v7-3-1314
+  hg checkout v7-4-005
   case $PLATFORM in
     SunOS)
       ./configure --with-features=huge \
         --enable-rubyinterp \
         --enable-pythoninterp \
         --enable-cscope --prefix=/opt/local
-      make VIMRUNTIMEDIR=/opt/local/share/vim/vim73
+      make VIMRUNTIMEDIR=/opt/local/share/vim/vim74
       ;;
     Linux)
       ./configure --with-features=huge \
@@ -32,7 +32,7 @@ function build_vim {
         --enable-pythoninterp \
         --enable-perlinterp \
         --enable-cscope --prefix=/usr
-      make VIMRUNTIMEDIR=/usr/share/vim/vim73
+      make VIMRUNTIMEDIR=/usr/share/vim/vim74
       ;;
   esac
   sudo make install
@@ -45,7 +45,6 @@ function build_vim {
       sudo update-alternatives --set vi /usr/bin/vim
       ;;
   esac
-}
 
 case $PLATFORM in
   Darwin)
