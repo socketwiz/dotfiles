@@ -6,7 +6,7 @@
 (require 'my-git)
 
 (defun my/init-base ()
-  (my/init-evil-base)
+  ;; (my/init-evil-base)
   (my/init-ido)
   (my/init-projectile)
   (my/init-emacs)
