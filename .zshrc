@@ -10,13 +10,16 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git node brew npm urltools)
+plugins=(git node brew npm urltools, vi-mode)
 
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
 PS1="(%n@%m) $PS1"
 SUDO_PS1="\[\e[33;1;41m\][\u] \w \$\[\e[0m\] "
+
+# powerline PROMPT
+. $HOME/dotfiles/powerline/powerline/bindings/zsh/powerline.zsh
 
 PAGER='less -x4 -X'
 
