@@ -68,6 +68,8 @@ set undofile
 
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+" Store undo files in fixed location, not current directory.
+set dir=~/.vimundo//,/var/tmp//,/tmp//,.
 
 " remap the leader key from \ to ,
 let mapleader = ","
