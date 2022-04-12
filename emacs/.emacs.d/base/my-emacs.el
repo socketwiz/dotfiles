@@ -82,17 +82,21 @@
   (use-package helpful
     :ensure t)
 
+  (use-package powerline
+    :ensure t)
+
+  (use-package spaceline
+    :ensure t
+    :init
+    (require 'spaceline-config)
+    :config
+    (progn
+      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+      (spaceline-emacs-theme)))
+
   (use-package moe-theme
     :ensure t
     :config
-    (progn
-      (powerline-moe-theme)
-      (moe-theme-set-color 'green)
-      (use-package spaceline-config
-        :ensure spaceline
-        :config
-        :config (progn
-                  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-                  (spaceline-emacs-theme))))))
+    (moe-theme-set-color 'green)))
 
 (provide 'my-emacs)
