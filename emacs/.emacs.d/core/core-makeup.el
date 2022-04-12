@@ -23,6 +23,12 @@
 		      :family config-font-family
 		      :height config-font-height)
 
+  ;; modeline theme
+  (use-package zerodark-theme
+    :ensure t
+    :config
+    (zerodark-setup-modeline-format))
+
   ;; theme
   ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
   ;; https://github.com/emacs-jp/replace-colorthemes
