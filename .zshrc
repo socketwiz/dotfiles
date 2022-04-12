@@ -61,8 +61,5 @@ docker-enter() {
   boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
 }
 
-## Go
-export GOPATH=$HOME/go
-
 ## manta
 source ~/.manta
