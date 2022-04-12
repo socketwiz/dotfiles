@@ -18,6 +18,12 @@
 	(let ((web-mode-enable-part-face nil))
 	  ad-do-it)
       ad-do-it))
+
+  ;; disable lining up the args
+  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
   :init
   (setq web-mode-content-types-alist
 	'(("jsx" . "\\.js[x]?\\'")
@@ -30,8 +36,11 @@
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-css-indent-offset 4)
   (setq web-mode-code-indent-offset 4)
+  ;; automatically close tag
   (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-enable-css-colorization t))
+  (setq web-mode-enable-css-colorization t)
+  ;; don't lineup element attributes
+  (setq web-mode-attr-indent-offset 4))
 
 (use-package skewer-mode
   :ensure t)
