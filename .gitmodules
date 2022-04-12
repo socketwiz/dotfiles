@@ -25,9 +25,6 @@
 [submodule ".vim/bundle/ultisnips"]
 	path = .vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
-[submodule "angular-vim-snippets"]
-	path = angular-vim-snippets
-	url = git@github.com:matthewsimo/angular-vim-snippets.git
 [submodule ".vim/bundle/vim-startify"]
 	path = .vim/bundle/vim-startify
 	url = git@github.com:mhinz/vim-startify.git
