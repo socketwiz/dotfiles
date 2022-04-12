@@ -247,3 +247,9 @@ let g:webdevicons_enable_ctrlp = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END vim-devicons
 
+" rust.vim
+" use git grep to search
+let g:rustfmt_autosave = 1 " automatically run rustfmt when buffer is saved
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END rust.vim
+
