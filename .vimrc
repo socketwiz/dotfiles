@@ -35,7 +35,7 @@ set encoding=utf-8
 set scrolloff=3
 set autoindent
 " message on the last line showing mode (insert, replace or visual)
-set noshowmode
+set showmode
 " show partial command in the last line of the screen
 set showcmd
 " allow buffers with unsaved modifications to be hidden
@@ -91,6 +91,13 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
+" change the status line based on mode
+if version >= 700
+  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
+  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
+endif
+ 
+
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
@@ -113,9 +120,21 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END pathogen
 
+" Fugitive
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" print git branch in the status line
+if has('win32') || has('win64')
+else
+  set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
+endif
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END Fugitive
+ 
+
 " CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*,*.pyc
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
+set wildignore+=*.pyc
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|public/lib|build'
 " 0) don't manage working directory
@@ -143,9 +162,3 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
-
-" powerline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set rtp+=$HOME/dotfiles/powerline/powerline/bindings/vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END powerline
