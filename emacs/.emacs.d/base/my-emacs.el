@@ -88,6 +88,13 @@
     :config
     (progn
       (require 'helm-config)
-      (helm-mode 1))))
+      (helm-mode 1)))
+
+
+  (use-package atomic-chrome
+    :ensure t
+    :config (progn
+              (atomic-chrome-start-server)
+              (setq atomic-chrome-buffer-open-style 'frame))))
 
 (provide 'my-emacs)
