@@ -2,7 +2,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme vividchalk
 syntax on
-set guifont=Menlo\ Regular:h14
+set guifont=Source\ Code\ Pro:h14
 set guioptions-=T  "remove toolbar
 set tags=tags,gemtags
 
