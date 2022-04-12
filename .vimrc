@@ -104,6 +104,8 @@ nmap <leader>8 :TagbarToggle<CR>
 
 " pretty print json
 nmap <leader>1 :%!python -m json.tool<CR>
+" pretty print xml
+nmap <leader>2 :silent %!xmllint --encode UTF-8 --format -<CR>
 
 " If you prefer the Omni-Completion tip window to close when a selection is
 " " made, these lines close it on movement in insert mode or when leaving
