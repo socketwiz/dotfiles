@@ -10,7 +10,9 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-:set lines=40 columns=140
+" Causes weird formatting issues on SmartOS
+" :set lines=40 columns=140
+
 " Fix pbcopy/pbpase on OS X terminal vim
 :set clipboard=unnamed
 
