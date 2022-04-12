@@ -1,2 +1,2 @@
 # devenv
-My development environment
+Configuration files for my development environment
