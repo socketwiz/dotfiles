@@ -163,6 +163,7 @@ let g:ctrlp_use_caching = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END CtrlP
 
+
 " UltiSnips (requires UltiSnips addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:UltiSnipsEditSplit = 'horizontal'
@@ -171,11 +172,6 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END UltiSnips
 
-" javascript-libraries-syntax
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END javascript-libraries-syntax
 
 " PreserveNoEOL
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,10 +179,17 @@ let b:PreserveNoEOL = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END PreserveNoEOL
 
-" Tern
+
+" Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:tern_map_keys = 1
-let g:tern_show_argument_hints='on_hold'
-set updatetime=1000
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_javascript_checkers=['jshint','jscs']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END PreserveNoEOL
+" END Syntastic
