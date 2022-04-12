@@ -54,7 +54,7 @@ export PS1 EDITOR SVN_EDITOR PAGER PATH JAVA_HOME
 # This is L33T, it takes care of the screen 
 # redraw issues when using less or man.
 alias more='less -x4 -X'
-alias la='/bin/ls -alhG'
+alias la='/bin/ls -ahG'
 alias ll='/bin/ls -lhG'
 alias ql='qlmanage -p'
 alias emacs='emacs -nw'
