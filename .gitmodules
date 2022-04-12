@@ -25,3 +25,6 @@
 [submodule ".vim/bundle/vim-objc"]
 	path = .vim/bundle/vim-objc
 	url = git://github.com/thedjinn/vim-objc.git
+[submodule ".vim/bundle/vim-rails"]
+	path = .vim/bundle/vim-rails
+	url = git://github.com/tpope/vim-rails.git
