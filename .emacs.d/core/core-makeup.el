@@ -22,7 +22,6 @@
   (set-face-attribute 'default nil
 		      :family config-font-family
 		      :height config-font-height)
-  (set-frame-parameter nil 'fullscreen 'fullboth)
 
   ;; theme
   ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
