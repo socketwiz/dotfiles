@@ -13,18 +13,22 @@ hidden = true
 color = true
 
 # ignore files/directories matching pattern
-ignore = [".DS_Store",
-          ".git",
-          ".subgit",
-          ".hg",
-          ".subhg",
-          ".svn",
-          ".peru",
-          ".precomp",
-          "node_modules",
-          ".gitattributes",
-          ".gitignore",
-          ".gitmodules",
-          ".hgignore",
-          ".travis.yml"]
+ignore = [
+    ".DS_Store",
+    ".git",
+    ".subgit",
+    ".hg",
+    ".subhg",
+    ".svn",
+    ".peru",
+    ".precomp",
+    "node_modules",
+    ".gitattributes",
+    ".gitignore",
+    ".gitmodules",
+    ".hgignore",
+    ".travis.yml",
+    "coverage",
+    "build"
+]
 
