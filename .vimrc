@@ -56,6 +56,7 @@ set laststatus=2
 if version >= 703
   " show the line number relative to the line with the cursor
   set relativenumber
+  set number " current line shows line number
 endif
 
 if has('persistent_undo')
@@ -119,7 +120,7 @@ call matchadd('ColorColumn', '\%81v', 100)
 
 " display tab and extra whitespace characters
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-set list
+" set list
 
 " pathogen (requires pathogen addon)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
