@@ -1,3 +1,5 @@
---type-add
-js=.coffee
---ignore-dir=.idea
+--ignore-dir=.idea/
+--ignore-dir=node_modules/
+--ignore-dir=public/lib/
+--type-set=jade=.jade
+--type-set=json=.json
