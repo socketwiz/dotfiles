@@ -71,7 +71,7 @@
   "Find packages marked for action in *Packages*."
   (interactive)
   (occur "^[A-Z]"))
-(define-key package-menu-mode-map "a" #'package-menu-find-marks)
+(define-key package-menu-mode-map "a" #'filter-packages-to-update)
 
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
