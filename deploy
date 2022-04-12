@@ -84,7 +84,7 @@ mv .gitconfig .gitconfig.orig
 
 mkdir $HOME/bin
 ln -s $HOME/dotfiles/.ackrc
-ln -s $HOME/dotfiles/.default-difftool $HOME/bin/default-difftool.sh
+ln -s $HOME/dotfiles/.default-difftool.sh $HOME/bin/default-difftool.sh
 ln -s $HOME/dotfiles/.gitconfig
 ln -s $HOME/dotfiles/.vim
 ln -s $HOME/dotfiles/.vimrc
