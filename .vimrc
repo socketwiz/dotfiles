@@ -86,6 +86,12 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 
+" change the status line based on mode
+if version >= 700
+  au InsertEnter * hi StatusLine term=reverse ctermfg=7* ctermbg=1* gui=undercurl guisp=Red
+  au InsertLeave * hi StatusLine term=reverse ctermfg=7* ctermbg=2 gui=bold,reverse
+endif
+
 " enable TagBar
 nmap <leader>8 :TagbarToggle<CR>
 
