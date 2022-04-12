@@ -33,6 +33,8 @@ alias hg='nocorrect hg'
 # git
 alias glsf='git ls-files . -co --exclude-standard'
 
+alias devbox='VBoxManage startvm DevBox --type headless'
+
 # fix the friggin del key
 bindkey "^[[3~" delete-char
 
