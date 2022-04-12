@@ -1,14 +1,4 @@
 
-(defun configure-web-mode-flycheck-checkers ()
-  ;; in order to have flycheck enabled in web-mode, add an entry to this
-  ;; cond that matches the web-mode engine/content-type/etc and returns the
-  ;; appropriate checker.
-  (-when-let (checker (cond
-                       ((string= web-mode-content-type "jsx")
-                        'javascript-eslint)))
-    (flycheck-mode)
-    (flycheck-select-checker checker)))
-
 (defun my/init-emacs () 
   (setq initial-major-mode config-scratch-mode) 
 
@@ -48,12 +38,7 @@
   ;; init flycheck
   (use-package flycheck
     :diminish flycheck-mode
-    :ensure t
-
-    :config
-    ;; use eslint with web-mode for js[x]? files
-    (flycheck-add-mode 'javascript-eslint 'web-mode)
-    (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers))
+    :ensure t)
 
   ;; init yasnippet
   (use-package yasnippet
