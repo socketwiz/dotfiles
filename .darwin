@@ -54,7 +54,7 @@ if [ -x $HOME/.gannett ]; then
   source $HOME/.gannett
 fi
 
-source ~/.xsh
+# source ~/.xsh
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
