@@ -34,6 +34,7 @@ values."
      html
      javascript
      markdown
+     osx
      python
      react
      yaml
