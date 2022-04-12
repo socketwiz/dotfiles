@@ -28,7 +28,6 @@
 (load "~/.emacs.d/configs/magit")
 (load "~/.emacs.d/configs/completions")
 (load "~/.emacs.d/configs/snippets")
-(load "~/.emacs.d/configs/gutter")
 
 ;; Open up our wiki-page
 (defalias 'open-wiki '(lambda() (interactive)(find-file "~/org/wiki/index.org")))
@@ -43,6 +42,8 @@
 (setq column-number-mode t)
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
+(setq scroll-conservatively 101)
 
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
