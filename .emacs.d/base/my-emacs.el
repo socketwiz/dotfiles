@@ -53,6 +53,16 @@
     :init (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
   ;; keep backups
-  (setq make-backup-files config-keep-backups))
+  (setq make-backup-files config-keep-backups)
+
+  ;; Org mode
+  (use-package org
+    :ensure t
+    :config (progn
+              (setq org-directory "~/org")
+              (setq org-startup-folded nil)
+              (setq org-return-follows-link t))
+    )
+  )
 
 (provide 'my-emacs)
