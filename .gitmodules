@@ -51,7 +51,7 @@
 	url = git@github.com:jimmyhchan/dustjs.vim.git
 [submodule ".vim/bundle/PreserveNoEOL"]
 	path = .vim/bundle/PreserveNoEOL
-	url = git@github.com:vim-scripts/PreserveNoEOL.git
+	url = https://github.com/vim-scripts/PreserveNoEOL.git
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/bundle/vim-json
 	url = git@github.com:elzr/vim-json.git
