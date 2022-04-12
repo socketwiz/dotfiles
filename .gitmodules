@@ -52,3 +52,15 @@
 [submodule ".vim/bundle/vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
 	url = git@github.com:tpope/vim-unimpaired.git
+[submodule ".vim/bundle/jsoncodecs.vim"]
+	path = .vim/bundle/jsoncodecs.vim
+	url = https://github.com/michalliu/jsoncodecs.vim.git
+[submodule ".vim/bundle/jsruntime.vim"]
+	path = .vim/bundle/jsruntime.vim
+	url = https://github.com/michalliu/jsruntime.vim.git
+[submodule ".vim/bundle/sourcebeautify.vim"]
+	path = .vim/bundle/sourcebeautify.vim
+	url = git@github.com:michalliu/sourcebeautify.vim.git
+[submodule ".vim/bundle/tern_for_vim"]
+	path = .vim/bundle/tern_for_vim
+	url = git@github.com:marijnh/tern_for_vim.git
