@@ -1,58 +1,46 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Set to the name theme to load.
-# Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="rickyn"
+# Path to your oh-my-zsh installation.
+export ZSH=/home/socketwiz/.oh-my-zsh
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git urltools)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  urltools
+)
 
-# add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
- 
-setopt CORRECT
 
-# This is L33T, it takes care of the screen 
-# redraw issues when using less or man.
-alias more='less -x4 -X'
+# User configuration
 
-alias ec='emacsclient -c -n $1'
+# export MANPATH="/usr/local/man:$MANPATH"
 
-# fix zsh globbing on some commands
-alias rspec='nocorrect rspec'
-alias hg='nocorrect hg'
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
-alias devbox='VBoxManage startvm DevBox --type headless'
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
 
-# fix the friggin del key
-bindkey "^[[3~" delete-char
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
 
-case `uname` in
-  Darwin)
-    source $HOME/.darwin
-    ;;
-  SunOS)
-    source $HOME/.sun
-    ;;
-  Linux)
-    source $HOME/.linux
-    ;;
-  CYGWIN_NT-10.0-WOW)
-    source $HOME/.windows
-    ;;
-esac
-
-## for docker
-alias docker-rm-stopped='docker rm $(docker ps -a -q)'
-alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
-function docker-enter() { docker exec -it "$@" /bin/bash; }
-
-# Setup user agent
+# ssh
 env=~/.ssh/agent.env
 
 agent_load_env () {
@@ -76,8 +64,44 @@ elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
     ssh-add
 fi
 
-unset env
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# aliases
+alias ec='emacsclient -c -n $1'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+# fix zsh globbing on some commands
+alias rspec='nocorrect rspec'
+alias hg='nocorrect hg'
+
+alias devbox='VBoxManage startvm DevBox --type headless'
+
+## for docker
+alias docker-rm-stopped='docker rm $(docker ps -a -q)'
+alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
+function docker-enter() { docker exec -it "$@" /bin/bash; }
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fix the friggin del key
+bindkey "^[[3~" delete-char
+
+case `uname` in
+  Darwin)
+    source $HOME/.darwin
+    ;;
+  SunOS)
+    source $HOME/.sun
+    ;;
+  Linux)
+    source $HOME/.linux
+    ;;
+  CYGWIN_NT-10.0-WOW)
+    source $HOME/.windows
+    ;;
+esac
+
+source /usr/local/bin/virtualenvwrapper.sh
 

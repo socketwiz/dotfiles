@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 PLATFORM=`uname`
 
 if ! hash stow 2>/dev/null; then
