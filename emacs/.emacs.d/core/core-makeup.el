@@ -2,20 +2,23 @@
 (defun switch-theme (theme)
   "Switch between light and dark themes"
   (interactive "slight or dark theme? ")
+  (defadvice load-theme (before theme-dont-propagate activate)
+    (mapc #'disable-theme custom-enabled-themes))
   (cond ((string= theme "light")
+         (disable-theme 'zerodark)
          (use-package moe-theme
            :ensure t)
 
          (load-theme 'moe-light t)
          (moe-theme-set-color 'green))
         ((string= theme "dark")
+         (disable-theme 'moe)
          (use-package zerodark-theme
            :ensure t)
 
          (load-theme 'zerodark t)
          (zerodark-setup-modeline-format))
-        (t (message "Choices are only light or dark")))
-  )
+        (t (message "Choices are only light or dark"))))
 
 (defun my/init-makeup ()
   ;; Set regex syntax to string for re-builder
