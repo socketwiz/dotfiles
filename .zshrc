@@ -8,7 +8,7 @@ ZSH_THEME="rickyn"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
-PATH=$HOME/.rvm/bin:/usr/local/bin:$HOME/bin:$PATH # Add RVM to PATH for scripting
+PATH=$HOME/.config/yarn/global/node_modules/.bin:/usr/local/bin:$HOME/bin:$PATH
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -76,3 +76,4 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+REACT_EDITOR=mvim
