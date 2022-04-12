@@ -69,3 +69,4 @@ docker-enter() {
 ## manta
 source ~/.manta
 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
