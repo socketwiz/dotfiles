@@ -1,2 +1,6 @@
 EDITOR="/usr/bin/vim"
 SVN_EDITOR="/usr/bin/vim"
+
+if [ -x $HOME/.invincea ]; then
+  source $HOME/.invincea
+fi
