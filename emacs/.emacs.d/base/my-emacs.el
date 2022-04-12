@@ -62,8 +62,7 @@
     :ensure t
     :config (progn
               (setq org-directory "~/org")
-              (setq org-startup-folded nil))
-    )
+              (setq org-src-fontify-natively t)))
 
   ;; Respect editor configs
   (use-package editorconfig
