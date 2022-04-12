@@ -4,23 +4,22 @@
     "workbench.iconTheme": "material-icon-theme",
     "window.zoomLevel": 0,
     "editor.lineNumbers": "relative",
-    "sync.gist": "a0beffd367571bb28c2f06d83131c9e3",
-    "sync.lastUpload": "2018-05-18T20:08:48.916Z",
-    "sync.autoDownload": false,
-    "sync.autoUpload": false,
-    "sync.lastDownload": "",
-    "sync.forceDownload": false,
-    "sync.anonymousGist": false,
+    "workbench.editor.enablePreview": false,
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.historyExplorer.enabled": true,
+    "workbench.colorTheme": "Dracula At Night",
+    "sync.gist": "fdb9140c6ca3247b37864bd4e877a11a",
     "sync.host": "",
     "sync.pathPrefix": "",
     "sync.quietSync": false,
     "sync.askGistName": false,
     "sync.removeExtensions": true,
     "sync.syncExtensions": true,
-    "workbench.editor.enablePreview": false,
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
-    },
-    "gitlens.historyExplorer.enabled": true,
-    "workbench.colorTheme": "Dracula At Night"
+    "sync.autoDownload": false,
+    "sync.autoUpload": false,
+    "sync.lastUpload": "2018-06-10T14:26:56.988Z",
+    "sync.lastDownload": "",
+    "sync.forceDownload": false
 }

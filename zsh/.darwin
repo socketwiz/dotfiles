@@ -1,6 +1,6 @@
 #! /bin/sh
 
-EDITOR="~/bin/edit"
+EDITOR="vim"
 JAVA_HOME=$(/usr/libexec/java_home)
 WORKON_HOME=~/.virtualenvs
 
@@ -33,9 +33,9 @@ source ~/.fzf.zsh
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
-# for homebrew
-PATH=/usr/local/opt/node@6/bin:$PATH
-
 # virtualenv
 source /usr/local/bin/virtualenvwrapper.sh
+
 export PATH="/usr/local/opt/node@8/bin:$PATH"
+export PATH=$HOME/.npm-packages/bin:$PATH
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
