@@ -33,7 +33,7 @@ set encoding=utf-8
 set scrolloff=3
 set autoindent
 " message on the last line showing mode (insert, replace or visual)
-set showmode
+set noshowmode
 " show partial command in the last line of the screen
 set showcmd
 " allow buffers with unsaved modifications to be hidden
@@ -141,3 +141,9 @@ let g:UltiSnipsSnippetDirectories = ["UltiSnipsAngular", "UltiSnips"]
 let g:used_javascript_libs = 'jquery,angularjs,backbone,underscore'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END javascript-libraries-syntax
+
+" powerline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set rtp+=$HOME/dotfiles/powerline/powerline/bindings/vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END powerline
