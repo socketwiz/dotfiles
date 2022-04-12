@@ -55,7 +55,7 @@ alias hg='nocorrect hg'
 alias devbox='VBoxManage startvm DevBox --type headless'
 
 ## for docker
-alias docker-rm-stopped='docker rm $(docker ps -a -q)'
+alias docker-rm-stopped='docker system prune'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
 
