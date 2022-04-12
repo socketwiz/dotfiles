@@ -1,4 +1,6 @@
 
+export PAGER='less -x4 -X'
+
 # Homebrew paths
 export BREW_PATHS=/usr/local/bin:/usr/local/sbin
 

@@ -15,8 +15,6 @@ plugins=(git urltools)
 # add any zsh script fixes to bin in $HOME directory
 source $ZSH/oh-my-zsh.sh
  
-PAGER='less -x4 -X'
-
 setopt CORRECT
 
 # This is L33T, it takes care of the screen 
@@ -54,9 +52,6 @@ alias docker-rm-stopped='docker rm $(docker ps -a -q)'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
 
-## manta
-source ~/.manta
-
 # Setup user agent
 env=~/.ssh/agent.env
 
@@ -84,9 +79,5 @@ fi
 unset env
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source $HOME/.cargo/env
-
-PATH=~/bin:$PATH
 
