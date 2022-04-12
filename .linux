@@ -1,5 +1,8 @@
+#! /bin/sh
+
 EDITOR="/usr/bin/vim"
 SVN_EDITOR="/usr/bin/vim"
+PATH=/usr/local/bin:$PATH
 
 if [ -x $HOME/.invincea ]; then
   source $HOME/.invincea

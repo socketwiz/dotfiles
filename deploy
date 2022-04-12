@@ -106,6 +106,8 @@ ln -s $HOME/dotfiles/.vimrc
 ln -s $HOME/dotfiles/.zshrc
 ln -s $HOME/dotfiles/angular-vim-snippets/UltiSnips $HOME/dotfiles/.vim/UltiSnipsAngular
 ln -s $HOME/dotfiles/.config/powerline $HOME/.config/powerline
-ln -s $HOME/dotfiles/.config/.spacemacs $HOME/.config/.spacemacs
+ln -s $HOME/dotfiles/.spacemacs $HOME/.spacemacs
 ln -s $HOME/dotfiles/.emacs.d/private/snippets $HOME/.emacs.d/private/snippets
+ln -s $HOME/dotfiles/.ptconfig.toml $HOME/.ptconfig.toml
+
 
