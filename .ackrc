@@ -1,6 +1,0 @@
---ignore-dir=.idea/
---ignore-dir=build/
---ignore-dir=node_modules/
---ignore-dir=public/lib/
---type-set=jade=.jade
---type-set=json=.json

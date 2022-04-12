@@ -1,57 +1,60 @@
 [submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
+	path = vim/.vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
 [submodule ".vim/bundle/tcomment_vim"]
-	path = .vim/bundle/tcomment_vim
+	path = vim/.vim/bundle/tcomment_vim
 	url = https://github.com/tomtom/tcomment_vim.git
 [submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
+	path = vim/.vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
 [submodule ".vim/bundle/vim-surround"]
-	path = .vim/bundle/vim-surround
+	path = vim/.vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
 [submodule ".vim/bundle/vim-markdown"]
-	path = .vim/bundle/vim-markdown
+	path = vim/.vim/bundle/vim-markdown
 	url = https://github.com/tpope/vim-markdown.git
 [submodule ".vim/bundle/vim-unimpaired"]
-	path = .vim/bundle/vim-unimpaired
+	path = vim/.vim/bundle/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired.git
 [submodule ".vim/bundle/jsoncodecs.vim"]
-	path = .vim/bundle/jsoncodecs.vim
+	path = vim/.vim/bundle/jsoncodecs.vim
 	url = https://github.com/michalliu/jsoncodecs.vim.git
 [submodule ".vim/bundle/jsruntime.vim"]
-	path = .vim/bundle/jsruntime.vim
+	path = vim/.vim/bundle/jsruntime.vim
 	url = https://github.com/michalliu/jsruntime.vim.git
 [submodule ".vim/bundle/sourcebeautify.vim"]
-	path = .vim/bundle/sourcebeautify.vim
+	path = vim/.vim/bundle/sourcebeautify.vim
 	url = https://github.com/michalliu/sourcebeautify.vim.git
 [submodule ".vim/bundle/vim-snippets"]
-	path = .vim/bundle/vim-snippets
+	path = vim/.vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
 [submodule ".vim/bundle/PreserveNoEOL"]
-	path = .vim/bundle/PreserveNoEOL
+	path = vim/.vim/bundle/PreserveNoEOL
 	url = https://github.com/vim-scripts/PreserveNoEOL.git
 [submodule ".vim/bundle/vim-json"]
-	path = .vim/bundle/vim-json
+	path = vim/.vim/bundle/vim-json
 	url = https://github.com/elzr/vim-json.git
 [submodule ".vim/bundle/vim-oblique"]
-	path = .vim/bundle/vim-oblique
+	path = vim/.vim/bundle/vim-oblique
 	url = https://github.com/junegunn/vim-oblique.git
 [submodule ".vim/bundle/vim-pseudocl"]
-	path = .vim/bundle/vim-pseudocl
+	path = vim/.vim/bundle/vim-pseudocl
 	url = https://github.com/junegunn/vim-pseudocl.git
 [submodule ".vim/bundle/vim-jsx"]
-	path = .vim/bundle/vim-jsx
+	path = vim/.vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
 [submodule ".vim/bundle/vim-javascript"]
-	path = .vim/bundle/vim-javascript
+	path = vim/.vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
+[submodule ".vim/bundle/vimwiki"]
+	path = vim/.vim/bundle/vimwiki
+	url = https://github.com/vimwiki/vimwiki.git
 [submodule ".vim/bundle/vim-gitgutter"]
-	path = .vim/bundle/vim-gitgutter
+	path = vim/.vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
 [submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
+	path = vim/.vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
 [submodule ".vim/bundle/tsuquyomi"]
-	path = .vim/bundle/tsuquyomi
+	path = vim/.vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
