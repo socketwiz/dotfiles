@@ -70,6 +70,9 @@
     :ensure t
     :diminish editorconfig-mode
     :config
-    (editorconfig-mode 1)))
+    (editorconfig-mode 1))
+
+  (use-package dockerfile-mode
+    :defer t))
 
 (provide 'my-emacs)
