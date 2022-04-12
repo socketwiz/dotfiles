@@ -76,23 +76,6 @@
     :defer t)
 
   (use-package helpful
-    :ensure t)
-
-  (use-package powerline
-    :ensure t)
-
-  (use-package spaceline
-    :ensure t
-    :init
-    (require 'spaceline-config)
-    :config
-    (progn
-      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-      (spaceline-emacs-theme)))
-
-  (use-package moe-theme
-    :ensure t
-    :config
-    (moe-theme-set-color 'green)))
+    :ensure t))
 
 (provide 'my-emacs)
