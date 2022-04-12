@@ -45,10 +45,7 @@
     :ensure t
     :bind (("TAB" . yas-expand))
     :config
-    (yas-reload-all)
-    :mode (("\\.js[x]?'" . web-mode))
-    :init
-    (add-hook 'web-mode-hook #'yas-minor-mode))
+    (yas-reload-all))
 
   ;;init highlight numbers for prog modes
   (use-package highlight-numbers 
