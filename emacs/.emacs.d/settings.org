@@ -122,7 +122,7 @@
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 (global-set-key (kbd "C-x C-e") #'pp-eval-last-sexp)
 (global-set-key (kbd "C-x g") #'magit-status)
-(global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
+(global-set-key (kbd "C-x M-g") #'magit-dispatch)
 (global-set-key (kbd "M-i") #'imenu)
 #+END_SRC
 
@@ -434,8 +434,10 @@
 
     (flycheck-select-checker checker)))
 
-(defun setup-tide-mode ()
+(defun setup-javascript ()
   (interactive)
+  (configure-web-mode-flycheck-checkers)
+  (yas-minor-mode)
   (tide-setup)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1))
@@ -443,10 +445,12 @@
 ;; Use eslint with web-mode for js[x]? files
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 (flycheck-add-mode 'typescript-tslint 'web-mode)
-(add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
 
 (add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
-(add-hook 'web-mode-hook #'yas-minor-mode)
+
+(add-hook 'web-mode-hook (lambda ()
+                           (when (string-match-p "js[x]?" (file-name-extension buffer-file-name))
+                             (setup-javascript))))
 
 ;; SASS
 (use-package scss-mode
@@ -494,15 +498,7 @@
   (setq web-mode-enable-css-colorization t))
 
 ;; TypeScript Interactive Development Environment
-(use-package tide
-  :defer t
-  :bind
-  ("M-." . tide-jump-to-definition)
-  :config
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-match-p "js[x]?" (file-name-extension buffer-file-name))
-                (setup-tide-mode)))))
+(use-package tide)
 
 ;; A simple emacs web server for use with skewer-mode
 (use-package simple-httpd
