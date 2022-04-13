@@ -121,8 +121,11 @@ require('gitsigns').setup {
 }
 
 require('nvim-tree').setup {
-  disable_netrw        = true,
-  hijack_netrw         = true,
+  disable_netrw = true,
+  hijack_netrw  = true,
+  update_focused_file = {
+    update_cwd  = true
+  },
   view = {
     mappings = {
       list = {
