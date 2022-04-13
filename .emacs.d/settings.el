@@ -166,6 +166,10 @@
   ;; These 2 lines do not trigger flycheck warnings when on MacOS
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super))
+;; When on MacOS, fix dired
+(when (eq system-type 'darwin)
+  (require 'ls-lisp)
+  (setq ls-lisp-use-insert-directory-program nil))
 
 ;; * Core keybindings
 (global-set-key (kbd "<f5>") 'revert-buffer)
