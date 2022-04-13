@@ -25,6 +25,7 @@
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Buffer List*" display-buffer-same-window))
 (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
 (add-to-list 'display-buffer-alist '("*Info*" display-buffer-same-window))
 
