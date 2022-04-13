@@ -288,7 +288,8 @@
   ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
 
-  (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim))
+  (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
+  (define-key evil-motion-state-map (kbd "/") 'occur))
 
 ;; Surround text objects with characters
 (use-package evil-surround
