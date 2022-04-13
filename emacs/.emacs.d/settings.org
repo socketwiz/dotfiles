@@ -5,7 +5,7 @@
 
   (defvar config-scratch-mode 'text-mode)
 
-  (defvar config-which-key-delay 0.4)
+  (defvar config-which-key-delay 3.0)
 
   (defvar config-keep-backups t)
 
@@ -55,8 +55,9 @@
   (global-display-line-numbers-mode)
   (menu-bar-display-line-numbers-mode 'relative)
 
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (setq package-archives '(("melpa" . "http://melpa.org/packages")
+                           ("org" . "http://orgmode.org/elpa/")))
+
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
