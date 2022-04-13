@@ -14,7 +14,7 @@ case $PLATFORM in
         brew install cmake reattach-to-user-namespace wget
         ;;
     Linux)
-        sudo apt-get -y install zsh neovim weechat tmux curl
+        sudo apt-get -y install zsh neovim weechat tmux curl gimp
         sudo chsh -s /usr/bin/zsh "$USER"
         sudo apt-get -y install curl wget
         ;;
