@@ -7,7 +7,7 @@
 /.bashrc
 /.cache/
 /.cargo/
-/.config/
+/.config/*
 !/.config/dunst
 !/.config/i3
 !/.config/kitty
