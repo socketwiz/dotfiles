@@ -126,8 +126,8 @@ bar {
 #workspace 3 output DP-4
 
 # Configure media keys
-bindsym XF86AudioRaiseVolume exec amixer sset Master 2%+ unmute
-bindsym XF86AudioLowerVolume exec amixer sset Master 2%- unmute
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+ unmute
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%- unmute
 bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
 
 # App specific settings
