@@ -448,10 +448,9 @@
   (add-hook 'find-file-hook (lambda ()
                               (unless recentf-mode (recentf-mode)
                                       (recentf-track-opened-file))))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :bind
-  (:map projectile-mode-map ("C-c p s p" . rg-project))
+  :bind (("C-c p" . projectile-command-map)
+         :map projectile-mode-map
+         ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
 
 
