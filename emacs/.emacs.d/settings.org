@@ -79,6 +79,13 @@
   (set-register ?i '(file . "~/.emacs.d/settings.org"))
   (set-register ?o '(file . "~/org/agenda/organizer.org"))
   (set-register ?w '(file . "~/org/wiki/index.org"))
+
+  ;; Colorize compilation-mode
+  (defun my-colorize-compilation-buffer ()
+        (when (eq major-mode 'compilation-mode)
+          (ansi-color-apply-on-region compilation-filter-start (point-max))))
+
+    (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
   #+END_SRC
 
 * Core keybindings
@@ -311,6 +318,7 @@
     (evil-set-initial-state 'calc-mode 'emacs)
     (evil-set-initial-state 'calculator-mode 'emacs)
     (evil-set-initial-state 'calendar-mode 'emacs)
+    (evil-set-initial-state 'compilation-mode 'emacs)
     (evil-set-initial-state 'dired-mode 'emacs)
     (evil-set-initial-state 'edebug-mode 'emacs)
     (evil-set-initial-state 'git-rebase-mode 'emacs)
