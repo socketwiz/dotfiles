@@ -130,9 +130,6 @@ bar {
     status_command ~/.cargo/bin/i3status-rs ~/.config/i3status-rs/config.toml
 }
 
-# Configure workspaces to monitors
-#workspace 1:Terminal output DP-0
-
 # Configure media keys
 bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master 2%+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master 2%- unmute"
@@ -147,8 +144,8 @@ for_window [class="kruler"] floating enable
 for_window [class="Magnus"] floating enable
 for_window [class="Mozilla VPN"] floating enable
 
-#exec --no-startup-id "xrandr --output DP-0 --pos 0x0"
 exec --no-startup-id ~/.fehbg
 
+include ~/.config/i3/config.home
 include ~/.config/i3/config.work
 

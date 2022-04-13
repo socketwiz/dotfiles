@@ -148,12 +148,15 @@ require('nvim-tree').setup {
 }
 
 local nvim_lsp = require('lspconfig')
+-- Enable bash analyzer
+-- npm i -g bash-language-server
+nvim_lsp.bashls.setup {}
+-- Enable html/css analyzer
+-- npm i -g vscode-langservers-extracted
+nvim_lsp.cssls.setup {}
+nvim_lsp.html.setup {}
 -- Enable rust_analyzer
-nvim_lsp.rust_analyzer.setup {
-  --capabilities = capabilities,
-  settings = {
-    ['rust-analyzer'] = {
-    },
-  },
-}
+nvim_lsp.rust_analyzer.setup {}
+-- Enable typescript analyzer
+nvim_lsp.tsserver.setup {}
 
