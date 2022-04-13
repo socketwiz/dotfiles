@@ -48,8 +48,6 @@
   "Whether or not to enable \"dockerfile-mode\".")
 (defvar config-enable-yaml-mode t
   "Whether or not to enable \"yaml-mode\".")
-(defvar config-enable-exwm nil
-  "Whether or not to enable \"exwm\".")
 
 
 ;; Hide column numbers
@@ -307,50 +305,7 @@
   (yas-reload-all))
 
 ;; Language Server Protocol support for Emacs
-;;
-;; Angular
-;; sudo npm install -g @angular/language-server
-;; sudo npm install -g @angular/language-service
-;;
-;; Bash
-;; sudo npm install -g bash-language-server
-;;
-;; Javascript / TypeScript
-;; sudo npm install -g typescript
-;; sudo npm i -g typescript-language-server
-;;
-;; HTML
-;; sudo npm install -g vscode-html-languageserver-bin
-;;
-;; JSON
-;; sudo npm install -g vscode-json-languageserver
-;;
-;; Python
-;; pip install python-lsp-server\[all\]
-;;
-;; Rust
-;; rustup component add rls rust-analysis rust-src
-(use-package lsp-mode
-  :commands lsp
-  :hook (;;(json-mode . lsp)
-         ;;(python-mode . lsp)
-         (rust-mode . lsp)
-         ;;(sh-mode . lsp)
-         ;;(typescript-mode . lsp)
-         ;;(web-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-;;  :custom
-;;  (lsp-diagnostics-provider :flymake)
-  :config
-  (defvar lsp-clients-angular-language-server-command
-    '("node"
-      "/usr/lib/node_modules/@angular/language-server"
-      "--ngProbeLocations"
-      "/usr/lib/node_modules"
-      "--tsProbeLocations"
-      "/usr/lib/node_modules"
-      "--stdio")))
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package eglot)
 
 ;; Display available keybindings in a popup
 (use-package which-key
@@ -484,9 +439,8 @@
 (use-package embark
   :ensure t
 
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)))      ;; good alternative: M-.
+  :bind (("C-." . embark-act)         ;; pick some comfortable binding
+         ("C-;" . embark-dwim)))      ;; good alternative: M-.
 
 (use-package embark-consult
   :ensure t
@@ -495,16 +449,6 @@
 (use-package consult
   :config
   (setq consult-project-root-function 'vc-root-dir))
-
-;; Term-mode
-(use-package term
-  :config
-  :custom
-  (explicit-shell-file-name "zsh")
-  ;; need to configure for my prompt to allow term-(previous|next)-prompt to work
-  (term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
-(use-package eterm-256color
-  :hook (term-mode . eterm-256color-mode))
 
 ;; ripgrep
 (use-package rg
@@ -535,7 +479,6 @@
   (evil-set-initial-state 'rg-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
-  (evil-set-initial-state 'rustic-popup-mode 'emacs)
   (evil-set-initial-state 'compilation-mode 'emacs)
   (evil-set-initial-state 'messages-buffer-mode 'emacs)
 
@@ -599,74 +542,45 @@
    'paredit-close-round))
 
 
-;; * Language javascript
-(defun configure-flymake-checker ()
-  "Configure flymake for JavaScript."
-
-  ;; See if there is a node_modules directory
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (or (and root
-                          ;; Try the locally installed eslint
-                          (expand-file-name "node_modules/eslint/bin/eslint.js" root))
-
-                     ;; Try the global installed eslint
-                     (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
-
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flymake-eslint-executable-name eslint)
-      ;; Set project root folders
-      (setq-local flymake-eslint-project-root root)
-      ;;(lsp-workspace-folders-add root)
-      ))
-
-  (flymake-eslint-enable))
-
-(defun setup-javascript ()
-  "When \"js2-mode\" is loaded setup linters, yas and such."
-  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (tide-setup)
-  (configure-flymake-checker)
-  (yas-minor-mode))
-
+;; * Language JavaScript/TypeScript
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
-  ;;(lsp-mode) ;; ~<S-l>~ LSP menu
+  ;; To enable the eglot backend:
+  ;; npm install -g typescript-language-server
+  (eglot-ensure)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
+  (tide-hl-identifier-mode)
   (tide-setup)
-  (configure-flymake-checker)
-  (yas-minor-mode))
+  (yas-minor-mode)
+  (setq js-indent-level config-indent-web-mode-spaces))
 
 ;; Flymake eslint backend
 (use-package flymake-eslint
   :if config-enable-web-mode)
 
-;; JavaScript editing mode
-(use-package js2-mode
-  :if config-enable-web-mode
-  :hook (js2-mode . setup-javascript))
-
 ;; TypeScript Interactive Development Environment
+;; M-x tide-restart-server Restart tsserver. This would come in handy after you edit tsconfig.json or checkout a different branch.
+;; M-x tide-documentation-at-point Show documentation for the symbol at point.
+;; M-x tide-references List all references to the symbol at point in a buffer. References can be navigated using n and p. Press enter to open the file.
+;; M-x tide-project-errors List all errors in the project. Errors can be navigated using n and p. Press enter to open the file.
+;; M-x tide-error-at-point Show the details of the error at point.
+;; M-x tide-rename-symbol Rename all occurrences of the symbol at point.
+;; M-x tide-rename-file Rename current file and all it's references in other files.
+;; M-x tide-format Format the current region or buffer.
+;; M-x tide-fix Apply code fix for the error at point. When invoked with a prefix arg, apply code fix for all the errors in the file that are similar to the error at point.
+;; M-x tide-add-tslint-disable-next-line If the point is on one or more tslint errors, add a tslint:disable-next-line flag on the previous line to silence the errors. Or, if a flag already exists on the previous line, modify the flag to silence the errors.
+;; M-x tide-refactor Refactor code at point or current region.
+;; M-x tide-jsdoc-template Insert JSDoc comment template at point.
+;; M-x tide-verify-setup Show the version of tsserver.
+;; M-x tide-organize-imports Organize imports in the file.
+;; M-x tide-list-servers List the tsserver processes launched by tide.
 (use-package tide
   :if config-enable-web-mode
-  :hook (typescript-mode . setup-typescript))
+  :after (typescript-mode flycheck))
 
-;; JSX editing mode
-(use-package rjsx-mode
-  :if config-enable-web-mode
-  :mode (("\\.js\\'" . rjsx-mode)
-         ("\\.jsx\\'" . rjsx-mode)
-         ("\\.tsx\\'" . rjsx-mode))
-  :bind (:map rjsx-mode-map ("<" . nil)))
+(add-hook 'typescript-mode-hook 'setup-typescript)
+(add-hook 'js-mode-hook 'setup-typescript)
 
-(use-package json-mode
-  :mode ("\\.json\\'" . json-mode))
-(setq js-indent-level config-indent-web-mode-spaces)
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
@@ -681,7 +595,9 @@
 (use-package web-mode
   :if config-enable-web-mode
   :mode (("\\.html?\\'" . web-mode)
-         ("\\.css\\'" . web-mode))
+         ("\\.css\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode)
+         ("\\.json\\'" . web-mode))
   :config
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
     (if (equal web-mode-content-type "js")
@@ -732,36 +648,47 @@
 ;; * Language Rust
 (defun setup-rust ()
   "Do these things after \"rust-mode\" is enabled."
-  (rustic-doc-mode)
+  ;; To enable the eglot backend:
+  ;; rustup component add rls rust-analysis rust-src
+  (eglot-ensure)
   (when (and (bound-and-true-p evil-mode) (eq evil-state 'normal))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
+;; Syntax highlighting, indentation, etc..
 (use-package rust-mode
   :if config-enable-rust-mode
-  :bind (("C-c C-p" . rustic-popup))
   :hook (rust-mode . setup-rust)
-  :mode ("\\.rs\\'" . rust-mode))
-(use-package rustic
-  :if config-enable-rust-mode
-  :after (rust-mode))
+  :mode ("\\.rs\\'" . rust-mode)
+  :bind (:map rust-mode-map
+              (("C-c C-c" . rust-compile)
+               ("C-c C-k" . rust-check)
+               ("C-c C-r" . rust-run))))
 
 
 ;; * Language Python
 ;; Need to activate pipenv
 ;; C-c C-p a
+(defun setup-python ()
+  "Do these things after \"python-mode\" is enabled."
+  ;; To enable the eglot backend:
+  ;; pip install 'python-lsp-server[all]'
+  ;; pip install pyls-flake8
+  (eglot-ensure)
+  (jedi:setup))
+
 (use-package elpy
+  :after jedi
   :if config-enable-elpy-mode
+  :hook (python-mode . setup-python)
   :init
-  (add-hook 'python-mode-hook 'jedi:setup)
   (setq python-shell-interpreter "python3"
       python-shell-interpreter-args "-i")
   (elpy-enable))
 (use-package jedi)
 (use-package pipenv
-  :hook (python-mode . pipenv-mode)
-  :init)
+  :hook (python-mode . pipenv-mode))
 
 
 ;; Syntax highlighting for docker files
@@ -784,51 +711,6 @@
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-(setq mouse-autoselect-window t
-      focus-follows-mouse t)
-
-(use-package exwm
-  :if config-enable-exwm
-  :config
-  (require 'exwm-randr)
-  (add-hook 'exwm-randr-screen-change-hook
-            (lambda ()
-              (start-process-shell-command
-               "xrandr" nil "xrandr --output DP-2 --pos 0x0 --output DP-4 --pos 2560x0 --right-of DP-2 --output DP-0 --pos 5120x0 --right-of DP-4")))
-  (exwm-randr-enable)
-
-  (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key) ;; send a single key to the X window
-  (define-key exwm-mode-map [?\C-k] 'exwm-input-release-keyboard) ;; switch to char-mode
-
-  ;; update the buffer titles created in EXWM so they are not all EXWM
-  (add-hook 'exwm-update-class-hook
-            (lambda ()
-              (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                          (string= "gimp" exwm-instance-name))
-                (exwm-workspace-rename-buffer exwm-class-name))))
-  (add-hook 'exwm-update-title-hook
-            (lambda ()
-              (when (or (not exwm-instance-name)
-                        (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                        (string= "gimp" exwm-instance-name))
-                (exwm-workspace-rename-buffer exwm-title))))
-  (exwm-enable)
-  :custom
-  (exwm-randr-workspace-monitor-plist '(1 "DP-2" 0 "DP-4" 2 "DP-0"))
-  (exwm-workspace-number 3)
-
-  (exwm-input-global-keys
-   `(([?\s-r] . exwm-reset) ;; switch to line-mode
-     ,@(mapcar (lambda (i)  ;; bind S-0 through S-9 to switch to workspace by its index
-                 `(,(kbd (format "s-%d" i)) .
-                   (lambda ()
-                     (interactive)
-                     (exwm-workspace-switch-create ,i))))
-               (number-sequence 0 9))
-     ;; Bind "s- " to launch applications
-     ([?\s-\ ] . (lambda (command)
-		           (interactive (list (read-shell-command "$ ")))
-		           (start-process-shell-command command nil command))))))
 
 (provide 'settings)
 

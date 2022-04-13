@@ -17,7 +17,7 @@
  '(gnutls-algorithm-priority "normal:-vers-tls1.3")
  '(initial-major-mode 'emacs-lisp-mode)
  '(package-selected-packages
-   '(all-the-icons all-the-icons-dired anzu amx atomic-chrome cider command-log-mode company company-lsp consult diff-hl diminish dockerfile-mode dired doom-modeline doom-themes editorconfig embark embark-consult elpy eterm-256color exec-path-from-shell expand-region exwm exwm-randr evil evil-surround flymake-eslint flymake-shellcheck flyspell-popup flx flx-ido ghub helpful highlight highlight-numbers highlight-parentheses htmlize ido-completing-read+ ido-vertical-mode irony irony-eldoc jedi js2-mode json-mode lsp-mode lsp-ui magit magit-popup marginalia markdown-mode orderless org-agenda org-bullets paredit parent-mode pipenv popup prescient proceed project py-autopep8 rainbow-mode rg rjsx-mode rust-mode rustic scss-mode smartparens tide undo-tree use-package web-mode which-key xref yaml-mode yasnippet vertico))
+   '(all-the-icons all-the-icons-dired anzu amx atomic-chrome cider command-log-mode company consult diff-hl diminish dockerfile-mode dired doom-modeline doom-themes editorconfig eglot embark embark-consult elpy exec-path-from-shell expand-region evil evil-surround flymake-eslint flymake-shellcheck flyspell-popup ghub helpful highlight highlight-numbers highlight-parentheses htmlize irony irony-eldoc jedi magit magit-popup marginalia markdown-mode orderless org-agenda org-bullets paredit parent-mode pipenv popup prescient proceed project rainbow-mode rg rust-mode scss-mode smartparens tide undo-tree use-package web-mode which-key xref yaml-mode yasnippet vertico))
  '(safe-local-variable-values
    '((eval set
            (make-local-variable 'projectile-project-root)
