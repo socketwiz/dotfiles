@@ -11,9 +11,6 @@ return require('packer').startup(function()
     run = ':TSUpdate'
   }
 
-  -- Manage installation of LSP servers
-  use 'williamboman/nvim-lsp-installer'
-
   -- Fuzzy finder
   use {
     'nvim-telescope/telescope.nvim',
@@ -36,16 +33,8 @@ return require('packer').startup(function()
   use 'folke/tokyonight.nvim' -- Theme
   use 'folke/which-key.nvim' -- Show which hotkeys are available for use
 
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-calc',
-      'hrsh7th/cmp-emoji'
-    }
-  }
+  use 'dense-analysis/ale'
+  use {'neoclide/coc.nvim', branch = 'release'}
 
   -- Git decorations in the gutter
   use {
