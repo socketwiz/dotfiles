@@ -653,8 +653,8 @@
   (elpy-enable))
 
 (load "~/.emacs.d/dashboard.el")
-(declare-function load-dashboard "~/.emacs.d/dashboard.el")
-(load-dashboard)
+(declare-function dashboard "~/.emacs.d/dashboard.el")
+(dashboard)
 
 (provide 'settings)
 
