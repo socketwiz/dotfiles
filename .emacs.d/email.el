@@ -1,12 +1,12 @@
-;;; email.el --- MU4E email configuration
+;;; email.el --- Mu4e email configuration
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
 ;;; Commentary:
-;; Configuration required to check email through MU4E
+;; Configuration required to check email through Mu4e
 
 ;;; Code:
-;; MU4E
+;; Mu4e
 ;; Need to install mu4e OS package
 ;; e.g. `sudo apt-get install mu4e isync`
 ;; Initialize mu
@@ -42,19 +42,20 @@
 ;; # Save the synchronization state files in the relevant directory
 ;; SyncState *
 ;;
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-(require 'mu4e)
-
+;; Flags:
+;; D=_draft_
+;; F=_flagged_ (i.e., ‘starred’)
+;; N=_new_
+;; P=_passed_ (i.e., forwarded)
+;; R=_replied_
+;; S=_seen_
+;; T=_trashed_,
+;; a=_has-attachment_
+;; x=_encrypted_
+;; s=_signed_
+;; u=_unread_
+;;
 (setq mu4e-maildir "~/mail")
-
-(setq unread-query (concat
-                    "flag:unread maildir:/hackerzol430/inbox "
-                    "OR "
-                    "flag:unread maildir:/socketwiz/inbox "
-                    "OR "
-                    "flag:unread maildir:/larksoftware/inbox "
-                    "OR "
-                    "flag:unread maildir:/zolmok/inbox"))
 
 ;; Make sure that moving a message (like to Trash) causes the
 ;; message to get a new file name.  This helps to avoid the
@@ -74,7 +75,7 @@
       smtpmail-stream-type  'ssl)
 
 (setq mu4e-bookmarks
-      '((:name "Unread messages" :query unread-query :key 117)
+      '((:name "Unread messages" :query config-mu4e-unread-query :key 117)
         (:name "Today's messages" :query "date:today..now" :key 116)
         (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
         (:name "Messages with images" :query "mime:image/*" :key 112)))
@@ -85,81 +86,10 @@
   :ensure t
   :after mu4e
   :init
-  (setq mu4e-alert-interesting-mail-query unread-query)
+  (setq mu4e-alert-interesting-mail-query config-mu4e-unread-query)
   (mu4e-alert-enable-mode-line-display))
 
-(setq mu4e-contexts
-        `(,(make-mu4e-context
-            :name "hackerzol"
-            :match-func (lambda (msg) (when msg
-                                        (mu4e-message-contact-field-matches
-                                         msg :to "hackerzol430@gmail.com")))
-            :vars '(
-                    (user-full-name . "Ricky Nelson")
-                    (user-mail-address . "hackerzol430@gmail.com")
-                    (mu4e-sent-folder . "/hackerzol430/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/hackerzol430/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/hackerzol430/\[Gmail\]/Drafts")
-                    (mu4e-refile-folder . "/hackerzol430/archive")
-                    (smtpmail-smtp-user "hackerzol430@gmail.com")
-                    ))
-	  ,(make-mu4e-context
-            :name "socketwiz"
-            :match-func (lambda (msg) (when msg
-                                        (mu4e-message-contact-field-matches
-                                         msg :to "rickyn@socketwiz.com")))
-            :vars '(
-                    (user-full-name . "Ricky Nelson")
-                    (user-mail-address . "rickyn@socketwiz.com")
-                    (mu4e-sent-folder . "/socketwiz/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/socketwiz/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/socketwiz/\[Gmail\]/Drafts")
-                    (mu4e-refile-folder . "/socketwiz/archive")
-                    (smtpmail-smtp-user "rickyn@socketwiz.com")
-                    ))
-	  ,(make-mu4e-context
-            :name "larksoftware"
-            :match-func (lambda (msg) (when msg
-                                        (mu4e-message-contact-field-matches
-                                         msg :to "info@larksoftware.com")))
-            :vars '(
-                    (user-full-name . "Ricky Nelson")
-                    (user-mail-address . "info@larksoftware.com")
-                    (mu4e-sent-folder . "/larksoftware/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/larksoftware/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/larksoftware/\[Gmail\]/Drafts")
-                    (mu4e-refile-folder . "/larksoftware/archive")
-                    (smtpmail-smtp-user "info@larksoftware.com")
-                    ))
-	  ,(make-mu4e-context
-            :name "zolmok"
-            :match-func (lambda (msg) (when msg
-                                        (mu4e-message-contact-field-matches
-                                         msg :to "rickyn@zolmok.org")))
-            :vars '(
-                    (user-full-name . "Ricky Nelson")
-                    (user-mail-address . "rickyn@zolmok.org")
-                    (mu4e-sent-folder . "/zolmok/Sent Items")
-                    (mu4e-trash-folder . "/zolmok/Deleted Items")
-                    (mu4e-drafts-folder . "/zolmok/Drafts")
-                    (mu4e-refile-folder . "/zolmok/Archive")
-                    (smtpmail-smtp-user "info@larksoftware.com")
-                    ))
-          ,(make-mu4e-context
-            :name "picnic"
-            :match-func (lambda (msg) (when msg
-                                        (mu4e-message-contact-field-matches
-                                         msg :to "ricky.nelson@picnicscore.com")))
-            :vars '(
-                    (user-full-name . "Ricky Nelson")
-                    (user-mail-address . "ricky.nelson@picnicscore.com")
-                    (mu4e-sent-folder . "/picnic/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/picnic/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/picnic/\[Gmail\]/Drafts")
-                    (mu4e-refile-folder . "/picnic/archive")
-                    (smtpmail-smtp-user "ricky.nelson@picnicscore.com")
-                    ))
-          ))
+(setq mu4e-contexts config-mu4e-contexts)
 
 (provide 'email)
 ;;; email.el ends here

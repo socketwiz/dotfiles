@@ -119,6 +119,7 @@
             "* %? :NOTE:\n%U\n%a\n"))))
   (org-hide-emphasis-markers t)
   :config
+  (add-hook 'org-mode-hook (lambda () (yas-minor-mode)))
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
