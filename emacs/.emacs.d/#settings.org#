@@ -137,7 +137,7 @@
     (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
 
-  ;; Undo-tree
+  ;; init undo-tree
   (use-package undo-tree 
     :config
     (setq undo-tree-visualizer-timestamps t) 
@@ -152,7 +152,7 @@
     :defer t 
     :diminish 'undo-tree-mode)
 
-  ;; Company mode
+  ;; init company mode
   (use-package company 
     :diminish 'company-mode
     :config
@@ -164,7 +164,7 @@
     :commands turn-on-eldoc-mode
     :defer t)
 
-  ;; Flyspell
+  ;; init flyspell
   (use-package flyspell 
     :config
     (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
@@ -176,19 +176,19 @@
   (define-key popup-menu-keymap (kbd "C-k") 'popup-previous) 
   (define-key popup-menu-keymap (kbd "C-l") 'popup-select)
 
-  ;; Flycheck
+  ;; init flycheck
   (use-package flycheck
     :diminish flycheck-mode
     :ensure t)
 
-  ;; Yasnippet
+  ;; init yasnippet
   (use-package yasnippet
     :ensure t
     :bind (("TAB" . yas-expand))
     :config
     (yas-reload-all))
 
-  ;; Highlight numbers for prog modes
+  ;;init highlight numbers for prog modes
   (use-package highlight-numbers 
     :defer t 
     :init
@@ -237,10 +237,6 @@
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
     (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list))))
-
-  ;; Display used hotkeys in another window
-  (use-package command-log-mode
-    :diminish command-log-mode)
   #+END_SRC
 
 
@@ -301,6 +297,7 @@
                 (calc-mode . emacs)
                 (calculator-mode . emacs)
                 (calendar-mode . emacs)
+                (debugger-mode . emacs)
                 (dired-mode . emacs)
                 (git-rebase-mode . emacs)
                 (grep-mode . emacs)
