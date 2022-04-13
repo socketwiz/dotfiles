@@ -40,7 +40,7 @@
                         "Display Flymake documentation."
                         (interactive)
                         (info-display-manual "flymake")))
-         ("C-c ! l" . flymake-show-diagnostics-buffer)
+         ("C-c ! l" . consult-flymake)
          ("C-c ! n" . flymake-goto-next-error)
          ("C-c ! p" . flymake-goto-prev-error)))
 
@@ -201,28 +201,27 @@
   :init
   (marginalia-mode))
 
+;; Provide actions on targets
 (use-package embark
   :ensure t
   :bind (("C-." . embark-act)         ;; pick some comfortable binding
          ("C-;" . embark-dwim)))      ;; good alternative: M-.
-
 (use-package embark-consult
   :ensure t
   :after (embark consult))
 
+;; Upgraded completing-read, allows you to quickly select from a list
+;; of candidates
 (use-package consult
   :bind (("M-s r" . consult-ripgrep)
+         ("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-x C-r" . consult-recent-file))
   :config
-  (consult-customize
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-file consult--source-project-file consult--source-bookmark
-   :preview-key (kbd "M-."))
   (setq consult-project-root-function 'vc-root-dir))
 
-;; ripgrep
+;; Wrapp for ripgrep, a grep with features for programmers, like
+;; respecting .gitignore
 (use-package rg
   :config
   (rg-enable-default-bindings))
@@ -255,6 +254,7 @@
   ;; Put vim bindings everywhere
   (evil-mode)
   ;; Except in these modes where I just want emacs proper
+  (evil-set-initial-state 'apropos-mode 'emacs)
   (evil-set-initial-state 'Buffer-menu-mode 'emacs)
   (evil-set-initial-state 'compilation-mode 'emacs)
   (evil-set-initial-state 'debugger-mode 'emacs)
@@ -291,7 +291,7 @@
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
-  (define-key evil-motion-state-map (kbd "/") 'swiper))
+  (define-key evil-motion-state-map (kbd "/") 'consult-line))
 
 
 ;; Surround text objects with characters
@@ -308,20 +308,18 @@
 (use-package avy
   :bind ("M-j" . avy-goto-char-timer))
 
+;; Advanced undo/redo system
 (use-package undo-tree
   :config
   (setq undo-tree-auto-save-history t)
   :init
   (global-undo-tree-mode))
 
+;; In-buffer completion framework
 (use-package company
   :init
   (global-company-mode))
 
-(use-package swiper
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper-backward)))
 
 (provide 'packages)
-
 ;;; packages.el ends here
