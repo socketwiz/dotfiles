@@ -147,6 +147,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
+(global-set-key (kbd "C-c r") 'recompile)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
@@ -154,6 +155,7 @@
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
+
 
 
 ;; * Core packages
