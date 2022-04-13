@@ -23,11 +23,6 @@ fi
 # python executables
 export PATH="$HOME/.local/bin:$PATH"
 
-# aws
-AWS_PATH="$HOME/.local/bin"
-export PATH="$AWS_PATH:$PATH"
-source "$AWS_PATH/aws_zsh_completer.sh"
-
 source $HOME/.config/broot/launcher/bash/br
 
 # flutter
