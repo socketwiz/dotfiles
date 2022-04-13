@@ -20,8 +20,11 @@
 
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
+(display-line-numbers-mode)
 ;; Make line numbers relative
 (menu-bar-display-line-numbers-mode 'relative)
+;; Display regular line numbers too
+(global-linum-mode)
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
