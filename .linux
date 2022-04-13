@@ -7,7 +7,6 @@ alias nocaps='xmodmap ~/.Xmodmap'
 alias refresh='gnome-shell --replace & disown'
 
 # ls
-alias ls='/home/hackerzol/.cargo/bin/exa'
 alias ll='ls -l'
 alias la='ls -a'
 
