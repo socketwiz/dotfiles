@@ -14,6 +14,8 @@
   (defvar config-font-family "Source Code Pro")
   (defvar config-font-height 160)
 
+  (defvar config-indent-web-mode-spaces 2)
+
   (setq use-package-always-ensure t)
   (setq gc-cons-threshold most-positive-fixnum)
 
@@ -474,29 +476,36 @@
 
 * Language javascript
   #+BEGIN_SRC emacs-lisp
+  (defun enable-skewer-mode ()
+    ;; Run all the things required to make skewer mode work
+    (interactive)
+    (js2-mode)
+    (skewer-mode)
+    (run-skewer))
+
   (defun configure-web-mode-flycheck-checkers ()
     ;; in order to have flycheck enabled in web-mode, add an entry to this
     ;; cond that matches the web-mode engine/content-type/etc and returns the
     ;; appropriate checker.
     (-when-let (checker (cond
-                      ((string= web-mode-content-type "jsx")
+                         ((string= web-mode-content-type "jsx")
                           'javascript-eslint)))
 
       (flycheck-mode)
 
       ;; see if there is a node_modules directory
       (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-          (eslint (or (and root
+                    (or (buffer-file-name) default-directory)
+                    "node_modules"))
+             (eslint (or (and root
                               ;; try the locally installed eslint
                               (expand-file-name "node_modules/eslint/bin/eslint.js" root))
 
-                      ;; try the global installed eslint
-                      (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
+                         ;; try the global installed eslint
+                         (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
 
       (when (and eslint (file-executable-p eslint))
-          (setq-local flycheck-javascript-eslint-executable eslint)))
+        (setq-local flycheck-javascript-eslint-executable eslint)))
 
       (flycheck-select-checker checker)))
 
@@ -506,8 +515,17 @@
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1))
 
+  ;; use eslint with web-mode for js[x]? files
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
+
+  (add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
+  (add-hook 'web-mode-hook #'yas-minor-mode)
+
   ;; sass
   (use-package scss-mode)
+
   ;; Major mode for editing web templates
   (use-package web-mode
     :ensure t
@@ -539,16 +557,15 @@
 
     ;; disable auto-quoting
     (setq web-mode-enable-auto-quoting nil)
-    ;; indent with 4 spaces
     (setq-default indent-tabs-mode nil)
-    (setq web-mode-markup-indent-offset 4)
-    (setq web-mode-css-indent-offset 4)
-    (setq web-mode-code-indent-offset 4)
+    (setq web-mode-markup-indent-offset config-indent-web-mode-spaces)
+    (setq web-mode-css-indent-offset config-indent-web-mode-spaces)
+    (setq web-mode-code-indent-offset config-indent-web-mode-spaces)
+    ;; don't lineup element attributes
+    (setq web-mode-attr-indent-offset config-indent-web-mode-spaces)
     ;; automatically close tag
     (setq web-mode-enable-auto-pairing t)
-    (setq web-mode-enable-css-colorization t)
-    ;; don't lineup element attributes
-    (setq web-mode-attr-indent-offset 4))
+    (setq web-mode-enable-css-colorization t))
 
   ;; TypeScript Interactive Development Environment
   (use-package tide
@@ -562,15 +579,12 @@
                 (when (string-match-p "js[x]?" (file-name-extension buffer-file-name))
                   (setup-tide-mode)))))
 
-  ;; use eslint with web-mode for js[x]? files
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
-
-  (add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
-  (add-hook 'web-mode-hook #'yas-minor-mode)
-
+  ;; A simple emacs web server for use with skewer-mode
+  (use-package simple-httpd)
+  ;; Provides live interaction with JavaScript
+  (use-package skewer-mode)
   #+END_SRC
+
 * Language markdown
   #+BEGIN_SRC emacs-lisp
   ;; Major mode for editing Markdown formatted text
