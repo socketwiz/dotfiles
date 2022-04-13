@@ -241,12 +241,6 @@
 
 * evil
   #+BEGIN_SRC emacs-lisp
-  (use-package evil-escape 
-    :diminish 'evil-escape-mode) 
-
-  (setq-default evil-escape-key-sequence "fd") 
-  ;; esc should escape everything possible
-  (evil-escape-mode)
 
   (use-package evil
     :init
@@ -264,6 +258,14 @@
     (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
     (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
     (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
+
+    (use-package evil-escape
+       :config
+       (setq-default evil-escape-key-sequence "fd")
+       ;; esc should escape everything possible
+       (evil-escape-mode)
+       :diminish 'evil-escape-mode
+       )
 
     (use-package evil-surround
        :config
