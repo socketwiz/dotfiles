@@ -47,21 +47,24 @@
          :face 'variable-pitch "\n")
 
         (dolist (recent recentf-list)
-          (defconst file-text
-            `((:link (,recent
-                      (lambda (_button) (find-file ,recent))))))
+          (if (not (string-suffix-p "ido.last" recent))
+              (progn
+                (defconst file-text
+                  `((:link (,recent
+                            (lambda (_button) (find-file ,recent))))))
 
-          (apply #'fancy-splash-insert (car file-text))
-          (insert "\n")))
+                (apply #'fancy-splash-insert (car file-text))
+                (insert "\n"))))
 
-      (setq buffer-read-only t)
-      (set-buffer-modified-p nil)
-      (if (and view-read-only (not view-mode))
-          (view-mode-enter nil 'kill-buffer))
-      (goto-char (point-min))
+        (setq buffer-read-only t)
+        (set-buffer-modified-p nil)
+        (if (and view-read-only (not view-mode))
+            (view-mode-enter nil 'kill-buffer))
+        (goto-char (point-min))
+        (forward-line 6)
 
-      (use-local-map dashboard-screen-keymap)
-      (switch-to-buffer dashboard-buffer))))
+        (use-local-map dashboard-screen-keymap)
+        (switch-to-buffer dashboard-buffer)))))
 
 (defun load-state ()
   (let ((dashboard-buffer (get-buffer-create "*dashboard*")))
