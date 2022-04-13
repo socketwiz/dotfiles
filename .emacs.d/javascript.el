@@ -47,7 +47,6 @@
   (flymake-eslint-enable))
 
 (defun configure-mode ()
-  (message "configuring-javascript")
   "When \"tide-mode\" is loaded setup linters, yas and such."
   (add-to-list 'eglot-stay-out-of 'flymake)
   (eglot-ensure)
@@ -84,8 +83,12 @@
   :if config-enable-web-mode
   :after (typescript-mode flycheck))
 
-(add-hook 'typescript-mode-hook 'configure-mode)
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :interpreter "node")
+
 (add-hook 'js-mode-hook 'configure-mode)
+(add-hook 'typescript-mode-hook 'configure-mode)
 
 
 ;; * Language HTML, CSS
@@ -93,6 +96,7 @@
   "Setup yas when in \"web-mode\"."
   (interactive)
   (yas-minor-mode)
+  (configure-flymake-checker)
   ;; disable auto-pairing just in web-mode so in django templates
   ;; you can do {% %} without it becoming {% %}}
   (electric-pair-mode -1))
