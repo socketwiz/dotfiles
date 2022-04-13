@@ -1,3 +1,11 @@
+;;; init.el --- Initialization file for Emacs
+
+;; Author: Ricky Nelson <rickyn@socketwiz.com>
+
+;;; Commentary:
+;; Emacs Startup File --- initialization for Emacs
+
+;;; Code:
 
 (package-initialize)
 (load "~/.emacs.d/settings.el")
@@ -18,3 +26,7 @@
  ;; If there is more than one, they won't work right.
  )
 
+
+(provide 'init)
+
+;;; init.el ends here
