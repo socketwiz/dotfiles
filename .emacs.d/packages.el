@@ -301,7 +301,7 @@
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
-  (define-key evil-motion-state-map (kbd "/") 'consult-line))
+  (define-key evil-motion-state-map (kbd "/") 'swiper))
 
 
 ;; Surround text objects with characters
