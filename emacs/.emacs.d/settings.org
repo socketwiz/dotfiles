@@ -81,6 +81,9 @@
 ;; Parenthesis
 (show-paren-mode 1)
 
+;; Wrap selection with (, [, ", etc...
+(electric-pair-mode 1)
+
 ;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
 
