@@ -347,14 +347,6 @@
   (use-package smex
     :ensure t)
 
-  ;; fancy completion for emacs, not just buffers and files
-  (use-package ido-completing-read+
-    :init
-    (ido-ubiquitous-mode 1)
-    :config
-    (setq ido-cr+-max-items 3000)
-    :defer t)
-
   ;; fancy matching for emacs
   (use-package flx-ido
     :init
