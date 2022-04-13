@@ -1,0 +1,11 @@
+# key: switch
+# name: switch
+# --
+switch (${1:expr}) {
+    case ${2:constexpr}:
+        $3
+        break;
+
+    default:
+        break;
+}$0

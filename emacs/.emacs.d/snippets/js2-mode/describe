@@ -1,0 +1,6 @@
+# key: describe
+# name: describe
+# --
+describe('$1', function $2() {
+  $0
+});
