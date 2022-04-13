@@ -1,3 +1,4 @@
+/.authinfo
 /.aws-sam/
 /.aws/
 /.bash_history
@@ -7,6 +8,7 @@
 /.cargo/
 /.config/1Password/
 /.config/BraveSoftware/
+/.config/JetBrains/
 /.config/Slack/
 /.config/chromium/
 /.config/dconf/
@@ -18,16 +20,19 @@
 /.config/google-chrome-beta/
 /.config/google-chrome-unstable/
 /.config/gtk-3.0/
+/.config/htop
 /.config/ibus/
 /.config/microsoft-edge-dev/
 /.config/mimeapps.list
 /.config/monitors.xml
+/.config/mozilla/
 /.config/pop-shell/
 /.config/pulse/
 /.config/qalculate/
 /.config/user-dirs.dirs
 /.config/user-dirs.locale
 /.config/touchegg/
+/.config/uhk-agent/
 /.config/vivaldi-snapshot/
 /.config/vivaldi/
 /.config/zoomus.conf
@@ -92,9 +97,10 @@
 /.emacs.d/url/
 /.emacs.d/var/
 
+/.java
 /.mailpass-*
+/.wget-hsts
 
-.weechat/logs/
-.weechat/sec.conf
-.weechat/weechat.log
-
+/.weechat/logs/
+/.weechat/sec.conf
+/.weechat/weechat.log
