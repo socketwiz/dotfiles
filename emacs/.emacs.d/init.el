@@ -18,7 +18,7 @@
  '(initial-major-mode (quote emacs-lisp-mode))
  '(package-selected-packages
    (quote
-    (org-agenda ivy-prescient prescient evil-surround evil lsp-mode rustic htmlize py-autopep8 elpy rg doom-modeline all-the-icons-dired ivy-hydra rjsx-mode js2-mode expand-region smartparens counsel-projectile counsel cider command-log-mode irony irony-eldoc flycheck-irony cyberpunk-theme atomic-chrome anzu undo-tree highlight-parentheses all-the-icons rainbow-mode flx helpful dockerfile-mode yasnippet tide web-mode markdown-mode exec-path-from-shell which-key use-package popup paredit highlight flyspell-popup magit magit-popup ghub diff-hl company platformio-mode highlight-numbers parent-mode proceed editorconfig diminish scss-mode))))
+    (all-the-icons all-the-icons-dired anzu atomic-chrome cider command-log-mode company counsel counsel-projectile cyberpunk-theme diff-hl diminish dockerfile-mode doom-modeline editorconfig elpy exec-path-from-shell expand-region evil evil-surround flycheck-irony flyspell-popup flx ghub helpful highlight highlight-numbers highlight-parentheses htmlize irony irony-eldoc ivy-hydra ivy-prescient js2-mode lsp-mode magit magit-popup markdown-mode org-agenda paredit parent-mode platformio-mode popup prescient proceed py-autopep8 rainbow-mode rg rjsx-mode rustic scss-mode smartparens tide undo-tree use-package web-mode which-key yasnippet))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
