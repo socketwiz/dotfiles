@@ -61,7 +61,7 @@ return require('packer').startup(function()
   }
 
   -- Honor .editorconfig file
-  use 'editorconfig/editorconfig-vim'
+  use 'gpanders/editorconfig.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
