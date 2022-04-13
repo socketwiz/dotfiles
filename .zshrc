@@ -116,3 +116,9 @@ function tm() {
 
 export PATH="/usr/local/opt/node@12/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# Fixing terminal emacs copy-paste
+# https://blog.d46.us/zsh-tmux-emacs-copy-paste/
+bindkey -M emacs '\C-y' widget-paste-from-clipboard
+bindkey -M viins '\C-y' widget-paste-from-clipboard
+bindkey -M vicmd '\C-y' widget-paste-from-clipboard

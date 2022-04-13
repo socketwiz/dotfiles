@@ -40,3 +40,5 @@ source /home/hackerzol/.config/broot/launcher/bash/br
 
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
+export DENO_INSTALL="/home/hackerzol/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"

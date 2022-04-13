@@ -2,6 +2,4 @@
 # name: ablank
 # key: ablank
 # --
-<a href="$1"
-    rel="noopener noreferrer"
-    target="_blank">$2</a>
+<a href="$1" rel="noopener noreferrer" target="_blank">$2</a>

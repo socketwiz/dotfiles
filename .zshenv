@@ -22,3 +22,9 @@ source $HOME/.cargo/env
 
 # setup Node
 export PATH="${HOME}/.npm-global/bin":${PATH}
+
+# Fixing terminal emacs copy-paste
+# https://blog.d46.us/zsh-tmux-emacs-copy-paste/
+function is-linux() { [[ "${OS_TYPE}" == "Linux" ]]; }
+function is-darwin() { [[ "${OS_TYPE}" == "Darwin" ]]; }
+function is-macos() { [[ "${OS_TYPE}" == "Darwin" ]]; }
