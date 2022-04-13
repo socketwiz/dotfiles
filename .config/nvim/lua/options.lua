@@ -103,24 +103,6 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
-local cmp = require('cmp')
-cmp.setup {
-  mapping = {
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  },
-  formatting = {
-    fields = { "kind", "abbr", "menu" },
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'path' },
-  })
-}
-
 require('gitsigns').setup {
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -151,17 +133,4 @@ require('nvim-tree').setup {
     },
   },
 }
-
-local nvim_lsp = require('lspconfig')
--- Enable bash analyzer
--- npm i -g bash-language-server
-nvim_lsp.bashls.setup {}
--- Enable html/css analyzer
--- npm i -g vscode-langservers-extracted
-nvim_lsp.cssls.setup {}
-nvim_lsp.html.setup {}
--- Enable javascript/typescript analyzer
-nvim_lsp.denols.setup{}
--- Enable rust_analyzer
-nvim_lsp.rust_analyzer.setup {}
 
