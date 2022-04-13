@@ -114,6 +114,8 @@
            ("n" "note" entry (file "~/org/notes.org")
             "* %? :NOTE:\n%U\n%a\n")
            ("r" "read-later" entry (file "~/org/read-later.org")
+            "* %? :NOTE:\n%U\n%a\n")
+           ("w" "work" entry (file "~/org/work.org")
             "* %? :NOTE:\n%U\n%a\n"))))
   (org-hide-emphasis-markers t)
   :config
