@@ -24,7 +24,7 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 
 # aws
-AWS_PATH="$HOME/.local/share/virtualenvs/zolmok-buXw1R7V/bin"
+AWS_PATH="$HOME/.local/bin"
 export PATH="$AWS_PATH:$PATH"
 source "$AWS_PATH/aws_zsh_completer.sh"
 
