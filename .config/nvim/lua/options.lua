@@ -134,3 +134,9 @@ require('nvim-tree').setup {
   },
 }
 
+-- CoC (use vim syntax because I'm not sure how to convert to lua)
+vim.cmd [[
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+]]
+
