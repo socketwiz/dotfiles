@@ -432,6 +432,8 @@
   :init
   (setq ido-everywhere t)
   (setq ido-use-filename-at-point 'guess)
+  ;; Disable merged-mode
+  (setq ido-auto-merge-work-directories-length -1)
   :config
   (ido-mode t))
 ;; Enable ido just about everywhere by replacing "completing-read"
