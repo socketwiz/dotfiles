@@ -30,7 +30,7 @@
  ;; If there is more than one, they won't work right.
  '(gnutls-algorithm-priority "normal:-vers-tls1.3")
  '(package-selected-packages
-   '(all-the-icons-dired atomic-chrome avy bind-key command-log-mode diminish dockerfile-mode doom-modeline doom-themes editorconfig eglot elpy embark embark-consult exec-path-from-shell expand-region evil evil-surround flymake-eslint flymake-python-pyflakes flymake-shellcheck helpful indium jedi marginalia markdown-mode mu4e orderless org-mode org-bullets pipenv rainbow-mode rg rust-mode scss-mode smartparens tide undo-tree vertico web-mode which-key yasnippet yaml-mode)))
+   '(all-the-icons-dired atomic-chrome avy bind-key command-log-mode diff-hl diminish dockerfile-mode doom-modeline doom-themes editorconfig eglot elpy embark embark-consult exec-path-from-shell expand-region evil evil-surround flymake-eslint flymake-python-pyflakes flymake-shellcheck helpful indium jedi marginalia markdown-mode mu4e orderless org-mode org-bullets pipenv rainbow-mode rg rust-mode scss-mode smartparens tide undo-tree vertico web-mode which-key yasnippet yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

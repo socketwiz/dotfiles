@@ -240,7 +240,6 @@
   :if config-enable-dockerfile-mode
   :defer t)
 
-
 ;; Major mode for editing YAML documents
 (use-package yaml-mode
   :if config-enable-yaml-mode
@@ -275,17 +274,22 @@
   (evil-set-initial-state 'rg-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
-
-  (evil-set-undo-system 'undo-tree)
+  (evil-set-initial-state 'text-mode 'emacs)
 
   ;; Set emacs state on message buffer with this special code since it loads
   ;; so early and therefore can't be set with `(evil-set-initial-state)`
   (with-eval-after-load 'evil
     (add-hook 'after-init-hook
-                      (lambda (&rest _)
-                        (when-let ((messages-buffer (get-buffer "*Messages*")))
-                          (with-current-buffer messages-buffer
-                            (evil-emacs-state))))))
+              (lambda (&rest _)
+                (when-let ((messages-buffer (get-buffer "*Messages*")))
+                  (with-current-buffer messages-buffer
+                    (evil-emacs-state))))))
+
+  ;; Set undo-tree as the undo/redo system. I thought one could set
+  ;; the variable evil-undo-system to enable this, but I can't seem to
+  ;; get that to work :( evil-set-undo-system seems to work, though
+  ;; I'm not sure if this is the recommended
+  (evil-set-undo-system 'undo-tree)
 
   ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
@@ -306,7 +310,9 @@
 
 ;; Jump to visible text using a char-based decision tree
 (use-package avy
-  :bind ("M-j" . avy-goto-char-timer))
+  :bind ("M-j" . avy-goto-char-timer)
+  :config
+  (setq avy-timeout-seconds 1))
 
 ;; Advanced undo/redo system
 (use-package undo-tree
@@ -319,6 +325,10 @@
 (use-package company
   :init
   (global-company-mode))
+
+(use-package diff-hl
+  :init
+  (global-diff-hl-mode))
 
 
 (provide 'packages)
