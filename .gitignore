@@ -11,6 +11,7 @@
 /.config/*
 !/.config/dunst/
 !/.config/i3/
+!/.config/i3status-rs/
 !/.config/kitty/
 !/.config/nvim/
 !/.config/rofi/
