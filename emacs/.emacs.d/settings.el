@@ -199,6 +199,9 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-acario-dark t)
+  ;; This theme makes the selections too dark, lighten them up
+  (set-face-background 'hl-line "#1F2324")
+  (set-face-background 'region "#585F61")
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -286,7 +289,14 @@
   (defvar org-agenda-include-diary t)
   (defvar org-src-fontify-natively t)
   (setq org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
-  (setq org-default-notes-file "~/org/agenda/organizer.org"))
+  (setq org-default-notes-file "~/org/agenda/organizer.org")
+
+  ;; So we can execute these language blocks in org-mode
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
+  (defvar python-shell-completion-native-disabled-interpreters "python3"))
+
 ;; Convert buffer to text and decorations to HTML
 (use-package htmlize
   :mode (("\\.org\\'" . org-mode)))
@@ -327,7 +337,8 @@
 
 ;; Display used hotkeys in another window
 (use-package command-log-mode
-  :diminish 'command-log-mode)
+  :diminish 'command-log-mode
+  :hook (after-init . global-command-log-mode))
 
 ;; Minor mode for dealing with pairs, such as quotes
 (use-package smartparens-config
@@ -635,7 +646,8 @@
 ;; * Language Rust
 (defun setup-rustic ()
   "Setup find-definitions when in rustic-mode."
-  (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
+  (when (featurep 'evil-mode)
+    (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
 (use-package rustic
