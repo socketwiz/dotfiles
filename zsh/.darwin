@@ -39,6 +39,5 @@ export PATH=$HOME/.npm-packages/bin:$PATH
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 
 # Homebrew paths
-export BREW_PATHS=/usr/local/bin:/usr/local/sbin
-export PATH="/usr/local/opt/node@8/bin:$PATH"
-
+BREW_PATHS="/usr/local/bin:/usr/local/sbin"
+export PATH=${BREW_PATHS}:${PATH}
