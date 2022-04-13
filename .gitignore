@@ -14,6 +14,7 @@ emacs/.emacs.d/irony/
 emacs/.emacs.d/projectile-bookmarks.eld
 emacs/.emacs.d/.nrepl-port
 emacs/.emacs.d/tramp
+emacs/.emacs.d/transient
 
 vim/.vim/.netrwhist
 
