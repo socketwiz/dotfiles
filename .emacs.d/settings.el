@@ -56,5 +56,12 @@
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-z") 'nil)
 
+(when (not (featurep 'evil-mode))
+  ;; In evil-mode <C-z> swaps between normal and emacs states
+  ;; In terminal <C-z> suspends Emacs to the background, but doesn't work so well in GUI
+  (if (not (string= window-system nil))
+      (global-unset-key (kbd "C-z"))))
+
+
 (provide 'settings)
 ;;; settings.el ends here

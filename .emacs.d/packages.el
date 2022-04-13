@@ -297,14 +297,15 @@
   :config
   (global-evil-surround-mode 1))
 
-(when (not (featurep 'evil-mode))
-  ;; In evil-mode <C-z> swaps between normal and emacs states
-  ;; In terminal <C-z> suspends Emacs to the background, but doesn't work so well in GUI
-  (if (not (string= window-system nil))
-      (global-unset-key (kbd "C-z"))))
-
 ;; Language Server Protocol support for Emacs
 (use-package eglot)
+
+;; Jump to visible text using a char-based decision tree
+(use-package avy
+  :bind (("M-s a c" . avy-goto-char)
+         ("M-s a l" . avy-goto-line)
+         ("M-s a w" . avy-goto-word)))
+
 
 (provide 'packages)
 ;;; packages.el ends here
