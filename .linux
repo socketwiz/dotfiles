@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
 alias open='/usr/bin/xdg-open'
-alias refresh='gnome-shell --replace & disown'
+alias refresh='sudo gnome-shell --replace & disown'
 alias ssh='TERM=xterm-256color ssh $@'
 
 # ls

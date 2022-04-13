@@ -14,6 +14,7 @@
 !/.config/i3status-rs/
 !/.config/kitty/
 !/.config/nvim/
+.config/nvim/plugin/
 !/.config/rofi/
 !/.config/termite/
 !/.config/starship.toml
