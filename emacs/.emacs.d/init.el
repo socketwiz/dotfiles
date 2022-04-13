@@ -1,25 +1,19 @@
 
 (package-initialize)
 
-(load-file (concat (file-name-directory user-emacs-directory)
-		   "core/core-load-paths.el"))
-
 (setq use-package-always-ensure t)
 (setq gc-cons-threshold most-positive-fixnum)
-
-(require 'core-my)
-(require 'my-base)
-(require 'my-langs)
-
-(my/init)
-(my/init-base)
-(my/init-langs)
 
 (use-package exec-path-from-shell
   :defer t
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
+
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "settings.org"
+                   user-emacs-directory))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -39,3 +33,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
