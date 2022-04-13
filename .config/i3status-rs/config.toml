@@ -16,7 +16,7 @@ block = "memory"
 clickable = false
 icons = false
 display_type = "memory"
-format_mem = "\uf0a0{mem_used_percents}"
+format_mem = "\uf0a0 {mem_used_percents}"
 
 [[block]]
 block = "cpu"

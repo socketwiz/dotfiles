@@ -81,6 +81,7 @@ require('telescope').setup{
     -- please take a look at the readme of the extension you want to configure
   }
 }
+require('telescope').load_extension('file_browser')
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
