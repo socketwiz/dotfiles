@@ -32,6 +32,11 @@ set.undodir='~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.'
 set.undofile = true                 -- Enable undo support
 set.visualbell = true               -- Turn the beep into a visual representation rather than a sound
 
+let.markdown_fenced_languages = { -- Deno (JavaScript) language server
+  "javascript",
+  "js=javascript",
+  "ts=typescript"
+}
 let.mapleader = " "                 -- Change leader key to <Space>
 let.mapleaderlocal = " "            -- Change leader key to <Space>
 -- Theme
@@ -137,11 +142,11 @@ require('nvim-tree').setup {
   view = {
     mappings = {
       list = {
-      { key = "g",                            action = "refresh" },
-      { key = "+",                            action = "create" },
-      { key = "x",                            action = "remove" },
-      { key = "R",                            action = "rename" },
-      { key = "^",                            action = "dir_up" },
+      { key = "g", action = "refresh" },
+      { key = "+", action = "create" },
+      { key = "x", action = "remove" },
+      { key = "R", action = "rename" },
+      { key = "^", action = "dir_up" },
       }
     },
   },
@@ -155,8 +160,8 @@ nvim_lsp.bashls.setup {}
 -- npm i -g vscode-langservers-extracted
 nvim_lsp.cssls.setup {}
 nvim_lsp.html.setup {}
+-- Enable javascript/typescript analyzer
+nvim_lsp.denols.setup{}
 -- Enable rust_analyzer
 nvim_lsp.rust_analyzer.setup {}
--- Enable typescript analyzer
-nvim_lsp.tsserver.setup {}
 
