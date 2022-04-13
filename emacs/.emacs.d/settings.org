@@ -28,6 +28,8 @@
 
 ;; Prevent the startup window
 (setq inhibit-startup-message t)
+(load (concat user-emacs-directory "dashboard.el"))
+(dashboard)
 
 ;; Hide ui elements
 (tool-bar-mode -1)
@@ -148,13 +150,6 @@
   :config
   (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
-;; Ensure the environment variables inside emacs match the shell
-(use-package exec-path-from-shell
-  :defer t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
 ;; Undo-tree
 (use-package undo-tree 
   :config
@@ -222,7 +217,6 @@
 ;; Org mode, for keeping notes, todo lists, etc... in plain text
 (use-package org
   :config
-  ;; org
   (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
   (setq org-agenda-include-diary t)
   (setq org-src-fontify-natively t)
@@ -304,27 +298,30 @@
   (setq evil-operator-state-cursor '("cyan" box))
   (setq evil-replace-state-cursor '("chocolate" box))
   (setq evil-motion-state-cursor '("plum3" box))
-  (setq evil-emacs-state-cursor  '("SkyBlue2" box))
+  (setq evil-emacs-state-cursor  '("SkyBlue2" box)))
 
-  ;; Customizable key sequence to escape from insert state and everything else
-  (use-package evil-escape
-    :config
-    (setq-default evil-escape-key-sequence "fd")
-    ;; esc should escape everything possible
-    (evil-escape-mode)
-    :diminish 'evil-escape-mode)
+;; Customizable key sequence to escape from insert state and everything else
+(use-package evil-escape
+  :after (evil)
+  :config
+  (setq-default evil-escape-key-sequence "fd")
+  ;; esc should escape everything possible
+  (evil-escape-mode)
+  :diminish 'evil-escape-mode)
 
-  ;; Surround text objects with characters
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
+;; Surround text objects with characters
+(use-package evil-surround
+  :after (evil)
+  :config
+  (global-evil-surround-mode 1))
 
-  ;; Highlight search words in a buffer
-  (use-package evil-anzu
-    :config
-    (global-anzu-mode +1)
-    :diminish 'anzu-mode))
-#+END_SRC
+;; Highlight search words in a buffer
+(use-package evil-anzu
+  :after (evil)
+  :config
+  (global-anzu-mode +1)
+  :diminish 'anzu-mode)
+  #+END_SRC
 
 * git
 #+BEGIN_SRC emacs-lisp
@@ -365,6 +362,7 @@
 
 ;; Fancy matching for emacs
 (use-package flx-ido
+  :after (ido)
   :init
   (flx-ido-mode 1)
   :defer t)
@@ -400,15 +398,20 @@
 * Language cpp
 #+BEGIN_SRC emacs-lisp
 ;; A flycheck checker for C/C++
-(use-package flycheck-irony)
+(use-package flycheck-irony
+  :after (irony)
+  :defer t)
 
 ;; Irony support for C/C++
 (use-package irony-eldoc
+  :after (irony)
+  :defer t
   :init
   (add-hook 'irony-mode-hook #'irony-eldoc))
 
 ;; C++ minor mode, completion, syntax checking
 (use-package irony
+  :defer t
   ;; Need to install the server on first run (M-x irony-install-server)
   :commands irony-mode
   :init
@@ -421,6 +424,7 @@
 
 ;; Embedded platform development
 (use-package platformio-mode
+  :defer t
   :commands (platformio-conditionally-enable)
   :mode (("\\.ino\\'" . c++-mode))
   :init)
@@ -504,10 +508,12 @@
 (add-hook 'web-mode-hook #'yas-minor-mode)
 
 ;; SASS
-(use-package scss-mode)
+(use-package scss-mode
+  :defer t)
 
 ;; Major mode for editing web templates
 (use-package web-mode
+  :defer t
   :mode (("\\.html?\\'" . web-mode)
          ("\\.js[x]?\\'" . web-mode)
          ("\\.css\\'" . web-mode))
@@ -548,6 +554,7 @@
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
+  :defer t
   :bind
   ("M-." . tide-jump-to-definition)
   :config
@@ -557,15 +564,18 @@
                 (setup-tide-mode)))))
 
 ;; A simple emacs web server for use with skewer-mode
-(use-package simple-httpd)
+(use-package simple-httpd
+  :defer t)
 ;; Provides live interaction with JavaScript
-(use-package skewer-mode)
+(use-package skewer-mode
+  :defer t)
 #+END_SRC
 
 * Language markdown
 #+BEGIN_SRC emacs-lisp
 ;; Major mode for editing Markdown formatted text
 (use-package markdown-mode
+  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -576,25 +586,31 @@
 * Language rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
-  :config
-  ;; rust completion library
-  (use-package racer
-    :init
-    (add-hook 'racer-mode-hook #'eldoc-mode)
-    (add-hook 'rust-mode-hook #'racer-mode))
-  (use-package flycheck-rust
-    :init
-    (add-hook 'rust-mode-hook #'flycheck-mode))
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :defer t)
+
+;; rust completion library
+(use-package racer
+  :after (rust-mode)
+  :init
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'rust-mode-hook #'racer-mode))
+
+(use-package flycheck-rust
+  :after (rust-mode)
+  :init
+  (add-hook 'rust-mode-hook #'flycheck-mode))
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 
 ;; rust package managment
 (use-package cargo
+  :after (rust-mode)
   :bind (:map rust-mode-map ("C-c C-c" . cargo-process-clippy)))
 
 (add-hook 'rust-mode-hook #'yas-minor-mode)
-#+END_SRC
+  #+END_SRC
 
 * Language clojure
 #+BEGIN_SRC emacs-lisp
-(use-package cider)
+(use-package cider
+  :defer t)
 #+END_SRC
