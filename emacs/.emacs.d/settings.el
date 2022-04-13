@@ -26,6 +26,11 @@
 (defvar js-switch-indent-offset 2
   "How many spaces to indent in \"js-mode\".")
 
+(defvar project-root "~/"
+  "Directory where coding projects are kept.")
+(defvar project-dir
+  "Project directory defined by whether or not it contains a .git directory.")
+
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
 (defvar config-enable-cider-mode nil
@@ -36,7 +41,7 @@
   "Whether or not to enable elpy-mode.")
 (defvar config-enable-evil-mode nil
   "Whether or not to enable evil-mode.")
-(defvar config-enable-markdown-mode nil
+(defvar config-enable-markdown-mode t
   "Whether or not to enable markdown-mode.")
 (defvar config-enable-rustic-mode t
   "Whether or not to enable rustic-mode.")
@@ -44,6 +49,33 @@
   "Whether or not to enable undo-tree.")
 (defvar config-enable-web-mode t
   "Whether or not to enable web, js, css.")
+
+
+;; Common functions
+(defun socketwiz/directory-files (directory &optional full match nosort)
+  "Like `directory-files', but with some exclusions.
+Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\".)"
+  (let* ((files (cons nil (directory-files directory full match nosort)))
+         (parent files)
+         (current (cdr files))
+         (exclude (list "." ".." ".git" "node_modules"))
+         (file nil))
+    (while (and current exclude)
+      (setq file (car current))
+      (if (not (member file exclude))
+          (setq parent current)
+        (setcdr parent (cdr current))
+        (setq exclude (delete file exclude)))
+      (setq current (cdr current)))
+    (cdr files)))
+
+(defun socketwiz/filter-unwanted (file)
+  "Filter unwanted directories from \"FILE\"."
+  (or (string-match ".git" file)
+      (string-match "dist" file)
+      (string-match "node_modules" file)
+      (string-match "target" file)))
+
 
 ;; Hide column numbers
 (setq column-number-mode t)
@@ -147,20 +179,20 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
-(global-set-key (kbd "C-c r") 'counsel-recentf)
+;;(global-set-key (kbd "C-c r") 'counsel-recentf)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
-(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-(global-set-key (kbd "C-x d") 'counsel-dired)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;;(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+;;(global-set-key (kbd "C-x d") 'counsel-dired)
+;;(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-(global-set-key (kbd "M-i") 'counsel-imenu)
-(global-set-key (kbd "M-s s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
+;;(global-set-key (kbd "M-i") 'counsel-imenu)
+;;(global-set-key (kbd "M-s s") 'swiper)
+;;(global-set-key (kbd "M-x") 'counsel-M-x)
 
 
 ;; * Core packages
@@ -311,13 +343,13 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (defvar lsp-clients-angular-language-server-command
-        '("node"
-          "/usr/local/lib/node_modules/@angular/language-server"
-          "--ngProbeLocations"
-          "/usr/local/lib/node_modules"
-          "--tsProbeLocations"
-          "/usr/local/lib/node_modules"
-          "--stdio")))
+    '("node"
+      "/usr/local/lib/node_modules/@angular/language-server"
+      "--ngProbeLocations"
+      "/usr/local/lib/node_modules"
+      "--tsProbeLocations"
+      "/usr/local/lib/node_modules"
+      "--stdio")))
 (use-package lsp-ui :commands lsp-ui-mode)
 
 ;; Display available keybindings in a popup
@@ -421,58 +453,42 @@
   (global-diff-hl-mode t)
   (diff-hl-flydiff-mode t))
 
-;; * ivy
-;; Generic completion frontend
-(use-package counsel)
-(use-package counsel-projectile
-  :config
-  (counsel-projectile-mode t)
-  :bind (:map projectile-mode-map ("C-c p" . 'projectile-command-map)))
 
-;; Fuzzy matching for Emacs
-(use-package flx)
-;; Sorting and filtering
-(use-package prescient)
-(use-package ivy-prescient
-  :after (ivy prescient)
-  :config (ivy-prescient-mode))
-(use-package ivy-hydra)
-(use-package ivy
-  :diminish 'ivy-mode
-  :config
-  (ivy-mode t)
-  ;; make everything fuzzy except swiper
-  (setq ivy-re-builders-alist
-        '((counsel-M-x . ivy--regex-fuzzy)
-          ;; To create a new file when a similar name is being fuzzy
-          ;; matched <C-M j> instead of RET (ivy-immediate-done)
-          ;; to temporarily turn off fuzzy matching
-          (t . ivy--regex-plus))))
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
-
-;; * projectile
-;; ripgrep
-(use-package rg)
-
-;; A project interaction library
-(use-package projectile
-  :after (rg)
-  :config
-  (setq projectile-project-search-path '("~/dev"))
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (projectile-mode)
+;; Switch between buffers and visit files
+(use-package ido
   :init
-  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-        projectile-known-projects-file (concat user-emacs-directory
-                                               ".cache/projectile-bookmarks.eld"))
-  (declare-function recentf-track-opened-file "recentf.el.gz")
-  (add-hook 'find-file-hook (lambda ()
-                              (unless recentf-mode (recentf-mode)
-                                      (recentf-track-opened-file))))
-  :bind
-  (:map projectile-mode-map ("C-c p s p" . rg-project))
-  :diminish 'projectile-mode)
+  (setq ido-everywhere t)
+  :config
+  (ido-mode t))
+
+
+(use-package cl)
+(declare-function remove-if "cl.el")
+
+;; Project management
+(use-package project
+  :config
+  (defun socketwiz/find-project-dir ()
+    "Locate project directories."
+    (interactive)
+
+    (setq project-dir project-root)
+    (while (not (file-directory-p (concat project-dir "/.git")))
+      (let* ((project-list (socketwiz/directory-files project-dir))
+             (projects (mapc 'directory-file-name project-list)))
+        (setq project-dir (concat project-dir "/"
+                                  (ido-completing-read "Find project: " projects nil t)))))
+    (find-file (ido-completing-read "Find project file: "
+                                    (remove-if 'socketwiz/filter-unwanted (directory-files-recursively project-dir "")))))
+
+  :bind ("C-c p p" . socketwiz/find-project-dir))
+
+
+;; ripgrep
+(use-package rg
+  :config
+  (rg-enable-default-bindings))
+
 
 ;; Extensible vi layer for Emacs
 (use-package evil
@@ -734,8 +750,7 @@
 (use-package dashboard
   :ensure t
   :config
-  (setq dashboard-items '((projects . 5)
-                          (agenda . 5)
+  (setq dashboard-items '((agenda . 10)
                           (registers . 5)))
   (setq dashboard-set-heading-icons t)
   (dashboard-setup-startup-hook))
