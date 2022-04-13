@@ -401,13 +401,6 @@
 
 * Language javascript
 #+BEGIN_SRC emacs-lisp
-(defun enable-skewer-mode ()
-  ;; Run all the things required to make skewer mode work
-  (interactive)
-  (js2-mode)
-  (skewer-mode)
-  (run-skewer))
-
 (defun configure-web-mode-flycheck-checkers ()
   ;; In order to have flycheck enabled in web-mode, add an entry to this
   ;; cond that matches the web-mode engine/content-type/etc and returns the
