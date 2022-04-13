@@ -1,2 +1,4 @@
-#!/bin/sh
-feh --no-fehbg --bg-center '/home/hackerzol/Pictures/DesktopBackgrounds/sylvanas.jpg' 
+#!/usr/bin/env bash
+
+feh --no-fehbg --bg-center ~/Pictures/DesktopBackgrounds/desktop.jpg
+
