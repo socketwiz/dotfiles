@@ -100,7 +100,11 @@ function tm() {
     select sel in $(tmux ls -F '#S'); do
         break;
     done
-    tmux attach -t "$sel"
-}
 
-source $HOME/.config/broot/launcher/bash/br
+    if [ -z "$sel" ]
+    then
+        echo "You didn't select an appropriate choice"
+    else
+        tmux attach -t "$sel"
+    fi
+}
