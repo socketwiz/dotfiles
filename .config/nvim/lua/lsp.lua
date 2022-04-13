@@ -89,9 +89,7 @@ for _, lsp in pairs(servers) do
       },
       provideFormatter = true
     }
-    root_dir = function(startpath)
-      return M.search_ancestors(startpath, matcher)
-    end
+    root_dir = util.root_pattern('package.json')
     single_file_support = true
   elseif lsp == 'jsonls' then
     capabilities = capabilities
