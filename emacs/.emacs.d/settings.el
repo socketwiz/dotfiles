@@ -434,6 +434,8 @@
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
+  ;; For some reason python mode is starting in emacs state, set it to normal
+  (evil-set-initial-state 'python-mode 'normal)
   :bind (:map evil-normal-state-map ("M-." . 'tide-jump-to-definition)))
 
 ;; Surround text objects with characters
@@ -542,7 +544,10 @@
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-enable-css-colorization t)
   
-  (add-hook 'web-mode-hook 'setup-template))
+  (add-hook 'web-mode-hook 'setup-template)
+  ;; disable auto-pairing just in web-mode so in django templates
+  ;; you can do {% %} without it becoming {% %}}
+  (add-hook 'web-mode-hook (lambda () (electric-pair-mode -1))))
 
 ;; SASS
 (use-package scss-mode
