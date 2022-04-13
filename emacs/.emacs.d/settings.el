@@ -138,7 +138,7 @@
 (when (eq system-type 'darwin)
   ;; These 2 lines do not trigger flycheck warnings when on MacOS
   (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier nil))
+  (setq mac-option-modifier 'super))
 
 
 ;; * Core keybindings
@@ -278,13 +278,27 @@
 
 ;; Language Server Protocol support for Emacs
 ;;
-;; Language servers
+;; Angular
+;; sudo npm install -g @angular/language-server
+;; sudo npm install -g @angular/language-service
+;;
+;; Bash
 ;; sudo npm install -g bash-language-server
+;;
+;; Javascript / TypeScript
 ;; sudo npm install -g typescript-language-server
 ;; sudo npm install -g typescript
+;;
+;; HTML
 ;; sudo npm install -g vscode-html-languageserver-bin
+;;
+;; JSON
 ;; sudo npm install -g vscode-json-languageserver
+;;
+;; Python
 ;; pip install python-language-server\[all\]
+;;
+;; Rust
 ;; rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
   :commands lsp
@@ -295,7 +309,16 @@
          (sh-mode . lsp)
          (typescript-mode . lsp)
          (web-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration)))
+         (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (defvar lsp-clients-angular-language-server-command
+        '("node"
+          "/usr/local/lib/node_modules/@angular/language-server"
+          "--ngProbeLocations"
+          "/usr/local/lib/node_modules"
+          "--tsProbeLocations"
+          "/usr/local/lib/node_modules"
+          "--stdio")))
 (use-package lsp-ui :commands lsp-ui-mode)
 
 ;; Display available keybindings in a popup
