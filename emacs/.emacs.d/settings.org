@@ -447,6 +447,8 @@
   :mode ("\\.js\\'" . js2-mode)
   :config
   :hook (js2-mode . setup-js2))
+
+(use-package rjsx-mode)
 #+END_SRC
 
 * Language HTML, css
