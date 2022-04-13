@@ -182,7 +182,6 @@
 
 ;; Modeline theme, bottom of each window
 (use-package doom-modeline
-  ;; (setq doom-modeline-icon (display-graphic-p))
   :hook (after-init . doom-modeline-mode))
 
 ;; Completion package that divides the pattern into space-separated components
@@ -264,6 +263,7 @@
   (evil-set-initial-state 'flymake-diagnostics-buffer-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
+  (evil-set-initial-state 'image-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
   (evil-set-initial-state 'messages-buffer-mode 'emacs)
