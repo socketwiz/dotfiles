@@ -300,6 +300,7 @@
   (counsel-projectile-mode t)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 (use-package flx)
+(use-package ivy-hydra)
 (use-package ivy
   :diminish 'ivy-mode
   :config
