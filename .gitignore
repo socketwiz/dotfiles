@@ -10,6 +10,8 @@ emacs/.emacs.d/undo/
 emacs/.emacs.d/url/
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/settings.el
+emacs/.emacs.d/irony/
+emacs/.emacs.d/projectile-bookmarks.eld
 
 vim/.vim/.netrwhist
 
@@ -17,3 +19,27 @@ weechat/.weechat/logs/
 weechat/.weechat/sec.conf
 weechat/.weechat/weechat.log
 
+config/.config/GIMP/
+config/.config/Hyper/
+config/.config/Postman/
+config/.config/QtProject.conf
+config/.config/Trolltech.conf
+config/.config/Zeal/
+config/.config/autostart/
+config/.config/chromium/
+config/.config/configstore/
+config/.config/dconf/
+config/.config/filetypesrc
+config/.config/gtk-2.0/
+config/.config/htop/
+config/.config/kdeglobals
+config/.config/kdenliverc
+config/.config/krulerrc
+config/.config/krusaderrc
+config/.config/menus/
+config/.config/mimeapps.list
+config/.config/obs-studio/
+config/.config/oni/
+config/.config/pulse/
+config/.config/trashrc
+config/.config/vlc/
