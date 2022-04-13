@@ -26,24 +26,24 @@
 (defvar js-switch-indent-offset 2
   "How many spaces to indent in \"js-mode\".")
 
-(defvar config-enable-evil-mode nil
-  "Whether or not to enable evil-mode.")
-(defvar config-enable-elpy-mode nil
-  "Whether or not to enable elpy-mode.")
-(defvar config-enable-cider-mode nil
-  "Whether or not to enable cider-mode.")
-(defvar config-enable-rustic-mode nil
-  "Whether or not to enable rustic-mode.")
-(defvar config-enable-markdown-mode nil
-  "Whether or not to enable markdown-mode.")
-(defvar config-enable-web-mode t
-  "Whether or not to enable web, js, css.")
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
-(defvar config-enable-undo-tree t
-  "Whether or not to enable undo-tree.")
+(defvar config-enable-cider-mode nil
+  "Whether or not to enable cider-mode.")
 (defvar config-enable-command-log-mode nil
   "Whether or not to enable command-log-mode.")
+(defvar config-enable-elpy-mode t
+  "Whether or not to enable elpy-mode.")
+(defvar config-enable-evil-mode nil
+  "Whether or not to enable evil-mode.")
+(defvar config-enable-markdown-mode nil
+  "Whether or not to enable markdown-mode.")
+(defvar config-enable-rustic-mode t
+  "Whether or not to enable rustic-mode.")
+(defvar config-enable-undo-tree t
+  "Whether or not to enable undo-tree.")
+(defvar config-enable-web-mode t
+  "Whether or not to enable web, js, css.")
 
 ;; Hide column numbers
 (setq column-number-mode t)
@@ -244,6 +244,8 @@
   :diminish 'company-mode
   :config
   (setq company-tooltip-align-annotations t)
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.0) ;; default is 0.2
   :init (global-company-mode))
 (use-package company-lsp
   :config (push 'company-lsp company-backends))
@@ -275,9 +277,24 @@
   (yas-reload-all))
 
 ;; Language Server Protocol support for Emacs
+;;
+;; Language servers
+;; sudo npm install -g bash-language-server
+;; sudo npm install -g typescript-language-server
+;; sudo npm install -g typescript
+;; sudo npm install -g vscode-html-languageserver-bin
+;; sudo npm install -g vscode-json-languageserver
+;; pip install python-language-server\[all\]
+;; rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
   :commands lsp
-  :hook ((python-mode . lsp)
+  :hook ((js-mode . lsp)
+         (python-mode . lsp)
+         (rjsx-mode . lsp)
+         (rustic-mode . lsp)
+         (sh-mode . lsp)
+         (typescript-mode . lsp)
+         (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)))
 (use-package lsp-ui :commands lsp-ui-mode)
 
@@ -669,6 +686,7 @@
   :if config-enable-rustic-mode
   :hook (rustic-mode . setup-rustic)
   :mode ("\\.rs\\'" . rustic-mode))
+
 
 ;; * Language Clojure
 (use-package cider
