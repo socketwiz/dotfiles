@@ -21,10 +21,5 @@ autoload -U compinit && compinit # reload completions for zsh-completions
 source $ZSH/oh-my-zsh.sh # required
 source ~/dotfiles/zsh/.zshrc.noobs
 
-# Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
-
-export SPACESHIP_PACKAGE_SHOW=false
-
 export PATH="/usr/local/opt/texinfo/bin:$PATH"
+fpath=($fpath "/home/socketwiz/.zfunctions")

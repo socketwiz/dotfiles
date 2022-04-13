@@ -489,6 +489,8 @@
   :init
   (setq web-mode-content-types-alist
         '(("js" . "\\.js\\'")))
+  (setq web-mode-engines-alist
+        '(("django" . "\\.html\\'")))
 
   (setq-default indent-tabs-mode nil)
   ;; Disable auto-quoting
@@ -557,6 +559,4 @@
 (use-package elpy
   :init
   (elpy-enable))
-(use-package py-autopep8
-  :hook (elpy-mode-hook . py-autopep8-enable-on-save))
 #+END_SRC

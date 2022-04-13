@@ -2,22 +2,15 @@
 # ssh
 source ~/bin/agent
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
 # aliases
 alias ec='emacsclient -c -n $1'
+alias ed='emacs --daemon'
 alias vim='nvim'
 
-# fix zsh globbing on some commands
-alias rspec='nocorrect rspec'
-alias hg='nocorrect hg'
-
-## for docker
+## docker
 alias docker-rm-stopped='docker system prune'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
+alias docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 function docker-enter() { docker exec -it "$@" /bin/bash; }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -39,22 +32,6 @@ case `uname` in
     source $HOME/.windows
     ;;
 esac
-
-#function npm() {
-#    case `uname` in
-#        Darwin)
-#            $HOME/.npm-packages/bin/npm $@
-#            ogg123 ~/dotfiles/VO_JobsDone.ogg
-#            ;;
-#        SunOS)
-#            ;;
-#        Linux)
-#            /usr/bin/npm $@
-#            ;;
-#        CYGWIN_NT-10.0-WOW)
-#            ;;
-#    esac
-#}
 
 # present a list of tmux sessions to choose from
 function tm() {
