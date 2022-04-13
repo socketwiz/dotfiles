@@ -1,9 +1,6 @@
 #! /usr/bin/env zsh
 
 alias open='/usr/bin/xdg-open'
-alias blog='~/dev/Zolmok/dev'
-alias CAPS='xmodmap ~/.Xmodmap-caps'
-alias nocaps='xmodmap ~/.Xmodmap'
 alias refresh='gnome-shell --replace & disown'
 alias ssh='TERM=xterm-256color ssh $@'
 
@@ -21,20 +18,11 @@ if [ -f $HOME/.pyenv/bin ]; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
-# python executables
-export PATH="$HOME/.local/bin:$PATH"
 
-# flutter
-export PATH="$HOME/flutter/bin:$PATH"
+# setup Rust
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
-# PlatformIO
-#export PATH=$PATH:~/.platformio/penv/bin
-
+# setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
 export DENO_INSTALL="${HOME}/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-
-# .local/bin
-export PATH="$PATH:${HOME}/.local/bin"
-
