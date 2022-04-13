@@ -3,11 +3,11 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k" # Set theme
 POWERLEVEL9K_MODE=nerdfont-complete
-PURE_POWER_MODE=portable
+PURE_POWER_MODE=fancy
 
 plugins=(
     git # https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git
-    history-substring-search # ZSH port of Fish history search. Begin typing command, use up arrow to select previous use
+    #history-substring-search # ZSH port of Fish history search. Begin typing command, use up arrow to select previous use
     zsh-completions # More completions
     zsh-syntax-highlighting # Fish shell like syntax highlighting for Zsh
     colored-man-pages # Self-explanatory

@@ -8,7 +8,7 @@
 (defvar config-keep-backups t)
 
 ;; Font settings
-(defvar config-font-family "Source Code Pro")
+(defvar config-font-family "Source Code Pro for Powerline")
 (defvar config-font-height 160
   "font-height is 1/10pt so 160 == 160/10 == 16pt")
 

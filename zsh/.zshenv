@@ -22,6 +22,7 @@ export PATH=${HOME}/bin:${PATH}
 
 # setup Rust
 export PATH=${HOME}/.cargo/bin:${PATH}
+source $HOME/.cargo/env
 
 # setup Node
 export PATH="${HOME}/.npm-global/bin":${PATH}
