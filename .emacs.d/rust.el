@@ -29,11 +29,11 @@
 ;; frame variable bar  // show contents of local variable "bar"
 ;; target variable bar // show global variable "bar"
 ;;
+;; To enable the eglot backend:
+;; rustup component add rls rust-analysis rust-src
+;;
 (defun setup-rust ()
   "Do these things after \"rust-mode\" is enabled."
-  ;; To enable the eglot backend:
-  ;; rustup component add rls rust-analysis rust-src
-
   ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
   (setq eglot-stay-out-of '())
   (eglot-ensure)
