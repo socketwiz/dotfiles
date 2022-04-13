@@ -31,11 +31,6 @@
 ;; Run the debugger on an error
 (setq debug-on-error t)
 
-;; Hide ui elements
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-
 ;; Keep backups
 (setq make-backup-files config-keep-backups)
 
@@ -50,10 +45,6 @@
 
 ;; Give focus to new help windows
 (setq help-window-select t)
-;; Put apropos in current buffer so it can be read and exited with minimum effort
-(add-to-list 'display-buffer-alist
-            '("*Apropos*" display-buffer-same-window)
-            '("*Info*" display-buffer-same-window))
 
 ;; Add /usr/local/bin to the path
 (setq exec-path (append exec-path '("/usr/local/bin")))
@@ -61,9 +52,31 @@
 ;; Disable flymake-mode
 (setq flymake-start-on-flymake-mode nil)
 
+;; Hide ui elements
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+
+;; Y or n is enough for me
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Parenthesis
+(show-paren-mode 1)
+
+;; Wrap selection with (, [, ", etc...
+(electric-pair-mode 1)
+
+;; Always hightlight current line
+(global-hl-line-mode t)
+
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
 (menu-bar-display-line-numbers-mode 'relative)
+
+;; Put apropos in current buffer so it can be read and exited with minimum effort
+(add-to-list 'display-buffer-alist
+            '("*Apropos*" display-buffer-same-window)
+            '("*Info*" display-buffer-same-window))
 
 ;; Package management
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -71,12 +84,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; Always hightlight current line
-(global-hl-line-mode t)
-
-;; Y or n is enough for me
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Font
 (set-face-attribute 'default nil
@@ -86,12 +93,6 @@
 (load "~/.emacs.d/fira-code.el")
 (fira-code-mode--setup)
 (fira-code-mode--enable)
-
-;; Parenthesis
-(show-paren-mode 1)
-
-;; Wrap selection with (, [, ", etc...
-(electric-pair-mode 1)
 
 ;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
@@ -117,22 +118,22 @@
 
 
 ;; * Core keybindings
-(global-set-key (kbd "<f5>") #'revert-buffer)
-(global-set-key (kbd "C-=") #'er/expand-region)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
-(global-set-key (kbd "C-c C-.") #'helpful-at-point)
-(global-set-key (kbd "C-c r") #'counsel-recentf)
-(global-set-key (kbd "C-h b") #'describe-bindings)
-(global-set-key (kbd "C-h f") #'helpful-callable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-x C-b") #'ibuffer)
-(global-set-key (kbd "C-x C-e") #'pp-eval-last-sexp)
-(global-set-key (kbd "C-x C-f") #'counsel-find-file)
-(global-set-key (kbd "C-x g") #'magit-status)
-(global-set-key (kbd "C-x M-g") #'magit-dispatch)
-(global-set-key (kbd "M-i") #'imenu)
+(global-set-key (kbd "<f5>") 'revert-buffer)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c C-.") 'helpful-at-point)
+(global-set-key (kbd "C-c r") 'counsel-recentf)
+(global-set-key (kbd "C-h b") 'describe-bindings)
+(global-set-key (kbd "C-h f") 'helpful-callable)
+(global-set-key (kbd "C-h k") 'helpful-key)
+(global-set-key (kbd "C-h v") 'helpful-variable)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch)
+(global-set-key (kbd "M-i") 'imenu)
 
 
 ;; * Core packages
@@ -196,7 +197,7 @@
 ;; Correct the misspelled word in a popup menu
 (use-package flyspell-popup 
   :config
-  (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)
+  (define-key flyspell-mode-map (kbd "C-;") 'flyspell-popup-correct)
   (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
   (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
   (define-key popup-menu-keymap (kbd "C-l") 'popup-select))
@@ -215,7 +216,6 @@
 
 ;; Language Server Protocol support for Emacs
 (use-package lsp-mode)
-
 
 ;; Display available keybindings in a popup
 (use-package which-key
@@ -298,7 +298,6 @@
 (use-package htmlize
   :mode (("\\.org\\'" . org-mode)))
 
-
 ;; * git
 ;; A git interface for emacs
 (use-package magit
@@ -314,14 +313,14 @@
   (global-diff-hl-mode t)
   (diff-hl-flydiff-mode t))
 
-
 ;; * ivy
 ;; Generic completion frontend
 (use-package counsel)
 (use-package counsel-projectile
   :config
   (counsel-projectile-mode t)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  :bind (:map projectile-mode-map ("C-c p" . 'projectile-command-map)))
+
 (use-package flx)
 (use-package ivy-hydra)
 (use-package ivy
@@ -331,6 +330,9 @@
   ;; make everything fuzzy except swiper
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
+          ;; To create a new file when a similar name is being fuzzy
+          ;; matched <M-r> (ivy-toggle-regexp-quote)
+          ;; to temporarily turn off fuzzy matching
           (t . ivy--regex-fuzzy))))
 
 
@@ -370,7 +372,7 @@
   :after (irony)
   :defer t
   :init
-  (add-hook 'irony-mode-hook #'irony-eldoc))
+  (add-hook 'irony-mode-hook 'irony-eldoc))
 
 ;; C++ minor mode, completion, syntax checking
 (use-package irony
@@ -390,31 +392,29 @@
   :defer t
   :commands (platformio-conditionally-enable)
   :mode (("\\.ino\\'" . c++-mode))
-  :init)
+  :init
+  (defun platformio-hook ()
+    (platformio-conditionally-enable))
 
-(defun platformio-hook ()
-  (platformio-conditionally-enable))
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-
-(add-hook 'c++-mode-hook 'platformio-hook)
-(add-hook 'irony-mode-hook
-          (lambda ()
-            (irony-cdb-autosetup-compile-options)))
-(add-hook 'c++-mode-hook 'flycheck-mode)
-
+  (add-hook 'c++-mode-hook 'platformio-hook)
+  (add-hook 'irony-mode-hook
+            (lambda ()
+              (irony-cdb-autosetup-compile-options)))
+  (add-hook 'c++-mode-hook 'flycheck-mode))
 
 ;; * Language elisp
 ;; Minor mode for performing structured editing of S-expression data
 (use-package paredit
   :init
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook 'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook 'enable-paredit-mode)
   :config
   (eldoc-add-command
    'paredit-backward-delete
@@ -441,6 +441,7 @@
   :after (evil)
   :config
   (global-evil-surround-mode 1))
+
 
 ;; For macOS import PATH when launched as GUI
 (use-package exec-path-from-shell
@@ -505,7 +506,6 @@
   (interactive)
   (yas-minor-mode))
 
-(add-hook 'web-mode-hook 'setup-template)
 
 ;; Major mode for editing web templates
 (use-package web-mode
@@ -540,7 +540,9 @@
   (setq web-mode-attr-indent-offset config-indent-web-mode-spaces)
   ;; Automatically close tag
   (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-enable-css-colorization t))
+  (setq web-mode-enable-css-colorization t)
+  
+  (add-hook 'web-mode-hook 'setup-template))
 
 ;; SASS
 (use-package scss-mode
