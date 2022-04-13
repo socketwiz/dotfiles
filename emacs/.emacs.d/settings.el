@@ -49,6 +49,7 @@
 (setq scroll-conservatively 101)
 
 ;; Automatically scroll the compilation buffer
+(require 'compile)
 (setq compilation-scroll-output t)
 
 ;; Give focus to new help windows
@@ -58,6 +59,7 @@
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;; Disable flymake-mode
+(require 'flymake)
 (setq flymake-start-on-flymake-mode nil)
 
 ;; Hide ui elements
