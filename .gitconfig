@@ -10,6 +10,7 @@
     tool = default-difftool
 [merge]
     tool = default-difftool
+    conflictstyle = diff3
 [difftool "default-difftool"]
     cmd = default-difftool.sh $LOCAL $REMOTE
 [difftool]
