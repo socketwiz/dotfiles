@@ -13,7 +13,5 @@
     cmd = default-difftool.sh $LOCAL $REMOTE
 [difftool]
     prompt = false
-[push]
-    default = current
 [include]
     path = ~/.gitconfig.local
