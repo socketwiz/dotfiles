@@ -6,6 +6,10 @@ setopt histignorealldups sharehistory
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
+# Edit command in vim with <ctrl-x ctrl-e>
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
@@ -51,10 +55,10 @@ alias ed='emacs --daemon'
 alias vim='nvim'
 
 ## docker
+function docker-enter() { docker exec -it "$@" /bin/bash; }
 alias docker-rm-stopped='docker system prune'
 alias docker-rm-untagged='docker images -q --filter "dangling=true" | xargs docker rmi'
 alias docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
-function docker-enter() { docker exec -it "$@" /bin/bash; }
 alias dcdestroy='docker-compose stop && docker-compose rm -f'
 alias dclogs='docker-compose logs -f'
 alias dcup='docker-compose up -d'
@@ -66,7 +70,6 @@ alias gb='git branch'
 alias gst='git status'
 alias gd='git diff'
 alias glog='git log --oneline --decorate --graph'
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
