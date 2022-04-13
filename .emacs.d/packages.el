@@ -135,6 +135,13 @@
 (use-package helpful
   :bind ("C-c C-." . helpful-at-point))
 
+;; Edit text area in chrome with emacs
+(use-package atomic-chrome
+  :config
+  (atomic-chrome-start-server)
+  :custom
+  (atomic-chrome-buffer-open-style 'frame))
+
 ;; Builds a list of recently opened files
 (use-package recentf
   :custom

@@ -17,6 +17,9 @@
 (defvar config-font-height 180
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
+(defvar config-indent-web-mode-spaces 2
+  "How many spaces to indent in \"web-mode\".")
+
 (defvar config-enable-command-log-mode nil
   "Whether or not to enable \"command-log-mode\".")
 (defvar config-enable-elpy-mode t
