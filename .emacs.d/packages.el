@@ -221,7 +221,6 @@
 ;; of candidates
 (use-package consult
   :bind (("M-s r" . consult-ripgrep)
-         ("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-x C-r" . consult-recent-file))
   :config
@@ -336,6 +335,11 @@
 (use-package diff-hl
   :init
   (global-diff-hl-mode))
+
+;; An alternative to isearch
+(use-package swiper
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper-backward)))
 
 
 (provide 'packages)

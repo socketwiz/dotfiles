@@ -77,10 +77,12 @@
 /.emacs.d/elpa/
 /.emacs.d/elpy/
 /.emacs.d/email-personal.el
+/.emacs.d/eshell/
 /.emacs.d/ido.last
 /.emacs.d/irony/
 /.emacs.d/network-security.data
 /.emacs.d/projectile-bookmarks.eld
+/.emacs.d/projects
 /.emacs.d/recentf
 /.emacs.d/session.*
 /.emacs.d/smex-items
