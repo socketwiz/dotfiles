@@ -80,17 +80,17 @@
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
   (global-set-key (kbd "C-c C-.") #'helpful-at-point)
-  (global-set-key (kbd "C-c r") #'helm-recentf)
+  (global-set-key (kbd "C-c r") #'ido-recentf-open)
   (global-set-key (kbd "C-h b") #'describe-bindings)
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-x C-b") #'ibuffer)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x C-f") 'ido-find-file)
   (global-set-key (kbd "C-x g") #'magit-status)
   (global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
   (global-set-key (kbd "M-i") #'imenu)
-  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "M-x") #'smex)
 
   (use-package which-key
     :defer t
@@ -153,9 +153,10 @@
   (use-package company 
     :diminish 'company-mode
     :config
+    (setq company-tooltip-align-annotations t)
     (add-hook 'after-init-hook 'global-company-mode))
 
-  (use-package "eldoc"
+  (use-package eldoc
     :diminish eldoc-mode
     :commands turn-on-eldoc-mode
     :defer t)
@@ -215,19 +216,25 @@
   (use-package helpful
     :ensure t)
 
-  (use-package helm
-    :ensure t
-    :diminish helm-mode
-    :config
-    (progn
-      (require 'helm-config)
-      (helm-mode 1)))
-
   (use-package atomic-chrome
     :ensure t
     :config (progn
               (atomic-chrome-start-server)
               (setq atomic-chrome-buffer-open-style 'frame)))
+
+  (use-package recentf
+    :config
+    (progn
+      (setq recentf-max-saved-items 10
+            recentf-max-menu-items 5
+            recentf-save-file (concat user-emacs-directory ".cache/recentf")
+            recentf-auto-cleanup 'never)
+      (recentf-mode 1)
+
+      (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
+      (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+      (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
+      (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list)))))
   #+END_SRC
 
 
@@ -291,7 +298,6 @@
                  (dired-mode . emacs)
                  (git-rebase-mode . emacs)
                  (grep-mode . emacs)
-                 (helm-grep-mode . emacs)
                  (help-mode . emacs)
                  (helpful-mode . emacs)
                  (Info-mode . emacs)
@@ -306,34 +312,6 @@
       (advice-add 'evil-make-overriding-map :override #'ignore)
       (advice-add 'evil-make-intercept-map  :override #'ignore)
       (advice-add 'evil-add-hjkl-bindings   :override #'ignore)))
-  #+END_SRC
-
-* projectile
-  #+BEGIN_SRC emacs-lisp
-  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-        projectile-known-projects-file (concat user-emacs-directory
-                                               ".cache/projectile-bookmarks.eld"))
-  (add-hook 'find-file-hook (lambda () 
-                              (unless recentf-mode (recentf-mode) 
-                                      (recentf-track-opened-file)))) 
-
-  (use-package pt
-    :ensure t)
-
-  (use-package projectile 
-    :after (pt)
-    :bind (("C-c p *" . projectile-pt))
-    :diminish 'projectile-mode) 
-
-  (use-package helm-projectile
-    :config
-    (progn
-      (setq projectile-completion-system 'helm)
-      (helm-projectile-on)))
-
-  (setq projectile-sort-order 'helm projectile-sort-order 'recentf
-        projectile-globally-ignored-directories (append '(".cache")))
-  (projectile-global-mode)
   #+END_SRC
 
 * git
@@ -354,6 +332,62 @@
       (diff-hl-flydiff-mode t)))
   #+END_SRC
 
+* ido
+  #+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :init
+    (progn
+      (ido-mode 1)
+      (setq ido-everywhere t))
+    :defer t)
+
+  ;; M-x enhancement for emacs built on top of ido
+  (use-package smex
+    :ensure t)
+
+  ;; fancy completion for emacs, not just buffers and files
+  (use-package ido-completing-read+
+    :init
+    (ido-ubiquitous-mode 1)
+    :config
+    (setq ido-cr+-max-items 3000)
+    :defer t)
+
+  ;; fancy matching for emacs
+  (use-package flx-ido
+    :init
+    (flx-ido-mode 1)
+    :defer t)
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
+    (interactive)
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting")))
+  #+END_SRC
+
+* projectile
+  #+BEGIN_SRC emacs-lisp
+  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+        projectile-known-projects-file (concat user-emacs-directory
+                                               ".cache/projectile-bookmarks.eld"))
+  (add-hook 'find-file-hook (lambda () 
+                              (unless recentf-mode (recentf-mode) 
+                                      (recentf-track-opened-file)))) 
+
+  ;; the platinum searcher
+  (use-package pt
+    :ensure t)
+
+  (use-package projectile 
+    :after (pt)
+    :bind (("C-c p *" . projectile-pt))
+    :diminish 'projectile-mode) 
+
+  (projectile-global-mode)
+  #+END_SRC
+
 
 * Language cpp
   #+BEGIN_SRC emacs-lisp
@@ -365,6 +399,7 @@
     :init
     (add-hook 'irony-mode-hook #'irony-eldoc))
 
+  ;; c++ minor mode, completion, syntax checking
   (use-package irony
     :ensure t
     :commands irony-mode ; need to install the server on first run (M-x irony-install-server)
@@ -376,6 +411,7 @@
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
+  ;; embedded platform development
   (use-package platformio-mode
     :ensure t
     :commands (platformio-conditionally-enable)
@@ -440,6 +476,7 @@
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1))
 
+  ;; sass
   (use-package scss-mode)
   (use-package web-mode
     :ensure t
@@ -482,6 +519,7 @@
     ;; don't lineup element attributes
     (setq web-mode-attr-indent-offset 4))
 
+  ;; TypeScript Interactive Development Environment
   (use-package tide
     :ensure t
     :defer 1
@@ -516,18 +554,11 @@
   (provide 'my-markdown)
   #+END_SRC
 
-* Language java
-  #+BEGIN_SRC emacs-lisp
-  (use-package groovy-mode
-    :ensure t
-    :mode "\\.groovy\\'"
-    :interpreter "groovy")
-  #+END_SRC
-
 * Language rust
   #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
     :config
+    ;; rust completion library
     (use-package racer
         :init
         (add-hook 'racer-mode-hook #'eldoc-mode)
@@ -541,10 +572,9 @@
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
     :ensure t)
 
+  ;; rust package managment
   (use-package cargo
+    :bind (:map rust-mode-map ("C-c C-b" . cargo-process-build))
     :bind (:map rust-mode-map ("C-c C-r" . cargo-process-run))
     :ensure t)
-
-  (setq company-tooltip-align-annotations t)
-
   #+END_SRC
