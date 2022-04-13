@@ -53,6 +53,7 @@
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
+(global-set-key (kbd "C-s") 'occur)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-z") 'nil)
 
@@ -61,6 +62,16 @@
   ;; In terminal <C-z> suspends Emacs to the background, but doesn't work so well in GUI
   (if (not (string= window-system nil))
       (global-unset-key (kbd "C-z"))))
+
+(with-eval-after-load 'replace
+  ;; Make occur focus results
+  (add-hook #'occur-hook
+            #'(lambda ()
+               (switch-to-buffer-other-window "*Occur*")))
+  ;; After a selection is made, close the occur buffer
+  (defun after-occur-mode-goto-occurrence (&optional event)
+   (delete-windows-on "*Occur*"))
+  (advice-add 'occur-mode-goto-occurrence :filter-return 'after-occur-mode-goto-occurrence))
 
 
 (provide 'settings)
