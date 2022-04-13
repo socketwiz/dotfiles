@@ -322,12 +322,12 @@
 
 * projectile
 #+BEGIN_SRC emacs-lisp
-;; The platinum searcher
-(use-package pt)
+;; ripgrep
+(use-package rg)
 
 ;; A project interaction library
 (use-package projectile
-  :after (pt)
+  :after (rg)
   :config
   (setq projectile-project-search-path '("~/dev"))
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
@@ -342,7 +342,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :bind
-  (:map projectile-mode-map ("C-c p s p" . projectile-pt))
+  (:map projectile-mode-map ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
 #+END_SRC
 
