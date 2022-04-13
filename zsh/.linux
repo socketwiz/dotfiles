@@ -4,6 +4,8 @@ export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib
 
 alias open='/usr/bin/xdg-open'
 alias blog='~/dev/Zolmok/dev'
+alias CAPS='xmodmap ~/.Xmodmap-caps'
+alias nocaps='xmodmap ~/.Xmodmap'
 
 PATH=$PATH:/home/socketwiz/bin
 

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: result
+# key: result
+# --
+$1match $2 {
+    Err(error) => $3,
+    Ok($4) => $5
+}$0
