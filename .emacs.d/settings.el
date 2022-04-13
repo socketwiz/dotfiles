@@ -116,9 +116,9 @@
 (menu-bar-display-line-numbers-mode 'relative)
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
-(add-to-list 'display-buffer-alist
-             '("*Apropos*" display-buffer-same-window)
-             '("*Info*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Info*" display-buffer-same-window))
 
 ;; Package management
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
@@ -150,19 +150,30 @@
 (set-register ?s '(file . "~/.emacs.d/settings.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
+(defun my:paste-from-emacs-client ()
+  "Paste into a terminal Emacs."
+  "https://blog.d46.us/zsh-tmux-emacs-copy-paste/"
+  (if window-system
+      (error "Trying to paste into GUI emacs.")
+    (let ((paste-data (s-trim (shell-command-to-string "clipboard-paste"))))
+      ;; When running via emacsclient, paste into the current buffer.  Without
+      ;; this, we would paste into the server buffer.
+      (with-current-buffer (window-buffer)
+        (insert paste-data))
+      ;; Add to kill-ring
+      (kill-new paste-data))))
+
 ;; When on MacOS, change meta to cmd key
 (when (eq system-type 'darwin)
   ;; These 2 lines do not trigger flycheck warnings when on MacOS
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super))
 
-
 ;; * Core keybindings
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c r") 'recompile)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
@@ -329,15 +340,15 @@
 ;; rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
   :commands lsp
-  :hook ((json-mode . lsp)
+  :hook (;;(json-mode . lsp)
          (python-mode . lsp)
          (rust-mode . lsp)
          ;;(sh-mode . lsp)
-         (typescript-mode . lsp)
-         (web-mode . lsp)
+         ;;(typescript-mode . lsp)
+         ;;(web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
-  :custom
-  (lsp-diagnostic-package :flymake)
+;;  :custom
+;;  (lsp-diagnostics-provider :flymake)
   :config
   (defvar lsp-clients-angular-language-server-command
     '("node"
@@ -374,7 +385,11 @@
             "* %? :NOTE:\n%U\n%a\n")
            ("r" "read-later" entry (file "~/org/read-later.org")
             "* %? :NOTE:\n%U\n%a\n"))))
+  (org-hide-emphasis-markers t)
   :config
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
   ;; So we can execute these language blocks in org-mode
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -382,6 +397,10 @@
   (defvar python-shell-completion-native-disabled-interpreters "python3")
   ;; tell org-open-at-point to open files in a new window
   (add-to-list 'org-link-frame-setup '(file . find-file)))
+
+(use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;; Convert Org buffer to text and decorations to HTML
 (use-package htmlize
@@ -507,9 +526,15 @@
 ;; Project management
 (use-package projectile
   :after (rg)
+  :demand
   :config
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (add-to-list 'projectile-other-file-alist '("test.js" "js"))
+  (projectile-register-project-type 'javascript '("package.json")
+                                    :project-file "package.json"
+				                    :compile "npm install"
+				                    :test "npm test"
+				                    :run "npm start"
+				                    :test-suffix ".spec")
   (projectile-mode)
   :init
   (declare-function recentf-track-opened-file "recentf.el.gz")
@@ -520,6 +545,7 @@
   (projectile-project-search-path '("~/dev"))
   (projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache"))
   (projectile-known-projects-file (concat user-emacs-directory ".cache/projectile-bookmarks.eld"))
+  (projectile-enable-caching t)
   :bind (("C-c p" . projectile-command-map)
          :map projectile-mode-map
          ("C-c p s p" . rg-menu))
@@ -554,6 +580,7 @@
   (evil-set-initial-state 'rg-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
+  (evil-set-initial-state 'rustic-popup-mode 'emacs)
 
   ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
@@ -639,7 +666,11 @@
                      (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
 
     (when (and eslint (file-executable-p eslint))
-      (setq-local flymake-eslint-executable-name eslint)))
+      (setq-local flymake-eslint-executable-name eslint)
+      ;; Set project root folders
+      (setq-local flymake-eslint-project-root root)
+      ;;(lsp-workspace-folders-add root)
+      ))
 
   (flymake-eslint-enable))
 
@@ -654,11 +685,12 @@
 
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
+  ;;(lsp-mode) ;; ~<S-l>~ LSP menu
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
-  (lsp-mode)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (tide-setup)
+  (configure-flymake-checker)
   (yas-minor-mode))
 
 ;; Flymake eslint backend
@@ -751,13 +783,15 @@
 ;; * Language Rust
 (defun setup-rust ()
   "Do these things after \"rust-mode\" is enabled."
-  (when (featurep 'evil-mode)
+  (rustic-doc-mode)
+  (when (and (bound-and-true-p evil-mode) (eq evil-state 'normal))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
-(use-package rust-mode
+(use-package rustic
   :if config-enable-rust-mode
+  :bind (("C-c C-p" . rustic-popup))
   :hook (rust-mode . setup-rust)
   :mode ("\\.rs\\'" . rust-mode))
 
