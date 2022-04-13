@@ -61,7 +61,7 @@ alias vim='nvim'
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
 alias docker='sudo docker'
-alias docker-compose='sudo docker-compose'
+#alias docker-compose='sudo docker-compose'
 alias dcdestroy='docker-compose stop && sudo docker-compose rm -f'
 alias dclogs='docker-compose logs -f'
 alias dcps='docker-compose ps'
@@ -110,4 +110,5 @@ function tm() {
     fi
 }
 
-source /home/hackerzol/.config/broot/launcher/bash/br
+export PATH="/usr/local/opt/node@10/bin:$PATH"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"

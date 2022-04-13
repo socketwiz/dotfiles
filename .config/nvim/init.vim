@@ -6,8 +6,8 @@
 " Load Plug and plugins
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'               " updates gutter with hunk locations
-Plug 'arcticicestudio/nord-vim'             " theme
 Plug 'cohama/lexima.vim'                    " auto-pairing
+Plug 'dracula/vim', { 'as': 'dracula' }     " dark theme
 Plug 'dyng/ctrlsf.vim'                      " pt-search wrapper
 Plug 'editorconfig/editorconfig-vim'        " honor editorconfig properties
 Plug 'elzr/vim-json'                        " json syntax highlighter
@@ -34,13 +34,14 @@ call plug#end()
 "
 " Theme Settings
 "
+let g:dracula_colorterm = 0
+let g:airline_theme='dracula'
 
-" Set colorsceme to nord
-silent! colorscheme nord
-" Activate nord airline theme
-let g:airline_theme='nord'
+if (has("termguicolors"))
+  set termguicolors
+endif
 
-
+colorscheme dracula
 
 syntax on
 
@@ -167,7 +168,7 @@ let g:ctrlp_custom_ignore = 'node_modules$\|bower_components$\|public/lib$\|buil
 " r) the nearest ancestor that contains one of these directories or files:
 " w) begin finding a root from the current working directory outside of CtrlP
 " .git/ .hg/ .svn/ .bzr/ _darcs/
-let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_working_path_mode = 'c'
 " increase the height of the match window
 let g:ctrlp_max_height = 30
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
@@ -206,8 +207,8 @@ let g:syntastic_mode_map={ 'mode': 'active',
 
 " GitGutter
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ]h <Plug>(GitGutterNextHunk)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END GitGutter
 

@@ -56,7 +56,7 @@
 (setq inhibit-startup-message t)
 
 ;; Run the debugger on an error
-(setq debug-on-error t)
+;; (setq debug-on-error t)
 
 ;; Keep backups
 (setq make-backup-files config-keep-backups)
@@ -252,7 +252,7 @@
         company-idle-delay 0.2)
   :init (global-company-mode))
 (use-package company-lsp
-  :config (push 'company-lsp company-backends))
+  :config (push 'company-capf company-backends))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
@@ -617,7 +617,7 @@
 
 (use-package json-mode
   :mode ("\\.json\\'" . json-mode))
-
+(setq js-indent-level config-indent-web-mode-spaces)
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
