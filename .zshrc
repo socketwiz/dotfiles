@@ -82,7 +82,7 @@ alias gcb='git checkout -b'
 alias gd='git diff'
 alias glog='git log --oneline --decorate --graph'
 alias gst='git status'
-alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # cli replacements
 alias cat='${HOME}/.cargo/bin/bat'
