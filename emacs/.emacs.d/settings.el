@@ -72,6 +72,11 @@
 ;; Add /usr/local/bin to the path
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
+;; Set default indent to 4 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -645,8 +650,10 @@
 
 ;; * Language Rust
 (defun setup-rustic ()
-  "Setup find-definitions when in rustic-mode."
+  "Do these things after rustic-mode is enabled."
+  (push 'rustic-clippy flycheck-checkers)
   (when (featurep 'evil-mode)
+    ;; Setup find-definitions when in rustic-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
