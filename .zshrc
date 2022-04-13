@@ -1,3 +1,6 @@
+# if connecting with tramp from emacs, just return
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 # Set up the prompt
 eval "$(starship init zsh)"
 
