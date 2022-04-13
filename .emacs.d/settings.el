@@ -147,16 +147,6 @@
 (set-register ?s '(file . "~/.emacs.d/settings.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
-(defun update-emacs ()
-  "Update Emacs without interaction, to be used from the command line."
-  (interactive)
-  (defun perform-emacs-update ()
-    (switch-to-buffer "*Packages*")
-    (package-menu-mark-upgrades)
-    (package-menu-execute t))
-  (add-hook 'package--post-download-archives-hook 'perform-emacs-update)
-  (package-list-packages))
-
 ;; when on MacOS, change meta to cmd key
 (when (eq system-type 'darwin)
   ;; These 2 lines do not trigger flycheck warnings when on MacOS
