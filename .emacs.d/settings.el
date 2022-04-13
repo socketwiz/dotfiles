@@ -147,20 +147,17 @@
 (set-register ?s '(file . "~/.emacs.d/settings.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
-(defun my:paste-from-emacs-client ()
-  "Paste into a terminal Emacs."
-  "https://blog.d46.us/zsh-tmux-emacs-copy-paste/"
-  (if window-system
-      (error "Trying to paste into GUI emacs.")
-    (let ((paste-data (s-trim (shell-command-to-string "clipboard-paste"))))
-      ;; When running via emacsclient, paste into the current buffer.  Without
-      ;; this, we would paste into the server buffer.
-      (with-current-buffer (window-buffer)
-        (insert paste-data))
-      ;; Add to kill-ring
-      (kill-new paste-data))))
+(defun update-emacs ()
+  "Update Emacs without interaction, to be used from the command line."
+  (interactive)
+  (defun perform-emacs-update ()
+    (switch-to-buffer "*Packages*")
+    (package-menu-mark-upgrades)
+    (package-menu-execute t))
+  (add-hook 'package--post-download-archives-hook 'perform-emacs-update)
+  (package-list-packages))
 
-;; When on MacOS, change meta to cmd key
+;; when on MacOS, change meta to cmd key
 (when (eq system-type 'darwin)
   ;; These 2 lines do not trigger flycheck warnings when on MacOS
   (setq mac-command-modifier 'meta)
