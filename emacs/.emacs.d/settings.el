@@ -598,9 +598,9 @@
   :hook (js2-mode . setup-javascript))
 
 ;; TypeScript Interactive Development Environment
-(use-package tide
-  :if config-enable-web-mode
-  :hook (typescript-mode . setup-typescript))
+;; (use-package tide
+;;   :if config-enable-web-mode
+;;   :hook (typescript-mode . setup-typescript))
 
 ;; JSX editing mode
 (use-package rjsx-mode
