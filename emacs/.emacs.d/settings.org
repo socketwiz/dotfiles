@@ -296,23 +296,22 @@
     (define-key evil-normal-state-map (kbd "M-.") nil)
 
     ;; disable evil for these modes
-    (cl-loop for (mode . state)
-        in '((bc-menu-mode . emacs)
-                (calc-mode . emacs)
-                (calculator-mode . emacs)
-                (calendar-mode . emacs)
-                (dired-mode . emacs)
-                (git-rebase-mode . emacs)
-                (grep-mode . emacs)
-                (help-mode . emacs)
-                (helpful-mode . emacs)
-                (Info-mode . emacs)
-                (magit-branch-manager-mode . emacs)
-                (magit-popup-mode . emacs)
-                (magit-refs-mode . emacs)
-                (rdictcc-buffer-mode . emacs)
-                (term-mode . emacs))
-        do (evil-set-initial-state mode state))
+    (evil-set-initial-state 'bc-menu-mode 'emacs)
+    (evil-set-initial-state 'calc-mode 'emacs)
+    (evil-set-initial-state 'calculator-mode 'emacs)
+    (evil-set-initial-state 'calendar-mode 'emacs)
+    (evil-set-initial-state 'dired-mode 'emacs)
+    (evil-set-initial-state 'edebug-mode 'emacs)
+    (evil-set-initial-state 'git-rebase-mode 'emacs)
+    (evil-set-initial-state 'grep-mode 'emacs)
+    (evil-set-initial-state 'help-mode 'emacs)
+    (evil-set-initial-state 'helpful-mode 'emacs)
+    (evil-set-initial-state 'Info-mode 'emacs)
+    (evil-set-initial-state 'magit-branch-manager-mode 'emacs)
+    (evil-set-initial-state 'magit-popup-mode 'emacs)
+    (evil-set-initial-state 'magit-refs-mode 'emacs)
+    (evil-set-initial-state 'rdictcc-buffer-mode 'emacs)
+    (evil-set-initial-state 'term-mode 'emacs)
 
     ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
     (advice-add 'evil-make-overriding-map :override #'ignore)
@@ -438,8 +437,10 @@
   #+BEGIN_SRC emacs-lisp
   (defun edebug-disable-evil ()
     "Disable evil-mode when in the edebugger"
-    (evil-make-overriding-map edebug-mode-map 'normal)
-    (evil-normalize-keymaps))
+    (if (bound-and-true-p edebug-mode)
+        (evil-emacs-state)
+      (evil-exit-emacs-state)))
+
 
   (use-package paredit
     :ensure t
