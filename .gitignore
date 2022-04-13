@@ -1,3 +1,4 @@
+#/**
 /Desktop
 /.authinfo
 /.aws-sam/
@@ -8,12 +9,12 @@
 /.cache/
 /.cargo/
 /.config/*
-!/.config/dunst
-!/.config/i3
-!/.config/kitty
-!/.config/nvim
-!/.config/rofi
-!/.config/termite
+!/.config/dunst/
+!/.config/i3/
+!/.config/kitty/
+!/.config/nvim/
+!/.config/rofi/
+!/.config/termite/
 !/.config/starship.toml
 /.cookiecutter_replay/
 /.deno
