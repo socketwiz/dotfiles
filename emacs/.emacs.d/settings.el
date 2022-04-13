@@ -28,6 +28,9 @@
 ;; Prevent the startup window
 (setq inhibit-startup-message t)
 
+;; Run the debugger on an error
+(setq debug-on-error t)
+
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -124,8 +127,6 @@
 (global-set-key (kbd "C-h f") #'helpful-callable)
 (global-set-key (kbd "C-h k") #'helpful-key)
 (global-set-key (kbd "C-h v") #'helpful-variable)
-;;(global-set-key (kbd "C-r") #'swiper)
-;;(global-set-key (kbd "C-s") #'swiper)
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 (global-set-key (kbd "C-x C-e") #'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-f") #'counsel-find-file)
@@ -416,6 +417,10 @@
   (eldoc-add-command
    'paredit-backward-delete
    'paredit-close-round))
+
+;; Extensible vi layer for emacs
+(use-package evil
+  :hook (prog-mode . evil-normal-state))
 
 
 ;; * Language javascript
