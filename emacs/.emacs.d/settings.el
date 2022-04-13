@@ -203,7 +203,9 @@
 
 ;; Flycheck
 (use-package flycheck
-  :diminish flycheck-mode)
+  :diminish flycheck-mode
+  :config
+  (add-hook 'sh-mode-hook 'flycheck-mode))
 
 ;; Yasnippet, a template system for emacs
 (use-package yasnippet
@@ -441,7 +443,7 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint)))
 
-    (if eslint
+    (if (boundp 'eslint)
         (flycheck-select-checker 'javascript-eslint)))
 
 (defun setup-javascript ()
