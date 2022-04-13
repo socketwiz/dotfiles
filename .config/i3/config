@@ -14,6 +14,10 @@ font pango:Fira Code 16px
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# don't let an automated browser refresh steal focus, but alert that it has occurred
+# options: smart|urgent|focus|none
+focus_on_window_activation urgent
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
@@ -140,4 +144,4 @@ for_window [class="kruler"] floating enable
 
 exec --no-startup-id "xrandr --output DP-2 --pos 0x0 --output DP-4 --pos 2560x0 --right-of DP-2 --output DP-0 --pos 5120x0 --right-of DP-4"
 exec --no-startup-id ~/.fehbg
-# exec --no-startup-id dropbox start
+
