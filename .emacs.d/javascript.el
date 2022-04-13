@@ -6,7 +6,7 @@
 ;; Settings the JavaScript/TypeScript, HTML, and CSS languages for frontend development
 
 ;;; Code:
-;; To enable the eglot backend:
+;; To enable the lsp backend:
 ;; npm install -g typescript-language-server typescript
 ;; jsconfig.json
 ;; {
@@ -48,8 +48,6 @@
 
 (defun configure-mode ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
-  (add-to-list 'eglot-stay-out-of 'flymake)
-  (eglot-ensure)
   (configure-flymake-checker)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (tide-hl-identifier-mode)

@@ -10,13 +10,10 @@
 ;; C-c C-p a
 (defun setup-python ()
   "Do these things after \"python-mode\" is enabled."
-  ;; To enable the eglot backend:
+  ;; To enable the lsp backend:
   ;; pip install 'python-lsp-server[all]'
   ;; pip install pyls-flake8
 
-  ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
-  (setq eglot-stay-out-of '())
-  (eglot-ensure)
   (jedi:setup))
 
 (use-package elpy
