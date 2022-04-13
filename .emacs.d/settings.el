@@ -43,6 +43,7 @@
 ;; jump-to-register
 (set-register ?b '(file . "~/org/blog/index.org"))
 (set-register ?i '(file . "~/org/agenda/inbox.org"))
+(set-register ?k '(file . "~/org/work.org"))
 (set-register ?s '(file . "~/.emacs.d/init.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
