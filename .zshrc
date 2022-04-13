@@ -25,7 +25,7 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
 if whence dircolors >/dev/null; then
   eval "$(dircolors -b)"
-  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+  zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 else
   export CLICOLOR=1
   zstyle ':completion:*:default' list-colors ''
@@ -39,7 +39,7 @@ zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*:kill:*' command "ps -u $USER -o pid,%cpu,tty,cputime,cmd"
 
 # history (up-arrow completion)
 autoload up-line-or-beginning-search
@@ -54,11 +54,10 @@ zle -N down-line-or-beginning-search
 source ~/bin/agent
 
 # aliases
-alias ec='emacsclient -c -n $1'
 alias ed='emacs --daemon'
 alias vim='nvim'
 function find-commits() {
-  find . -type d -name '.git' | while read dir ;
+  find . -type d -name '.git' | while read -r dir ;
     do sh -c "cd $dir/../ && echo \"\nGIT STATUS IN ${dir//\.git/}\" && git status -s" ;
   done
 }
@@ -89,15 +88,15 @@ alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # fix the friggin del key
 bindkey "^[[3~" delete-char
 
-case `uname` in
+case $(uname) in
   Darwin)
-    source $HOME/.darwin
+    source "$HOME/.darwin"
     ;;
   SunOS)
-    source $HOME/.sun
+    source "$HOME/.sun"
     ;;
   Linux)
-    source $HOME/.linux
+    source "$HOME/.linux"
     ;;
 esac
 
