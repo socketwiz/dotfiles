@@ -32,6 +32,9 @@
   (menu-bar-mode -1)
   (toggle-scroll-bar -1)
 
+  ;; keep backups
+  (setq make-backup-files config-keep-backups)
+
   ;; Save ALL backup files to this location
   (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
@@ -95,20 +98,16 @@
   (global-set-key (kbd "M-x") #'smex)
 
   (use-package which-key
-    :defer t
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay config-which-key-delay)
     :diminish which-key-mode)
-  (which-key-mode)
-  (setq which-key-idle-delay config-which-key-delay)
   #+END_SRC
 
 * Core packages
   #+BEGIN_SRC emacs-lisp
   (use-package diminish)
 
-  ;;(use-package dracula-theme
-  ;;  :config
-  ;;  (load-theme 'dracula t)
-  ;;  :ensure t)
   (use-package cyberpunk-theme
     :config
     (load-theme 'cyberpunk t)
@@ -128,7 +127,8 @@
   ;; parenthesis
   (use-package highlight-parentheses
     :diminish 'highlight-parentheses-mode
-    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
+    :config
+    (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
   (use-package exec-path-from-shell
     :defer t
@@ -165,10 +165,12 @@
 
   ;; init flyspell
   (use-package flyspell 
-    :config (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
+    :config
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
     :diminish 'flyspell-mode) 
   (use-package flyspell-popup 
-    :config (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)) 
+    :config
+    (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)) 
   (define-key popup-menu-keymap (kbd "C-j") 'popup-next) 
   (define-key popup-menu-keymap (kbd "C-k") 'popup-previous) 
   (define-key popup-menu-keymap (kbd "C-l") 'popup-select)
@@ -188,22 +190,20 @@
   ;;init highlight numbers for prog modes
   (use-package highlight-numbers 
     :defer t 
-    :init (add-hook 'prog-mode-hook 'highlight-numbers-mode))
-
-  ;; keep backups
-  (setq make-backup-files config-keep-backups)
+    :init
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
   ;; Org mode
   (use-package org
     :ensure t
-    :config (progn
-              ;; org
-              (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
-              (setq org-agenda-include-diary t)
-              (setq org-src-fontify-natively t)
-              (setq org-agenda-files (list "~/org/agenda"
-                                           "~/org/agenda/projects/"))
-              (setq org-default-notes-file "~/org/agenda/organizer.org")))
+    :config
+    ;; org
+    (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+    (setq org-agenda-include-diary t)
+    (setq org-src-fontify-natively t)
+    (setq org-agenda-files (list "~/org/agenda"
+                                "~/org/agenda/projects/"))
+    (setq org-default-notes-file "~/org/agenda/organizer.org"))
 
   ;; Respect editor configs
   (use-package editorconfig
@@ -220,23 +220,22 @@
 
   (use-package atomic-chrome
     :ensure t
-    :config (progn
-              (atomic-chrome-start-server)
-              (setq atomic-chrome-buffer-open-style 'frame)))
+    :config
+    (atomic-chrome-start-server)
+    (setq atomic-chrome-buffer-open-style 'frame))
 
   (use-package recentf
     :config
-    (progn
-      (setq recentf-max-saved-items 10
-            recentf-max-menu-items 5
-            recentf-save-file (concat user-emacs-directory ".cache/recentf")
-            recentf-auto-cleanup 'never)
-      (recentf-mode 1)
+    (setq recentf-max-saved-items 10
+        recentf-max-menu-items 5
+        recentf-save-file (concat user-emacs-directory ".cache/recentf")
+        recentf-auto-cleanup 'never)
+    (recentf-mode 1)
 
-      (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
-      (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-      (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
-      (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list)))))
+    (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
+    (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+    (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
+    (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list))))
 
   ;; ensure environment variables inside Emacs look the same as in the user's shell
   (use-package exec-path-from-shell
@@ -253,17 +252,8 @@
     :diminish 'evil-escape-mode) 
 
   (setq-default evil-escape-key-sequence "fd") 
-  (evil-escape-mode)
-
   ;; esc should escape everything possible
-  (require 'evil) 
-  (define-key evil-normal-state-map [escape] 'keyboard-quit) 
-  (define-key evil-visual-state-map [escape] 'keyboard-quit) 
-  (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
+  (evil-escape-mode)
 
   (use-package evil
     :init
@@ -273,54 +263,62 @@
           evil-pending-intercept-maps nil
           evil-pending-overriding-maps nil)
     :config
-    (progn
-      (evil-mode 1)
+    (evil-mode 1)
+    (define-key evil-normal-state-map [escape] 'keyboard-quit) 
+    (define-key evil-visual-state-map [escape] 'keyboard-quit) 
+    (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
+    (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
+    (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
+    (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
+    (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
 
-      (use-package evil-surround
-        :config (global-evil-surround-mode 1))
+    (use-package evil-surround
+       :config
+       (global-evil-surround-mode 1))
 
-      ;; evil-anzu for improving search result rendering
-      (use-package evil-anzu
-        :config (global-anzu-mode +1)
-        :diminish 'anzu-mode)
+    ;; evil-anzu for improving search result rendering
+    (use-package evil-anzu
+      :config
+      (global-anzu-mode +1)
+      :diminish 'anzu-mode)
 
-      ;; set cursor color according to mode
-      (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-      (setq evil-insert-state-cursor '("chartreuse3"  box))
-      (setq evil-visual-state-cursor '("gray" box))
-      (setq evil-operator-state-cursor '("cyan" box))
-      (setq evil-replace-state-cursor '("chocolate" box))
-      (setq evil-motion-state-cursor '("plum3" box))
-      (setq evil-emacs-state-cursor  '("SkyBlue2" box))
+    ;; set cursor color according to mode
+    (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+    (setq evil-insert-state-cursor '("chartreuse3"  box))
+    (setq evil-visual-state-cursor '("gray" box))
+    (setq evil-operator-state-cursor '("cyan" box))
+    (setq evil-replace-state-cursor '("chocolate" box))
+    (setq evil-motion-state-cursor '("plum3" box))
+    (setq evil-emacs-state-cursor  '("SkyBlue2" box))
 
-      ;; disable these keys for use in other modes
-      (define-key evil-normal-state-map (kbd "C-n") nil)
-      (define-key evil-motion-state-map (kbd "C-o") nil)
-      (define-key evil-normal-state-map (kbd "M-.") nil)
+    ;; disable these keys for use in other modes
+    (define-key evil-normal-state-map (kbd "C-n") nil)
+    (define-key evil-motion-state-map (kbd "C-o") nil)
+    (define-key evil-normal-state-map (kbd "M-.") nil)
 
-      ;; disable evil for these modes
-      (cl-loop for (mode . state)
-            in '((bc-menu-mode . emacs)
-                 (calc-mode . emacs)
-                 (calculator-mode . emacs)
-                 (calendar-mode . emacs)
-                 (dired-mode . emacs)
-                 (git-rebase-mode . emacs)
-                 (grep-mode . emacs)
-                 (help-mode . emacs)
-                 (helpful-mode . emacs)
-                 (Info-mode . emacs)
-                 (magit-branch-manager-mode . emacs)
-                 (magit-popup-mode . emacs)
-                 (magit-refs-mode . emacs)
-                 (rdictcc-buffer-mode . emacs)
-                 (term-mode . emacs))
-            do (evil-set-initial-state mode state))
+    ;; disable evil for these modes
+    (cl-loop for (mode . state)
+        in '((bc-menu-mode . emacs)
+                (calc-mode . emacs)
+                (calculator-mode . emacs)
+                (calendar-mode . emacs)
+                (dired-mode . emacs)
+                (git-rebase-mode . emacs)
+                (grep-mode . emacs)
+                (help-mode . emacs)
+                (helpful-mode . emacs)
+                (Info-mode . emacs)
+                (magit-branch-manager-mode . emacs)
+                (magit-popup-mode . emacs)
+                (magit-refs-mode . emacs)
+                (rdictcc-buffer-mode . emacs)
+                (term-mode . emacs))
+        do (evil-set-initial-state mode state))
 
-      ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
-      (advice-add 'evil-make-overriding-map :override #'ignore)
-      (advice-add 'evil-make-intercept-map  :override #'ignore)
-      (advice-add 'evil-add-hjkl-bindings   :override #'ignore)))
+    ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
+    (advice-add 'evil-make-overriding-map :override #'ignore)
+    (advice-add 'evil-make-intercept-map  :override #'ignore)
+    (advice-add 'evil-add-hjkl-bindings   :override #'ignore))
   #+END_SRC
 
 * git
@@ -335,19 +333,18 @@
   (use-package diff-hl
     :ensure t
     :config
-    (progn
-      (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-      (global-diff-hl-mode t)
-      (diff-hl-flydiff-mode t)))
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    (global-diff-hl-mode t)
+    (diff-hl-flydiff-mode t))
   #+END_SRC
 
 * ido
   #+BEGIN_SRC emacs-lisp
   (use-package ido
     :init
-    (progn
-      (ido-mode 1)
-      (setq ido-everywhere t))
+    (ido-mode 1)
+    (setq ido-everywhere t)
+    (add-to-list 'ido-ignore-directories "node_modules")
     :defer t)
 
   ;; M-x enhancement for emacs built on top of ido
@@ -370,19 +367,22 @@
 
 * projectile
   #+BEGIN_SRC emacs-lisp
-  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-        projectile-known-projects-file (concat user-emacs-directory
-                                               ".cache/projectile-bookmarks.eld"))
-  (add-hook 'find-file-hook (lambda () 
-                              (unless recentf-mode (recentf-mode) 
-                                      (recentf-track-opened-file)))) 
-
   ;; the platinum searcher
   (use-package pt
     :ensure t)
 
   (use-package projectile 
     :after (pt)
+    :config
+    (add-to-list 'projectile-globally-ignored-directories "node_modules")
+    (projectile-global-mode)
+    :init
+    (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+          projectile-known-projects-file (concat user-emacs-directory
+                                             ".cache/projectile-bookmarks.eld"))
+    (add-hook 'find-file-hook (lambda () 
+                                (unless recentf-mode (recentf-mode) 
+                                        (recentf-track-opened-file)))) 
     :bind (
         ("C-c p *" . projectile-pt)
         ("C-c p f" . projectile-find-file)
@@ -390,7 +390,6 @@
     )
     :diminish 'projectile-mode) 
 
-  (projectile-global-mode)
   #+END_SRC
 
 
@@ -555,8 +554,6 @@
             ("\\.md\\'" . markdown-mode)
             ("\\.markdown\\'" . markdown-mode))
         :init (setq markdown-command "multimarkdown")))
-
-  (provide 'my-markdown)
   #+END_SRC
 
 * Language rust
