@@ -276,6 +276,8 @@
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
 
+  (evil-set-undo-system 'undo-tree)
+
   ;; Set emacs state on message buffer with this special code since it loads
   ;; so early and therefore can't be set with `(evil-set-initial-state)`
   (with-eval-after-load 'evil
@@ -289,7 +291,8 @@
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
-  (define-key evil-motion-state-map (kbd "/") 'occur))
+  (define-key evil-motion-state-map (kbd "/") 'swiper))
+
 
 ;; Surround text objects with characters
 (use-package evil-surround
@@ -305,6 +308,20 @@
 (use-package avy
   :bind ("M-j" . avy-goto-char-timer))
 
+(use-package undo-tree
+  :config
+  (setq undo-tree-auto-save-history t)
+  :init
+  (global-undo-tree-mode))
+
+(use-package company
+  :init
+  (global-company-mode))
+
+(use-package swiper
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper-backward)))
 
 (provide 'packages)
+
 ;;; packages.el ends here

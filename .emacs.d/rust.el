@@ -51,7 +51,8 @@
   :bind (:map rust-mode-map
               (("C-c C-c" . rust-compile)
                ("C-c C-k" . rust-check)
-               ("C-c C-r" . rust-run))))
+               ("C-c C-r" . rust-run)
+               ("C-c C-t" . rust-test))))
 
 (provide 'rust)
 ;;; rust.el ends here

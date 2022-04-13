@@ -54,6 +54,7 @@
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
 (global-set-key (kbd "C-s") 'occur)
+(global-set-key (kbd "C-x u") 'undo-tree-visualize)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-z") 'nil)
 

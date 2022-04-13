@@ -57,6 +57,8 @@
 
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+;; Undo history
+(setq undo-tree-history-directory-alist `(("." . "~/.emacs.d/undo")))
 
 ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
 (setq scroll-conservatively 101)
