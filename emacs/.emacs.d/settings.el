@@ -431,15 +431,23 @@
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'emacs-lisp-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
+  (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   :bind (:map evil-normal-state-map ("M-." . 'tide-jump-to-definition)))
+
+;; Surround text objects with characters
+(use-package evil-surround
+  :after (evil)
+  :config
+  (global-evil-surround-mode 1))
 
 ;; For macOS import PATH when launched as GUI
 (use-package exec-path-from-shell
   :config
   (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize)))
+
 
 ;; * Language javascript
 (defun configure-web-mode-flycheck-checkers ()
