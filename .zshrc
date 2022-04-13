@@ -122,3 +122,4 @@ export PATH="/usr/local/opt/openjdk/bin:$PATH"
 bindkey -M emacs '\C-y' widget-paste-from-clipboard
 bindkey -M viins '\C-y' widget-paste-from-clipboard
 bindkey -M vicmd '\C-y' widget-paste-from-clipboard
+
