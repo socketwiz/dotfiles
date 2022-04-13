@@ -80,9 +80,6 @@
 ;; Give focus to new help windows
 (setq help-window-select t)
 
-;; Add /usr/local/bin to the path
-(setq exec-path (append exec-path '("/usr/local/bin")))
-
 ;; Set default indent to 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -609,12 +606,8 @@
   (if (not (string= window-system nil))
       (global-unset-key (kbd "C-z"))))
 
-;; For macOS import PATH when launched as GUI
-(use-package exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
+;; Import PATH
+(exec-path-from-shell-initialize)
 
 ;; * Language cpp
 ;; Irony support for C/C++
