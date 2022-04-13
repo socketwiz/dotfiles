@@ -265,63 +265,65 @@
 
 * evil
 #+BEGIN_SRC emacs-lisp
-(defun temporarily-apply-emacs-state ()
-  "Enter emacs state when entering certain modes, then back to whatever it was"
-  (if (cond ((bound-and-true-p edebug-mode)))
-      (evil-emacs-state)
-    (evil-exit-emacs-state)))
+(defun setup-evil-mode ()
+    (defun temporarily-apply-emacs-state ()
+      "Enter emacs state when entering certain modes, then back to whatever it was"
+      (if (cond ((bound-and-true-p edebug-mode)))
+          (evil-emacs-state)
+        (evil-exit-emacs-state)))
 
-;; For some modes, setting default-state is not enough to get them into emacs state
-(add-hook 'edebug-mode-hook 'temporarily-apply-emacs-state)
+  ;; For some modes, setting default-state is not enough to get them into emacs state
+  (add-hook 'edebug-mode-hook 'temporarily-apply-emacs-state)
 
-;; Extensible vi layer for emacs
-(use-package evil
-  :config
-  (evil-mode 1)
-  ;; Make emacs the default state
-  (setq evil-default-state 'emacs)
-  ;; Clear the motion-state so Info-mode, help-mode, etc.. will get into emacs state
-  (setq evil-motion-state-modes nil)
+  ;; Extensible vi layer for emacs
+  (use-package evil
+    :config
+    (evil-mode 1)
+    ;; Make emacs the default state
+    (setq evil-default-state 'emacs)
+    ;; Clear the motion-state so Info-mode, help-mode, etc.. will get into emacs state
+    (setq evil-motion-state-modes nil)
 
-  ;; Whitelist of modes to defeault to normal state
-  ;; Generally speaking if I can edit it, I want it normal state, otherwise emacs
-  (evil-set-initial-state 'gfm-mode 'normal)
-  (evil-set-initial-state 'org-mode 'normal)
-  (evil-set-initial-state 'outline-mode 'emacs)
-  (evil-set-initial-state 'prog-mode 'normal)
-  (evil-set-initial-state 'text-mode 'normal)
+    ;; Whitelist of modes to defeault to normal state
+    ;; Generally speaking if I can edit it, I want it normal state, otherwise emacs
+    (evil-set-initial-state 'gfm-mode 'normal)
+    (evil-set-initial-state 'org-mode 'normal)
+    (evil-set-initial-state 'outline-mode 'emacs)
+    (evil-set-initial-state 'prog-mode 'normal)
+    (evil-set-initial-state 'text-mode 'normal)
 
-  ;; set cursor color according to mode
-  (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-  (setq evil-insert-state-cursor '("chartreuse3"  box))
-  (setq evil-visual-state-cursor '("gray" box))
-  (setq evil-operator-state-cursor '("cyan" box))
-  (setq evil-replace-state-cursor '("chocolate" box))
-  (setq evil-motion-state-cursor '("plum3" box))
-  (setq evil-emacs-state-cursor  '("SkyBlue2" box)))
+    ;; set cursor color according to mode
+    (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+    (setq evil-insert-state-cursor '("chartreuse3"  box))
+    (setq evil-visual-state-cursor '("gray" box))
+    (setq evil-operator-state-cursor '("cyan" box))
+    (setq evil-replace-state-cursor '("chocolate" box))
+    (setq evil-motion-state-cursor '("plum3" box))
+    (setq evil-emacs-state-cursor  '("SkyBlue2" box)))
 
-;; Customizable key sequence to escape from insert state and everything else
-(use-package evil-escape
-  :after (evil)
-  :config
-  (setq-default evil-escape-key-sequence "fd")
-  ;; esc should escape everything possible
-  (evil-escape-mode)
-  :diminish 'evil-escape-mode)
+  ;; Customizable key sequence to escape from insert state and everything else
+  (use-package evil-escape
+    :after (evil)
+    :config
+    (setq-default evil-escape-key-sequence "fd")
+    ;; esc should escape everything possible
+    (evil-escape-mode)
+    :diminish 'evil-escape-mode)
 
-;; Surround text objects with characters
-(use-package evil-surround
-  :after (evil)
-  :config
-  (global-evil-surround-mode 1))
+  ;; Surround text objects with characters
+  (use-package evil-surround
+    :after (evil)
+    :config
+    (global-evil-surround-mode 1))
 
-;; Highlight search words in a buffer
-(use-package evil-anzu
-  :after (evil)
-  :config
-  (global-anzu-mode +1)
-  :diminish 'anzu-mode)
-  #+END_SRC
+  ;; Highlight search words in a buffer
+  (use-package evil-anzu
+    :after (evil)
+    :config
+    (global-anzu-mode +1)
+    :diminish 'anzu-mode)
+  )
+#+END_SRC
 
 * git
 #+BEGIN_SRC emacs-lisp
