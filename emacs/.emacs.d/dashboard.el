@@ -1,4 +1,10 @@
 
+;; Refresh the package list stored in package-archive-contents
+;;(when (not package-archive-contents)
+;;    (package-refresh-contents))
+;; Use to check if a package is installed by the user
+;;(package--user-selected-p)
+
 (defun exit-dashboard ()
   "Stop displaying the dashboard buffer."
   (interactive)
