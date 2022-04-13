@@ -20,7 +20,11 @@ export PATH=$HOME/bin:$HOME/.aws/bin:$BREW_PATHS:${PATH}
 
 # setup Rust
 export PATH=$HOME/.cargo/bin:$PATH
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # setup go
 export PATH="$PATH:$HOME/go-workspace/bin"
+
+# setup Node
+export PATH="$PATH:$HOME/.npm-packages/bin"
 

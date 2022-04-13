@@ -8,4 +8,4 @@ alias CAPS='xmodmap ~/.Xmodmap-caps'
 alias nocaps='xmodmap ~/.Xmodmap'
 
 PATH=$PATH:/home/socketwiz/bin
-
+TERM=xterm-256color
