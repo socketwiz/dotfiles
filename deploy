@@ -27,6 +27,7 @@ sh -c "$(wget -q https://raw.githubusercontent.com/aaronkjones/noobs-term/master
 npm install -g spaceship-prompt
 mkdir ~/.zfunc
 rustup completions zsh > ~/.zfunc/_rustup
+git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 stow config
 stow emacs
