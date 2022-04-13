@@ -119,7 +119,9 @@
 (add-to-list 'display-buffer-alist '("*Info*" display-buffer-same-window))
 
 ;; Package management
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+(custom-set-variables
+ '(gnutls-algorithm-priority "normal:-vers-tls1.3"))
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (unless (package-installed-p 'use-package)
