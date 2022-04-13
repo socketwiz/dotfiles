@@ -32,7 +32,7 @@ set.undodir='~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.'
 set.undofile = true                 -- Enable undo support
 set.visualbell = true               -- Turn the beep into a visual representation rather than a sound
 
-let.markdown_fenced_languages = { -- Deno (JavaScript) language server
+let.markdown_fenced_languages = {   -- Deno (JavaScript) language server
   "javascript",
   "js=javascript",
   "ts=typescript"
@@ -42,8 +42,9 @@ let.mapleaderlocal = " "            -- Change leader key to <Space>
 -- Theme
 -- Change the "hint" color to the "orange" color, and make the "error" color bright red
 let.tokyonight_colors = { hint = "orange", error = "#ff0000" }
-let.tokyonight_style = "night"      -- Theme
+let.tokyonight_style = "night"
 let.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+let.UltiSnipsSnippetDirectories = { os.getenv("HOME") .. '/.config/nvim/ultisnips' }
 
 -- Load the colorscheme
 vim.cmd[[colorscheme tokyonight]]
@@ -134,9 +135,19 @@ require('nvim-tree').setup {
   },
 }
 
--- CoC (use vim syntax because I'm not sure how to convert to lua)
-vim.cmd [[
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-]]
+require('cmp').setup {
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  sources = {
+    { name = 'buffer' },
+    { name = 'cmdline' },
+    { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'ultisnips' }
+  },
+}
 

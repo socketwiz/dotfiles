@@ -2,8 +2,9 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
-  use 'wbthomason/packer.nvim' -- Package manager
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for the built-in LSP client
+  use 'wbthomason/packer.nvim'  -- Package manager
+  use 'neovim/nvim-lspconfig'   -- Collection of configurations for the built-in LSP client
+  use 'mfussenegger/nvim-dap'   -- LSP debug adapter
 
   -- Parse generator (syntax tree for souce files)
   use {
@@ -33,8 +34,17 @@ return require('packer').startup(function()
   use 'folke/tokyonight.nvim' -- Theme
   use 'folke/which-key.nvim' -- Show which hotkeys are available for use
 
-  use 'dense-analysis/ale'
-  use {'neoclide/coc.nvim', branch = 'release'}
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      -- snippets
+      'SirVer/ultisnips'
+    }
+  }
 
   -- Git decorations in the gutter
   use {
