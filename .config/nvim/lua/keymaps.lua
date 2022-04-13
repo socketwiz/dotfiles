@@ -49,6 +49,7 @@ local wk_mappings = {
     b = { '<cmd>lua require("telescope.builtin").buffers()<cr>', 'Buffer list' },
     c = { '<cmd>lua require("telescope.builtin").commands()<cr>', 'Commands' },
     f = { '<cmd>lua require("telescope.builtin").find_files()<cr>', 'Find file' },
+    o = { '<cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>', 'Find file' },
     g = { '<cmd>lua require("telescope.builtin").live_grep()<cr>', 'Ripgrep' },
     h = { '<cmd>lua require("telescope.builtin").help_tags()<cr>', 'Help' }
   },

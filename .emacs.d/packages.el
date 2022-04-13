@@ -319,7 +319,7 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode-hook . lsp-ui-mode)
+  :hook ((lsp-mode . lsp-ui-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          (rust-mode . lsp)
          (js-mode . lsp))
@@ -342,8 +342,10 @@
                                      :cwd nil)))
 
 (use-package tree-sitter
-  :hook ((rust-mode-hook . tree-sitter-mode)
-         (js-mode-hook . tree-sitter-mode)))
+  :hook ((rust-mode . tree-sitter-mode)
+         (rust-mode . tree-sitter-hl-mode)
+         (js-mode . tree-sitter-mode)
+         (js-mode . tree-sitter-hl-mode)))
 (use-package tree-sitter-langs
   :after (tree-sitter))
 

@@ -24,6 +24,7 @@ return require('packer').startup(function()
       'nvim-lua/plenary.nvim'
     }
   }
+  use { "nvim-telescope/telescope-file-browser.nvim" }
 
   -- File explorer
   use {

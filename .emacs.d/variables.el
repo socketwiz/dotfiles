@@ -14,7 +14,7 @@
 
 (defvar config-font-family "Fira Code"
   "Font to use in each buffer.")
-(defvar config-font-height 160
+(defvar config-font-height 140
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
 (defvar config-indent-web-mode-spaces 2
