@@ -125,12 +125,13 @@
   (use-package all-the-icons
     :ensure t)
 
-  ;; parenthesis
+  ;; Parenthesis
   (use-package highlight-parentheses
     :diminish 'highlight-parentheses-mode
     :config
     (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
+  ;; Ensure the environment variables inside emacs match the shell
   (use-package exec-path-from-shell
     :defer t
     :config
@@ -159,6 +160,7 @@
     (setq company-tooltip-align-annotations t)
     (add-hook 'after-init-hook 'global-company-mode))
 
+  ;; Show the argument list of a function in the echo area
   (use-package eldoc
     :diminish eldoc-mode
     :commands turn-on-eldoc-mode
@@ -169,6 +171,7 @@
     :config
     (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
     :diminish 'flyspell-mode) 
+  ;; Correct the misspelled word in a popup menu
   (use-package flyspell-popup 
     :config
     (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)) 
@@ -181,7 +184,7 @@
     :diminish flycheck-mode
     :ensure t)
 
-  ;; Yasnippet
+  ;; Yasnippet, a template system for emacs
   (use-package yasnippet
     :ensure t
     :bind (("TAB" . yas-expand))
@@ -194,7 +197,7 @@
     :init
     (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
-  ;; Org mode
+  ;; Org mode, for keeping notes, todo lists, etc... in plain text
   (use-package org
     :ensure t
     :config
@@ -213,18 +216,22 @@
     :config
     (editorconfig-mode 1))
 
+  ;; Syntax highlighting for docker files
   (use-package dockerfile-mode
     :defer t)
 
+  ;; A better "help" buffer
   (use-package helpful
     :ensure t)
 
+  ;; Edit text area in chrome with emacs
   (use-package atomic-chrome
     :ensure t
     :config
     (atomic-chrome-start-server)
     (setq atomic-chrome-buffer-open-style 'frame))
 
+  ;; Builds a list of recently opened files
   (use-package recentf
     :config
     (setq recentf-max-saved-items 10
@@ -246,6 +253,7 @@
 
 * evil
   #+BEGIN_SRC emacs-lisp
+  ;; Extensible vi layer for emacs
   (use-package evil
     :init
     ;; don't let modes override any states (!)
@@ -263,19 +271,20 @@
     (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
     (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
 
+    ;; Customizable key sequence to escape from insert state and everything else
     (use-package evil-escape
        :config
        (setq-default evil-escape-key-sequence "fd")
        ;; esc should escape everything possible
        (evil-escape-mode)
-       :diminish 'evil-escape-mode
-       )
+       :diminish 'evil-escape-mode)
 
+    ;; Surround text objects with characters
     (use-package evil-surround
        :config
        (global-evil-surround-mode 1))
 
-    ;; evil-anzu for improving search result rendering
+    ;; Highlight search words in a buffer
     (use-package evil-anzu
       :config
       (global-anzu-mode +1)
@@ -321,6 +330,7 @@
 
 * git
   #+BEGIN_SRC emacs-lisp
+  ;; A git interface for emacs
   (use-package magit
     :config
     (setq magit-refresh-status-buffer nil)
@@ -345,6 +355,7 @@
         (message "Opening file...")
       (message "Aborting")))
 
+  ;; A completion engine that uses fuzzy matching
   (use-package ido
     :init
     (ido-mode 1)
@@ -356,7 +367,7 @@
   (use-package smex
     :ensure t)
 
-  ;; fancy matching for emacs
+  ;; Fancy matching for emacs
   (use-package flx-ido
     :init
     (flx-ido-mode 1)
@@ -365,10 +376,11 @@
 
 * projectile
   #+BEGIN_SRC emacs-lisp
-  ;; the platinum searcher
+  ;; The platinum searcher
   (use-package pt
     :ensure t)
 
+  ;; A project interaction library
   (use-package projectile 
     :after (pt)
     :config
@@ -393,15 +405,17 @@
 
 * Language cpp
   #+BEGIN_SRC emacs-lisp
+  ;; A flycheck checker for C/C++
   (use-package flycheck-irony
     :ensure t)
 
+  ;; Irony support for C/C++
   (use-package irony-eldoc
     :ensure t
     :init
     (add-hook 'irony-mode-hook #'irony-eldoc))
 
-  ;; c++ minor mode, completion, syntax checking
+  ;; C++ minor mode, completion, syntax checking
   (use-package irony
     :ensure t
     :commands irony-mode ; need to install the server on first run (M-x irony-install-server)
@@ -413,7 +427,7 @@
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-  ;; embedded platform development
+  ;; Embedded platform development
   (use-package platformio-mode
     :ensure t
     :commands (platformio-conditionally-enable)
@@ -441,7 +455,7 @@
         (evil-emacs-state)
       (evil-exit-emacs-state)))
 
-
+  ;; Minor mode for performing structured editing ofo S-expression data
   (use-package paredit
     :ensure t
     :init
@@ -494,6 +508,7 @@
 
   ;; sass
   (use-package scss-mode)
+  ;; Major mode for editing web templates
   (use-package web-mode
     :ensure t
     :mode (("\\.html?\\'" . web-mode)
@@ -558,14 +573,14 @@
   #+END_SRC
 * Language markdown
   #+BEGIN_SRC emacs-lisp
-  (defun my/init-markdown ()
-    (use-package markdown-mode
-        :defer t
-        :commands (markdown-mode gfm-mode)
-        :mode (("README\\.md\\'" . gfm-mode)
-            ("\\.md\\'" . markdown-mode)
-            ("\\.markdown\\'" . markdown-mode))
-        :init (setq markdown-command "multimarkdown")))
+  ;; Major mode for editing Markdown formatted text
+  (use-package markdown-mode
+    :defer t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown"))
   #+END_SRC
 
 * Language rust
