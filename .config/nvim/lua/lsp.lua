@@ -75,6 +75,7 @@ for _, lsp in pairs(servers) do
     capabilities = capabilities
     cmd = { 'vscode-eslint-language-server', '--stdio' }
     filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' }
+    root_dir = util.root_pattern('package.json')
     settings = {
       packageManager = 'npm',
     }
