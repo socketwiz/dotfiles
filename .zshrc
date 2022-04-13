@@ -57,6 +57,11 @@ source ~/bin/agent
 alias ec='emacsclient -c -n $1'
 alias ed='emacs --daemon'
 alias vim='nvim'
+function find-commits() {
+  find . -type d -name '.git' | while read dir ;
+    do sh -c "cd $dir/../ && echo \"\nGIT STATUS IN ${dir//\.git/}\" && git status -s" ;
+  done
+}
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
