@@ -147,18 +147,13 @@ require('nvim-tree').setup {
   },
 }
 
--- Rust tools
-local extension_path = '~/.vscode/extensions/vadimcn.vscode-lldb-1.6.10'
-local codelldb_path = extension_path .. 'adapter/codelldb'
-local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
-
-local opts = {
-    -- ... other configs
-    dap = {
-        adapter = require('rust-tools.dap').get_codelldb_adapter(
-            codelldb_path, liblldb_path)
-    }
+local nvim_lsp = require('lspconfig')
+-- Enable rust_analyzer
+nvim_lsp.rust_analyzer.setup {
+  --capabilities = capabilities,
+  settings = {
+    ['rust-analyzer'] = {
+    },
+  },
 }
-
-require('rust-tools').setup(opts)
 
