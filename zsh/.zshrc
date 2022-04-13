@@ -102,3 +102,5 @@ function tm() {
     done
     tmux attach -t "$sel"
 }
+
+source /home/zolmok/.config/broot/launcher/bash/br
