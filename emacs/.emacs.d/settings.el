@@ -23,7 +23,7 @@
 
 (defvar config-indent-web-mode-spaces 2
   "How many spaces to indent in web-mode.")
-(defvar config-indent-js-mode-spaces 2
+(defvar js-switch-indent-offset 2
   "How many spaces to indent in \"js-mode\".")
 
 (defvar config-enable-evil-mode nil
@@ -282,7 +282,7 @@
   (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
   (defvar org-agenda-include-diary t)
   (defvar org-src-fontify-natively t)
-  (defvar org-agenda-files (list "~/org/agenda"
+  (setq org-agenda-files (list "~/org/agenda"
                                "~/org/agenda/projects/"))
   (setq org-default-notes-file "~/org/agenda/organizer.org"))
 ;; Convert buffer to text and decorations to HTML
@@ -545,11 +545,6 @@
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1))
 
-(defun setup-js2 ()
-  "Set indent when in js2-mode."
-  (defvar js-switch-indent-offset config-indent-js-mode-spaces)
-  (setup-javascript))
-
 (defun setup-typescript ()
   "Setup jump-to-definition when in tide-mode."
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
@@ -558,7 +553,7 @@
 ;; JavaScript editing mode
 (use-package js2-mode
   :if config-enable-web-mode
-  :hook (js2-mode . setup-js2))
+  :hook (js2-mode . setup-javascript))
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
