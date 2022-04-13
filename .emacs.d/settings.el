@@ -334,14 +334,14 @@
 ;; sudo npm install -g vscode-json-languageserver
 ;;
 ;; Python
-;; pip install python-language-server\[all\]
+;; pip install python-lsp-server\[all\]
 ;;
 ;; Rust
 ;; rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
   :commands lsp
   :hook (;;(json-mode . lsp)
-         (python-mode . lsp)
+         ;;(python-mode . lsp)
          (rust-mode . lsp)
          ;;(sh-mode . lsp)
          ;;(typescript-mode . lsp)
@@ -581,6 +581,8 @@
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
   (evil-set-initial-state 'rustic-popup-mode 'emacs)
+  (evil-set-initial-state 'compilation-mode 'emacs)
+  (evil-set-initial-state 'messages-buffer-mode 'emacs)
 
   ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
@@ -588,9 +590,7 @@
   (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
   (define-key evil-normal-state-map (kbd "u") 'undo-tree-undo)
 
-  (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-region)
-  (define-key evil-normal-state-map (kbd "C-c C-\\") 'uncomment-region)
-  )
+  (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim))
 
 ;; Surround text objects with characters
 (use-package evil-surround
@@ -789,11 +789,14 @@
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode))
 
-(use-package rustic
+(use-package rust-mode
   :if config-enable-rust-mode
   :bind (("C-c C-p" . rustic-popup))
   :hook (rust-mode . setup-rust)
   :mode ("\\.rs\\'" . rust-mode))
+(use-package rustic
+  :if config-enable-rust-mode
+  :after (rust-mode))
 
 
 ;; * Language Clojure
@@ -803,12 +806,22 @@
 
 
 ;; * Language Python
+;; Need to activate pipenv
+;; C-c C-p a
 (use-package elpy
   :if config-enable-elpy-mode
-  :custom
-  (elpy-rpc-python-command "python3")
   :init
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq python-shell-interpreter "python3"
+      python-shell-interpreter-args "-i")
   (elpy-enable))
+(use-package jedi)
+(use-package pipenv
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
 
 
 ;; Syntax highlighting for docker files
