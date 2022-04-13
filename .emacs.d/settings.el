@@ -162,17 +162,17 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c r") 'consult-ripgrep)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'consult-buffer)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(global-set-key (kbd "C-x C-r") 'consult-recent-file)
 (global-set-key (kbd "C-x C-z") 'nil)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-(global-set-key (kbd "M-x") 'amx)
 
 ;; * Core packages
 (use-package diminish)
@@ -486,16 +486,15 @@
 
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   )
-)
+   ("C-;" . embark-dwim)))      ;; good alternative: M-.
 
 (use-package embark-consult
   :ensure t
   :after (embark consult))
 
-(use-package consult)
-
+(use-package consult
+  :config
+  (setq consult-project-root-function 'vc-root-dir))
 
 ;; Term-mode
 (use-package term
@@ -506,34 +505,6 @@
   (term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
-
-;; Project management
-(use-package projectile
-  :after (rg)
-  :demand
-  :config
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (projectile-register-project-type 'javascript '("package.json")
-                                    :project-file "package.json"
-				                    :compile "npm install"
-				                    :test "npm test"
-				                    :run "npm start"
-				                    :test-suffix ".spec")
-  (projectile-mode)
-  :init
-  (declare-function recentf-track-opened-file "recentf.el.gz")
-  (add-hook 'find-file-hook (lambda ()
-                              (unless recentf-mode (recentf-mode)
-                                      (recentf-track-opened-file))))
-  :custom
-  (projectile-project-search-path '("~/dev"))
-  (projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache"))
-  (projectile-known-projects-file (concat user-emacs-directory ".cache/projectile-bookmarks.eld"))
-  (projectile-enable-caching t)
-  :bind (("C-c p" . projectile-command-map)
-         :map projectile-mode-map
-         ("C-c p s p" . rg-menu))
-  :diminish 'projectile-mode)
 
 ;; ripgrep
 (use-package rg
@@ -790,10 +761,7 @@
 (use-package jedi)
 (use-package pipenv
   :hook (python-mode . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended))
+  :init)
 
 
 ;; Syntax highlighting for docker files
