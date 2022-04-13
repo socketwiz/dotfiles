@@ -55,3 +55,4 @@
 (setq help-window-select t)
 
 (provide 'variables)
+;;; variables.el ends here

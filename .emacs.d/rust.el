@@ -10,6 +10,9 @@
   "Do these things after \"rust-mode\" is enabled."
   ;; To enable the eglot backend:
   ;; rustup component add rls rust-analysis rust-src
+
+  ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
+  (setq eglot-stay-out-of '())
   (eglot-ensure)
   (when (and (bound-and-true-p evil-mode) (eq evil-state 'normal))
     ;; Setup find-definitions when in rust-mode
@@ -28,3 +31,4 @@
                ("C-c C-r" . rust-run))))
 
 (provide 'rust)
+;;; rust.el ends here

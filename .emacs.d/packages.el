@@ -15,6 +15,11 @@
   (package-install 'use-package))
 (setq use-package-always-ensure t)
 
+;; Set the path from the shell
+;; call after (package-initialize)
+;;(when (memq window-system '(mac ns x))
+;;  (exec-path-from-shell-initialize))
+
 ;; * Core packages
 (use-package diminish)
 
@@ -262,6 +267,7 @@
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
   (evil-set-initial-state 'messages-buffer-mode 'emacs)
+  (evil-set-initial-state 'outline-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'reb-mode 'emacs)
   (evil-set-initial-state 'rg-mode 'emacs)
@@ -296,3 +302,4 @@
       (global-unset-key (kbd "C-z"))))
 
 (provide 'packages)
+;;; packages.el ends here

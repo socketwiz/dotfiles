@@ -6,11 +6,34 @@
 ;; Settings the JavaScript/TypeScript, HTML, and CSS languages for frontend development
 
 ;;; Code:
+(defun configure-flymake-checker ()
+  "Configure flymake for JavaScript."
+
+  ;; See if there is a node_modules directory
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (or (and root
+                          ;; Try the locally installed eslint
+                          (expand-file-name "node_modules/eslint/bin/eslint.js" root))
+
+                     ;; Try the global installed eslint
+                     (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
+
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flymake-eslint-executable-name eslint)
+      ;; Set project root folders
+      (setq-local flymake-eslint-project-root root)))
+
+  (flymake-eslint-enable))
+
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
   ;; To enable the eglot backend:
   ;; npm install -g typescript-language-server typescript
+  (add-to-list 'eglot-stay-out-of 'flymake)
   (eglot-ensure)
+  (configure-flymake-checker)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (tide-hl-identifier-mode)
   (tide-setup)
@@ -99,3 +122,4 @@
   :mode ("\\.scss\\'" . scss-mode))
 
 (provide 'javascript)
+;;; javascript.el ends here
