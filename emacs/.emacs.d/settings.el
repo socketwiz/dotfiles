@@ -75,8 +75,8 @@
 
 ;; Put apropos in current buffer so it can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist
-            '("*Apropos*" display-buffer-same-window)
-            '("*Info*" display-buffer-same-window))
+             '("*Apropos*" display-buffer-same-window)
+             '("*Info*" display-buffer-same-window))
 
 ;; Package management
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -124,7 +124,6 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'counsel-recentf)
-(global-set-key (kbd "C-h b") 'describe-bindings)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
@@ -159,7 +158,7 @@
 (use-package highlight-parentheses
   :diminish 'highlight-parentheses-mode
   :config
-  (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
+  (add-hook 'prog-mode-hook 'highlight-parentheses-mode))
 
 ;; Undo-tree
 (use-package undo-tree 
@@ -173,11 +172,10 @@
       (after undo-tree activate)
     (setq ad-return-value (concat ad-return-value ".gz")))
   (global-undo-tree-mode)
-  :defer t 
   :diminish 'undo-tree-mode)
 
 ;; Company mode
-(use-package company 
+(use-package company
   :diminish 'company-mode
   :config
   (setq company-tooltip-align-annotations t)
@@ -186,18 +184,17 @@
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
   :diminish eldoc-mode
-  :commands turn-on-eldoc-mode
-  :defer t)
+  :commands turn-on-eldoc-mode)
 
 ;; Flyspell
-(use-package flyspell 
+(use-package flyspell
   :config
   (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
   :diminish 'flyspell-mode) 
 ;; Correct the misspelled word in a popup menu
-(use-package flyspell-popup 
+(use-package flyspell-popup
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct))
   :config
-  (define-key flyspell-mode-map (kbd "C-;") 'flyspell-popup-correct)
   (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
   (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
   (define-key popup-menu-keymap (kbd "C-l") 'popup-select))
@@ -205,8 +202,7 @@
 ;; Flycheck
 (use-package flycheck
   :diminish flycheck-mode
-  :config
-  (add-hook 'sh-mode-hook 'flycheck-mode))
+  :hook (sh-mode . flycheck-mode))
 
 ;; Yasnippet, a template system for emacs
 (use-package yasnippet
@@ -226,7 +222,6 @@
 
 ;; Highlight numbers for prog modes
 (use-package highlight-numbers 
-  :defer t 
   :init
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
@@ -239,6 +234,9 @@
   (setq org-agenda-files (list "~/org/agenda"
                                "~/org/agenda/projects/"))
   (setq org-default-notes-file "~/org/agenda/organizer.org"))
+;; Convert buffer to text and decorations to HTML
+(use-package htmlize
+  :mode (("\\.org\\'" . org-mode)))
 
 ;; Respect editor configs
 (use-package editorconfig
@@ -291,20 +289,14 @@
 ;; Doom modeline
 (use-package doom-modeline
   ;; (setq doom-modeline-icon (display-graphic-p))
-  :ensure t
   :hook (after-init . doom-modeline-mode))
-
-;; Convert buffer to text and decorations to HTML
-(use-package htmlize
-  :mode (("\\.org\\'" . org-mode)))
 
 ;; * git
 ;; A git interface for emacs
 (use-package magit
   :config
   (setq magit-refresh-status-buffer nil)
-  :diminish 'auto-revert-mode
-  :defer t)
+  :diminish 'auto-revert-mode)
 
 ;; Show diffs in the gutter
 (use-package diff-hl
@@ -321,6 +313,7 @@
   (counsel-projectile-mode t)
   :bind (:map projectile-mode-map ("C-c p" . 'projectile-command-map)))
 
+;; Fuzzy matching for Emacs
 (use-package flx)
 (use-package ivy-hydra)
 (use-package ivy
@@ -354,8 +347,6 @@
   (add-hook 'find-file-hook (lambda ()
                               (unless recentf-mode (recentf-mode)
                                       (recentf-track-opened-file))))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
   :bind
   (:map projectile-mode-map ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
@@ -376,7 +367,6 @@
 
 ;; C++ minor mode, completion, syntax checking
 (use-package irony
-  :defer t
   ;; Need to install the server on first run (M-x irony-install-server)
   :commands irony-mode
   :init
@@ -389,7 +379,6 @@
 
 ;; Embedded platform development
 (use-package platformio-mode
-  :defer t
   :commands (platformio-conditionally-enable)
   :mode (("\\.ino\\'" . c++-mode))
   :init
@@ -493,15 +482,14 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (setup-javascript))
 
+;; JavaScript editing mode
+(use-package js2-mode
+  :mode ("\\.js\\'" . js2-mode)
+  :hook (js2-mode . setup-js2))
+
 ;; TypeScript Interactive Development Environment
 (use-package tide
   :hook (typescript-mode . setup-typescript))
-
-;; JavaScript editing mode
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :config
-  :hook (js2-mode . setup-js2))
 
 (use-package rjsx-mode)
 
@@ -514,7 +502,6 @@
 
 ;; Major mode for editing web templates
 (use-package web-mode
-  :defer t
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode))
   :config
@@ -530,8 +517,6 @@
   (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
   :init
-  (setq web-mode-content-types-alist
-        '(("js" . "\\.js\\'")))
   (setq web-mode-engines-alist
         '(("django" . "\\.html\\'")))
 
@@ -554,13 +539,12 @@
 
 ;; SASS
 (use-package scss-mode
-  :defer t)
+  :mode ("\\.scss\\'" . scss-mode))
 
 
 ;; * Language markdown
 ;; Major mode for editing Markdown formatted text
 (use-package markdown-mode
-  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -574,13 +558,11 @@
   (yas-minor-mode))
 
 (use-package rustic
-  :ensure t
   :hook (rustic-mode . setup-rustic)
   :mode ("\\.rs\\'" . rustic-mode))
 
 ;; * Language clojure
 (use-package cider
-  :defer t
   :hook (clojure-mode . enable-paredit-mode))
 
 
