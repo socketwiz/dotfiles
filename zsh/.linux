@@ -29,3 +29,6 @@ export PATH="$AWS_PATH:$PATH"
 source "$AWS_PATH/aws_zsh_completer.sh"
 
 source $HOME/.config/broot/launcher/bash/br
+
+# flutter
+export PATH="$HOME/flutter/bin:$PATH"
