@@ -280,6 +280,7 @@
 
 ;; Doom modeline
 (use-package doom-modeline
+  ;; (setq doom-modeline-icon (display-graphic-p))
   :ensure t
   :hook (after-init . doom-modeline-mode))
 

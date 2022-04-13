@@ -15,7 +15,8 @@ emacs/.emacs.d/.nrepl-port
 emacs/.emacs.d/tramp
 emacs/.emacs.d/transient
 emacs/.emacs.d/%backup%~
-
+emacs/.emacs.d/elpy/
+        
 vim/.vim/.netrwhist
 
 weechat/.weechat/logs/
@@ -46,3 +47,18 @@ config/.config/oni/
 config/.config/pulse/
 config/.config/trashrc
 config/.config/vlc/
+config/.config/evolution/
+config/.config/exercism/
+config/.config/gnome-initial-setup-done
+config/.config/google-chrome/
+config/.config/gpick/
+config/.config/gtk-3.0/
+config/.config/ibus/
+config/.config/inkscape/
+config/.config/lutris/
+config/.config/nautilus/
+config/.config/stacer/
+config/.config/ulauncher/
+config/.config/user-dirs.dirs
+config/.config/user-dirs.locale
+config/.config/web-starter-kit/
