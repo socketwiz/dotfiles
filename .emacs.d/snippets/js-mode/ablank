@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: ablank
-# key: ablank
-# --
-<a href="$1"
-    rel="noopener noreferrer"
-    target="_blank">$2</a>

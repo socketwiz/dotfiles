@@ -1,0 +1,6 @@
+# key: ol
+# name: ol
+# --
+<ol>
+  <li>$1</li>$0
+</ol>
