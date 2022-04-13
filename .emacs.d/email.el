@@ -67,6 +67,10 @@
 
 ;; Display options
 (setq mu4e-view-show-images t)
+;; use imagemagick, if available
+(when (fboundp 'imagemagick-register-types)
+  (imagemagick-register-types))
+(setq mu4e-view-prefer-html t)
 (setq mu4e-view-show-addresses 't)
 
 ;; Use mu4e for sending e-mail
