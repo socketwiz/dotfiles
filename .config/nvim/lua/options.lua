@@ -3,8 +3,11 @@ local set = vim.opt  -- set options
 local let = vim.g    -- let options
 
 set.autoindent = true
-set.backspace= "indent,eol,start"   -- Allow backspacing over indents, end of lines and start of an insert
+set.backspace= 'indent,eol,start'   -- Allow backspacing over indents, end of lines and start of an insert
+set.clipboard = 'unnamedplus'       -- Provide clipboard support
 set.cursorline = true               -- Display a line below the line the cursor is on
+-- Store swap files in fixed location, not current directory.
+set.dir='~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,.'
 set.encoding = "utf-8"
 set.expandtab = true                -- Use spaces instead of tabs
 set.hidden = true                   -- Enable background buffers
@@ -24,24 +27,18 @@ set.smartcase = true                -- Do not ignore case with capitals
 set.tabstop = 2                     -- Number of spaces tabs count for
 set.termguicolors = true            -- True color support
 set.timeoutlen = 200                -- Time before which key appears
-set.visualbell = true               -- Turn the beep into a visual representation rather than a sound
-
-let.mapleader = " "
-let.mapleaderlocal = " "
-
-set.undofile = true
-
--- Store swap files in fixed location, not current directory.
-set.dir='~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,.'
 -- Store undo files in fixed location, not current directory.
 set.undodir='~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.'
+set.undofile = true                 -- Enable undo support
+set.visualbell = true               -- Turn the beep into a visual representation rather than a sound
 
+let.mapleader = " "                 -- Change leader key to <Space>
+let.mapleaderlocal = " "            -- Change leader key to <Space>
 -- Theme
-let.tokyonight_style = "night"
-let.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-
 -- Change the "hint" color to the "orange" color, and make the "error" color bright red
 let.tokyonight_colors = { hint = "orange", error = "#ff0000" }
+let.tokyonight_style = "night"      -- Theme
+let.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
 
 -- Load the colorscheme
 vim.cmd[[colorscheme tokyonight]]
@@ -150,6 +147,18 @@ require('nvim-tree').setup {
   },
 }
 
-require("which-key").setup {
+-- Rust tools
+local extension_path = '~/.vscode/extensions/vadimcn.vscode-lldb-1.6.10'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
+local opts = {
+    -- ... other configs
+    dap = {
+        adapter = require('rust-tools.dap').get_codelldb_adapter(
+            codelldb_path, liblldb_path)
+    }
 }
+
+require('rust-tools').setup(opts)
 

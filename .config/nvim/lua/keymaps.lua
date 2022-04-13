@@ -25,32 +25,38 @@ map { 'n', '<Left>', '<Nop>' }
 map { 'n', '<Right>', '<Nop>' }
 -- Clear the search highlighting
 map { 'n', '<leader><space>', ':noh<cr>' }
--- Copy/paste to the clipboard
---map { 'n', 'y', '"+y' }
---map { 'n', 'p', '"+p' }
--- Format a json file with `jq`
-map { 'n', '<leader>j', ':%!jq .<cr>' }
-
--- Telescope
-map { 'n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>' }
-map { 'n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>' }
-map { 'n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>' }
-map { 'n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>' }
-
--- LSP
-map { 'n',  '<space>e', '<cmd>lua vim.diagnostic.open_float()<cr>' }
-map { 'n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>' }
-map { 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>' }
-map { 'n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<cr>' }
 
 -- Nvim tree
-map { 'n', '<C-n>', '<cmd>NvimTreeToggle<cr>' }
-map { 'n', '<leader>r', '<cmd>NvimTreeRefresh<cr>' }
 map { 'n', '<C-x><C-j>', '<cmd>NvimTreeFindFile<cr>' }
 
 -- Which key
 local wk = require("which-key")
 local wk_mappings = {
+  c = { ':e ~/.config/nvim/init.lua<cr>', 'Edit config' },
+  f = {
+    name = 'Telescope',
+    b = { '<cmd>lua require("telescope.builtin").buffers()<cr>', 'Buffer list' },
+    f = { '<cmd>lua require("telescope.builtin").find_files()<cr>', 'Find file' },
+    g = { '<cmd>lua require("telescope.builtin").live_grep()<cr>', 'Ripgrep' },
+    h = { '<cmd>lua require("telescope.builtin").help_tags()<cr>', 'Help' }
+  },
+  j = { ':%!jq .<cr>', 'Format a JSON file' },
+  l = {
+    name = 'LSP',
+    l = { '<cmd>lua vim.diagnostic.setloclist()<cr>', 'Open diagnostic location list' },
+    n = { '<cmd>lua vim.diagnostic.goto_prev()<cr>', 'Next diagnostic' },
+    p = { '<cmd>lua vim.diagnostic.goto_next()<cr>', 'Previous diagnostic' },
+    w = { '<cmd>lua vim.diagnostic.open_float()<cr>', 'Open floating diagnostic window' }
+  },
+  t = {
+    name = 'Nvim tree',
+    r = { '<cmd>NvimTreeRefresh<cr>', 'Refresh tree' },
+    t = { '<cmd>NvimTreeToggle<cr>', 'Toggle tree' }
+  },
+  u = {
+    name = 'Utilities',
+    r = { ':set invrelativenumber<cr>', 'Toggle relative line numbers' }
+  },
   q = { ':q<cr>', 'Quit' }
 }
 local wk_opts = {

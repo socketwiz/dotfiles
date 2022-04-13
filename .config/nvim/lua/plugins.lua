@@ -54,6 +54,14 @@ return require('packer').startup(function()
     -- tag = 'release' -- To use the latest release
   }
 
+  use {
+    'simrat39/rust-tools.nvim',
+    requires = {
+      'mfussenegger/nvim-dap',
+      'nvim-lua/plenary.nvim'
+    }
+  }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
