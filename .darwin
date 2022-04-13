@@ -22,7 +22,7 @@ spot() {
     sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//";
 }
 
-[ -x "$HOME/.work" ] && source "$HOME/.work"
+[ -f "$HOME/.work" ] && source "$HOME/.work"
 
 # shellcheck source=/dev/null
 . ~/.fzf.zsh

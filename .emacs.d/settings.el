@@ -28,8 +28,6 @@
 
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
-(defvar config-enable-cider-mode nil
-  "Whether or not to enable \"cider-mode\".")
 (defvar config-enable-command-log-mode nil
   "Whether or not to enable \"command-log-mode\".")
 (defvar config-enable-elpy-mode t
@@ -797,12 +795,6 @@
 (use-package rustic
   :if config-enable-rust-mode
   :after (rust-mode))
-
-
-;; * Language Clojure
-(use-package cider
-  :if config-enable-cider-mode
-  :hook (clojure-mode . enable-paredit-mode))
 
 
 ;; * Language Python
