@@ -57,19 +57,15 @@ zle -N down-line-or-beginning-search
 [ -f ~/bin/agent ] && source ~/bin/agent
 
 # aliases
+function ec() { emacsclient -c -nw "$@"; }
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
-function find-commits() {
-  find . -type d -name '.git' | while read -r dir ;
-    do sh -c "cd $dir/../ && echo \"\nGIT STATUS IN ${dir//\.git/}\" && git status -s" ;
-  done
-}
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
-alias docker='sudo docker'
-alias docker-compose='sudo docker-compose'
+alias sdocker='sudo docker'
+alias sdocker-compose='sudo docker-compose'
 alias dcdestroy='docker-compose stop && sudo docker-compose rm -f'
 alias dclogs='docker-compose logs -f'
 alias dcps='docker-compose ps'
@@ -121,5 +117,3 @@ function tm() {
         tmux attach -t "$sel"
     fi
 }
-
-export PATH="${HOME}/.nvm/versions/node/v14.15.0/bin:$PATH"
