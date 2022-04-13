@@ -78,6 +78,12 @@
      "flag:unread maildir:/larksoftware/inbox "
      "OR "
      "flag:unread maildir:/zolmok/inbox"))
+  (setq mu4e-bookmarks
+        '((:name "Unread messages" :query "flag:unread maildir:/hackerzol430/inbox OR flag:unread maildir:/socketwiz/inbox OR flag:unread maildir:/larksoftware/inbox OR flag:unread maildir:/zolmok/inbox" :key 117)
+        (:name "Today's messages" :query "date:today..now" :key 116)
+        (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
+        (:name "Messages with images" :query "mime:image/*" :key 112)))
+
   (mu4e-alert-enable-mode-line-display))
 
 (setq mu4e-contexts
