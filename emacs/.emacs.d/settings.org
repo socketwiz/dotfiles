@@ -237,6 +237,13 @@
       (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
       (add-to-list 'recentf-exclude (expand-file-name (concat user-emacs-directory ".cache/")))
       (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list)))))
+
+  ;; ensure environment variables inside Emacs look the same as in the user's shell
+  (use-package exec-path-from-shell
+    :defer t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
   #+END_SRC
 
 
