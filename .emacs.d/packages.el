@@ -64,10 +64,10 @@
 ;; Theme
 (use-package doom-themes
   :config
-  (load-theme 'doom-acario-dark t)
+  (load-theme 'doom-vibrant t)
   ;; This theme makes the selections too dark, lighten them up
-  (set-face-background 'hl-line "#1F2324")
-  (set-face-background 'region "#585F61")
+  ;;(set-face-background 'hl-line "#1F2324")
+  ;;(set-face-background 'region "#585F61")
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
