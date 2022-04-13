@@ -144,4 +144,3 @@ for_window [class="kruler"] floating enable
 
 exec --no-startup-id "xrandr --output DP-2 --pos 0x0 --output DP-4 --pos 2560x0 --right-of DP-2 --output DP-0 --pos 5120x0 --right-of DP-4"
 exec --no-startup-id ~/.fehbg
-
