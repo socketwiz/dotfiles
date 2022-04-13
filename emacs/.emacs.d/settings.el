@@ -18,7 +18,7 @@
 
 (defvar config-font-family "Fira Code"
   "Font to use in each buffer.")
-(defvar config-font-height 160
+(defvar config-font-height 180
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
 (defvar config-indent-web-mode-spaces 2
@@ -40,6 +40,8 @@
   "Whether or not to enable web, js, css.")
 (defvar config-enable-c-mode nil
   "Whether or not to enable c, c++.")
+(defvar config-enable-undo-tree t
+  "Whether or not to enable undo-tree.")
 
 ;; Number of bytes of consing between garbage collections.
 (setq gc-cons-threshold most-positive-fixnum)
@@ -216,6 +218,7 @@
 
 ;; Undo-tree
 (use-package undo-tree
+  :if config-enable-undo-tree
   :diminish 'undo-tree-mode
   :config
   (setq undo-tree-visualizer-timestamps t)
@@ -546,7 +549,8 @@
 
 (defun setup-typescript ()
   "Setup jump-to-definition when in tide-mode."
-  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
+  (when (featurep 'evil-mode)
+    (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
   (setup-javascript))
 
 ;; JavaScript editing mode
