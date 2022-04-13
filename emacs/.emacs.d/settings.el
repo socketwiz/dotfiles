@@ -423,8 +423,11 @@
 ;; Extensible vi layer for emacs
 (use-package evil
   :config
+  ;; Put vim bindings everywhere
   (evil-mode)
+  ;; Except in these modes where I just want emacs proper
   (evil-set-initial-state 'debugger-mode 'emacs)
+  (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'emacs-lisp-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
@@ -433,24 +436,24 @@
 
 ;; * Language javascript
 (defun configure-web-mode-flycheck-checkers ()
-    (flycheck-mode)
+  (flycheck-mode)
 
-    ;; See if there is a node_modules directory
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (or (and root
-                            ;; Try the locally installed eslint
-                            (expand-file-name "node_modules/eslint/bin/eslint.js" root))
+  ;; See if there is a node_modules directory
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (or (and root
+                          ;; Try the locally installed eslint
+                          (expand-file-name "node_modules/eslint/bin/eslint.js" root))
 
-                       ;; Try the global installed eslint
-                       (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
+                     ;; Try the global installed eslint
+                     (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
 
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint)))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint)))
 
-    (if (boundp 'eslint)
-        (flycheck-select-checker 'javascript-eslint)))
+  (if (boundp 'eslint)
+      (flycheck-select-checker 'javascript-eslint)))
 
 (defun setup-javascript ()
   (tide-setup)
