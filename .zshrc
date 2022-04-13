@@ -51,7 +51,7 @@ zle -N down-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" down-line-or-beginning-search
 
 # ssh
-source ~/bin/agent
+[ -f ~/bin/agent ] && source ~/bin/agent
 
 # aliases
 alias ed='emacs --daemon'
@@ -84,8 +84,9 @@ alias glog='git log --oneline --decorate --graph'
 alias gst='git status'
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-# cat
+# cli replacements
 alias cat='${HOME}/.cargo/bin/bat'
+alias ls='${HOME}/.cargo/bin/exa'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -119,4 +120,3 @@ function tm() {
 }
 
 export PATH="/usr/local/opt/node@12/bin:$PATH"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
