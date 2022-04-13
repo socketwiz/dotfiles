@@ -9,6 +9,8 @@
 ;; Mu4e
 ;; Need to install mu4e OS package
 ;; e.g. `sudo apt-get install mu4e isync`
+;; mkdir ~/mail
+;; mkdir ~/mail/<each-mailbox-defined-in-.mbsyncrc>
 ;; Initialize mu
 ;; mu init --maildir=~/mail/ --my-address=<email1> --my-address=<email2> --my-address=<emailN>
 ;; mu index

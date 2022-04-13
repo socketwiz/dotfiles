@@ -6,6 +6,25 @@
 ;; Settings the JavaScript/TypeScript, HTML, and CSS languages for frontend development
 
 ;;; Code:
+;; To enable the eglot backend:
+;; npm install -g typescript-language-server typescript
+;; jsconfig.json
+;; {
+;;  "compilerOptions": {
+;;    "target": "es2017",
+;;    "allowSyntheticDefaultImports": true,
+;;    "noEmit": true,
+;;    "checkJs": true,
+;;    "jsx": "react",
+;;    "lib": [ "dom", "es2017" ]
+;;  }
+;; }
+;;
+;; tsconfig.json
+;; {
+;;  "indentSize": 2,
+;;  "tabSize": 2
+;; }
 (defun configure-flymake-checker ()
   "Configure flymake for JavaScript."
 
@@ -29,8 +48,6 @@
 
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
-  ;; To enable the eglot backend:
-  ;; npm install -g typescript-language-server typescript
   (add-to-list 'eglot-stay-out-of 'flymake)
   (eglot-ensure)
   (configure-flymake-checker)
