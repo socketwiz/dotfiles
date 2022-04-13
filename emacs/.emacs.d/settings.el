@@ -28,7 +28,7 @@
 
 (defvar project-root "~/"
   "Directory where coding projects are kept.")
-(defvar project-dir
+(defvar current-project
   "Project directory defined by whether or not it contains a .git directory.")
 
 (defvar config-enable-c-mode nil
@@ -462,26 +462,34 @@ Signature (directory-files \"DIRECTORY\" &optional \"FULL\" \"MATCH\" \"NOSORT\"
   (ido-mode t))
 
 
-(use-package cl)
-(declare-function remove-if "cl.el")
-
 ;; Project management
+
+;; Projectile is an amazing project but I found that I was only
+;; really using 2 functions, open project, and find file in project so I've
+;; written my own functions for those two items and trimmed that library
+;; from my system
 (use-package project
   :config
+  (defun socketwiz/find-project-file ()
+    "Locate files within the current project."
+    (interactive)
+    (find-file (ido-completing-read "Find project file: "
+                                    (seq-remove 'socketwiz/filter-unwanted (directory-files-recursively current-project "")))))
+
   (defun socketwiz/find-project-dir ()
     "Locate project directories."
     (interactive)
-
-    (setq project-dir project-root)
-    (while (not (file-directory-p (concat project-dir "/.git")))
-      (let* ((project-list (socketwiz/directory-files project-dir))
+    (setq current-project project-root)
+    (while (not (file-directory-p (concat current-project "/.git")))
+      (let* ((project-list (socketwiz/directory-files current-project))
              (projects (mapc 'directory-file-name project-list)))
-        (setq project-dir (concat project-dir "/"
+        (setq current-project (concat current-project "/"
                                   (ido-completing-read "Find project: " projects nil t)))))
-    (find-file (ido-completing-read "Find project file: "
-                                    (remove-if 'socketwiz/filter-unwanted (directory-files-recursively project-dir "")))))
+    (socketwiz/find-project-file))
 
-  :bind ("C-c p p" . socketwiz/find-project-dir))
+  :bind
+  ("C-c p f" . socketwiz/find-project-file)
+  ("C-c p p" . socketwiz/find-project-dir))
 
 
 ;; ripgrep
