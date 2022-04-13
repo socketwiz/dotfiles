@@ -1,6 +1,6 @@
 # key: describe
 # name: describe
 # --
-describe('$1', function $2() {
+describe('$1', ($2) => {
   $0
 });
