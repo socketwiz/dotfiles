@@ -13,9 +13,10 @@ alert = 10.0
 
 [[block]]
 block = "memory"
+clickable = false
+icons = false
 display_type = "memory"
-format_mem = "{mem_used_percents}"
-format_swap = "{swap_used_percents}"
+format_mem = "\uf0a0{mem_used_percents}"
 
 [[block]]
 block = "cpu"
@@ -33,6 +34,7 @@ block = "sound"
 block = "custom"
 interval = 10
 command = "echo '\uf1eb' `ip -br addr show dev eno1 | awk '{ print $3}'`"
+#command = "echo '\uf1eb' `ip -br addr show dev enxf8e43b5820f0 | awk '{ print $3}'`"
 
 [[block]]
 block = "time"
