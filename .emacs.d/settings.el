@@ -703,6 +703,8 @@
 ;; * Language Python
 (use-package elpy
   :if config-enable-elpy-mode
+  :config
+  (setq elpy-rpc-python-command "python3")
   :init
   (elpy-enable))
 
