@@ -120,6 +120,7 @@
 ;; * Core keybindings
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'counsel-recentf)
@@ -330,7 +331,7 @@
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
           ;; To create a new file when a similar name is being fuzzy
-          ;; matched <M-r> (ivy-toggle-regexp-quote)
+          ;; matched <C-M j> instead of RET (ivy-immediate-done)
           ;; to temporarily turn off fuzzy matching
           (t . ivy--regex-fuzzy))))
 
@@ -429,10 +430,14 @@
   (evil-set-initial-state 'diff-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'emacs-lisp-mode 'emacs)
+  (evil-set-initial-state 'fundamental-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
+  (evil-set-initial-state 'rustic-popup-mode 'emacs)
+  (evil-set-initial-state 'rustic-cargo-outdated-mode 'emacs)
+  (evil-set-initial-state 'markdown-view-mode 'emacs)
   ;; For some reason python mode is starting in emacs state, set it to normal
   (evil-set-initial-state 'python-mode 'normal))
 
