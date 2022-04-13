@@ -77,13 +77,14 @@
      "OR "
      "flag:unread maildir:/larksoftware/inbox "
      "OR "
-     "flag:unread maildir:/zolmok/inbox"))
+     "flag:unread maildir:/zolmok/inbox "
+     "OR "
+     "flag:unread maildir:/picnic/inbox"))
   (setq mu4e-bookmarks
         '((:name "Unread messages" :query "flag:unread maildir:/hackerzol430/inbox OR flag:unread maildir:/socketwiz/inbox OR flag:unread maildir:/larksoftware/inbox OR flag:unread maildir:/zolmok/inbox" :key 117)
         (:name "Today's messages" :query "date:today..now" :key 116)
         (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
         (:name "Messages with images" :query "mime:image/*" :key 112)))
-
   (mu4e-alert-enable-mode-line-display))
 
 (setq mu4e-contexts
@@ -142,6 +143,20 @@
                     (mu4e-drafts-folder . "/zolmok/Drafts")
                     (mu4e-refile-folder . "/zolmok/Archive")
                     (smtpmail-smtp-user "info@larksoftware.com")
+                    ))
+          ,(make-mu4e-context
+            :name "picnic"
+            :match-func (lambda (msg) (when msg
+                                        (mu4e-message-contact-field-matches
+                                         msg :to "ricky.nelson@picnicscore.com")))
+            :vars '(
+                    (user-full-name . "Ricky Nelson")
+                    (user-mail-address . "ricky.nelson@picnicscore.com")
+                    (mu4e-sent-folder . "/picnic/\[Gmail\]/Sent Mail")
+                    (mu4e-trash-folder . "/picnic/\[Gmail\]/Trash")
+                    (mu4e-drafts-folder . "/picnic/\[Gmail\]/Drafts")
+                    (mu4e-refile-folder . "/picnic/archive")
+                    (smtpmail-smtp-user "ricky.nelson@picnicscore.com")
                     ))
           ))
 
