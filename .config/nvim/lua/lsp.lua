@@ -16,6 +16,9 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
+-- Dependencies:
+-- npm install -g neovim
+-- pip install neovim
 local servers = {
   'bashls',        -- npm i -g bash-language-server
   'cssls',         -- npm i -g vscode-langservers-extracted
@@ -124,6 +127,7 @@ dap.adapters.node2 = {
   type = 'executable',
   command = 'node',
   args = { '/usr/local/src/vscode-node-debug2/out/src/nodeDebug.js' },
+  name = 'node2'
 }
 dap.adapters.lldb = {
   type = 'executable',
