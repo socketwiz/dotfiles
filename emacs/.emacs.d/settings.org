@@ -286,9 +286,9 @@
       (setq evil-motion-state-cursor '("plum3" box))
       (setq evil-emacs-state-cursor  '("SkyBlue2" box))
 
-      ;; disable this key sequence so we can use it in ivy
+      ;; disable these keys for use in other modes
       (define-key evil-normal-state-map (kbd "C-n") nil)
-      ;; disable this key sequence so we can use it in tide
+      (define-key evil-motion-state-map (kbd "C-o") nil)
       (define-key evil-normal-state-map (kbd "M-.") nil)
 
       ;; disable evil for these modes
@@ -570,7 +570,6 @@
         :init
         (add-hook 'rust-mode-hook #'flycheck-mode)
         :ensure t)
-    (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
     :ensure t)
 
