@@ -422,7 +422,13 @@
 
 ;; Extensible vi layer for emacs
 (use-package evil
-  :hook (prog-mode . evil-normal-state))
+  :config
+  (evil-mode)
+  (evil-set-initial-state 'debugger-mode 'emacs)
+  (evil-set-initial-state 'emacs-lisp-mode 'emacs)
+  (evil-set-initial-state 'helpful-mode 'emacs)
+  (evil-set-initial-state 'Info-mode 'emacs)
+  (evil-set-initial-state 'org-mode 'emacs))
 
 
 ;; * Language javascript

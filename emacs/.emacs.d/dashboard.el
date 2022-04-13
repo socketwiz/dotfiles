@@ -18,35 +18,12 @@
     map)
   "Keymap for dashboard buffer.")
 
-(defconst fancy-startup-text
-  `((:face (variable-pitch font-lock-comment-face)
-           "Welcome to "
-           :link ("GNU Emacs",
-                  (lambda (_button) (browse-url "https://www.gnu.org/software/emacs/"))
-                  "Browse https://www.gnu.org/software/emacs/")
-           ", one component of the "
-           :link,
-           (lambda ()
-             (if (eq system-type 'gnu/linux)
-                 `("GNU/Linux",
-                   (lambda (_button) (browse-url "https://www.gnu.org/gnu/linux-and-gnu.html"))
-                   "Browse https://www.gnu.org/gnu/linux-and-gnu.html")
-               `("GNU", (lambda (_button)
-                          (browse-url "https://www.gnu.org/gnu/thegnuproject.html"))
-                 "Browse https://www.gnu.org/gnu/thegnuproject.html")))
-           " operating system.\n\n")))
-
 (defun load-dashboard ()
   "Display a custom dashboard on startup"
   (let ((dashboard-buffer (get-buffer-create "*dashboard*")))
     (with-current-buffer dashboard-buffer
       (let ((inhibit-read-only t))
         (erase-buffer)
-
-        (fancy-splash-head)
-        (dolist (text fancy-startup-text)
-          (apply #'fancy-splash-insert text)
-          (insert "\n"))
 
         (fancy-splash-insert
          :face 'variable-pitch "Recent Files:"
@@ -78,7 +55,6 @@
       (evil-emacs-state))))
 
 (defun dashboard ()
-  (add-hook 'recentf-mode-hook 'load-dashboard)
-  (add-hook 'evil-normal-state-entry-hook 'load-state))
+  (add-hook 'recentf-mode-hook 'load-dashboard))
 
-(provide'dashboard)
+(provide 'dashboard)
