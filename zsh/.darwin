@@ -41,3 +41,4 @@ export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 # Homebrew paths
 BREW_PATHS="/usr/local/bin:/usr/local/sbin"
 export PATH=${BREW_PATHS}:${PATH}
+
