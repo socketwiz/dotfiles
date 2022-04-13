@@ -402,13 +402,6 @@
 * Language javascript
 #+BEGIN_SRC emacs-lisp
 (defun configure-web-mode-flycheck-checkers ()
-  ;; In order to have flycheck enabled in web-mode, add an entry to this
-  ;; cond that matches the web-mode engine/content-type/etc and returns the
-  ;; appropriate checker.
-  (-when-let (checker (cond
-                       ((string= web-mode-content-type "jsx")
-                        'javascript-eslint)))
-
     (flycheck-mode)
 
     ;; See if there is a node_modules directory
@@ -425,43 +418,49 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint)))
 
-    (flycheck-select-checker checker)))
+    (flycheck-select-checker 'javascript-eslint))
 
 (defun setup-javascript ()
-  (interactive)
+  (tide-setup)
   (configure-web-mode-flycheck-checkers)
   (yas-minor-mode)
-  (tide-setup)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1))
 
-;; Use eslint with web-mode for js[x]? files
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-(flycheck-add-mode 'typescript-tslint 'web-mode)
+(defun setup-js2 ()
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (setup-javascript))
 
-(add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
+(defun setup-typescript ()
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (setup-javascript))
 
-(add-hook 'web-mode-hook (lambda ()
-                           (when (string-match-p "js[x]?" (file-name-extension buffer-file-name))
-                             (setup-javascript))))
+;; TypeScript Interactive Development Environment
+(use-package tide
+  :config
+  :hook (typescript-mode . setup-typescript))
 
-;; SASS
-(use-package scss-mode
-  :defer t)
+;; JavaScript editing mode
+(use-package js2-mode
+  :mode ("\\.js\\'" . js2-mode)
+  :config
+  :hook (js2-mode . setup-js2))
+#+END_SRC
+
+* Language HTML, css
+#+BEGIN_SRC emacs-lisp
+(defun setup-template ()
+  (interactive)
+  (yas-minor-mode))
+
+(add-hook 'web-mode-hook 'setup-template)
 
 ;; Major mode for editing web templates
 (use-package web-mode
   :defer t
   :mode (("\\.html?\\'" . web-mode)
-         ("\\.js[x]?\\'" . web-mode)
          ("\\.css\\'" . web-mode))
   :config
-  (defadvice web-mode-highlight-part (around tweak-jsx activate)
-    (if (equal web-mode-content-type "jsx")
-        (let ((web-mode-enable-part-face nil))
-          ad-do-it)
-      ad-do-it))
-
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
     (if (equal web-mode-content-type "js")
         (let ((web-mode-enable-part-face nil))
@@ -475,8 +474,7 @@
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
   :init
   (setq web-mode-content-types-alist
-        '(("jsx" . "\\.js[x]?\\'")
-          ("javascript" . "\\.es6?\\'")))
+        '(("js" . "\\.js\\'")))
 
   (setq-default indent-tabs-mode nil)
   ;; Disable auto-quoting
@@ -490,8 +488,10 @@
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-enable-css-colorization t))
 
-;; TypeScript Interactive Development Environment
-(use-package tide)
+;; SASS
+(use-package scss-mode
+  :defer t)
+
 #+END_SRC
 
 * Language markdown
