@@ -13,21 +13,23 @@ Plug 'editorconfig/editorconfig-vim'        " honor editorconfig properties
 Plug 'elzr/vim-json'                        " json syntax highlighter
 Plug 'godlygeek/tabular'                    " auto-align text
 Plug 'HerringtonDarkholme/yats.vim'         " typescript syntax highlighter
-Plug 'kien/ctrlp.vim'                       " fuzzy file finder
-Plug 'mattn/webapi-vim'                     " dependency for rust.vim
 Plug 'mxw/vim-jsx'                          " jsx syntax highlighter
+Plug 'neovim/nvim-lspconfig'                " language server interface
+Plug 'nvim-lua/plenary.nvim'                " lua functions for telescope
+Plug 'nvim-telescope/telescope.nvim'        " fuzzy finder
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " parse generator (syntax tree for souce files)
 Plug 'pangloss/vim-javascript'              " javascript syntax highlighter
 Plug 'plasticboy/vim-markdown'              " markdown syntax highlighter
 Plug 'ryanoasis/vim-devicons'               " filetype glyphs for popular addons,
                                             " nerdtree, vim-airline, ctrlp, etc...
-Plug 'rust-lang/rust.vim'                   " rust support
 Plug 'scrooloose/nerdtree'                  " file system explorer
 Plug 'scrooloose/syntastic'                 " syntax checker
 Plug 'tomtom/tcomment_vim'                  " commenter
 Plug 'tpope/vim-fugitive'                   " git wrapper
 Plug 'tpope/vim-surround'                   " quote, paranthesis wrapper
 Plug 'vim-airline/vim-airline'              " customized status line
-Plug 'vim-airline/vim-airline-themes'       " ^ status line themes
+Plug 'vim-airline/vim-airline-themes',      " ^ status line themes
+Plug 'williamboman/nvim-lsp-installer'      " lsp installer
 call plug#end()
 
 
@@ -157,26 +159,6 @@ set diffopt=vertical
 " END Fugitive
 
 
-" CtrlP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
-set wildignore+=*.pyc
-let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-let g:ctrlp_custom_ignore = 'node_modules$\|bower_components$\|public/lib$\|build$\|third-party$'
-" 0) don't manage working directory
-" c) the directory of the current file
-" r) the nearest ancestor that contains one of these directories or files:
-" w) begin finding a root from the current working directory outside of CtrlP
-" .git/ .hg/ .svn/ .bzr/ _darcs/
-let g:ctrlp_working_path_mode = 'c'
-" increase the height of the match window
-let g:ctrlp_max_height = 30
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-let g:ctrlp_use_caching = 0
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END CtrlP
-
-
 " vim-jsx
 " use git grep to search
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
@@ -245,9 +227,13 @@ let g:webdevicons_enable_ctrlp = 1
 " END vim-devicons
 
 
-" rust.vim
-" use git grep to search
-let g:rustfmt_autosave = 1 " automatically run rustfmt when buffer is saved
+" telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" END rust.vim
+" END telescope
+
+lua require('config')
 
