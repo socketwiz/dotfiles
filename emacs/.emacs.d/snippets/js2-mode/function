@@ -1,0 +1,6 @@
+# key: function
+# name: function
+# --
+function $1($2) {
+    $0
+}
