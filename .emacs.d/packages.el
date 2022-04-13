@@ -76,6 +76,13 @@
   (doom-themes-enable-bold nil)
   (doom-themes-enable-italic nil))
 
+;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
+;; https://github.com/emacs-jp/replace-colorthemes
+(use-package all-the-icons)
+(use-package all-the-icons-dired
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
 ;; dired (directory editor)
 (use-package dired
   :ensure nil ;; needed for some built-in packages

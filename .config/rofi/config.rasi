@@ -1,0 +1,9 @@
+configuration {
+  modi: "window,run,ssh,combi";
+  font: "fira code 16";
+  show-icons: true;
+  icon-theme: "Papirus";
+  combi-modi: "drun,ssh";
+  matching: "fuzzy";
+  theme: "Arc-Dark";
+}
