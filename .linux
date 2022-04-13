@@ -35,3 +35,6 @@ export PATH="$HOME/flutter/bin:$PATH"
 export DENO_INSTALL="${HOME}/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+# .local/bin
+export PATH="$PATH:${HOME}/.local/bin"
+
