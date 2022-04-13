@@ -5,7 +5,7 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
   use 'neovim/nvim-lspconfig' -- Collection of configurations for the built-in LSP client
 
-  -- parse generator (syntax tree for souce files)
+  -- Parse generator (syntax tree for souce files)
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
@@ -22,6 +22,7 @@ return require('packer').startup(function()
     }
   }
 
+  -- File explorer
   use {
     'kyazdani42/nvim-tree.lua',
     requires = {
@@ -36,30 +37,22 @@ return require('packer').startup(function()
   use 'folke/which-key.nvim' -- Show which hotkeys are available for use
 
   use {
-    "hrsh7th/nvim-cmp",
+    'hrsh7th/nvim-cmp',
     requires = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp",
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-emoji'
     }
   }
 
+  -- Git decorations in the gutter
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
       'nvim-lua/plenary.nvim'
     },
-    -- tag = 'release' -- To use the latest release
-  }
-
-  use {
-    'simrat39/rust-tools.nvim',
-    requires = {
-      'mfussenegger/nvim-dap',
-      'nvim-lua/plenary.nvim'
-    }
   }
 
   -- Automatically set up your configuration after cloning packer.nvim
