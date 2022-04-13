@@ -4,7 +4,7 @@
 "
 
 " Load Plug and plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/')
 Plug 'airblade/vim-gitgutter'               " updates gutter with hunk locations
 Plug 'cohama/lexima.vim'                    " auto-pairing
 Plug 'dracula/vim', { 'as': 'dracula' }     " dark theme
@@ -70,6 +70,7 @@ autocmd filetype python setlocal shiftwidth=4 softtabstop=2
 autocmd filetype ruby setlocal shiftwidth=2 softtabstop=2
 autocmd filetype css setlocal shiftwidth=4 softtabstop=4
 autocmd filetype javascript setlocal shiftwidth=2 softtabstop=2
+autocmd filetype json setlocal shiftwidth=2 softtabstop=2
 set expandtab
 
 set encoding=utf-8
@@ -235,5 +236,5 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END telescope
 
-lua require('config')
+"lua require('config')
 
