@@ -1,0 +1,622 @@
+
+* Package init
+  #+BEGIN_SRC emacs-lisp
+  (package-initialize)
+
+  (setq use-package-always-ensure t)
+  (setq gc-cons-threshold most-positive-fixnum)
+  #+END_SRC
+
+* Core
+  #+BEGIN_SRC emacs-lisp
+  (use-package diminish)
+
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  #+END_SRC
+
+* Core config
+  #+BEGIN_SRC emacs-lisp
+  (defvar config-scratch-mode 'text-mode)
+
+  (defvar config-which-key-delay 0.4)
+
+  (defvar config-keep-backups t)
+
+  ;; font settings
+  ;; font-height is 1/10pt so 160 == 160/10 == 16pt
+  (defvar config-font-family "Source Code Pro")
+  (defvar config-font-height 160)
+  #+END_SRC
+
+* Core keybindings
+  #+BEGIN_SRC emacs-lisp
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+         (next-win-buffer (window-buffer (next-window)))
+         (this-win-edges (window-edges (selected-window)))
+         (next-win-edges (window-edges (next-window)))
+         (this-win-2nd (not (and (<= (car this-win-edges)
+                     (car next-win-edges))
+                     (<= (cadr this-win-edges)
+                     (cadr next-win-edges)))))
+         (splitter
+          (if (= (car this-win-edges)
+             (car (window-edges (next-window))))
+          'split-window-horizontally
+        'split-window-vertically)))
+    (delete-other-windows)
+    (let ((first-win (selected-window)))
+      (funcall splitter)
+      (if this-win-2nd (other-window 1))
+      (set-window-buffer (selected-window) this-win-buffer)
+      (set-window-buffer (next-window) next-win-buffer)
+      (select-window first-win)
+      (if this-win-2nd (other-window 1))))))
+
+  (global-set-key (kbd "<f5>") #'revert-buffer)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
+  (global-set-key (kbd "C-c C-.") #'helpful-at-point)
+  (global-set-key (kbd "C-c r") #'helm-recentf)
+  (global-set-key (kbd "C-c t") #'switch-theme)
+  (global-set-key (kbd "C-h b") #'describe-bindings)
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-x |") #'toggle-window-split)
+  (global-set-key (kbd "C-x C-b") #'ibuffer)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x g") #'magit-status)
+  (global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
+  (global-set-key (kbd "M-i") #'imenu)
+  (global-set-key (kbd "M-x") #'helm-M-x)
+
+  (use-package which-key
+    :defer t
+    :diminish which-key-mode)
+  (which-key-mode)
+  (setq which-key-idle-delay config-which-key-delay)
+  #+END_SRC
+
+* Core makeup
+  #+BEGIN_SRC emacs-lisp
+(defun switch-theme (theme)
+  "Switch between light and dark themes"
+  (interactive "sLight or dark theme? ")
+  (defadvice load-theme (before theme-dont-propagate activate)
+    (mapc #'disable-theme custom-enabled-themes))
+  (cond ((string= theme "light")
+         (disable-theme 'dracula)
+         (use-package apropospriate-theme
+           :ensure t)
+         (load-theme 'apropospriate-light t))
+
+        ((string= theme "dark")
+         (disable-theme 'apropospriate)
+         (use-package dracula-theme
+           :ensure t)
+         (load-theme 'dracula t))
+
+        (t (message "Choices are only light or dark"))))
+
+  ;; Set regex syntax to string for re-builder
+  (setq reb-re-syntax 'string)
+
+  ;; Hide column numbers
+  (setq column-number-mode t)
+
+  ;; Always hightlight current line
+  (global-hl-line-mode t)
+
+  ;; Y or n is enough for me
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; Draw underline lower
+  (setq x-underline-at-descent-line t)
+
+  ;; Hide ui elements
+  (setq inhibit-startup-message t)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (toggle-scroll-bar -1)
+
+  ;; Font
+  (set-face-attribute 'default nil
+                      :family config-font-family
+                      :height config-font-height)
+
+  ;; Rainbow mode - displays color codes in their color
+  (use-package rainbow-mode
+    :delight
+    :ensure t)
+
+  ;; Theme
+  ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
+  ;; https://github.com/emacs-jp/replace-colorthemes
+  (use-package all-the-icons
+    :ensure t)
+
+  ;; Window numbers
+  (use-package winum)
+  (winum-mode)
+  (setq winum-auto-setup-mode-line nil)
+
+  ;; Relative line numbers + centered mode FTW
+  (use-package linum-relative
+    :diminish 'linum-relative-mode
+    :init (setq linum-relative-current-symbol "")
+    :config (linum-relative-global-mode))
+
+  ;; parenthesis
+  (show-paren-mode 1)
+  (use-package highlight-parentheses
+    :diminish 'highlight-parentheses-mode
+    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
+
+  ;; Frequently accessed files (C-x r j <letter>)
+  (set-register ?i '(file . "~/.emacs.d/init.el"))
+  (set-register ?o '(file . "~/org/agenda/organizer.org"))
+  (set-register ?w '(file . "~/org/wiki/index.org"))
+
+  ;; Save ALL backup files to this location
+  (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+
+  ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
+  (setq scroll-conservatively 101)
+
+  ;; Automatically scroll the compilation buffer
+  (setq compilation-scroll-output t)
+  #+END_SRC
+
+
+* Base
+
+  #+BEGIN_SRC emacs-lisp
+(use-package exec-path-from-shell
+  :defer t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+  #+END_SRC
+
+* Base evil
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package evil-escape 
+    :diminish 'evil-escape-mode) 
+
+  (setq-default evil-escape-key-sequence "fd") 
+  (evil-escape-mode)
+
+  ;; esc should escape everything possible
+  (require 'evil) 
+  (define-key evil-normal-state-map [escape] 'keyboard-quit) 
+  (define-key evil-visual-state-map [escape] 'keyboard-quit) 
+  (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
+
+  (use-package evil
+    :init
+    ;; don't let modes override any states (!)
+    (setq evil-overriding-maps nil
+          evil-intercept-maps nil
+          evil-pending-intercept-maps nil
+          evil-pending-overriding-maps nil)
+    :config
+    (progn
+      (evil-mode 1)
+
+      (use-package evil-surround
+        :config (global-evil-surround-mode 1))
+
+      ;; evil-anzu for improving search result rendering
+      (use-package evil-anzu
+        :config (global-anzu-mode +1)
+        :diminish 'anzu-mode)
+
+      ;; set cursor color according to mode
+      (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+      (setq evil-insert-state-cursor '("chartreuse3"  box))
+      (setq evil-visual-state-cursor '("gray" box))
+      (setq evil-operator-state-cursor '("cyan" box))
+      (setq evil-replace-state-cursor '("chocolate" box))
+      (setq evil-motion-state-cursor '("plum3" box))
+      (setq evil-emacs-state-cursor  '("SkyBlue2" box))
+
+      ;; disable this key sequence so we can use it in ivy
+      (define-key evil-normal-state-map (kbd "C-n") nil)
+      ;; disable this key sequence so we can use it in tide
+      (define-key evil-normal-state-map (kbd "M-.") nil)
+
+      ;; disable evil for these modes
+      (cl-loop for (mode . state)
+            in '((bc-menu-mode . emacs)
+                 (calc-mode . emacs)
+                 (calculator-mode . emacs)
+                 (calendar-mode . emacs)
+                 (dired-mode . emacs)
+                 (git-rebase-mode . emacs)
+                 (grep-mode . emacs)
+                 (helm-grep-mode . emacs)
+                 (help-mode . emacs)
+                 (helpful-mode . emacs)
+                 (Info-mode . emacs)
+                 (magit-branch-manager-mode . emacs)
+                 (magit-popup-mode . emacs)
+                 (magit-refs-mode . emacs)
+                 (rdictcc-buffer-mode . emacs)
+                 (term-mode . emacs))
+            do (evil-set-initial-state mode state))
+
+      ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
+      (advice-add 'evil-make-overriding-map :override #'ignore)
+      (advice-add 'evil-make-intercept-map  :override #'ignore)
+      (advice-add 'evil-add-hjkl-bindings   :override #'ignore)))
+
+  #+END_SRC
+
+* Base projectile
+
+  #+BEGIN_SRC emacs-lisp
+  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+        projectile-known-projects-file (concat user-emacs-directory
+                                               ".cache/projectile-bookmarks.eld"))
+  (add-hook 'find-file-hook (lambda () 
+                              (unless recentf-mode (recentf-mode) 
+                                      (recentf-track-opened-file)))) 
+
+  (use-package pt
+    :ensure t)
+
+  (use-package projectile 
+    :after (pt)
+    :bind (("C-c p *" . projectile-pt))
+    :diminish 'projectile-mode) 
+
+  (use-package helm-projectile
+    :config
+    (progn
+      (setq projectile-completion-system 'helm)
+      (helm-projectile-on)))
+
+  (setq projectile-sort-order 'helm projectile-sort-order 'recentf
+        projectile-globally-ignored-directories (append '(".cache")))
+  (projectile-global-mode)
+
+  #+END_SRC
+
+* Base emacs
+
+  #+BEGIN_SRC emacs-lisp
+  (setq initial-major-mode config-scratch-mode) 
+
+  ;; init undo-tree
+  (use-package undo-tree 
+    :defer t 
+    :diminish 'undo-tree-mode) 
+  (setq undo-tree-visualizer-timestamps t) 
+  (setq undo-tree-visualizer-diff t)
+  (setq undo-tree-auto-save-history t)
+  ;; save all undo histories to this location
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  (defadvice undo-tree-make-history-save-file-name
+      (after undo-tree activate)
+    (setq ad-return-value (concat ad-return-value ".gz")))
+  (global-undo-tree-mode)
+
+  ;; init company mode
+  (use-package company 
+    :diminish 'company-mode
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
+
+  (use-package "eldoc"
+    :diminish eldoc-mode
+    :commands turn-on-eldoc-mode
+    :defer t)
+
+  ;; init flyspell
+  (use-package flyspell 
+    :config (add-hook 'prog-mode-hook 'flyspell-prog-mode) 
+    :diminish 'flyspell-mode) 
+  (use-package flyspell-popup 
+    :config (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)) 
+  (define-key popup-menu-keymap (kbd "C-j") 'popup-next) 
+  (define-key popup-menu-keymap (kbd "C-k") 'popup-previous) 
+  (define-key popup-menu-keymap (kbd "C-l") 'popup-select)
+
+  ;; init flycheck
+  (use-package flycheck
+    :diminish flycheck-mode
+    :ensure t)
+
+  ;; init yasnippet
+  (use-package yasnippet
+    :ensure t
+    :bind (("TAB" . yas-expand))
+    :config
+    (yas-reload-all))
+
+  ;;init highlight numbers for prog modes
+  (use-package highlight-numbers 
+    :defer t 
+    :init (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+
+  ;; keep backups
+  (setq make-backup-files config-keep-backups)
+
+  ;; Org mode
+  (use-package org
+    :ensure t
+    :config (progn
+              ;; org
+              (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+              (setq org-agenda-include-diary t)
+              (setq org-src-fontify-natively t)
+              (setq org-agenda-files (list "~/org/agenda"
+                                           "~/org/agenda/projects/"))
+              (setq org-default-notes-file "~/org/agenda/organizer.org")))
+
+  ;; Respect editor configs
+  (use-package editorconfig
+    :ensure t
+    :diminish editorconfig-mode
+    :config
+    (editorconfig-mode 1))
+
+  (use-package dockerfile-mode
+    :defer t)
+
+  (use-package helpful
+    :ensure t)
+
+  (use-package helm
+    :ensure t
+    :diminish helm-mode
+    :config
+    (progn
+      (require 'helm-config)
+      (helm-mode 1)))
+
+
+  (use-package atomic-chrome
+    :ensure t
+    :config (progn
+              (atomic-chrome-start-server)
+              (setq atomic-chrome-buffer-open-style 'frame)))
+
+  ;; add /usr/local/bin to the path
+  (setq exec-path (append exec-path '("/usr/local/bin")))
+
+  #+END_SRC
+* Base git
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :config
+    (setq magit-refresh-status-buffer nil)
+    :diminish 'auto-revert-mode
+    :defer t)
+
+  ;; Show diffs in the gutter
+  (use-package diff-hl
+    :ensure t
+    :config
+    (progn
+      (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+      (global-diff-hl-mode t)
+      (diff-hl-flydiff-mode t)))
+
+  #+END_SRC
+
+* Languages cpp
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package flycheck-irony
+    :ensure t)
+
+  (use-package irony-eldoc
+    :ensure t
+    :init
+    (add-hook 'irony-mode-hook #'irony-eldoc))
+
+  (use-package irony
+    :ensure t
+    :commands irony-mode ; need to install the server on first run (M-x irony-install-server)
+    :init
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (defun my-irony-mode-hook ()
+      (setq irony-additional-clang-options '("-std=c++14")))
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+  (use-package platformio-mode
+    :ensure t
+    :commands (platformio-conditionally-enable)
+    :mode (("\\.ino\\'" . c++-mode))
+    :init)
+
+  (defun platformio-hook ()
+    (platformio-conditionally-enable))
+
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+  (add-hook 'c++-mode-hook 'platformio-hook)
+  (add-hook 'irony-mode-hook
+            (lambda ()
+              (irony-cdb-autosetup-compile-options)))
+  (add-hook 'c++-mode-hook 'flycheck-mode)
+
+  #+END_SRC
+* Languages elisp
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :ensure t
+    :init
+    (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
+
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round)
+
+  #+END_SRC
+* Languages javascript
+
+  #+BEGIN_SRC emacs-lisp
+(defun configure-web-mode-flycheck-checkers ()
+  ;; in order to have flycheck enabled in web-mode, add an entry to this
+  ;; cond that matches the web-mode engine/content-type/etc and returns the
+  ;; appropriate checker.
+  (-when-let (checker (cond
+                       ((string= web-mode-content-type "jsx")
+                        'javascript-eslint)))
+    (flycheck-mode)
+    ;; use the locally installed eslint
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint)))
+
+    (flycheck-select-checker checker)))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+  (use-package scss-mode)
+  (use-package web-mode
+    :ensure t
+    :mode (("\\.html?\\'" . web-mode)
+           ("\\.js[x]?\\'" . web-mode)
+           ("\\.css\\'" . web-mode))
+    :config
+    (defadvice web-mode-highlight-part (around tweak-jsx activate)
+      (if (equal web-mode-content-type "jsx")
+          (let ((web-mode-enable-part-face nil))
+            ad-do-it)
+        ad-do-it))
+
+    (defadvice web-mode-highlight-part (around tweak-jsx activate)
+      (if (equal web-mode-content-type "js")
+          (let ((web-mode-enable-part-face nil))
+            ad-do-it)
+        ad-do-it))
+
+    ;; disable lining up the args
+    (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+    :init
+    (setq web-mode-content-types-alist
+          '(("jsx" . "\\.js[x]?\\'")
+            ("javascript" . "\\.es6?\\'")))
+
+    ;; disable auto-quoting
+    (setq web-mode-enable-auto-quoting nil)
+    ;; indent with 4 spaces
+    (setq-default indent-tabs-mode nil)
+    (setq web-mode-markup-indent-offset 4)
+    (setq web-mode-css-indent-offset 4)
+    (setq web-mode-code-indent-offset 4)
+    ;; automatically close tag
+    (setq web-mode-enable-auto-pairing t)
+    (setq web-mode-enable-css-colorization t)
+    ;; don't lineup element attributes
+    (setq web-mode-attr-indent-offset 4))
+
+  (use-package tide
+    :ensure t
+    :defer 1
+    :bind
+    ("M-." . tide-jump-to-definition)
+    :config
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (when (string-match-p "js[x]?" (file-name-extension buffer-file-name))
+                  (setup-tide-mode)))))
+
+  ;; use eslint with web-mode for js[x]? files
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (add-hook 'web-mode-hook #'configure-web-mode-flycheck-checkers)
+
+  (add-to-list 'auto-mode-alist '("\\.js[x]?'" . web-mode))
+  (add-hook 'web-mode-hook #'yas-minor-mode)
+
+  #+END_SRC
+* Languages markdown
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :ensure t
+    :init
+    (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
+
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round)
+
+  #+END_SRC
+* Languages java
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package groovy-mode
+    :ensure t
+    :mode "\\.groovy\\'"
+    :interpreter "groovy")
+
+  #+END_SRC
+
+* Languages rust
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :init
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+    :config
+    (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+    :ensure t)
+  (use-package cargo
+    :bind (:map rust-mode-map ("C-c C-r" . cargo-process-run))
+    :ensure t)
+  (use-package racer
+    :init
+    (add-hook 'racer-mode-hook #'eldoc-mode)
+    :ensure t)
+  (use-package flycheck-rust
+    :ensure t)
+
+  (setq company-tooltip-align-annotations t)
+
+  #+END_SRC
