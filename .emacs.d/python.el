@@ -13,6 +13,9 @@
   ;; To enable the eglot backend:
   ;; pip install 'python-lsp-server[all]'
   ;; pip install pyls-flake8
+
+  ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
+  (setq eglot-stay-out-of '())
   (eglot-ensure)
   (jedi:setup))
 
@@ -24,8 +27,13 @@
   (setq python-shell-interpreter "python3"
       python-shell-interpreter-args "-i")
   (elpy-enable))
+(use-package flymake-python-pyflakes
+  :hook (python-mode . flymake-python-pyflakes-load)
+  :config
+  (setq flymake-python-pyflakes-executable "flake8"))
 (use-package jedi)
 (use-package pipenv
   :hook (python-mode . pipenv-mode))
 
 (provide 'python)
+;;; python.el ends here

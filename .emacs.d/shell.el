@@ -13,3 +13,4 @@
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
 (provide 'shell)
+;;; shell.el ends here
