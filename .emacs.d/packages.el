@@ -17,8 +17,10 @@
 
 ;; Set the path from the shell
 ;; call after (package-initialize)
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 ;; * Core packages
 (use-package diminish)

@@ -121,5 +121,9 @@
   :if config-enable-web-mode
   :mode ("\\.scss\\'" . scss-mode))
 
+(use-package indium
+  :init
+  (add-hook 'js-mode-hook 'indium-interaction-mode))
+
 (provide 'javascript)
 ;;; javascript.el ends here
