@@ -9,7 +9,6 @@ emacs/.emacs.d/smex-items
 emacs/.emacs.d/undo/
 emacs/.emacs.d/url/
 emacs/.emacs.d/bookmarks
-emacs/.emacs.d/settings.el
 emacs/.emacs.d/irony/
 emacs/.emacs.d/projectile-bookmarks.eld
 emacs/.emacs.d/.nrepl-port

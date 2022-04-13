@@ -1,6 +1,5 @@
 
-* Core
-#+BEGIN_SRC emacs-lisp
+;; * Core
 (package-initialize)
 
 (defvar config-which-key-delay 1.4)
@@ -8,7 +7,7 @@
 (defvar config-keep-backups t)
 
 ;; Font settings
-(defvar config-font-family "Source Code Pro for Powerline")
+(defvar config-font-family "Fira Code")
 (defvar config-font-height 160
   "font-height is 1/10pt so 160 == 160/10 == 16pt")
 
@@ -77,6 +76,10 @@
 (set-face-attribute 'default nil
                     :family config-font-family
                     :height config-font-height)
+;; Font ligatures
+(load "~/.emacs.d/fira-code.el")
+(fira-code-mode--setup)
+(fira-code-mode--enable)
 
 ;; Parenthesis
 (show-paren-mode 1)
@@ -89,7 +92,7 @@
 
 ;; Frequently accessed files (C-x r j <letter>)
 ;; jump-to-register
-(set-register ?i '(file . "~/.emacs.d/settings.org"))
+(set-register ?i '(file . "~/.emacs.d/settings.el"))
 (set-register ?o '(file . "~/org/agenda/organizer.org"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
@@ -106,10 +109,8 @@
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil))
 
-#+END_SRC
 
-* Core keybindings
-#+BEGIN_SRC emacs-lisp
+;; * Core keybindings
 (global-set-key (kbd "<f5>") #'revert-buffer)
 (global-set-key (kbd "C-=") #'er/expand-region)
 (global-set-key (kbd "C-c a") #'org-agenda)
@@ -128,10 +129,9 @@
 (global-set-key (kbd "C-x g") #'magit-status)
 (global-set-key (kbd "C-x M-g") #'magit-dispatch)
 (global-set-key (kbd "M-i") #'imenu)
-#+END_SRC
 
-* Core packages
-#+BEGIN_SRC emacs-lisp
+
+;; * Core packages
 (use-package diminish)
 
 ;; Rainbow mode - displays color codes in their color
@@ -280,14 +280,15 @@
 
 ;; Doom modeline
 (use-package doom-modeline
-      :ensure t
-      :hook (after-init . doom-modeline-mode))
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
 
-#+END_SRC
+;; Convert buffer to text and decorations to HTML
+(use-package htmlize
+  :mode (("\\.org\\'" . org-mode)))
 
 
-* git
-#+BEGIN_SRC emacs-lisp
+;; * git
 ;; A git interface for emacs
 (use-package magit
   :config
@@ -301,10 +302,9 @@
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode t)
   (diff-hl-flydiff-mode t))
-#+END_SRC
 
-* ivy
-#+BEGIN_SRC emacs-lisp
+
+;; * ivy
 ;; Generic completion frontend
 (use-package counsel)
 (use-package counsel-projectile
@@ -321,10 +321,9 @@
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
           (t . ivy--regex-fuzzy))))
-#+END_SRC
 
-* projectile
-#+BEGIN_SRC emacs-lisp
+
+;; * projectile
 ;; ripgrep
 (use-package rg)
 
@@ -347,11 +346,9 @@
   :bind
   (:map projectile-mode-map ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
-#+END_SRC
 
 
-* Language cpp
-#+BEGIN_SRC emacs-lisp
+;; * Language cpp
 ;; A flycheck checker for C/C++
 (use-package flycheck-irony
   :after (irony)
@@ -395,9 +392,9 @@
           (lambda ()
             (irony-cdb-autosetup-compile-options)))
 (add-hook 'c++-mode-hook 'flycheck-mode)
-#+END_SRC
-* Language elisp
-#+BEGIN_SRC emacs-lisp
+
+
+;; * Language elisp
 ;; Minor mode for performing structured editing of S-expression data
 (use-package paredit
   :init
@@ -411,10 +408,9 @@
   (eldoc-add-command
    'paredit-backward-delete
    'paredit-close-round))
-#+END_SRC
 
-* Language javascript
-#+BEGIN_SRC emacs-lisp
+
+;; * Language javascript
 (defun configure-web-mode-flycheck-checkers ()
     (flycheck-mode)
 
@@ -432,7 +428,8 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint)))
 
-    (flycheck-select-checker 'javascript-eslint))
+    (if eslint
+        (flycheck-select-checker 'javascript-eslint)))
 
 (defun setup-javascript ()
   (tide-setup)
@@ -462,10 +459,9 @@
   :hook (js2-mode . setup-js2))
 
 (use-package rjsx-mode)
-#+END_SRC
 
-* Language HTML, css
-#+BEGIN_SRC emacs-lisp
+
+;; * Language HTML, css
 (defun setup-template ()
   (interactive)
   (yas-minor-mode))
@@ -511,10 +507,8 @@
 (use-package scss-mode
   :defer t)
 
-#+END_SRC
 
-* Language markdown
-#+BEGIN_SRC emacs-lisp
+;; * Language markdown
 ;; Major mode for editing Markdown formatted text
 (use-package markdown-mode
   :defer t
@@ -523,10 +517,9 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
-#+END_SRC
 
-* Language rust
-#+BEGIN_SRC emacs-lisp
+
+;; * Language rust
 (use-package rust-mode
   :defer t)
 
@@ -546,20 +539,19 @@
 ;; rust package managment
 (use-package cargo
   :after (rust-mode)
-  :bind (:map rust-mode-map ("C-c C-c" . cargo-process-clippy)))
+  :hook (rust-mode . cargo-minor-mode))
 
 (add-hook 'rust-mode-hook #'yas-minor-mode)
-  #+END_SRC
 
-* Language clojure
-#+BEGIN_SRC emacs-lisp
+
+;; * Language clojure
 (use-package cider
   :defer t
   :hook (clojure-mode . enable-paredit-mode))
-#+END_SRC
-* Language python
-#+BEGIN_SRC emacs-lisp
+
+
+;; * Language python
 (use-package elpy
   :init
   (elpy-enable))
-#+END_SRC
+
