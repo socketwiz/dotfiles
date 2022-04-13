@@ -1,6 +1,13 @@
+;;; fira-code.el --- Setup the font Fira Code
 ;; Install font: https://github.com/tonsky/FiraCode/wiki/Installing
 ;; This method requires you to install the Fira Code Symbol font, made by @siegebell:
 ;; https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
+
+
+;;; Commentary:
+;; Handle details concerning the Fira Code font
+
+;;; Code:
 
 (defun fira-code-mode--make-alist (list)
   "Generate prettify-symbols alist from LIST."
@@ -56,9 +63,9 @@
     (fira-code-mode--disable)))
 
 (defun fira-code-mode--setup ()
-  "Setup Fira Code Symbols"
+  "Setup Fira Code Symbols."
   (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
 
-(provide 'fira-code-mode)
+(provide 'fira-code)
 
-(provide 'fira-code-mode)
+;;; fira-code.el ends here
