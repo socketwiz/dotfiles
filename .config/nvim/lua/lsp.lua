@@ -1,18 +1,9 @@
 
--- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -37,7 +28,11 @@ for _, server_name in pairs(servers) do
             -- When this particular server is ready (i.e. when installation is finished or the server is already installed),
             -- this function will be invoked. Make sure not to also use the "catch-all" lsp_installer.on_server_ready()
             -- function to set up your servers, because by doing so you'd be setting up the same server twice.
-            local opts = {}
+            local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+            local opts = {
+              capabilities = capabilities,
+              on_attach = on_attach
+            }
             server:setup(opts)
         end)
         if not server:is_installed() then
@@ -46,26 +41,4 @@ for _, server_name in pairs(servers) do
         end
     end
 end
-
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-        custom_captures = {
-            -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-        },
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-        },
-    },
-    indent = {
-        enable = true
-    }
-}
 

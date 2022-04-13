@@ -21,3 +21,16 @@ map { 'n', '<Up>', '<Nop>' }
 map { 'n', '<Down>', '<Nop>' }
 map { 'n', '<Left>', '<Nop>' }
 map { 'n', '<Right>', '<Nop>' }
+
+-- Telescope
+map { 'n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>' }
+map { 'n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>' }
+map { 'n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>' }
+map { 'n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>' }
+
+-- LSP
+map { 'n',  '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>' }
+map { 'n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>' }
+map { 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>' }
+map { 'n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>' }
+
