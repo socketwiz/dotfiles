@@ -184,10 +184,10 @@
 ;; Correct the misspelled word in a popup menu
 (use-package flyspell-popup 
   :config
-  (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)) 
-(define-key popup-menu-keymap (kbd "C-j") 'popup-next) 
-(define-key popup-menu-keymap (kbd "C-k") 'popup-previous) 
-(define-key popup-menu-keymap (kbd "C-l") 'popup-select)
+  (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)
+  (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
+  (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
+  (define-key popup-menu-keymap (kbd "C-l") 'popup-select))
 
 ;; Flycheck
 (use-package flycheck
@@ -541,7 +541,6 @@
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
-  :defer 1
   :bind
   ("M-." . tide-jump-to-definition)
   :config
@@ -560,7 +559,6 @@
 #+BEGIN_SRC emacs-lisp
 ;; Major mode for editing Markdown formatted text
 (use-package markdown-mode
-  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
