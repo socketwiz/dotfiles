@@ -28,11 +28,11 @@
 
 (defvar config-enable-evil-mode nil
   "Whether or not to enable evil-mode.")
-(defvar config-enable-elpy-mode t
+(defvar config-enable-elpy-mode nil
   "Whether or not to enable elpy-mode.")
 (defvar config-enable-cider-mode nil
   "Whether or not to enable cider-mode.")
-(defvar config-enable-rustic-mode t
+(defvar config-enable-rustic-mode nil
   "Whether or not to enable rustic-mode.")
 (defvar config-enable-markdown-mode nil
   "Whether or not to enable markdown-mode.")
@@ -245,6 +245,8 @@
   :config
   (setq company-tooltip-align-annotations t)
   :init (global-company-mode))
+(use-package company-lsp
+  :config (push 'company-lsp company-backends))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
@@ -273,7 +275,11 @@
   (yas-reload-all))
 
 ;; Language Server Protocol support for Emacs
-(use-package lsp-mode)
+(use-package lsp-mode
+  :commands lsp
+  :hook ((python-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration)))
+(use-package lsp-ui :commands lsp-ui-mode)
 
 ;; Display available keybindings in a popup
 (use-package which-key
@@ -403,6 +409,7 @@
           ;; matched <C-M j> instead of RET (ivy-immediate-done)
           ;; to temporarily turn off fuzzy matching
           (t . ivy--regex-plus))))
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 
 ;; * projectile
