@@ -33,7 +33,7 @@
 (defvar config-enable-cider-mode nil
   "Whether or not to enable cider-mode.")
 (defvar config-enable-rustic-mode t
-  "Whether or not to enable rustics-mode.")
+  "Whether or not to enable rustic-mode.")
 (defvar config-enable-markdown-mode nil
   "Whether or not to enable markdown-mode.")
 (defvar config-enable-web-mode t
@@ -42,6 +42,8 @@
   "Whether or not to enable c, c++.")
 (defvar config-enable-undo-tree t
   "Whether or not to enable undo-tree.")
+(defvar config-enable-command-log-mode nil
+  "Whether or not to enable command-log-mode.")
 
 ;; Number of bytes of consing between garbage collections.
 (setq gc-cons-threshold most-positive-fixnum)
@@ -337,6 +339,7 @@
 
 ;; Display used hotkeys in another window
 (use-package command-log-mode
+  :if config-enable-command-log-mode
   :diminish 'command-log-mode
   :hook (after-init . global-command-log-mode))
 
