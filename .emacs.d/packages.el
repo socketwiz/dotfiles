@@ -225,6 +225,8 @@
          ("C-x C-r" . consult-recent-file))
   :config
   (setq consult-project-root-function 'vc-root-dir))
+(use-package consult-lsp
+  :after (consult))
 
 ;; Wrapp for ripgrep, a grep with features for programmers, like
 ;; respecting .gitignore
@@ -314,7 +316,36 @@
   (global-evil-surround-mode 1))
 
 ;; Language Server Protocol support for Emacs
-(use-package eglot)
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((lsp-mode-hook . lsp-ui-mode)
+         (lsp-mode . lsp-enable-which-key-integration)
+         (rust-mode . lsp)
+         (js-mode . lsp))
+  :commands lsp)
+(use-package lsp-ui
+  :after (lsp-mode))
+
+(use-package dap-mode
+  :after (lsp-mode)
+  :config
+  (require 'dap-gdb-lldb)
+  (require 'dap-lldb)
+  (require 'dap-node)
+  (dap-register-debug-template "Rust::GDB Run Configuration"
+                               (list :type "gdb"
+                                     :request "launch"
+                                     :name "GDB::Run"
+                                     :gdbpath "rust-gdb"
+                                     :target nil
+                                     :cwd nil)))
+
+(use-package tree-sitter
+  :hook ((rust-mode-hook . tree-sitter-mode)
+         (js-mode-hook . tree-sitter-mode)))
+(use-package tree-sitter-langs
+  :after (tree-sitter))
 
 ;; Jump to visible text using a char-based decision tree
 (use-package avy
