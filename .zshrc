@@ -84,6 +84,9 @@ alias glog='git log --oneline --decorate --graph'
 alias gst='git status'
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
+# cat
+alias cat='${HOME}/.cargo/bin/bat'
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fix the friggin del key

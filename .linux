@@ -11,9 +11,6 @@ alias ls='/home/hackerzol/.cargo/bin/exa'
 alias ll='ls -l'
 alias la='ls -a'
 
-# cat
-alias cat='/home/hackerzol/.cargo/bin/bat'
-
 # copy/paste
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
