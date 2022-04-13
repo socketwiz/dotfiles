@@ -151,3 +151,5 @@ require('cmp').setup {
   },
 }
 
+require('dapui').setup()
+

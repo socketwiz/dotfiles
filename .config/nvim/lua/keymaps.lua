@@ -42,6 +42,7 @@ local wk_mappings = {
     n = { '<cmd>lua require("dap").run()<cr>', 'Run' },
     o = { '<cmd>lua require("dap").step_over()<cr>', 'Debug step over' },
     r = { '<cmd>lua require("dap").repl.open()<cr>', 'REPL' },
+    u = { '<cmd>lua require("dapui").toggle()<cr>', 'Debug UI' },
   },
   f = {
     name = 'Telescope',

@@ -3,8 +3,13 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'  -- Package manager
+
   use 'neovim/nvim-lspconfig'   -- Collection of configurations for the built-in LSP client
   use 'mfussenegger/nvim-dap'   -- LSP debug adapter
+  use {
+    "rcarriga/nvim-dap-ui",
+    requires = {"mfussenegger/nvim-dap"}
+  }
 
   -- Parse generator (syntax tree for souce files)
   use {
