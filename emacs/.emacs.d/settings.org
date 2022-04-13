@@ -96,6 +96,13 @@
         (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
 (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
+
+;; When on OSX, change meta to cmd key
+;; Amethyst, an OSX app I use is mucking around with Option-Shift
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil))
+
 #+END_SRC
 
 * Core keybindings
