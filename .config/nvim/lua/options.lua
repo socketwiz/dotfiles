@@ -23,10 +23,18 @@ set.showmode = true                 -- Message on the last line showing mode (in
 set.smartcase = true                -- Do not ignore case with capitals
 set.tabstop = 2                     -- Number of spaces tabs count for
 set.termguicolors = true            -- True color support
+set.timeoutlen = 200                -- Time before which key appears
 set.visualbell = true               -- Turn the beep into a visual representation rather than a sound
 
 let.mapleader = " "
 let.mapleaderlocal = " "
+
+set.undofile = true
+
+-- Store swap files in fixed location, not current directory.
+set.dir='~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,.'
+-- Store undo files in fixed location, not current directory.
+set.undodir='~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.'
 
 -- Theme
 let.tokyonight_style = "night"
@@ -37,7 +45,6 @@ let.tokyonight_colors = { hint = "orange", error = "#ff0000" }
 
 -- Load the colorscheme
 vim.cmd[[colorscheme tokyonight]]
-
 
 -- Plugin options
 require('telescope').setup{
@@ -110,5 +117,39 @@ cmp.setup {
     { name = 'buffer' },
     { name = 'path' },
   })
+}
+
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  update_debounce = 100,
+}
+
+require('nvim-tree').setup {
+  disable_netrw        = true,
+  hijack_netrw         = true,
+  view = {
+    mappings = {
+      list = {
+      { key = "g",                            action = "refresh" },
+      { key = "+",                            action = "create" },
+      { key = "x",                            action = "remove" },
+      { key = "R",                            action = "rename" },
+      { key = "^",                            action = "dir_up" },
+      }
+    },
+  },
+}
+
+require("which-key").setup {
 }
 
