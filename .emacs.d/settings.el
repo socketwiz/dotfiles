@@ -159,7 +159,7 @@
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
-(global-set-key (kbd "C-x C-b") 'buffer-menu-other-window)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
@@ -183,6 +183,7 @@
   (add-hook 'prog-mode-hook 'flymake-mode)
   ;; Tell which key what to display for the documentation keybind rather than display "lambda"
   (which-key-add-key-based-replacements "C-c ! i" "flymake-documentation")
+  (which-key-add-key-based-replacements "C-c ! l" "flymake-list-errors")
   :bind (("C-c ! ?" . flymake-running-backends)
          ("C-c ! i" . (lambda ()
                         "Display Flymake documentation."
@@ -261,13 +262,6 @@
   :init (global-company-mode))
 (use-package company-lsp
   :config (push 'company-capf company-backends))
-;; M-x company-tabnine-install-binary to install the TabNine binary
-(use-package company-tabnine
-  :config (push 'company-tabnine company-backends)
-  ;; Trigger completion immediately.
-  (setq company-idle-delay 0)
-  ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-numbers t))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
@@ -354,7 +348,13 @@
   (defvar org-agenda-include-diary t)
   (defvar org-src-fontify-natively t)
   (setq org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
-  (setq org-default-notes-file "~/org/agenda/inbox.org")
+  (setq org-capture-templates
+        (quote (("a" "agenda" entry (file "~/org/agenda/inbox.org")
+                 "* TODO %?\n%U\n%a\n")
+                ("n" "note" entry (file "~/org/notes.org")
+                 "* %? :NOTE:\n%U\n%a\n")
+                ("r" "read-later" entry (file "~/org/read-later.org")
+                 "* %? :NOTE:\n%U\n%a\n"))))
 
   ;; So we can execute these language blocks in org-mode
   (org-babel-do-load-languages
@@ -504,6 +504,8 @@
   (evil-set-initial-state 'Info-mode 'emacs)
   (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
+  (evil-set-initial-state 'flymake-diagnostics-buffer-mode 'emacs)
+  (evil-set-initial-state 'reb-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
 
   ;; For some reason python mode is starting in emacs state, set it to normal
