@@ -44,10 +44,14 @@
   "Whether or not to enable undo-tree.")
 (defvar config-enable-web-mode t
   "Whether or not to enable web, js, css.")
+(defvar config-enable-shell-mode t
+  "Whether or not to enable \"shell-mode\".")
 (defvar config-enable-dockerfile-mode t
   "Whether or not to enable \"dockerfile-mode\".")
 (defvar config-enable-yaml-mode t
   "Whether or not to enable \"yaml-mode\".")
+(defvar config-enable-exwm nil
+  "Whether or not to enable \"exwm\".")
 
 
 ;; Hide column numbers
@@ -86,6 +90,9 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
+;; Recommendation from flx, tweak garbage collection
+(setq gc-cons-threshold 20000000)
+
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -114,6 +121,7 @@
              '("*Info*" display-buffer-same-window))
 
 ;; Package management
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (unless (package-installed-p 'use-package)
@@ -154,17 +162,19 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'recompile)
+(global-set-key (kbd "C-c C-.") 'helpful-at-point)
+(global-set-key (kbd "C-c C-i") 'imenu)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(global-set-key (kbd "C-x C-z") 'nil)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
-
+(global-set-key (kbd "M-x") 'amx)
 
 ;; * Core packages
 (use-package diminish)
@@ -203,7 +213,8 @@
     (when (eq major-mode 'compilation-mode)
       (ansi-color-apply-on-region compilation-filter-start (point-max))))
   ;; Automatically scroll the compilation buffer
-  (setq compilation-scroll-output t)
+  :custom
+  (compilation-scroll-output t)
   :hook (compilation-filter . socketwiz/compilation-filter-init))
 
 ;; Rainbow mode - displays color codes in their color
@@ -213,16 +224,17 @@
 ;; Theme
 (use-package doom-themes
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold nil
-        doom-themes-enable-italic nil)
   (load-theme 'doom-acario-dark t)
   ;; This theme makes the selections too dark, lighten them up
   (set-face-background 'hl-line "#1F2324")
   (set-face-background 'region "#585F61")
 
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  :custom
+  ;; Global settings (defaults)
+  (doom-themes-enable-bold nil)
+  (doom-themes-enable-italic nil))
 
 ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
 ;; https://github.com/emacs-jp/replace-colorthemes
@@ -237,28 +249,36 @@
   :config
   (add-hook 'prog-mode-hook 'highlight-parentheses-mode))
 
+;; dired (directory editor)
+(use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :custom ((dired-listing-switches "-ahgo --group-directories-first"))
+  :bind (("C-x C-j" . dired-jump)))
+
 ;; Undo-tree
 (use-package undo-tree
   :if config-enable-undo-tree
   :diminish 'undo-tree-mode
   :config
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-  (setq undo-tree-auto-save-history t)
-  ;; save all undo histories to this location
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   (defadvice undo-tree-make-history-save-file-name
       (after undo-tree activate)
     (setq ad-return-value (concat ad-return-value ".gz")))
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  :custom
+  ;; save all undo histories to this location
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  (undo-tree-visualizer-timestamps t)
+  (undo-tree-visualizer-diff t)
+  (undo-tree-auto-save-history t))
 
 ;; A text completion framework
 (use-package company
   :diminish 'company-mode
-  :config
-  (setq company-tooltip-align-annotations t)
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.2)
+  :custom
+  (company-tooltip-align-annotations t)
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.2)
   :init (global-company-mode))
 (use-package company-lsp
   :config (push 'company-capf company-backends))
@@ -317,8 +337,9 @@
          (typescript-mode . lsp)
          (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
+  :custom
+  (lsp-diagnostic-package :flymake)
   :config
-  (setq lsp-diagnostic-package :flymake)
   (defvar lsp-clients-angular-language-server-command
     '("node"
       "/usr/lib/node_modules/@angular/language-server"
@@ -334,7 +355,8 @@
   :diminish 'which-key-mode
   :config
   (which-key-mode)
-  (setq which-key-idle-delay config-which-key-delay))
+  :custom
+  (which-key-idle-delay config-which-key-delay))
 
 ;; Highlight numbers for prog modes
 (use-package highlight-numbers
@@ -343,19 +365,17 @@
 
 ;; Org mode, for keeping notes, todo lists, etc... in plain text
 (use-package org
+  :custom
+  (org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+  (org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
+  (org-capture-templates
+   (quote (("a" "agenda" entry (file "~/org/agenda/inbox.org")
+            "* TODO %?\n%U\n%a\n")
+           ("n" "note" entry (file "~/org/notes.org")
+            "* %? :NOTE:\n%U\n%a\n")
+           ("r" "read-later" entry (file "~/org/read-later.org")
+            "* %? :NOTE:\n%U\n%a\n"))))
   :config
-  (setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
-  (defvar org-agenda-include-diary t)
-  (defvar org-src-fontify-natively t)
-  (setq org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
-  (setq org-capture-templates
-        (quote (("a" "agenda" entry (file "~/org/agenda/inbox.org")
-                 "* TODO %?\n%U\n%a\n")
-                ("n" "note" entry (file "~/org/notes.org")
-                 "* %? :NOTE:\n%U\n%a\n")
-                ("r" "read-later" entry (file "~/org/read-later.org")
-                 "* %? :NOTE:\n%U\n%a\n"))))
-
   ;; So we can execute these language blocks in org-mode
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -379,15 +399,17 @@
 (use-package atomic-chrome
   :config
   (atomic-chrome-start-server)
-  (setq atomic-chrome-buffer-open-style 'frame))
+  :custom
+  (atomic-chrome-buffer-open-style 'frame))
 
 ;; Builds a list of recently opened files
 (use-package recentf
+  :custom
+  (recentf-max-saved-items 10)
+  (recentf-max-menu-items 5)
+  (recentf-save-file (concat user-emacs-directory ".cache/recentf"))
+  (recentf-auto-cleanup 'never)
   :config
-  (setq recentf-max-saved-items 10
-        recentf-max-menu-items 5
-        recentf-save-file (concat user-emacs-directory ".cache/recentf")
-        recentf-auto-cleanup 'never)
   (recentf-mode t)
 
   (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
@@ -421,8 +443,8 @@
 ;; * git
 ;; A git interface for emacs
 (use-package magit
-  :config
-  (setq magit-refresh-status-buffer nil)
+  :custom
+  (magit-refresh-status-buffer nil)
   :diminish 'auto-revert-mode)
 
 ;; Show diffs in the gutter
@@ -436,11 +458,11 @@
 ;; Ivy is nice but I wasn't really using much of it so I'm going back to ido
 ;; which is built-in
 (use-package ido
-  :init
-  (setq ido-everywhere t)
-  (setq ido-use-filename-at-point 'guess)
+  :custom
+  (ido-everywhere t)
+  (ido-use-filename-at-point 'guess)
   ;; Disable merged-mode
-  (setq ido-auto-merge-work-directories-length -1)
+  (ido-auto-merge-work-directories-length -1)
   :config
   (ido-mode t))
 ;; Enable ido just about everywhere by replacing "completing-read"
@@ -451,7 +473,19 @@
 (use-package ido-vertical-mode
   :config
   (ido-vertical-mode t)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  :custom
+  (ido-vertical-define-keys 'C-n-and-C-p-only))
+;; M-x replacement for ido
+(use-package amx)
+;; Flexible matching for ido
+(use-package flx-ido
+  :after ido
+  :config
+  (flx-ido-mode t)
+  :custom
+  (ido-enable-flex-matching t)
+  ;; disable ido faces so we can see flex highlights
+  (ido-use-faces nil))
 (defun ido-recentf-open ()
   "Use `ido-completing-read' to \\[find-file] a recent file."
   (interactive)
@@ -459,21 +493,32 @@
       (message "Opening file...")
     (message "Aborting")))
 
+;; Term-mode
+(use-package term
+  :config
+  :custom
+  (explicit-shell-file-name "zsh")
+  ;; need to configure for my prompt to allow term-(previous|next)-prompt to work
+  (term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+
 ;; Project management
 (use-package projectile
   :after (rg)
   :config
-  (setq projectile-project-search-path '("~/dev"))
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (projectile-mode)
   :init
-  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-        projectile-known-projects-file (concat user-emacs-directory
-                                               ".cache/projectile-bookmarks.eld"))
   (declare-function recentf-track-opened-file "recentf.el.gz")
   (add-hook 'find-file-hook (lambda ()
                               (unless recentf-mode (recentf-mode)
                                       (recentf-track-opened-file))))
+  :custom
+  (projectile-project-search-path '("~/dev"))
+  (projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+                         projectile-known-projects-file (concat user-emacs-directory
+                                                                ".cache/projectile-bookmarks.eld"))
   :bind (("C-c p" . projectile-command-map)
          :map projectile-mode-map
          ("C-c p s p" . rg-menu))
@@ -492,23 +537,24 @@
   ;; Put vim bindings everywhere
   (evil-mode)
   ;; Except in these modes where I just want emacs proper
-  (evil-set-initial-state 'dashboard-mode 'emacs)
   (evil-set-initial-state 'debugger-mode 'emacs)
   (evil-set-initial-state 'diff-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'emacs-lisp-mode 'emacs)
   (evil-set-initial-state 'finder-mode 'emacs)
-  (evil-set-initial-state 'fundamental-mode 'emacs)
+  (evil-set-initial-state 'flymake-diagnostics-buffer-mode 'emacs)
   (evil-set-initial-state 'helpful-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'Info-mode 'emacs)
-  (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'markdown-view-mode 'emacs)
-  (evil-set-initial-state 'flymake-diagnostics-buffer-mode 'emacs)
+  (evil-set-initial-state 'org-mode 'emacs)
   (evil-set-initial-state 'reb-mode 'emacs)
+  (evil-set-initial-state 'rg-mode 'emacs)
   (evil-set-initial-state 'snippet-mode 'emacs)
+  (evil-set-initial-state 'special-mode 'emacs)
 
-  ;; For some reason python mode is starting in emacs state, set it to normal
+
+  ;; For some reason these modes are starting in emacs state, set them to normal
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
@@ -604,8 +650,7 @@
 
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
-  (when (featurep 'evil-mode)
-    (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
+  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (lsp-mode)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
@@ -665,22 +710,22 @@
   (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
   :init
-  (setq web-mode-engines-alist
-        '(("django" . "\\.html\\'")))
-
   (setq-default indent-tabs-mode nil)
+  (add-hook 'web-mode-hook 'web-mode-init)
+  :custom
+  (web-mode-engines-alist
+   '(("django" . "\\.html\\'")))
+
   ;; Disable auto-quoting
-  (setq web-mode-enable-auto-quoting nil)
-  (setq web-mode-markup-indent-offset config-indent-web-mode-spaces)
-  (setq web-mode-css-indent-offset config-indent-web-mode-spaces)
-  (setq web-mode-code-indent-offset config-indent-web-mode-spaces)
+  (web-mode-enable-auto-quoting nil)
+  (web-mode-markup-indent-offset config-indent-web-mode-spaces)
+  (web-mode-css-indent-offset config-indent-web-mode-spaces)
+  (web-mode-code-indent-offset config-indent-web-mode-spaces)
   ;; Don't lineup element attributes
-  (setq web-mode-attr-indent-offset config-indent-web-mode-spaces)
+  (web-mode-attr-indent-offset config-indent-web-mode-spaces)
   ;; Automatically close tag
-  (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-enable-css-colorization t)
-  
-  (add-hook 'web-mode-hook 'web-mode-init))
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-css-colorization t))
 
 ;; SASS
 (use-package scss-mode
@@ -696,7 +741,7 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :custom (markdown-command "multimarkdown"))
 
 
 ;; * Language Rust
@@ -722,8 +767,8 @@
 ;; * Language Python
 (use-package elpy
   :if config-enable-elpy-mode
-  :config
-  (setq elpy-rpc-python-command "python3")
+  :custom
+  (elpy-rpc-python-command "python3")
   :init
   (elpy-enable))
 
@@ -740,14 +785,59 @@
   :mode ("\\.yml\\'" . yaml-mode))
 
 
-(use-package dashboard
-  :ensure t
+;; Language Shell
+;; Flymake shell backend
+(use-package flymake-shellcheck
+  :if config-enable-shell-mode
+  :commands flymake-shellcheck-load
+  :init
+  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+
+(setq mouse-autoselect-window t
+      focus-follows-mouse t)
+
+(use-package exwm
+  :if config-enable-exwm
   :config
-  (setq dashboard-items '((agenda . 10)
-                          (projects . 5)
-                          (registers . 5)))
-  (setq dashboard-set-heading-icons t)
-  (dashboard-setup-startup-hook))
+  (require 'exwm-randr)
+  (add-hook 'exwm-randr-screen-change-hook
+            (lambda ()
+              (start-process-shell-command
+               "xrandr" nil "xrandr --output DP-2 --pos 0x0 --output DP-4 --pos 2560x0 --right-of DP-2 --output DP-0 --pos 5120x0 --right-of DP-4")))
+  (exwm-randr-enable)
+
+  (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key) ;; send a single key to the X window
+  (define-key exwm-mode-map [?\C-k] 'exwm-input-release-keyboard) ;; switch to char-mode
+
+  ;; update the buffer titles created in EXWM so they are not all EXWM
+  (add-hook 'exwm-update-class-hook
+            (lambda ()
+              (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                          (string= "gimp" exwm-instance-name))
+                (exwm-workspace-rename-buffer exwm-class-name))))
+  (add-hook 'exwm-update-title-hook
+            (lambda ()
+              (when (or (not exwm-instance-name)
+                        (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                        (string= "gimp" exwm-instance-name))
+                (exwm-workspace-rename-buffer exwm-title))))
+  (exwm-enable)
+  :custom
+  (exwm-randr-workspace-monitor-plist '(1 "DP-2" 0 "DP-4" 2 "DP-0"))
+  (exwm-workspace-number 3)
+
+  (exwm-input-global-keys
+   `(([?\s-r] . exwm-reset) ;; switch to line-mode
+     ,@(mapcar (lambda (i)  ;; bind S-0 through S-9 to switch to workspace by its index
+                 `(,(kbd (format "s-%d" i)) .
+                   (lambda ()
+                     (interactive)
+                     (exwm-workspace-switch-create ,i))))
+               (number-sequence 0 9))
+     ;; Bind "s- " to launch applications
+     ([?\s-\ ] . (lambda (command)
+		           (interactive (list (read-shell-command "$ ")))
+		           (start-process-shell-command command nil command))))))
 
 (provide 'settings)
 
