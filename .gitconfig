@@ -21,3 +21,6 @@
   rebase = true
 [init]
   defaultBranch = main
+[includeIf "gitdir:~/dev/rust/"]
+  path = ~/.gitconfig.zolmok
+

@@ -46,7 +46,8 @@
 
   (flymake-eslint-enable))
 
-(defun setup-typescript ()
+(defun configure-mode ()
+  (message "configuring-javascript")
   "When \"tide-mode\" is loaded setup linters, yas and such."
   (add-to-list 'eglot-stay-out-of 'flymake)
   (eglot-ensure)
@@ -83,8 +84,8 @@
   :if config-enable-web-mode
   :after (typescript-mode flycheck))
 
-(add-hook 'typescript-mode-hook 'setup-typescript)
-(add-hook 'js-mode-hook 'setup-typescript)
+(add-hook 'typescript-mode-hook 'configure-mode)
+(add-hook 'js-mode-hook 'configure-mode)
 
 
 ;; * Language HTML, CSS
