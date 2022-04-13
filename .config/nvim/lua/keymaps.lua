@@ -30,12 +30,23 @@ map { 'n', '<leader><space>', ':noh<cr>' }
 map { 'n', '<C-x><C-j>', '<cmd>NvimTreeFindFile<cr>' }
 
 -- Which key
-local wk = require("which-key")
+local wk = require('which-key')
 local wk_mappings = {
   c = { ':e ~/.config/nvim/init.lua<cr>', 'Edit config' },
+  d = {
+    name = 'Debugger',
+    b = { '<cmd>lua require("dap").toggle_breakpoint()<cr>', 'Set breakpoint' },
+    c = { '<cmd>lua require("dap").continue()<cr>', 'Debug continue' },
+    i = { '<cmd>lua require("dap").step_into()<cr>', 'Debug step into' },
+    l = { '<cmd>lua require("dap").launch()<cr>', 'Launch debug session' },
+    n = { '<cmd>lua require("dap").run()<cr>', 'Run' },
+    o = { '<cmd>lua require("dap").step_over()<cr>', 'Debug step over' },
+    r = { '<cmd>lua require("dap").repl.open()<cr>', 'REPL' },
+  },
   f = {
     name = 'Telescope',
     b = { '<cmd>lua require("telescope.builtin").buffers()<cr>', 'Buffer list' },
+    c = { '<cmd>lua require("telescope.builtin").commands()<cr>', 'Commands' },
     f = { '<cmd>lua require("telescope.builtin").find_files()<cr>', 'Find file' },
     g = { '<cmd>lua require("telescope.builtin").live_grep()<cr>', 'Ripgrep' },
     h = { '<cmd>lua require("telescope.builtin").help_tags()<cr>', 'Help' }
@@ -64,33 +75,18 @@ local wk_opts = {
 }
 wk.register(wk_mappings, wk_opts)
 
--- CoC (use vim syntax because I'm not sure how to convert to lua)
-vim.cmd [[
-  " Use tab for trigger completion with characters ahead and navigate.
-  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-  " other plugin before putting this into your config.
-  inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : check_back_space() ? "\<TAB>" : coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  " Make <cr> auto-select the first completion item and notify coc.nvim to
-  " format on enter, <cr> could be remapped by other vim plugin
-  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<cr>\<c-r>=coc#on_enter()\<cr>"
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> <c-space> coc#refresh()
-
-  " Use `[g` and `]g` to navigate diagnostics
-  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-  nmap <silent> [g <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-  " GoTo code navigation.
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
-
-  " Use K to show documentation in preview window.
-  nnoremap <silent> K :call show_documentation()<cr>
-]]
+local cmp = require('cmp')
+cmp.setup({
+  mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }
+})
 
