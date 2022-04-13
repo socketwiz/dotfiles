@@ -9,7 +9,7 @@
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
   ;; To enable the eglot backend:
-  ;; npm install -g typescript-language-server
+  ;; npm install -g typescript-language-server typescript
   (eglot-ensure)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (tide-hl-identifier-mode)

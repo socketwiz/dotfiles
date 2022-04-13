@@ -119,4 +119,4 @@ function tm() {
     fi
 }
 
-export PATH="/usr/local/opt/node@12/bin:$PATH"
+export PATH="${HOME}/.nvm/versions/node/v14.15.0/bin:$PATH"
