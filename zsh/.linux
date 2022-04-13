@@ -27,3 +27,6 @@ source $HOME/.config/broot/launcher/bash/br
 
 # flutter
 export PATH="$HOME/flutter/bin:$PATH"
+
+# broot
+source /home/hackerzol/.config/broot/launcher/bash/br
