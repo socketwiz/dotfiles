@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: option
+# key: option
+# --
+$1match $2 {
+    None => $3,
+    Some($4) => $5
+}$0

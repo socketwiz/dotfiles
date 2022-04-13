@@ -2,7 +2,7 @@
 ;; * Core
 (package-initialize)
 
-(defvar config-which-key-delay 1.4)
+(defvar config-which-key-delay 0.4)
 
 (defvar config-keep-backups t)
 
@@ -54,6 +54,9 @@
 
 ;; Add /usr/local/bin to the path
 (setq exec-path (append exec-path '("/usr/local/bin")))
+
+;; Disable flymake-mode
+(setq flymake-start-on-flymake-mode nil)
 
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
@@ -206,6 +209,10 @@
   :bind (("TAB" . yas-expand))
   :config
   (yas-reload-all))
+
+;; Language Server Protocol support for Emacs
+(use-package lsp-mode)
+
 
 ;; Display available keybindings in a popup
 (use-package which-key
@@ -455,7 +462,7 @@
 
 ;; JavaScript editing mode
 (use-package js2-mode
-  :mode ("\\.js\\'" . js2-mode)
+  :mode "\\.js\\'"
   :config
   :hook (js2-mode . setup-js2))
 
@@ -521,28 +528,15 @@
 
 
 ;; * Language rust
-(use-package rust-mode
-  :defer t)
+(defun setup-rustic ()
+  (yas-minor-mode))
 
-;; rust completion library
-(use-package racer
-  :after (rust-mode)
+(use-package rustic
+  :ensure t
+  :hook (rustic-mode . setup-rustic)
   :init
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'rust-mode-hook #'racer-mode))
-
-(use-package flycheck-rust
-  :after (rust-mode)
-  :init
-  (add-hook 'rust-mode-hook #'flycheck-mode))
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-
-;; rust package managment
-(use-package cargo
-  :after (rust-mode)
-  :hook (rust-mode . cargo-minor-mode))
-
-(add-hook 'rust-mode-hook #'yas-minor-mode)
+;;  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
+  (setf (cdr (rassoc 'rust-mode auto-mode-alist)) 'rustic-mode))
 
 
 ;; * Language clojure
@@ -555,4 +549,3 @@
 (use-package elpy
   :init
   (elpy-enable))
-
