@@ -262,23 +262,38 @@
 
 * evil
   #+BEGIN_SRC emacs-lisp
+  (defun temporarily-apply-emacs-state ()
+    "Enter emacs state when entering certain modes, then back to whatever it was"
+    (if (cond ((bound-and-true-p edebug-mode)))
+        (evil-emacs-state)
+      (evil-exit-emacs-state)))
+
   ;; Extensible vi layer for emacs
   (use-package evil
-    :init
-    ;; don't let modes override any states (!)
-    (setq evil-overriding-maps nil
-          evil-intercept-maps nil
-          evil-pending-intercept-maps nil
-          evil-pending-overriding-maps nil)
     :config
     (evil-mode 1)
-    (define-key evil-normal-state-map [escape] 'keyboard-quit) 
-    (define-key evil-visual-state-map [escape] 'keyboard-quit) 
-    (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
-    (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
-    (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
-    (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
-    (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
+    ;; Make emacs the default state
+    (setq evil-default-state 'emacs)
+    ;; Clear the motion-state so Info-mode, help-mode, etc.. will get into emacs state
+    (setq evil-motion-state-modes nil)
+
+    ;; Whitelist of modes to defeault to normal state
+    ;; Generally speaking if I can edit it, I want it normal state, otherwise emacs
+    (evil-set-initial-state 'gfm-mode 'normal)
+    (evil-set-initial-state 'org-mode 'normal)
+    (evil-set-initial-state 'prog-mode 'normal)
+
+    ;; For some modes, setting default-state is not enough to get them into emacs state
+    (add-hook 'edebug-mode-hook 'temporarily-apply-emacs-state)
+
+    ;; set cursor color according to mode
+    (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+    (setq evil-insert-state-cursor '("chartreuse3"  box))
+    (setq evil-visual-state-cursor '("gray" box))
+    (setq evil-operator-state-cursor '("cyan" box))
+    (setq evil-replace-state-cursor '("chocolate" box))
+    (setq evil-motion-state-cursor '("plum3" box))
+    (setq evil-emacs-state-cursor  '("SkyBlue2" box))
 
     ;; Customizable key sequence to escape from insert state and everything else
     (use-package evil-escape
@@ -297,45 +312,7 @@
     (use-package evil-anzu
       :config
       (global-anzu-mode +1)
-      :diminish 'anzu-mode)
-
-    ;; set cursor color according to mode
-    (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-    (setq evil-insert-state-cursor '("chartreuse3"  box))
-    (setq evil-visual-state-cursor '("gray" box))
-    (setq evil-operator-state-cursor '("cyan" box))
-    (setq evil-replace-state-cursor '("chocolate" box))
-    (setq evil-motion-state-cursor '("plum3" box))
-    (setq evil-emacs-state-cursor  '("SkyBlue2" box))
-
-    ;; disable these keys for use in other modes
-    (define-key evil-normal-state-map (kbd "C-n") nil)
-    (define-key evil-motion-state-map (kbd "C-o") nil)
-    (define-key evil-normal-state-map (kbd "M-.") nil)
-
-    ;; disable evil for these modes
-    (evil-set-initial-state 'bc-menu-mode 'emacs)
-    (evil-set-initial-state 'calc-mode 'emacs)
-    (evil-set-initial-state 'calculator-mode 'emacs)
-    (evil-set-initial-state 'calendar-mode 'emacs)
-    (evil-set-initial-state 'compilation-mode 'emacs)
-    (evil-set-initial-state 'dired-mode 'emacs)
-    (evil-set-initial-state 'edebug-mode 'emacs)
-    (evil-set-initial-state 'git-rebase-mode 'emacs)
-    (evil-set-initial-state 'grep-mode 'emacs)
-    (evil-set-initial-state 'help-mode 'emacs)
-    (evil-set-initial-state 'helpful-mode 'emacs)
-    (evil-set-initial-state 'Info-mode 'emacs)
-    (evil-set-initial-state 'magit-branch-manager-mode 'emacs)
-    (evil-set-initial-state 'magit-popup-mode 'emacs)
-    (evil-set-initial-state 'magit-refs-mode 'emacs)
-    (evil-set-initial-state 'rdictcc-buffer-mode 'emacs)
-    (evil-set-initial-state 'term-mode 'emacs)
-
-    ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
-    (advice-add 'evil-make-overriding-map :override #'ignore)
-    (advice-add 'evil-make-intercept-map  :override #'ignore)
-    (advice-add 'evil-add-hjkl-bindings   :override #'ignore))
+      :diminish 'anzu-mode))
   #+END_SRC
 
 * git
@@ -458,12 +435,6 @@
   #+END_SRC
 * Language elisp
   #+BEGIN_SRC emacs-lisp
-  (defun edebug-disable-evil ()
-    "Disable evil-mode when in the edebugger"
-    (if (bound-and-true-p edebug-mode)
-        (evil-emacs-state)
-      (evil-exit-emacs-state)))
-
   ;; Minor mode for performing structured editing ofo S-expression data
   (use-package paredit
     :ensure t
@@ -474,7 +445,6 @@
     (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
     (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
     (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-    (add-hook 'edebug-mode-hook           #'edebug-disable-evil)
     :config
     (eldoc-add-command
       'paredit-backward-delete
@@ -631,14 +601,6 @@
 
 * Language clojure
   #+BEGIN_SRC emacs-lisp
-  (defun cider-disable-evil ()
-    "Disable evil-mode when in the cider repl"
-    (if (eq major-mode 'cider-repl-mode)
-        (evil-emacs-state)
-      (evil-exit-emacs-state)))
-
   (use-package cider
-    :ensure t
-    :config
-    (add-hook 'cider-repl-mode-hook #'cider-disable-evil))
+    :ensure t)
   #+END_SRC
