@@ -10,18 +10,38 @@
 ;; * Core
 (package-initialize)
 
-(defvar config-which-key-delay 0.4)
+(defvar config-which-key-delay 0.4
+  "How long before which-key displays.")
 
-(defvar config-keep-backups t)
+(defvar config-keep-backups t
+  "Whether or not to make a backup of a file when it is saved.")
 
-;; Font settings
-(defvar config-font-family "Fira Code")
+(defvar config-font-family "Fira Code"
+  "Font to use in each buffer.")
 (defvar config-font-height 160
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
 
-(defvar config-indent-web-mode-spaces 2)
-(defvar config-indent-js-mode-spaces 2)
+(defvar config-indent-web-mode-spaces 2
+  "How many spaces to indent in web-mode.")
+(defvar config-indent-js-mode-spaces 2
+  "How many spaces to indent in \"js-mode\".")
 
+(defvar config-enable-evil-mode nil
+  "Whether or not to enable evil-mode.")
+(defvar config-enable-elpy-mode t
+  "Whether or not to enable elpy-mode.")
+(defvar config-enable-cider-mode nil
+  "Whether or not to enable cider-mode.")
+(defvar config-enable-rustic-mode t
+  "Whether or not to enable rustics-mode.")
+(defvar config-enable-markdown-mode nil
+  "Whether or not to enable markdown-mode.")
+(defvar config-enable-web-mode t
+  "Whether or not to enable web, js, css.")
+(defvar config-enable-c-mode nil
+  "Whether or not to enable c, c++.")
+
+;; Number of bytes of consing between garbage collections.
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;; Hide column numbers
@@ -62,14 +82,15 @@
 ;; Parenthesis
 (show-paren-mode 1)
 
-;; Wrap selection with (, [, ", etc...
+;; Automatic pairing (, [, ", etc...
 (electric-pair-mode 1)
 
-;; Always hightlight current line
+;; Always highlight current line
 (global-hl-line-mode t)
 
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
+;; Make line numbers relative
 (menu-bar-display-line-numbers-mode 'relative)
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
@@ -120,7 +141,6 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-.") 'helpful-at-point)
 (global-set-key (kbd "C-c r") 'counsel-recentf)
-(global-set-key (kbd "C-c C-s") 'swiper)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
@@ -132,6 +152,7 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
 (global-set-key (kbd "M-i") 'counsel-imenu)
+(global-set-key (kbd "M-s s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 
 
@@ -226,11 +247,7 @@
   (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 ;; Correct the misspelled word in a popup menu
 (use-package flyspell-popup
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct))
-  :config
-  (define-key popup-menu-keymap (kbd "C-j") 'popup-next)
-  (define-key popup-menu-keymap (kbd "C-k") 'popup-previous)
-  (define-key popup-menu-keymap (kbd "C-l") 'popup-select))
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-popup-correct)))
 
 ;; Syntax checker
 (use-package flycheck
@@ -392,8 +409,9 @@
   (:map projectile-mode-map ("C-c p s p" . rg-project))
   :diminish 'projectile-mode)
 
-;; Extensible vi layer for emacs
+;; Extensible vi layer for Emacs
 (use-package evil
+  :if config-enable-evil-mode
   :config
   ;; Put vim bindings everywhere
   (evil-mode)
@@ -416,6 +434,7 @@
 
 ;; Surround text objects with characters
 (use-package evil-surround
+  :if config-enable-evil-mode
   :after (evil)
   :config
   (global-evil-surround-mode 1))
@@ -431,11 +450,13 @@
 ;; * Language cpp
 ;; A flycheck checker for C/C++
 (use-package flycheck-irony
+  :if config-enable-c-mode
   :after (irony)
   :defer t)
 
 ;; Irony support for C/C++
 (use-package irony-eldoc
+  :if config-enable-c-mode
   :after (irony)
   :defer t
   :init
@@ -443,6 +464,7 @@
 
 ;; C++ minor mode, completion, syntax checking
 (use-package irony
+  :if config-enable-c-mode
   ;; Need to install the server on first run (M-x irony-install-server)
   :commands irony-mode
   :init
@@ -455,6 +477,7 @@
 
 ;; Embedded platform development
 (use-package platformio-mode
+  :if config-enable-c-mode
   :commands (platformio-conditionally-enable)
   :mode (("\\.ino\\'" . c++-mode))
   :init
@@ -529,14 +552,17 @@
 
 ;; JavaScript editing mode
 (use-package js2-mode
+  :if config-enable-web-mode
   :hook (js2-mode . setup-js2))
 
 ;; TypeScript Interactive Development Environment
 (use-package tide
+  :if config-enable-web-mode
   :hook (typescript-mode . setup-typescript))
 
 ;; JSX editing mode
 (use-package rjsx-mode
+  :if config-enable-web-mode
   :mode ("\\.js\\'" . rjsx-mode)
   :config
   :bind (:map rjsx-mode-map ("<" . nil)))
@@ -551,9 +577,9 @@
   ;; you can do {% %} without it becoming {% %}}
   (electric-pair-mode -1))
 
-
 ;; Major mode for editing web templates
 (use-package web-mode
+  :if config-enable-web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode))
   :config
@@ -588,12 +614,14 @@
 
 ;; SASS
 (use-package scss-mode
+  :if config-enable-web-mode
   :mode ("\\.scss\\'" . scss-mode))
 
 
-;; * Language markdown
+;; * Language Markdown
 ;; Major mode for editing Markdown formatted text
 (use-package markdown-mode
+  :if config-enable-markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -601,23 +629,26 @@
   :init (setq markdown-command "multimarkdown"))
 
 
-;; * Language rust
+;; * Language Rust
 (defun setup-rustic ()
   "Setup find-definitions when in rustic-mode."
   (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
   (yas-minor-mode))
 
 (use-package rustic
+  :if config-enable-rustic-mode
   :hook (rustic-mode . setup-rustic)
   :mode ("\\.rs\\'" . rustic-mode))
 
-;; * Language clojure
+;; * Language Clojure
 (use-package cider
+  :if config-enable-cider-mode
   :hook (clojure-mode . enable-paredit-mode))
 
 
-;; * Language python
+;; * Language Python
 (use-package elpy
+  :if config-enable-elpy-mode
   :init
   (elpy-enable))
 
