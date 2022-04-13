@@ -90,9 +90,6 @@
   (declare-function yas-reload-all "yasnippet.el")
   (yas-reload-all))
 
-;; Language Server Protocol support for Emacs
-(use-package eglot)
-
 ;; Display available keybindings in a popup
 (use-package which-key
   :diminish 'which-key-mode
@@ -305,6 +302,9 @@
   ;; In terminal <C-z> suspends Emacs to the background, but doesn't work so well in GUI
   (if (not (string= window-system nil))
       (global-unset-key (kbd "C-z"))))
+
+;; Language Server Protocol support for Emacs
+(use-package eglot)
 
 (provide 'packages)
 ;;; packages.el ends here
