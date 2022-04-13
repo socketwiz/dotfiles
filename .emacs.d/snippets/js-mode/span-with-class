@@ -1,4 +1,0 @@
-# key: span.
-# name: span-with-class
-# --
-<span class$3="$1">$2</span>$0

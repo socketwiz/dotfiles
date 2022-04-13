@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: cwm
-# key: cwm
-# --
-componentWillMount() {
-    $0
-}
