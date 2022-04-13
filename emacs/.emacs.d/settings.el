@@ -675,9 +675,17 @@
   :init
   (elpy-enable))
 
-(load "~/.emacs.d/dashboard.el")
-(declare-function dashboard "~/.emacs.d/dashboard.el")
-(dashboard)
+;; (load "~/.emacs.d/dashboard.el")
+;; (declare-function dashboard "~/.emacs.d/dashboard.el")
+;; (dashboard)
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-items '((projects . 5)
+                          (agenda . 5)
+                          (registers . 5)))
+  (setq dashboard-set-heading-icons t)
+  (dashboard-setup-startup-hook))
 
 (provide 'settings)
 
