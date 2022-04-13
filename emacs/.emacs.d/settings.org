@@ -48,6 +48,9 @@
 
   (setq initial-major-mode config-scratch-mode) 
 
+  ;; Give focus to new help windows
+  (setq help-window-select t)
+
   ;; add /usr/local/bin to the path
   (setq exec-path (append exec-path '("/usr/local/bin")))
 
