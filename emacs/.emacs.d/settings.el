@@ -3,7 +3,6 @@
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
 ;;; Commentary:
-
 ;; This package provides customized personal settings
 
 ;;; Code:
@@ -327,6 +326,11 @@
 
 ;; Fuzzy matching for Emacs
 (use-package flx)
+;; Sorting and filtering
+(use-package prescient)
+(use-package ivy-prescient
+  :after (counsel)
+  :config (ivy-prescient-mode))
 (use-package ivy-hydra)
 (use-package ivy
   :diminish 'ivy-mode
@@ -507,7 +511,9 @@
 
 ;; JSX editing mode
 (use-package rjsx-mode
-  :mode ("\\.js\\'" . rjsx-mode))
+  :mode ("\\.js\\'" . rjsx-mode)
+  :config
+  :bind (:map rjsx-mode-map ("<" . nil)))
 
 
 ;; * Language HTML, css
