@@ -47,6 +47,15 @@
 
 (setq mu4e-maildir "~/mail")
 
+(setq unread-query (concat
+                    "flag:unread maildir:/hackerzol430/inbox "
+                    "OR "
+                    "flag:unread maildir:/socketwiz/inbox "
+                    "OR "
+                    "flag:unread maildir:/larksoftware/inbox "
+                    "OR "
+                    "flag:unread maildir:/zolmok/inbox"))
+
 ;; Make sure that moving a message (like to Trash) causes the
 ;; message to get a new file name.  This helps to avoid the
 ;; dreaded "UID is N beyond highest assigned" error.
@@ -64,27 +73,19 @@
       smtpmail-smtp-service 465
       smtpmail-stream-type  'ssl)
 
+(setq mu4e-bookmarks
+      '((:name "Unread messages" :query unread-query :key 117)
+        (:name "Today's messages" :query "date:today..now" :key 116)
+        (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
+        (:name "Messages with images" :query "mime:image/*" :key 112)))
+(setq mu4e-completing-read-function 'completing-read)
+
 ;; Alert when a new message comes in
 (use-package mu4e-alert
   :ensure t
   :after mu4e
   :init
-  (setq mu4e-alert-interesting-mail-query
-    (concat
-     "flag:unread maildir:/hackerzol430/inbox "
-     "OR "
-     "flag:unread maildir:/socketwiz/inbox "
-     "OR "
-     "flag:unread maildir:/larksoftware/inbox "
-     "OR "
-     "flag:unread maildir:/zolmok/inbox "
-     "OR "
-     "flag:unread maildir:/picnic/inbox"))
-  (setq mu4e-bookmarks
-        '((:name "Unread messages" :query "flag:unread maildir:/hackerzol430/inbox OR flag:unread maildir:/socketwiz/inbox OR flag:unread maildir:/larksoftware/inbox OR flag:unread maildir:/zolmok/inbox" :key 117)
-        (:name "Today's messages" :query "date:today..now" :key 116)
-        (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
-        (:name "Messages with images" :query "mime:image/*" :key 112)))
+  (setq mu4e-alert-interesting-mail-query unread-query)
   (mu4e-alert-enable-mode-line-display))
 
 (setq mu4e-contexts
