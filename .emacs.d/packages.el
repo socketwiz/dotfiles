@@ -302,9 +302,7 @@
 
 ;; Jump to visible text using a char-based decision tree
 (use-package avy
-  :bind (("M-s a c" . avy-goto-char)
-         ("M-s a l" . avy-goto-line)
-         ("M-s a w" . avy-goto-word)))
+  :bind ("M-j" . avy-goto-char-timer))
 
 
 (provide 'packages)

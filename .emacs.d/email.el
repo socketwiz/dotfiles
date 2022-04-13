@@ -83,14 +83,6 @@
         (:name "Messages with images" :query "mime:image/*" :key 112)))
 (setq mu4e-completing-read-function 'completing-read)
 
-;; Alert when a new message comes in
-(use-package mu4e-alert
-  :ensure t
-  :after mu4e
-  :init
-  (setq mu4e-alert-interesting-mail-query config-mu4e-unread-query)
-  (mu4e-alert-enable-mode-line-display))
-
 (setq mu4e-contexts config-mu4e-contexts)
 
 (provide 'email)
