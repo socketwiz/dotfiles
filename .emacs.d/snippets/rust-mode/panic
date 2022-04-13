@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: panic
+# key: panic
+# --
+panic!("$1")$0

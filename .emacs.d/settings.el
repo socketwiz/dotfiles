@@ -44,6 +44,7 @@
 (set-register ?b '(file . "~/org/blog/index.org"))
 (set-register ?i '(file . "~/org/agenda/inbox.org"))
 (set-register ?k '(file . "~/org/work.org"))
+(set-register ?n '(file . "~/org/notes.org"))
 (set-register ?s '(file . "~/.emacs.d/init.el"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
@@ -53,7 +54,6 @@
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
-(global-set-key (kbd "C-s") 'occur)
 (global-set-key (kbd "C-x u") 'undo-tree-visualize)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 (global-set-key (kbd "C-x C-z") 'nil)
