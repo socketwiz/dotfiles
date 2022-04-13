@@ -110,7 +110,7 @@
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :custom
-  (org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+  (org-todo-keywords '("TODO" "STARTED" "DONE"))
   (org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
   (org-capture-templates
    (quote (("a" "agenda" entry (file "~/org/agenda/inbox.org")
