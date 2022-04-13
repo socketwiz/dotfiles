@@ -42,3 +42,6 @@ export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 BREW_PATHS="/usr/local/bin:/usr/local/sbin"
 export PATH=${BREW_PATHS}:${PATH}
 
+# up arrow history search
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
