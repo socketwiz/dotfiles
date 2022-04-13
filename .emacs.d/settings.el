@@ -187,6 +187,12 @@
 ;; * Core packages
 (use-package diminish)
 
+;; Import PATH
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 ;; Construct a regex interactively
 (use-package re-builder
   :config
@@ -603,8 +609,6 @@
   (if (not (string= window-system nil))
       (global-unset-key (kbd "C-z"))))
 
-;; Import PATH
-(exec-path-from-shell-initialize)
 
 ;; * Language cpp
 ;; Irony support for C/C++
