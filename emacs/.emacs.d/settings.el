@@ -127,9 +127,9 @@
 (set-register ?o '(file . "~/org/agenda/organizer.org"))
 (set-register ?w '(file . "~/org/wiki/index.org"))
 
-;; When on OSX, change meta to cmd key
-;; Amethyst, an OSX app I use is mucking around with Option-Shift
+;; When on MacOS, change meta to cmd key
 (when (eq system-type 'darwin)
+  ;; These 2 lines do not trigger flycheck warnings when on MacOS
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil))
 
