@@ -37,3 +37,6 @@ source /home/hackerzol/.config/broot/launcher/bash/br
 
 # PlatformIO
 #export PATH=$PATH:~/.platformio/penv/bin
+
+[ -f "$HOME/.work" ] && source "$HOME/.work"
+

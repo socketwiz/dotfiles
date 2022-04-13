@@ -64,6 +64,9 @@
 ;; Save ALL backup files to this location
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
+;; Disable locking of files (files with a # prefix)
+(setq create-lockfiles nil)
+
 ;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
 (setq scroll-conservatively 101)
 
@@ -253,6 +256,13 @@
   :init (global-company-mode))
 (use-package company-lsp
   :config (push 'company-capf company-backends))
+;; M-x company-tabnine-install-binary to install the TabNine binary
+(use-package company-tabnine
+  :config (push 'company-tabnine company-backends)
+  ;; Trigger completion immediately.
+  (setq company-idle-delay 0)
+  ;; Number the candidates (use M-1, M-2 etc to select completions).
+  (setq company-show-numbers t))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc
@@ -556,9 +566,8 @@
 
 
 ;; * Language javascript
-(defun configure-web-mode-flycheck-checkers ()
-  "Configure flycheck for web JavaScript and TypeScript."
-  (flycheck-mode)
+(defun configure-flymake-checker ()
+  "Configure flymake for JavaScript"
 
   ;; See if there is a node_modules directory
   (let* ((root (locate-dominating-file
@@ -572,30 +581,32 @@
                      (concat (string-trim (shell-command-to-string "npm config get prefix")) "/bin/eslint"))))
 
     (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint)))
+      (setq-local flymake-eslint-executable-name eslint)))
 
-  (declare-function flycheck-select-checker "flycheck.el")
-  (if (boundp 'eslint)
-      (flycheck-select-checker 'javascript-eslint)))
+  (flymake-eslint-enable))
 
 (defun setup-javascript ()
   "When \"js2-mode\" is loaded setup linters, yas and such."
-  ;;(configure-web-mode-flycheck-checkers)
   (eldoc-mode +1)
-  ;; (tide-hl-identifier-mode +1)
-  ;; (tide-setup)
+  (tide-hl-identifier-mode +1)
+  (tide-setup)
+  (configure-flymake-checker)
+
   (yas-minor-mode))
 
 (defun setup-typescript ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
   (when (featurep 'evil-mode)
     (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
-  ;;  (configure-web-mode-flycheck-checkers)
   (lsp-mode)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (tide-setup)
   (yas-minor-mode))
+
+;; Flymake eslint backend
+(use-package flymake-eslint
+  :if config-enable-web-mode)
 
 ;; JavaScript editing mode
 (use-package js2-mode
@@ -707,6 +718,10 @@
   (setq elpy-rpc-python-command "python3")
   :init
   (elpy-enable))
+
+;; Language YAML
+(use-package yaml-mode
+    :mode ("\\.yml\\'" . yaml-mode))
 
 (use-package dashboard
   :ensure t
