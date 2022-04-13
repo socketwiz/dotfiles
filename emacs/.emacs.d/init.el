@@ -7,7 +7,6 @@
 
 ;;; Code:
 
-(package-initialize)
 (load "~/.emacs.d/settings.el")
 
 (custom-set-variables
