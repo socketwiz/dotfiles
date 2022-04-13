@@ -10,13 +10,41 @@
 ;; Need to install mu4e OS package
 ;; e.g. `sudo apt-get install mu4e isync`
 ;; Initialize mu
-;; mu init --maildir=~/mail/hackerzol430 --my-address=hackerzol430@gmail.com
+;; mu init --maildir=~/mail/ --my-address=<email1> --my-address=<email2> --my-address=<emailN>
+;; mu index
+;; Sample .mbsyncrc
+;;
+;; IMAPAccount <name>
+;; # Address to connect to
+;; Host imap.mail.us-east-1.awsapps.com
+;; User <email | username>
+;; PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass-<name>.gpg"
+;; SSLType IMAPS
+;; CertificateFile /etc/ssl/certs/ca-certificates.crt
+;;
+;; IMAPStore <name>-remote
+;; Account <name>
+;;
+;; MaildirStore <name>-local
+;; SubFolders Verbatim
+;; # The trailing "/" is important
+;; Path ~/mail/<name>/
+;; Inbox ~/mail/<name>/inbox
+;;
+;; Channel <name>
+;; Master :<name>-remote:
+;; Slave :<name>-local:
+;; Patterns * !"[Gmail]/All Mail" !"[Gmail]/Important" !"[Gmail]/Starred" !"[Gmail]/Drafts" !"[Gmail]/Spam"
+;; # Automatically create missing mailboxes, both locally and on the server
+;; Create Both
+;; # Sync the movement of messages between folders and deletions, add after making sure the sync works
+;; Expunge Both
+;; # Save the synchronization state files in the relevant directory
+;; SyncState *
+;;
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-(load "/usr/share/emacs/site-lisp/mu4e/mu4e.el")
+(require 'mu4e)
 
-; Refresh mail using isync every 5 minutes
-(setq mu4e-update-interval (* 5 60))
-(setq mu4e-get-mail-command "mbsync -a")
 (setq mu4e-maildir "~/mail")
 
 ;; Make sure that moving a message (like to Trash) causes the
@@ -28,24 +56,6 @@
 ;; Display options
 (setq mu4e-view-show-images t)
 (setq mu4e-view-show-addresses 't)
-
-;; Prevent mu4e from permanently deleting trashed items
-;; This snippet was taken from the following article:
-;; http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/
-(defun remove-nth-element (nth list)
-  (if (zerop nth) (cdr list)
-    (let ((last (nthcdr (1- nth) list)))
-      (setcdr last (cddr last))
-      list)))
-(setq mu4e-marks (remove-nth-element 5 mu4e-marks))
-(add-to-list 'mu4e-marks
-             '(trash
-               :char ("d" . "▼")
-               :prompt "dtrash"
-               :dyn-target (lambda (target msg) (mu4e-get-trash-folder msg))
-               :action (lambda (docid msg target)
-                         (mu4e~proc-move docid
-                                         (mu4e~mark-check-target target) "-N"))))
 
 ;; Use mu4e for sending e-mail
 (setq mail-user-agent 'mu4e-user-agent
@@ -63,16 +73,19 @@
     (concat
      "flag:unread maildir:/hackerzol430/inbox "
      "OR "
-     "flag:unread maildir:/socketwiz/inbox"
+     "flag:unread maildir:/socketwiz/inbox "
      "OR "
-     "flag:unread maildir:/larksoftware/inbox"))
+     "flag:unread maildir:/larksoftware/inbox "
+     "OR "
+     "flag:unread maildir:/zolmok/inbox"))
   (mu4e-alert-enable-mode-line-display))
 
 (setq mu4e-contexts
         `(,(make-mu4e-context
             :name "hackerzol"
             :match-func (lambda (msg) (when msg
-                                        (string-prefix-p "/hackerzol" (mu4e-message-field msg :maildir))))
+                                        (mu4e-message-contact-field-matches
+                                         msg :to "hackerzol430@gmail.com")))
             :vars '(
                     (user-full-name . "Ricky Nelson")
                     (user-mail-address . "hackerzol430@gmail.com")
@@ -85,33 +98,46 @@
 	  ,(make-mu4e-context
             :name "socketwiz"
             :match-func (lambda (msg) (when msg
-                                        (string-prefix-p "/socketwiz" (mu4e-message-field msg :maildir))))
+                                        (mu4e-message-contact-field-matches
+                                         msg :to "rickyn@socketwiz.com")))
             :vars '(
                     (user-full-name . "Ricky Nelson")
                     (user-mail-address . "rickyn@socketwiz.com")
-                    (mu4e-sent-folder . "/hackerzol430/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/hackerzol430/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/hackerzol430/\[Gmail\]/Drafts")
+                    (mu4e-sent-folder . "/socketwiz/\[Gmail\]/Sent Mail")
+                    (mu4e-trash-folder . "/socketwiz/\[Gmail\]/Trash")
+                    (mu4e-drafts-folder . "/socketwiz/\[Gmail\]/Drafts")
                     (mu4e-refile-folder . "/socketwiz/archive")
                     (smtpmail-smtp-user "rickyn@socketwiz.com")
                     ))
 	  ,(make-mu4e-context
             :name "larksoftware"
             :match-func (lambda (msg) (when msg
-                                        (string-prefix-p "/larksoftware" (mu4e-message-field msg :maildir))))
+                                        (mu4e-message-contact-field-matches
+                                         msg :to "info@larksoftware.com")))
             :vars '(
                     (user-full-name . "Ricky Nelson")
                     (user-mail-address . "info@larksoftware.com")
-                    (mu4e-sent-folder . "/hackerzol430/\[Gmail\]/Sent Mail")
-                    (mu4e-trash-folder . "/hackerzol430/\[Gmail\]/Trash")
-                    (mu4e-drafts-folder . "/hackerzol430/\[Gmail\]/Drafts")
-                    (mu4e-refile-folder . "/socketwiz/archive")
+                    (mu4e-sent-folder . "/larksoftware/\[Gmail\]/Sent Mail")
+                    (mu4e-trash-folder . "/larksoftware/\[Gmail\]/Trash")
+                    (mu4e-drafts-folder . "/larksoftware/\[Gmail\]/Drafts")
+                    (mu4e-refile-folder . "/larksoftware/archive")
+                    (smtpmail-smtp-user "info@larksoftware.com")
+                    ))
+	  ,(make-mu4e-context
+            :name "zolmok"
+            :match-func (lambda (msg) (when msg
+                                        (mu4e-message-contact-field-matches
+                                         msg :to "rickyn@zolmok.org")))
+            :vars '(
+                    (user-full-name . "Ricky Nelson")
+                    (user-mail-address . "rickyn@zolmok.org")
+                    (mu4e-sent-folder . "/zolmok/Sent Items")
+                    (mu4e-trash-folder . "/zolmok/Deleted Items")
+                    (mu4e-drafts-folder . "/zolmok/Drafts")
+                    (mu4e-refile-folder . "/zolmok/Archive")
                     (smtpmail-smtp-user "info@larksoftware.com")
                     ))
           ))
-
-;; Start mu4e in the background so that it syncs mail periodically
-(mu4e t)
 
 (provide 'email)
 ;;; email.el ends here
