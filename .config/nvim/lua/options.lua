@@ -16,6 +16,7 @@ set.ignorecase = true               -- Ignore case
 set.joinspaces = false              -- No double spaces with join
 set.laststatus = 2                  -- Make sure the last window always has a status line
 set.list = true                     -- Show some invisible characters
+set.mouse = 'a'                     -- Enable mouse support to make navigating the LSP UI easier
 set.number = true                   -- Show line numbers
 set.relativenumber = true           -- Relative line numbers
 set.ruler = true                    -- Display the line and column Separated by a comma

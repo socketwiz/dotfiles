@@ -5,11 +5,11 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'  -- Package manager
 
   use 'neovim/nvim-lspconfig'   -- Collection of configurations for the built-in LSP client
-  use 'mfussenegger/nvim-dap'   -- LSP debug adapter
-  use {
-    "rcarriga/nvim-dap-ui",
-    requires = {"mfussenegger/nvim-dap"}
+  use {                         -- LSP debug adapter
+    'rcarriga/nvim-dap-ui',
+    requires = { 'mfussenegger/nvim-dap' }
   }
+  use 'ray-x/lsp_signature.nvim' -- Show function signatures
 
   -- Parse generator (syntax tree for souce files)
   use {
@@ -39,7 +39,7 @@ return require('packer').startup(function()
   use 'folke/tokyonight.nvim' -- Theme
   use 'folke/which-key.nvim' -- Show which hotkeys are available for use
 
-  use {
+  use { -- Completion
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
