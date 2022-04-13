@@ -294,8 +294,6 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.2)
   :init (global-company-mode))
-(use-package company-lsp
-  :config (push 'company-capf company-backends))
 
 ;; Show the argument list of a function in the echo area
 (use-package eldoc

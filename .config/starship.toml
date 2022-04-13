@@ -4,7 +4,6 @@ symbol = "🌱 "
 truncation_symbol = ""
 
 [git_state]
-progress_divider = " of "
 cherry_pick = "🍒 PICKING"
 
 [git_status]
@@ -19,8 +18,6 @@ renamed = "👅"
 deleted = "🗑"
 staged.value = "++"
 staged.style = "green"
-staged_count.enabled = true
-staged_count.style = "green"
 
 [jobs]
 symbol = "+ "

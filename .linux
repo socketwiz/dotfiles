@@ -5,6 +5,7 @@ alias blog='~/dev/Zolmok/dev'
 alias CAPS='xmodmap ~/.Xmodmap-caps'
 alias nocaps='xmodmap ~/.Xmodmap'
 alias refresh='gnome-shell --replace & disown'
+alias ssh='TERM=xterm-256color ssh $@'
 
 # ls
 alias ll='ls -l'
@@ -31,6 +32,6 @@ export PATH="$HOME/flutter/bin:$PATH"
 
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
-export DENO_INSTALL="/home/hackerzol/.deno"
+export DENO_INSTALL="${HOME}/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
