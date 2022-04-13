@@ -9,6 +9,7 @@ emacs/.emacs.d/smex-items
 emacs/.emacs.d/undo/
 emacs/.emacs.d/url/
 emacs/.emacs.d/bookmarks
+emacs/.emacs.d/settings.el
 
 vim/.vim/.netrwhist
 

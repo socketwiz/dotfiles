@@ -3,17 +3,6 @@
   #+BEGIN_SRC emacs-lisp
   (package-initialize)
 
-  (setq use-package-always-ensure t)
-  (setq gc-cons-threshold most-positive-fixnum)
-
-  (use-package diminish)
-
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-
   (defvar config-scratch-mode 'text-mode)
 
   (defvar config-which-key-delay 0.4)
@@ -25,17 +14,14 @@
   (defvar config-font-family "Source Code Pro")
   (defvar config-font-height 160)
 
+  (setq use-package-always-ensure t)
+  (setq gc-cons-threshold most-positive-fixnum)
+
   ;; Set regex syntax to string for re-builder
   (setq reb-re-syntax 'string)
 
   ;; Hide column numbers
   (setq column-number-mode t)
-
-  ;; Always hightlight current line
-  (global-hl-line-mode t)
-
-  ;; Y or n is enough for me
-  (fset 'yes-or-no-p 'y-or-n-p)
 
   ;; Draw underline lower
   (setq x-underline-at-descent-line t)
@@ -45,19 +31,6 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (toggle-scroll-bar -1)
-
-  ;; Font
-  (set-face-attribute 'default nil
-                      :family config-font-family
-                      :height config-font-height)
-
-  ;; Parenthesis
-  (show-paren-mode 1)
-
-  ;; Frequently accessed files (C-x r j <letter>)
-  (set-register ?i '(file . "~/.emacs.d/settings.org"))
-  (set-register ?o '(file . "~/org/agenda/organizer.org"))
-  (set-register ?w '(file . "~/org/wiki/index.org"))
 
   ;; Save ALL backup files to this location
   (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
@@ -72,6 +45,35 @@
 
   ;; add /usr/local/bin to the path
   (setq exec-path (append exec-path '("/usr/local/bin")))
+
+  ;; turn on line numbers
+  (global-display-line-numbers-mode)
+  (menu-bar-display-line-numbers-mode 'relative)
+
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  ;; Always hightlight current line
+  (global-hl-line-mode t)
+
+  ;; Y or n is enough for me
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; Font
+  (set-face-attribute 'default nil
+                      :family config-font-family
+                      :height config-font-height)
+
+  ;; Parenthesis
+  (show-paren-mode 1)
+
+  ;; Frequently accessed files (C-x r j <letter>)
+  (set-register ?i '(file . "~/.emacs.d/settings.org"))
+  (set-register ?o '(file . "~/org/agenda/organizer.org"))
+  (set-register ?w '(file . "~/org/wiki/index.org"))
   #+END_SRC
 
 * Core keybindings
@@ -101,9 +103,15 @@
 
 * Core packages
   #+BEGIN_SRC emacs-lisp
-  (use-package dracula-theme
+  (use-package diminish)
+
+  ;;(use-package dracula-theme
+  ;;  :config
+  ;;  (load-theme 'dracula t)
+  ;;  :ensure t)
+  (use-package cyberpunk-theme
     :config
-    (load-theme 'dracula t)
+    (load-theme 'cyberpunk t)
     :ensure t)
 
   ;; Rainbow mode - displays color codes in their color
@@ -116,12 +124,6 @@
   ;; https://github.com/emacs-jp/replace-colorthemes
   (use-package all-the-icons
     :ensure t)
-
-  ;; Relative line numbers + centered mode FTW
-  (use-package linum-relative
-    :diminish 'linum-relative-mode
-    :init (setq linum-relative-current-symbol "")
-    :config (linum-relative-global-mode))
 
   ;; parenthesis
   (use-package highlight-parentheses
