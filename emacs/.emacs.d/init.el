@@ -1,15 +1,6 @@
 
 (package-initialize)
 
-(setq use-package-always-ensure t)
-(setq gc-cons-threshold most-positive-fixnum)
-
-(use-package exec-path-from-shell
-  :defer t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
 (require 'org)
 (org-babel-load-file
  (expand-file-name "settings.org"
