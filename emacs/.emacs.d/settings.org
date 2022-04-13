@@ -113,12 +113,6 @@
 (global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
 (global-set-key (kbd "M-i") #'imenu)
 (global-set-key (kbd "M-x") #'smex)
-
-(use-package which-key
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay config-which-key-delay)
-  :diminish which-key-mode)
 #+END_SRC
 
 * Core packages
@@ -203,6 +197,13 @@
   :bind (("TAB" . yas-expand))
   :config
   (yas-reload-all))
+
+;; Display available keybindings in a popup
+(use-package which-key
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay config-which-key-delay)
+  :diminish which-key-mode)
 
 ;; Highlight numbers for prog modes
 (use-package highlight-numbers 
