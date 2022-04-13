@@ -6,6 +6,11 @@
 ;; Emacs Startup File --- initialization for Emacs
 
 ;;; Code:
+;; Mu4e does not exist in melpa, we have to install it through the OS
+;; package manager, so just pull it in here
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+
 (load "~/.emacs.d/variables.el")
 (load "~/.emacs.d/settings.el")
 (load "~/.emacs.d/email.el")

@@ -39,6 +39,16 @@
 (defvar config-enable-yaml-mode t
   "Whether or not to enable \"yaml-mode\".")
 
+(if (file-exists-p "~/.emacs.d/email-personal.el")
+    (load "~/.emacs.d/email-personal.el"))
+(if (file-exists-p "~/.emacs.d/email-work.el")
+    (load "~/.emacs.d/email-work.el"))
+
+(defvar config-mu4e-unread-query unread-query
+  "Unread mail query for mu4e.")
+(defvar config-mu4e-contexts mu4e-context-list
+  "A list of mu4e context objects.")
+
 ;; Prevent the startup window
 (setq inhibit-startup-message t)
 
