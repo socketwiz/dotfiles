@@ -298,6 +298,7 @@
   (evil-set-undo-system 'undo-tree)
 
   ;; For some reason these modes are starting in emacs state, set them to normal
+  (evil-set-initial-state 'markdown-mode 'normal)
   (evil-set-initial-state 'python-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
