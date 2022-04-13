@@ -7,6 +7,9 @@
 
 ;;; Code:
 
+;; Set the path from the shell
+(exec-path-from-shell-initialize)
+
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -54,3 +57,4 @@
 (global-set-key (kbd "C-x C-z") 'nil)
 
 (provide 'settings)
+;;; settings.el ends here
