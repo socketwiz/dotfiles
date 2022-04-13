@@ -13,10 +13,6 @@ export ENABLE_CORRECTION="true"
 
 ### Paths
 #
-# setup Homebrew
-BREW_PATHS=/usr/local/bin:/usr/local/sbin
-export PATH=${BREW_PATHS}:${PATH}
-
 # Add scripts I've written to the PATH.
 export PATH=${HOME}/bin:${PATH}
 
@@ -26,4 +22,3 @@ source $HOME/.cargo/env
 
 # setup Node
 export PATH="${HOME}/.npm-global/bin":${PATH}
-
