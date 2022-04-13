@@ -120,9 +120,14 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+#bar {
+#        status_command i3status -c ~/.config/i3/i3status.conf
+#        tray_output primary
+#}
 bar {
-        status_command i3status -c ~/.config/i3/i3status.conf
-        tray_output primary
+    font pango:Fira Code 24px
+    position bottom
+    status_command ~/.cargo/bin/i3status-rs ~/.config/i3status-rs/config.toml
 }
 
 # Configure workspaces to monitors
@@ -142,6 +147,6 @@ for_window [class="kruler"] floating enable
 for_window [class="Magnus"] floating enable
 for_window [class="Mozilla VPN"] floating enable
 
-#exec --no-startup-id "xrandr --output DP-2 --pos 0x0 --output DP-4 --pos 2560x0 --right-of DP-2 --output DP-0 --pos 5120x0 --right-of DP-4"
 exec --no-startup-id "xrandr --output DP-0 --pos 0x0"
 exec --no-startup-id ~/.fehbg
+
