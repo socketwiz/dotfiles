@@ -24,9 +24,6 @@ spot() {
 
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
-# shellcheck source=/dev/null
-. ~/.fzf.zsh
-
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
 export PATH=$HOME/.npm-packages/bin:$PATH
