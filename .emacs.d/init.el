@@ -13,7 +13,6 @@
 
 (load "~/.emacs.d/variables.el")
 (load "~/.emacs.d/settings.el")
-(load "~/.emacs.d/email.el")
 (load "~/.emacs.d/packages.el")
 (load "~/.emacs.d/javascript.el")
 (load "~/.emacs.d/rust.el")
