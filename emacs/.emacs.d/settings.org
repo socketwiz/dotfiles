@@ -1,14 +1,11 @@
 
-* Package init
+* Core
   #+BEGIN_SRC emacs-lisp
   (package-initialize)
 
   (setq use-package-always-ensure t)
   (setq gc-cons-threshold most-positive-fixnum)
-  #+END_SRC
 
-* Core
-  #+BEGIN_SRC emacs-lisp
   (use-package diminish)
 
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -17,10 +14,6 @@
     (package-refresh-contents)
     (package-install 'use-package))
 
-  #+END_SRC
-
-* Core config
-  #+BEGIN_SRC emacs-lisp
   (defvar config-scratch-mode 'text-mode)
 
   (defvar config-which-key-delay 0.4)
@@ -31,65 +24,6 @@
   ;; font-height is 1/10pt so 160 == 160/10 == 16pt
   (defvar config-font-family "Source Code Pro")
   (defvar config-font-height 160)
-  #+END_SRC
-
-* Core keybindings
-  #+BEGIN_SRC emacs-lisp
-(defun toggle-window-split ()
-  (interactive)
-  (if (= (count-windows) 2)
-      (let* ((this-win-buffer (window-buffer))
-         (next-win-buffer (window-buffer (next-window)))
-         (this-win-edges (window-edges (selected-window)))
-         (next-win-edges (window-edges (next-window)))
-         (this-win-2nd (not (and (<= (car this-win-edges)
-                     (car next-win-edges))
-                     (<= (cadr this-win-edges)
-                     (cadr next-win-edges)))))
-         (splitter
-          (if (= (car this-win-edges)
-             (car (window-edges (next-window))))
-          'split-window-horizontally
-        'split-window-vertically)))
-    (delete-other-windows)
-    (let ((first-win (selected-window)))
-      (funcall splitter)
-      (if this-win-2nd (other-window 1))
-      (set-window-buffer (selected-window) this-win-buffer)
-      (set-window-buffer (next-window) next-win-buffer)
-      (select-window first-win)
-      (if this-win-2nd (other-window 1))))))
-
-  (global-set-key (kbd "<f5>") #'revert-buffer)
-  (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c c") #'org-capture)
-  (global-set-key (kbd "C-c C-.") #'helpful-at-point)
-  (global-set-key (kbd "C-c r") #'helm-recentf)
-  (global-set-key (kbd "C-h b") #'describe-bindings)
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-x |") #'toggle-window-split)
-  (global-set-key (kbd "C-x C-b") #'ibuffer)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x g") #'magit-status)
-  (global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
-  (global-set-key (kbd "M-i") #'imenu)
-  (global-set-key (kbd "M-x") #'helm-M-x)
-
-  (use-package which-key
-    :defer t
-    :diminish which-key-mode)
-  (which-key-mode)
-  (setq which-key-idle-delay config-which-key-delay)
-  #+END_SRC
-
-* Core packages
-  #+BEGIN_SRC emacs-lisp
-  (use-package dracula-theme
-    :config
-    (load-theme 'dracula t)
-    :ensure t)
 
   ;; Set regex syntax to string for re-builder
   (setq reb-re-syntax 'string)
@@ -117,33 +51,8 @@
                       :family config-font-family
                       :height config-font-height)
 
-  ;; Rainbow mode - displays color codes in their color
-  (use-package rainbow-mode
-    :delight
-    :ensure t)
-
-  ;; Theme
-  ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
-  ;; https://github.com/emacs-jp/replace-colorthemes
-  (use-package all-the-icons
-    :ensure t)
-
-  ;; Window numbers
-  (use-package winum)
-  (winum-mode)
-  (setq winum-auto-setup-mode-line nil)
-
-  ;; Relative line numbers + centered mode FTW
-  (use-package linum-relative
-    :diminish 'linum-relative-mode
-    :init (setq linum-relative-current-symbol "")
-    :config (linum-relative-global-mode))
-
-  ;; parenthesis
+  ;; Parenthesis
   (show-paren-mode 1)
-  (use-package highlight-parentheses
-    :diminish 'highlight-parentheses-mode
-    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
 
   ;; Frequently accessed files (C-x r j <letter>)
   (set-register ?i '(file . "~/.emacs.d/settings.org"))
@@ -158,146 +67,87 @@
 
   ;; Automatically scroll the compilation buffer
   (setq compilation-scroll-output t)
+
+  (setq initial-major-mode config-scratch-mode) 
+
+  ;; add /usr/local/bin to the path
+  (setq exec-path (append exec-path '("/usr/local/bin")))
   #+END_SRC
 
-
-* Base
-
+* Core keybindings
   #+BEGIN_SRC emacs-lisp
-(use-package exec-path-from-shell
-  :defer t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  (global-set-key (kbd "<f5>") #'revert-buffer)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
+  (global-set-key (kbd "C-c C-.") #'helpful-at-point)
+  (global-set-key (kbd "C-c r") #'helm-recentf)
+  (global-set-key (kbd "C-h b") #'describe-bindings)
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-x C-b") #'ibuffer)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x g") #'magit-status)
+  (global-set-key (kbd "C-x M-g") #'magit-dispatch-popup)
+  (global-set-key (kbd "M-i") #'imenu)
+  (global-set-key (kbd "M-x") #'helm-M-x)
+
+  (use-package which-key
+    :defer t
+    :diminish which-key-mode)
+  (which-key-mode)
+  (setq which-key-idle-delay config-which-key-delay)
   #+END_SRC
 
-* Base evil
-
+* Core packages
   #+BEGIN_SRC emacs-lisp
-  (use-package evil-escape 
-    :diminish 'evil-escape-mode) 
-
-  (setq-default evil-escape-key-sequence "fd") 
-  (evil-escape-mode)
-
-  ;; esc should escape everything possible
-  (require 'evil) 
-  (define-key evil-normal-state-map [escape] 'keyboard-quit) 
-  (define-key evil-visual-state-map [escape] 'keyboard-quit) 
-  (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
-  (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
-
-  (use-package evil
-    :init
-    ;; don't let modes override any states (!)
-    (setq evil-overriding-maps nil
-          evil-intercept-maps nil
-          evil-pending-intercept-maps nil
-          evil-pending-overriding-maps nil)
+  (use-package dracula-theme
     :config
-    (progn
-      (evil-mode 1)
-
-      (use-package evil-surround
-        :config (global-evil-surround-mode 1))
-
-      ;; evil-anzu for improving search result rendering
-      (use-package evil-anzu
-        :config (global-anzu-mode +1)
-        :diminish 'anzu-mode)
-
-      ;; set cursor color according to mode
-      (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
-      (setq evil-insert-state-cursor '("chartreuse3"  box))
-      (setq evil-visual-state-cursor '("gray" box))
-      (setq evil-operator-state-cursor '("cyan" box))
-      (setq evil-replace-state-cursor '("chocolate" box))
-      (setq evil-motion-state-cursor '("plum3" box))
-      (setq evil-emacs-state-cursor  '("SkyBlue2" box))
-
-      ;; disable this key sequence so we can use it in ivy
-      (define-key evil-normal-state-map (kbd "C-n") nil)
-      ;; disable this key sequence so we can use it in tide
-      (define-key evil-normal-state-map (kbd "M-.") nil)
-
-      ;; disable evil for these modes
-      (cl-loop for (mode . state)
-            in '((bc-menu-mode . emacs)
-                 (calc-mode . emacs)
-                 (calculator-mode . emacs)
-                 (calendar-mode . emacs)
-                 (dired-mode . emacs)
-                 (git-rebase-mode . emacs)
-                 (grep-mode . emacs)
-                 (helm-grep-mode . emacs)
-                 (help-mode . emacs)
-                 (helpful-mode . emacs)
-                 (Info-mode . emacs)
-                 (magit-branch-manager-mode . emacs)
-                 (magit-popup-mode . emacs)
-                 (magit-refs-mode . emacs)
-                 (rdictcc-buffer-mode . emacs)
-                 (term-mode . emacs))
-            do (evil-set-initial-state mode state))
-
-      ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
-      (advice-add 'evil-make-overriding-map :override #'ignore)
-      (advice-add 'evil-make-intercept-map  :override #'ignore)
-      (advice-add 'evil-add-hjkl-bindings   :override #'ignore)))
-
-  #+END_SRC
-
-* Base projectile
-
-  #+BEGIN_SRC emacs-lisp
-  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
-        projectile-known-projects-file (concat user-emacs-directory
-                                               ".cache/projectile-bookmarks.eld"))
-  (add-hook 'find-file-hook (lambda () 
-                              (unless recentf-mode (recentf-mode) 
-                                      (recentf-track-opened-file)))) 
-
-  (use-package pt
+    (load-theme 'dracula t)
     :ensure t)
 
-  (use-package projectile 
-    :after (pt)
-    :bind (("C-c p *" . projectile-pt))
-    :diminish 'projectile-mode) 
+  ;; Rainbow mode - displays color codes in their color
+  (use-package rainbow-mode
+    :delight
+    :ensure t)
 
-  (use-package helm-projectile
+  ;; Theme
+  ;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
+  ;; https://github.com/emacs-jp/replace-colorthemes
+  (use-package all-the-icons
+    :ensure t)
+
+  ;; Relative line numbers + centered mode FTW
+  (use-package linum-relative
+    :diminish 'linum-relative-mode
+    :init (setq linum-relative-current-symbol "")
+    :config (linum-relative-global-mode))
+
+  ;; parenthesis
+  (use-package highlight-parentheses
+    :diminish 'highlight-parentheses-mode
+    :config (add-hook 'prog-mode-hook #'highlight-parentheses-mode))
+
+  (use-package exec-path-from-shell
+    :defer t
     :config
-    (progn
-      (setq projectile-completion-system 'helm)
-      (helm-projectile-on)))
-
-  (setq projectile-sort-order 'helm projectile-sort-order 'recentf
-        projectile-globally-ignored-directories (append '(".cache")))
-  (projectile-global-mode)
-
-  #+END_SRC
-
-* Base emacs
-
-  #+BEGIN_SRC emacs-lisp
-  (setq initial-major-mode config-scratch-mode) 
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
 
   ;; init undo-tree
   (use-package undo-tree 
+    :config
+    (setq undo-tree-visualizer-timestamps t) 
+    (setq undo-tree-visualizer-diff t)
+    (setq undo-tree-auto-save-history t)
+    ;; save all undo histories to this location
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+    (defadvice undo-tree-make-history-save-file-name
+        (after undo-tree activate)
+        (setq ad-return-value (concat ad-return-value ".gz")))
+    (global-undo-tree-mode)
     :defer t 
-    :diminish 'undo-tree-mode) 
-  (setq undo-tree-visualizer-timestamps t) 
-  (setq undo-tree-visualizer-diff t)
-  (setq undo-tree-auto-save-history t)
-  ;; save all undo histories to this location
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-  (defadvice undo-tree-make-history-save-file-name
-      (after undo-tree activate)
-    (setq ad-return-value (concat ad-return-value ".gz")))
-  (global-undo-tree-mode)
+    :diminish 'undo-tree-mode)
 
   ;; init company mode
   (use-package company 
@@ -373,19 +223,120 @@
       (require 'helm-config)
       (helm-mode 1)))
 
-
   (use-package atomic-chrome
     :ensure t
     :config (progn
               (atomic-chrome-start-server)
               (setq atomic-chrome-buffer-open-style 'frame)))
-
-  ;; add /usr/local/bin to the path
-  (setq exec-path (append exec-path '("/usr/local/bin")))
-
   #+END_SRC
-* Base git
 
+
+* evil
+  #+BEGIN_SRC emacs-lisp
+  (use-package evil-escape 
+    :diminish 'evil-escape-mode) 
+
+  (setq-default evil-escape-key-sequence "fd") 
+  (evil-escape-mode)
+
+  ;; esc should escape everything possible
+  (require 'evil) 
+  (define-key evil-normal-state-map [escape] 'keyboard-quit) 
+  (define-key evil-visual-state-map [escape] 'keyboard-quit) 
+  (define-key minibuffer-local-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit) 
+  (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)
+
+  (use-package evil
+    :init
+    ;; don't let modes override any states (!)
+    (setq evil-overriding-maps nil
+          evil-intercept-maps nil
+          evil-pending-intercept-maps nil
+          evil-pending-overriding-maps nil)
+    :config
+    (progn
+      (evil-mode 1)
+
+      (use-package evil-surround
+        :config (global-evil-surround-mode 1))
+
+      ;; evil-anzu for improving search result rendering
+      (use-package evil-anzu
+        :config (global-anzu-mode +1)
+        :diminish 'anzu-mode)
+
+      ;; set cursor color according to mode
+      (setq evil-normal-state-cursor '("DarkGoldenrod2" box))
+      (setq evil-insert-state-cursor '("chartreuse3"  box))
+      (setq evil-visual-state-cursor '("gray" box))
+      (setq evil-operator-state-cursor '("cyan" box))
+      (setq evil-replace-state-cursor '("chocolate" box))
+      (setq evil-motion-state-cursor '("plum3" box))
+      (setq evil-emacs-state-cursor  '("SkyBlue2" box))
+
+      ;; disable this key sequence so we can use it in ivy
+      (define-key evil-normal-state-map (kbd "C-n") nil)
+      ;; disable this key sequence so we can use it in tide
+      (define-key evil-normal-state-map (kbd "M-.") nil)
+
+      ;; disable evil for these modes
+      (cl-loop for (mode . state)
+            in '((bc-menu-mode . emacs)
+                 (calc-mode . emacs)
+                 (calculator-mode . emacs)
+                 (calendar-mode . emacs)
+                 (dired-mode . emacs)
+                 (git-rebase-mode . emacs)
+                 (grep-mode . emacs)
+                 (helm-grep-mode . emacs)
+                 (help-mode . emacs)
+                 (helpful-mode . emacs)
+                 (Info-mode . emacs)
+                 (magit-branch-manager-mode . emacs)
+                 (magit-popup-mode . emacs)
+                 (magit-refs-mode . emacs)
+                 (rdictcc-buffer-mode . emacs)
+                 (term-mode . emacs))
+            do (evil-set-initial-state mode state))
+
+      ;; subvert evil-operation.el overrides (dired, ibuffer etc.)
+      (advice-add 'evil-make-overriding-map :override #'ignore)
+      (advice-add 'evil-make-intercept-map  :override #'ignore)
+      (advice-add 'evil-add-hjkl-bindings   :override #'ignore)))
+  #+END_SRC
+
+* projectile
+  #+BEGIN_SRC emacs-lisp
+  (setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache")
+        projectile-known-projects-file (concat user-emacs-directory
+                                               ".cache/projectile-bookmarks.eld"))
+  (add-hook 'find-file-hook (lambda () 
+                              (unless recentf-mode (recentf-mode) 
+                                      (recentf-track-opened-file)))) 
+
+  (use-package pt
+    :ensure t)
+
+  (use-package projectile 
+    :after (pt)
+    :bind (("C-c p *" . projectile-pt))
+    :diminish 'projectile-mode) 
+
+  (use-package helm-projectile
+    :config
+    (progn
+      (setq projectile-completion-system 'helm)
+      (helm-projectile-on)))
+
+  (setq projectile-sort-order 'helm projectile-sort-order 'recentf
+        projectile-globally-ignored-directories (append '(".cache")))
+  (projectile-global-mode)
+  #+END_SRC
+
+* git
   #+BEGIN_SRC emacs-lisp
   (use-package magit
     :config
@@ -401,11 +352,10 @@
       (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
       (global-diff-hl-mode t)
       (diff-hl-flydiff-mode t)))
-
   #+END_SRC
 
-* Languages cpp
 
+* Language cpp
   #+BEGIN_SRC emacs-lisp
   (use-package flycheck-irony
     :ensure t)
@@ -445,8 +395,7 @@
   (add-hook 'c++-mode-hook 'flycheck-mode)
 
   #+END_SRC
-* Languages elisp
-
+* Language elisp
   #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :ensure t
@@ -461,21 +410,20 @@
   (eldoc-add-command
    'paredit-backward-delete
    'paredit-close-round)
-
   #+END_SRC
-* Languages javascript
 
+* Language javascript
   #+BEGIN_SRC emacs-lisp
-(defun configure-web-mode-flycheck-checkers ()
-  ;; in order to have flycheck enabled in web-mode, add an entry to this
-  ;; cond that matches the web-mode engine/content-type/etc and returns the
-  ;; appropriate checker.
-  (-when-let (checker (cond
+  (defun configure-web-mode-flycheck-checkers ()
+    ;; in order to have flycheck enabled in web-mode, add an entry to this
+    ;; cond that matches the web-mode engine/content-type/etc and returns the
+    ;; appropriate checker.
+    (-when-let (checker (cond
                        ((string= web-mode-content-type "jsx")
                         'javascript-eslint)))
-    (flycheck-mode)
-    ;; use the locally installed eslint
-    (let* ((root (locate-dominating-file
+      (flycheck-mode)
+      ;; use the locally installed eslint
+      (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
                   "node_modules"))
            (eslint (and root
@@ -484,13 +432,13 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint)))
 
-    (flycheck-select-checker checker)))
+      (flycheck-select-checker checker)))
 
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1))
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1))
 
   (use-package scss-mode)
   (use-package web-mode
@@ -554,36 +502,29 @@
   (add-hook 'web-mode-hook #'yas-minor-mode)
 
   #+END_SRC
-* Languages markdown
-
+* Language markdown
   #+BEGIN_SRC emacs-lisp
-  (use-package paredit
-    :ensure t
-    :init
-    (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-    (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
+  (defun my/init-markdown ()
+    (use-package markdown-mode
+        :defer t
+        :commands (markdown-mode gfm-mode)
+        :mode (("README\\.md\\'" . gfm-mode)
+            ("\\.md\\'" . markdown-mode)
+            ("\\.markdown\\'" . markdown-mode))
+        :init (setq markdown-command "multimarkdown")))
 
-  (eldoc-add-command
-   'paredit-backward-delete
-   'paredit-close-round)
-
+  (provide 'my-markdown)
   #+END_SRC
-* Languages java
 
+* Language java
   #+BEGIN_SRC emacs-lisp
   (use-package groovy-mode
     :ensure t
     :mode "\\.groovy\\'"
     :interpreter "groovy")
-
   #+END_SRC
 
-* Languages rust
-
+* Language rust
   #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
     :config
