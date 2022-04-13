@@ -16,6 +16,7 @@ emacs/.emacs.d/tramp
 emacs/.emacs.d/transient
 emacs/.emacs.d/%backup%~
 emacs/.emacs.d/elpy/
+emacs/.emacs.d/.lsp-session-v1
         
 vim/.vim/.netrwhist
 
