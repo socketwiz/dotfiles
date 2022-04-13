@@ -1,5 +1,4 @@
 # Set up the prompt
-
 eval "$(starship init zsh)"
 
 setopt histignorealldups sharehistory
@@ -98,3 +97,4 @@ function tm() {
     done
     tmux attach -t "$sel"
 }
+

@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+set -x
 PLATFORM=$(uname)
 
 if ! hash stow 2>/dev/null; then
@@ -11,11 +12,9 @@ case $PLATFORM in
         brew tap caskroom/fonts
         brew cask install font-hack-nerd-font
         brew install cmake reattach-to-user-namespace wget
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install
         ;;
     Linux)
-        sudo apt-get -y install zsh
+        sudo apt-get -y install zsh neovim weechat tmux curl
         sudo chsh -s /usr/bin/zsh "$USER"
         sudo apt-get -y install curl wget
         ;;
@@ -23,19 +22,25 @@ esac
 
 cd "$HOME/dotfiles" || exit
 git submodule update --init --recursive
-sh -c "$(wget -q https://raw.githubusercontent.com/aaronkjones/noobs-term/master/noobs-term.sh -O -)"
-npm install -g spaceship-prompt
-mkdir ~/.zfunc
-rustup completions zsh > ~/.zfunc/_rustup
-git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+mkdir ~/.zfunctions
+rustup completions zsh > ~/.zfunctions/_rustup
 
 stow config
 stow emacs
 stow git
 stow i3
-stow pt
 stow tmux
 stow vim
 stow weechat
 stow zsh
+
+# fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+yes | ~/.fzf/install
+
+# rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# starship prompt (requires rust)
+cargo install starship
 
