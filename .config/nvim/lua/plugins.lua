@@ -17,10 +17,17 @@ return require('packer').startup(function()
   -- Fuzzy finder
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = {
+      'nvim-lua/plenary.nvim'
+    }
   }
 
-  use 'vim-syntastic/syntastic' -- Syntax checker
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    }
+  }
 
   use 'tpope/vim-surround' -- Quote, paranthesis wrapper
   use 'tomtom/tcomment_vim' -- Commenter
@@ -37,6 +44,14 @@ return require('packer').startup(function()
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-emoji'
     }
+  }
+
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    -- tag = 'release' -- To use the latest release
   }
 
   -- Automatically set up your configuration after cloning packer.nvim
