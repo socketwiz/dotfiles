@@ -145,7 +145,7 @@ for_window [class="Magnus"] floating enable
 for_window [class="Mozilla VPN"] floating enable
 
 exec --no-startup-id ~/.fehbg
+exec --no-startup-id xcompmgr -c -l0 -t0 -r0 -o.00
 
 include ~/.config/i3/config.home
 include ~/.config/i3/config.work
-
