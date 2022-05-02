@@ -87,7 +87,7 @@ require('telescope').setup{
 require('telescope').load_extension('file_browser')
 
 require('nvim-treesitter.configs').setup {
-  ensure_installed = 'maintained',
+  ensure_installed = { "rust", "javascript" },
   highlight = {
     enable = true,
     custom_captures = {
