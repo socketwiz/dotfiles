@@ -29,11 +29,15 @@
 ;; frame variable bar  // show contents of local variable "bar"
 ;; target variable bar // show global variable "bar"
 ;;
-;; To enable the lsp backend:
+;; To enable the eglot backend:
 ;; rustup component add rls rust-analysis rust-src
 ;;
 (defun setup-rust ()
   "Do these things after \"rust-mode\" is enabled."
+  ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
+  (setq eglot-stay-out-of '())
+  (eglot-ensure)
+  ;;(add-to-list 'eglot-server-programs '(rust-mode . "rust-analyzer"))  
   (when (and (bound-and-true-p evil-mode) (eq evil-state 'normal))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
