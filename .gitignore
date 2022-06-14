@@ -57,6 +57,7 @@
 
 /.emacs.d/*~
 /.emacs.d/.cache/
+/.emacs.d/.dap-breakpoints
 /.emacs.d/.lsp-session-v1
 /.emacs.d/.nrepl-port
 /.emacs.d/auto-save-list/
