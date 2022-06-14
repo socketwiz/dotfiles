@@ -16,8 +16,7 @@ stashed = "📦"
 modified = "📝"
 renamed = "👅"
 deleted = "🗑"
-staged.value = "++"
-staged.style = "green"
+staged = '[++\($count\)](green)'
 
 [jobs]
 symbol = "+ "
