@@ -61,6 +61,7 @@ function ec() { emacsclient -c -nw "$@"; }
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
+alias rw='yarn redwood $@'
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }

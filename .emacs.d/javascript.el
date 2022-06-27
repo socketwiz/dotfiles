@@ -48,6 +48,9 @@
 
 (defun configure-mode ()
   "When \"tide-mode\" is loaded setup linters, yas and such."
+  (if (equal web-mode-content-type "javascript")
+    (web-mode-set-content-type "jsx")
+    (message "now set to: %s" web-mode-content-type))
   (configure-flymake-checker)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (tide-hl-identifier-mode)
@@ -55,6 +58,7 @@
   (yas-minor-mode)
   (smartparens-mode)
   (show-smartparens-mode)
+  (prettier-mode)
   (setq js-indent-level config-indent-web-mode-spaces))
 
 ;; Flymake eslint backend
@@ -85,9 +89,11 @@
   :mode "\\.js\\'"
   :interpreter "node")
 
+(use-package prettier)
+
 (add-hook 'js-mode-hook 'configure-mode)
 (add-hook 'typescript-mode-hook 'configure-mode)
-
+(add-hook 'web-mode-hook 'configure-mode)
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
@@ -104,7 +110,8 @@
   :if config-enable-web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode)
+         ("\\.js\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode)         
          ("\\.json\\'" . web-mode))
   :config
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
