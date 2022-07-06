@@ -11,6 +11,7 @@
 /.config/*
 !/.config/dunst/
 !/.config/i3/
+/.config/i3/config.work
 !/.config/i3status-rs/
 !/.config/kitty/
 !/.config/nvim/
@@ -89,3 +90,6 @@
 /.weechat/logs/
 /.weechat/sec.conf
 /.weechat/weechat.log
+
+.gitconfig.local
+.work

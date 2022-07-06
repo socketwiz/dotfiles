@@ -58,7 +58,7 @@
   (yas-minor-mode)
   (smartparens-mode)
   (show-smartparens-mode)
-  (prettier-mode)
+  (prettier-js-mode)
   (setq js-indent-level config-indent-web-mode-spaces))
 
 ;; Flymake eslint backend
@@ -89,7 +89,7 @@
   :mode "\\.js\\'"
   :interpreter "node")
 
-(use-package prettier)
+(use-package prettier-js)
 
 (add-hook 'js-mode-hook 'configure-mode)
 (add-hook 'typescript-mode-hook 'configure-mode)
