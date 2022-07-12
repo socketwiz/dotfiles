@@ -63,6 +63,9 @@ return require('packer').startup(function()
   -- Honor .editorconfig file
   use 'gpanders/editorconfig.nvim'
 
+  -- Find a .git upstream and make that the root
+  use 'notjedi/nvim-rooter.lua'
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
