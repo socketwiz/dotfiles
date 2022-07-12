@@ -86,9 +86,11 @@ alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # cli replacements
 alias cat='${HOME}/.cargo/bin/bat'
-alias ls='${HOME}/.cargo/bin/exa'
+alias ls='${HOME}/.cargo/bin/exa --git'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
@@ -104,20 +106,6 @@ case $(uname) in
     source "$HOME/.linux"
     ;;
 esac
-
-# present a list of tmux sessions to choose from
-function tm() {
-    select sel in $(tmux ls -F '#S'); do
-        break;
-    done
-
-    if [ -z "$sel" ]
-    then
-        echo "You didn't select an appropriate choice"
-    else
-        tmux attach -t "$sel"
-    fi
-}
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/hackerzol/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hackerzol/google-cloud-sdk/path.zsh.inc'; fi
