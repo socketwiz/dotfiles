@@ -9,7 +9,9 @@
 /.cache/
 /.cargo/
 /.config/*
+!/.config/alacritty/
 !/.config/dunst/
+!/.config/fish/
 !/.config/i3/
 /.config/i3/config.work
 !/.config/i3status-rs/
