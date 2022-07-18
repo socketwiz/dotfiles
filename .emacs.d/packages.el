@@ -149,13 +149,6 @@
 (use-package helpful
   :bind ("C-c C-." . helpful-at-point))
 
-;; Edit text area in chrome with emacs
-(use-package atomic-chrome
-  :config
-  (atomic-chrome-start-server)
-  :custom
-  (atomic-chrome-buffer-open-style 'frame))
-
 ;; Builds a list of recently opened files
 (use-package recentf
   :custom
@@ -183,12 +176,6 @@
   :config
   (smartparens-global-mode t))
 
-;; Expand selected region by semantic units
-(use-package expand-region
-  :bind (("C-=" . er/expand-region))
-  :config
-  (pending-delete-mode t))
-
 ;; Modeline theme, bottom of each window
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
@@ -207,15 +194,6 @@
 (use-package marginalia
   :init
   (marginalia-mode))
-
-;; Provide actions on targets
-(use-package embark
-  :ensure t
-  :bind (("C-." . embark-act)         ;; pick some comfortable binding
-         ("C-;" . embark-dwim)))      ;; good alternative: M-.
-(use-package embark-consult
-  :ensure t
-  :after (embark consult))
 
 ;; Upgraded completing-read, allows you to quickly select from a list
 ;; of candidates
@@ -322,12 +300,6 @@
          (js-mode . tree-sitter-hl-mode)))
 (use-package tree-sitter-langs
   :after (tree-sitter))
-
-;; Jump to visible text using a char-based decision tree
-(use-package avy
-  :bind ("M-j" . avy-goto-char-timer)
-  :config
-  (setq avy-timeout-seconds 1))
 
 ;; Advanced undo/redo system
 (use-package undo-tree
