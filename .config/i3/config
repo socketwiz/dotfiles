@@ -19,7 +19,8 @@ floating_modifier $mod
 focus_on_window_activation urgent
 
 # start a terminal
-bindsym $mod+Return exec kitty
+#bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
