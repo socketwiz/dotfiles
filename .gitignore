@@ -5,6 +5,7 @@
 /.aws/
 /.bash_history
 /.bash_logout
+/.bash_profile
 /.bashrc
 /.cache/
 /.cargo/
@@ -18,13 +19,14 @@
 !/.config/kitty/
 !/.config/nvim/
 .config/nvim/plugin/
+!.config/picom.conf
 !/.config/rofi/
 !/.config/termite/
 !/.config/starship.toml
 /.cookiecutter_replay/
 /.deno
+/.dmrc
 /.dotfiles
-/.fzf*
 /.gnupg
 /.lesshst
 /.local/
@@ -34,6 +36,7 @@
 /.npmrc
 /.npm-packages/
 /.nvidia-settings-rc
+/.nvm
 /.pki/
 /.profile
 /.psql_history
@@ -42,6 +45,9 @@
 /.sudo_as_admin_successful
 /.var/
 /.vim/
+/.Xauthority
+/.Xresources
+/.xsession-errors
 /.zcompdump
 /.zoom/
 /.zsh_history
