@@ -28,6 +28,7 @@
 /.dmrc
 /.dotfiles
 /.gnupg
+/.gradle
 /.lesshst
 /.local/
 /.mbsyncrc
@@ -41,6 +42,7 @@
 /.profile
 /.psql_history
 /.rustup/
+/.sdkman/
 /.ssh/
 /.sudo_as_admin_successful
 /.var/
