@@ -89,8 +89,12 @@ alias cat='${HOME}/.cargo/bin/bat'
 alias ls='${HOME}/.cargo/bin/exa --git'
 
 # fzf
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+# pop-os
+[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+# arch
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
