@@ -1,6 +1,6 @@
 
 [git_branch]
-symbol = "🌱 "
+symbol = " "
 truncation_symbol = ""
 
 [git_state]
@@ -23,16 +23,70 @@ symbol = "+ "
 threshold = 4
 
 [nodejs]
-symbol = "⬢ "
+symbol = " "
 style = "bold green"
 
 [package]
-symbol = "📦 "
+symbol = " "
 
 [python]
-symbol = "🐍 "
+symbol = " "
 pyenv_version_name = false
 pyenv_prefix = "foo "
 
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[spack]
+symbol = "🅢 "
+
 [rust]
-symbol = "🦀 "
+symbol = " "

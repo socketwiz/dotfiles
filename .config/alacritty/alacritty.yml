@@ -2,16 +2,16 @@ font:
   # The normal (roman) font face to use.
   # Style can be specified to pick a specific face.
   normal:
-    family: Fira Mono
+    family: FiraCode Nerd Font
     style: Light
   bold:
-    family: Fira Mono
+    family: FiraCode Nerd Font
     style: Medium
   italic:
-    family: Fira Mono
+    family: FiraCode Nerd Font
     style: "Light Italic"
 
-  size: 14.0
+  size: 16.0
  
 # Colors (Hyper)
 colors:
