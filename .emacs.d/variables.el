@@ -12,7 +12,7 @@
 (defvar config-keep-backups t
   "Whether or not to make a backup of a file when it is saved.")
 
-(defvar config-font-family "Fira Code"
+(defvar config-font-family "FiraCode Nerd Font"
   "Font to use in each buffer.")
 (defvar config-font-height 140
   "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
