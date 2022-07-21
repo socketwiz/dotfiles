@@ -4,7 +4,7 @@
     ### Display ###
 
     # Which monitor should the notifications be displayed on.
-    # monitor = 0
+    monitor = 0
 
     # Display notification on focused monitor.  Possible modes are:
     #   mouse: follow mouse pointer
@@ -196,7 +196,7 @@
     max_icon_size = 64
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/Pop/32x32/status/:/usr/share/icons/Pop/32x32/devices/:/usr/share/icons/Pop/32x32/actions/:/usr/share/icons/Pop/32x32/apps/:/usr/share/icons/Pop/32x32/categories/:/usr/share/icons/Pop/32x32/emblems/:/usr/share/icons/Pop/32x32/mimetypes/:/usr/share/icons/Pop/32x32/places/:/usr/share/icons/Qogir/16/status:/usr/share/icons/Qogir/16/devices/:/usr/share/icons/Qogir/16/apps/:/usr/share/pixmaps/
+    icon_path = /usr/share/icons/Pop/32x32/status/:/usr/share/icons/Pop/32x32/devices/:/usr/share/icons/Pop/32x32/actions/:/usr/share/icons/Pop/32x32/apps/:/usr/share/icons/Pop/32x32/categories/:/usr/share/icons/Pop/32x32/emblems/:/usr/share/icons/Pop/32x32/mimetypes/:/usr/share/icons/Pop/32x32/places/:/usr/share/icons/Qogir/32/status:/usr/share/icons/Qogir/32/devices/:/usr/share/icons/Qogir/32/apps/:/usr/share/pixmaps/
 
     ### History ###
 
