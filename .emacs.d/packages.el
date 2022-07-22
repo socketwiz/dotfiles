@@ -64,7 +64,7 @@
 ;; Theme
 (use-package doom-themes
   :config
-  (load-theme 'doom-vibrant t)
+  (load-theme 'doom-acario-dark t)
   ;; This theme makes the selections too dark, lighten them up
   ;;(set-face-background 'hl-line "#1F2324")
   ;;(set-face-background 'region "#585F61")
