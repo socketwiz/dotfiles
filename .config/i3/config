@@ -22,7 +22,7 @@
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango: Fira Code 16
+font pango: FiraCode Nerd Font 16
 
 # set the mod key to the winkey:
 set $mod Mod4
@@ -239,10 +239,10 @@ bindsym $mod+Shift+p exec ~/.config/i3/scripts/power-profiles
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:"
-set $ws2 "2:✎"
-set $ws3 "3:"
-set $ws4 "4:"
+set $ws1 "1: "
+set $ws2 "2:✎ "
+set $ws3 "3: "
+set $ws4 "4: "
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -448,7 +448,7 @@ client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 # (plus the system information i3status finds out, if available)
 bar {
   #font pango: Noto Sans Regular 10
-  font pango: Fira Code, FontAwesome 24
+  font pango: FiraCode Nerd Font, FontAwesome 24
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
   position bottom
 # i3bar_command i3bar --transparency
