@@ -305,7 +305,7 @@ for_window [class="Mozilla VPN"] floating enable
 #exec_always --no-startup-id picom -b
 #
 # for custom config:
-exec_always --no-startup-id picom --config  ~/.config/picom.conf
+exec_always --no-startup-id picom --experimental-backends --config ~/.config/picom.conf
 
 #############################################
 # autostart applications/services on login: #

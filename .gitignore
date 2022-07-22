@@ -15,6 +15,7 @@
 !/.config/dunst/
 !/.config/fish/
 !/.config/i3/
+/.config/i3/config.*
 /.config/i3/config.work
 !/.config/i3status-rs/
 !/.config/kitty/
@@ -27,7 +28,9 @@
 /.cookiecutter_replay/
 /.deno
 /.dmrc
+/.docker/
 /.dotfiles
+/.hplip/
 /.gnupg
 /.gradle
 /.lesshst
@@ -51,6 +54,8 @@
 /.Xauthority
 /.Xresources
 /.xsession-errors
+/.xsession-errors.old
+/.yarn/
 /.zcompdump
 /.zoom/
 /.zsh_history
