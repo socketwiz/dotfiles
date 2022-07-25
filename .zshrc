@@ -15,7 +15,6 @@ bindkey "^X^E" edit-command-line
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
-SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 # Use modern completion system
@@ -50,8 +49,11 @@ autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
-[[ -n "${key[Up]}" ]] && bindkey "${key[Up]}" up-line-or-beginning-search
-[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" down-line-or-beginning-search
+#[[ -n "${key[Up]}" ]] && bindkey "${key[Up]}" up-line-or-beginning-search
+#[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" down-line-or-beginning-search
+
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 # ssh
 [ -f ~/bin/agent ] && source ~/bin/agent
@@ -61,7 +63,7 @@ function ec() { emacsclient -c -nw "$@"; }
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
-alias rw='yarn redwood $@'
+alias rw='yarn redwood'
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
@@ -111,11 +113,6 @@ case $(uname) in
     ;;
 esac
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/hackerzol/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hackerzol/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/hackerzol/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hackerzol/google-cloud-sdk/completion.zsh.inc'; fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

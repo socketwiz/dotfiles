@@ -37,6 +37,9 @@ pyenv_prefix = "foo "
 [aws]
 symbol = "  "
 
+[gcloud]
+symbol = "  "
+
 [buf]
 symbol = " "
 
@@ -90,3 +93,4 @@ symbol = "🅢 "
 
 [rust]
 symbol = " "
+
