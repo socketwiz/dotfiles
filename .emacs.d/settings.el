@@ -6,6 +6,7 @@
 ;; Settings not required by any particular package
 
 ;;; Code:
+(setq debug-on-error t)
 
 ;; Hide ui elements
 (tool-bar-mode -1)
