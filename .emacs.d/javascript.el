@@ -46,11 +46,16 @@
 
   (flymake-eslint-enable))
 
-(defun configure-mode ()
-  "When \"tide-mode\" is loaded setup linters, yas and such."
+(defun configure-web-mode ()
+  "Need an extra check here to setup JSX"
   (if (equal web-mode-content-type "javascript")
+      (message "web-mode-content-type=javascript")
     (web-mode-set-content-type "jsx")
     (message "now set to: %s" web-mode-content-type))
+  (configure-mode))
+
+(defun configure-mode ()
+  "Setup linters, yas and such."
   (configure-flymake-checker)
   (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition)
   (tide-hl-identifier-mode)
@@ -93,7 +98,7 @@
 
 (add-hook 'js-mode-hook 'configure-mode)
 (add-hook 'typescript-mode-hook 'configure-mode)
-(add-hook 'web-mode-hook 'configure-mode)
+(add-hook 'web-mode-hook 'configure-web-mode)
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
