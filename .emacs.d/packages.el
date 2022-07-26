@@ -198,8 +198,7 @@
 ;; Upgraded completing-read, allows you to quickly select from a list
 ;; of candidates
 (use-package consult
-  :bind (("M-s r" . consult-ripgrep)
-         ("C-x b" . consult-buffer)
+  :bind (("C-x b" . consult-buffer)
          ("C-x C-r" . consult-recent-file))
   :config
   (setq consult-project-root-function 'vc-root-dir))
