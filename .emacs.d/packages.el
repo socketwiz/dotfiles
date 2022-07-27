@@ -207,6 +207,7 @@
 ;; respecting .gitignore
 (use-package rg
   :config
+  ;; <C-c s>
   (rg-enable-default-bindings))
 
 ;; Major mode for editing Markdown formatted text
