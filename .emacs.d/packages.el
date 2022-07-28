@@ -171,6 +171,9 @@
   :diminish 'command-log-mode
   :hook (after-init . global-command-log-mode))
 
+;; Syntax highlighting for GraphQL
+(use-package graphql-mode)
+
 ;; Minor mode for dealing with pairs, such as parenthesis and quotes
 (use-package smartparens
   :config
