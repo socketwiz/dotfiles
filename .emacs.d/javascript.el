@@ -99,6 +99,8 @@
 (add-hook 'js-mode-hook 'configure-mode)
 (add-hook 'typescript-mode-hook 'configure-mode)
 (add-hook 'web-mode-hook 'configure-web-mode)
+;; Enable typescript-mode for .tsx files
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
 
 ;; * Language HTML, CSS
 (defun web-mode-init ()
