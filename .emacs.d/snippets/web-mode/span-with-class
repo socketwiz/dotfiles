@@ -1,4 +1,4 @@
-# key: span.
-# name: span-with-class
+# key: span
+# name: span
 # --
-<span class$3="$1">$2</span>$0
+<span>$1</span>$0
