@@ -60,6 +60,7 @@
 (global-set-key (kbd "C-h v") 'helpful-variable)
 (global-set-key (kbd "C-x u") 'undo-tree-visualize)
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
+(global-set-key (kbd "C-x C-r") 'recentf-open-files)
 (global-set-key (kbd "C-x C-z") 'nil)
 
 (when (not (featurep 'evil-mode))

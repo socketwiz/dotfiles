@@ -64,7 +64,8 @@
   (smartparens-mode)
   (show-smartparens-mode)
   (prettier-js-mode)
-  (setq js-indent-level config-indent-web-mode-spaces))
+  (setq js-indent-level config-indent-web-mode-spaces)
+  (setq eldoc-documentation-strategy #'eldoc-documentation-compose))
 
 ;; Flymake eslint backend
 (use-package flymake-eslint
@@ -88,7 +89,8 @@
 ;; M-x tide-list-servers List the tsserver processes launched by tide.
 (use-package tide
   :if config-enable-web-mode
-  :after (typescript-mode flycheck))
+  :bind (("C-c C-." . tide-documentation-at-point))
+  :after (typescript-mode flymake))
 
 (use-package js2-mode
   :mode "\\.js\\'"
@@ -118,7 +120,7 @@
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode)
          ("\\.js\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode)         
+         ("\\.jsx\\'" . web-mode)
          ("\\.json\\'" . web-mode))
   :config
   (defadvice web-mode-highlight-part (around tweak-jsx activate)

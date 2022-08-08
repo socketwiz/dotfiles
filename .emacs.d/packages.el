@@ -154,7 +154,14 @@
   :custom
   (recentf-max-saved-items 10)
   (recentf-max-menu-items 5)
-  (recentf-save-file (concat user-emacs-directory ".cache/recentf"))
+  ;; look for a .cache directory under ~/.emacs.d and create it if it
+  ;; doesn't exist
+  (setq recentf-cache-dir (concat user-emacs-directory ".cache"))
+  (if (file-directory-p recentf-cache-dir)
+      (setq recentf-save-file (concat recentf-cache-dir "/recentf"))
+    (mkdir recentf-cache-dir)
+    (setq recentf-save-file (concat recentf-cache-dir "/recentf")))
+
   (recentf-auto-cleanup 'never)
   :config
   (recentf-mode t)
@@ -201,8 +208,7 @@
 ;; Upgraded completing-read, allows you to quickly select from a list
 ;; of candidates
 (use-package consult
-  :bind (("C-x b" . consult-buffer)
-         ("C-x C-r" . consult-recent-file))
+  :bind (("C-x b" . consult-buffer))
   :config
   (setq consult-project-root-function 'vc-root-dir))
 
@@ -262,6 +268,7 @@
   (evil-set-initial-state 'snippet-mode 'emacs)
   (evil-set-initial-state 'special-mode 'emacs)
   (evil-set-initial-state 'text-mode 'emacs)
+  (evil-set-initial-state 'fundamental-mode 'emacs)
 
   ;; Set emacs state on message buffer with this special code since it loads
   ;; so early and therefore can't be set with `(evil-set-initial-state)`
