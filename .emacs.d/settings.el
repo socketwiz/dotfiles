@@ -54,7 +54,6 @@
 
 ;; * Keybindings that replace defaults (except F5)
 (global-set-key (kbd "<f5>") 'revert-buffer)
-(global-set-key (kbd "C-c C-e") 'mu4e)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h k") 'helpful-key)
 (global-set-key (kbd "C-h v") 'helpful-variable)
