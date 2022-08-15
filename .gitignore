@@ -56,6 +56,7 @@
 /.xsession-errors
 /.xsession-errors.old
 /.yarn/
+/.yarnrc
 /.zcompdump
 /.zoom/
 /.zsh_history
@@ -63,6 +64,7 @@
 /DataGripProjects/
 /Documents/
 /Downloads/
+/go/
 /Music/
 /Pictures/
 /Videos/
