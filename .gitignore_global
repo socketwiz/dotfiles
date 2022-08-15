@@ -1,4 +1,4 @@
 # ignore emacs saved files
 \#*
 .\#*
-
+.dev.json

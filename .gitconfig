@@ -1,26 +1,25 @@
 [user]
-  name = Ricky Nelson
-  email = rickyn@socketwiz.com
+    name = Ricky Nelson
+    email = rickyn@socketwiz.com
 [core]
-  editor = nvim
-  excludesfile = ~/.gitignore_global
+    editor = nvim
+    excludesfile = ~/.gitignore_global
 [color]
-  ui = true
+    ui = true
 [diff]
-  tool = default-difftool
+    tool = default-difftool
 [merge]
-  tool = default-difftool
-  conflictstyle = diff3
+    tool = default-difftool
+    conflictstyle = diff3
 [difftool "default-difftool"]
-  cmd = default-difftool.sh $LOCAL $REMOTE
+    cmd = default-difftool.sh $LOCAL $REMOTE
 [difftool]
-  prompt = false
+    prompt = false
 [include]
-  path = ~/.gitconfig.local
+    path = ~/.gitconfig.local
 [pull]
-  rebase = true
+    rebase = true
 [init]
-  defaultBranch = main
+    defaultBranch = main
 [includeIf "gitdir:~/dev/rust/"]
-  path = ~/.gitconfig.zolmok
-
+    path = ~/.gitconfig.zolmok
