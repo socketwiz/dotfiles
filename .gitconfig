@@ -4,6 +4,7 @@
 [core]
     editor = nvim
     excludesfile = ~/.gitignore_global
+	askpass = git-gui--askpass
 [color]
     ui = true
 [diff]
