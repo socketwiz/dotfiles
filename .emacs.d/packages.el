@@ -325,7 +325,8 @@
 
 (use-package diff-hl
   :init
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  (diff-hl-margin-mode))
 
 ;; An alternative to isearch
 (use-package swiper
