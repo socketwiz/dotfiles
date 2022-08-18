@@ -28,7 +28,7 @@
     offset = 0x0
 
     # old dunst
-    geometry = 720x300+3280+0
+    geometry = 720x300+3120+0
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
