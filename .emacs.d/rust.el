@@ -41,7 +41,9 @@
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode)
-  (smartparens-mode))
+  (smartparens-mode)
+  (setq rust-format-on-save t)
+  (prettify-symbols-mode))
 
 ;; Syntax highlighting, indentation, etc..
 (use-package rust-mode
