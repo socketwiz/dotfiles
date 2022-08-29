@@ -47,11 +47,13 @@
   (flymake-eslint-enable))
 
 (defun configure-web-mode ()
-  "Need an extra check here to setup JSX"
+  "Need an extra check here to setup JSX."
+  (message "conifgure-web-mode")
   (if (equal web-mode-content-type "javascript")
-      (message "web-mode-content-type=javascript")
-    (web-mode-set-content-type "jsx")
-    (message "now set to: %s" web-mode-content-type))
+      (funcall (lambda ()
+        (message "web-mode-content-type=javascript")
+        (web-mode-set-content-type "jsx")
+        (message "now set to: %s" web-mode-content-type))))
   (configure-mode))
 
 (defun configure-mode ()
@@ -119,8 +121,7 @@
   :if config-enable-web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode)
-         ("\\.js\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode)
+         ("\\.js?\\'" . web-mode)
          ("\\.json\\'" . web-mode))
   :config
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
