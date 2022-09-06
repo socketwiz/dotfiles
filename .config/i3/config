@@ -260,10 +260,10 @@ set $ws10 "10"
 #workspace $ws5 output HDMI-0
 
 # bind program to workspace and focus to them on startup:
-assign [class="(?i)firefox"] $ws3
-assign [class="Thunderbird"] $ws4
-assign [class="Thunar"] $ws5
-assign [class="TelegramDesktop"] $ws5
+#assign [class="(?i)firefox"] $ws3
+#assign [class="Thunderbird"] $ws4
+#assign [class="Thunar"] $ws5
+#assign [class="TelegramDesktop"] $ws5
 
 # automatic set focus new window if it opens on another workspace then the current:
 for_window [class=Xfce4-terminal] focus
