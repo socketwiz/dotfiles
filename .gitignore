@@ -47,6 +47,7 @@
 /.profile
 /.psql_history
 /.rustup/
+/.s3cfg
 /.sdkman/
 /.ssh/
 /.sudo_as_admin_successful
