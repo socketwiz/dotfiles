@@ -24,7 +24,6 @@ end
 local servers = {
   'bashls',        -- npm i -g bash-language-server
   'cssls',         -- npm i -g vscode-langservers-extracted
-  'denols',        -- cargo install deno
   'eslint',        -- npm i -g vscode-langservers-extracted
   'html',          -- npm i -g vscode-langservers-extracted
   'jsonls',        -- npm i -g vscode-langservers-extracted
@@ -60,17 +59,6 @@ for _, lsp in pairs(servers) do
       }
     }
     single_file_support = true
-  elseif lsp == 'denols' then
-    capabilities = capabilities
-    cmd = { 'deno', 'lsp' }
-    filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' }
-    root_dir = util.root_pattern('deno.json', 'deno.jsonc', 'jsconfig.json', 'tsconfig.json', '.git')
-    settings = {
-      deno = {
-        enable = true,
-        lint = false
-      }
-    }
   elseif lsp == 'eslint' then
     capabilities = capabilities
     cmd = { 'vscode-eslint-language-server', '--stdio' }
