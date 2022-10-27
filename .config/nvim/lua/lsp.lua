@@ -30,7 +30,7 @@ local servers = {
   'rust_analyzer', -- https://rust-analyzer.github.io/manual.html#rust-analyzer-language-server-binary
 }
 for _, lsp in pairs(servers) do
-  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
   cmd = {}
   filetypes = {}
   handlers = {}
