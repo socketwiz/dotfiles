@@ -333,6 +333,8 @@
   :bind (("C-s" . swiper)
          ("C-r" . swiper-backward)))
 
+;; Terraform syntax highlighting
+(use-package terraform-mode)
 
 (provide 'packages)
 ;;; packages.el ends here
