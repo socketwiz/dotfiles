@@ -156,7 +156,10 @@
 ;; SASS
 (use-package scss-mode
   :if config-enable-web-mode
-  :mode ("\\.scss\\'" . scss-mode))
+  :mode ("\\.scss\\'" . scss-mode)
+  :config
+  (add-hook 'scss-mode-hook '(lambda ()
+                               (prettier-js-mode))))
 
 (use-package indium
   :init
