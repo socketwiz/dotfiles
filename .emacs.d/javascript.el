@@ -96,6 +96,11 @@
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  :interpreter "node"
+  )
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
   :interpreter "node")
 
 (use-package prettier-js)

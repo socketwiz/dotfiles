@@ -1,0 +1,6 @@
+# key: scenario
+# name: scenario
+# --
+scenario('$1', $2async (scenario) => {
+    $0
+});
