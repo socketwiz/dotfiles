@@ -102,6 +102,9 @@
 (use-package typescript-mode
   :mode "\\.ts\\'"
   :interpreter "node")
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :interpreter "node")
 
 (use-package prettier-js)
 
