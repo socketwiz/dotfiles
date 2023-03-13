@@ -55,9 +55,7 @@ return require('packer').startup(function()
   -- Git decorations in the gutter
   use {
     'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    },
+    tag = 'release'
   }
 
   -- Honor .editorconfig file
