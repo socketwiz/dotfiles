@@ -26,3 +26,5 @@ fi
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
 export DENO_INSTALL="${HOME}/.deno"
+export TMPDIR=${HOME}/tmp
+
