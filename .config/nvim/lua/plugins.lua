@@ -19,12 +19,8 @@ return require('packer').startup(function()
 
   -- Fuzzy finder
   use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    }
+    'ctrlpvim/ctrlp.vim',
   }
-  use { "nvim-telescope/telescope-file-browser.nvim" }
 
   -- File explorer
   use {

@@ -51,40 +51,23 @@ let.UltiSnipsSnippetDirectories = { os.getenv("HOME") .. '/.config/nvim/ultisnip
 vim.cmd[[colorscheme tokyonight]]
 
 -- Plugin options
-require('telescope').setup{
-  defaults = {
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
-    mappings = {
-      i = {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key"
-      }
-    }
-  },
-  pickers = {
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
-    find_files = {
-      hidden = true
-    }
-  },
-  extensions = {
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
-  }
-}
-require('telescope').load_extension('file_browser')
+
+-- CtrlP
+vim.cmd([[
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~,.DS_Store,tags,.*
+set wildignore+=*.pyc
+let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+let g:ctrlp_custom_ignore = 'node_modules$\|bower_components$\|public/lib$\|build$\|third-party$'
+" 0) don't manage working directory
+" 1) the directory of the current file
+" 2) the nearest ancestor that contains one of these directories or files:
+" .git/ .hg/ .svn/ .bzr/ _darcs/
+let g:ctrlp_working_path_mode = 1
+" increase the height of the match window
+let g:ctrlp_max_height = 30
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+let g:ctrlp_use_caching = 0
+]])
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = { "rust", "javascript" },
