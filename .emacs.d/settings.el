@@ -22,6 +22,8 @@
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
 (display-line-numbers-mode)
+;; Turn on column number
+(setq column-number-mode t)
 ;; Make line numbers relative
 (menu-bar-display-line-numbers-mode 'relative)
 ;; Display regular line numbers too
