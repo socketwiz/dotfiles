@@ -109,20 +109,20 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
-require('gitsigns').setup {
-  signs = {
-    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-  },
-  watch_gitdir = {
-    interval = 1000,
-    follow_files = true
-  },
-  update_debounce = 100,
-}
+-- require('gitsigns').setup {
+--   signs = {
+--     add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+--     change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+--     delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+--     topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+--     changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+--   },
+--   watch_gitdir = {
+--     interval = 1000,
+--     follow_files = true
+--   },
+--   update_debounce = 100,
+-- }
 
 require('nvim-tree').setup {
   disable_netrw = true,
@@ -144,7 +144,9 @@ require('nvim-tree').setup {
   },
 }
 
-require('cmp').setup {
+local cmp = require('cmp')
+
+cmp.setup {
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
@@ -158,7 +160,16 @@ require('cmp').setup {
     { name = 'path' },
     { name = 'ultisnips' }
   },
+  filetype = {
+  }
 }
+cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
 require('dapui').setup()
 
