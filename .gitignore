@@ -15,6 +15,7 @@
 !/.config/alacritty/
 !/.config/dunst/
 !/.config/fish/
+!/.config/gitui/
 !/.config/i3/
 /.config/i3/config.*
 /.config/i3/config.work
