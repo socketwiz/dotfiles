@@ -63,7 +63,7 @@ function ec() { emacsclient -c -nw "$@"; }
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
-alias rw='source .dev.env && yarn redwood'
+alias rw='source .dev.env; yarn redwood'
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }

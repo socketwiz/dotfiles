@@ -1,0 +1,5 @@
+set relativenumber
+set number
+
+" easy system clipboard copy/paste
+set clipboard+=unnamed
