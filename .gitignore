@@ -12,6 +12,8 @@
 /.cache/
 /.cargo/
 /.config/*
+!/.config/Code/settings.json
+!/.config/Code/snippets
 !/.config/alacritty/
 !/.config/dunst/
 !/.config/fish/
@@ -76,6 +78,7 @@
 /dev/
 /mail/
 /org/
+/tmp/
 
 /.emacs.d/*~
 /.emacs.d/.cache/

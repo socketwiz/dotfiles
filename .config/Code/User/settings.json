@@ -1,0 +1,7 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "editor.fontFamily": "'FiraCode Nerd Font', 'monospace', monospace",
+    "editor.lineNumbers": "relative",
+    "vim.useSystemClipboard": true,
+    "editor.inlineSuggest.enabled": true
+}
