@@ -12,8 +12,12 @@
 /.cache/
 /.cargo/
 /.config/*
-!/.config/Code/settings.json
-!/.config/Code/snippets
+!/.config/Code
+/.config/Code/*
+!/.config/Code/User
+.config/Code/User/History/
+.config/Code/User/globalStorage/
+.config/Code/User/workspaceStorage/
 !/.config/alacritty/
 !/.config/dunst/
 !/.config/fish/
