@@ -5,5 +5,7 @@
     "vim.useSystemClipboard": true,
     "editor.inlineSuggest.enabled": true,
     "editor.fontSize": 16,
-    "window.zoomLevel": 1
+    "window.zoomLevel": 1,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
