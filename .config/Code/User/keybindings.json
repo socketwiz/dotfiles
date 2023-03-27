@@ -1,0 +1,11 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "alt+q",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      // "text": "echo ${env:USERNAME}",  // this works
+      "text": "echo file = '${file}' : workspaceFolder = '${workspaceFolder}'\u000D"
+    }
+  }
+]
