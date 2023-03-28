@@ -29,54 +29,6 @@ map { 'n', '<leader><space>', ':noh<cr>' }
 -- Nvim tree
 map { 'n', '<C-x><C-j>', '<cmd>NvimTreeFindFile<cr>' }
 
--- Which key
-local wk = require('which-key')
-local wk_mappings = {
-  c = { ':e ~/.config/nvim/init.lua<cr>', 'Edit config' },
-  d = {
-    name = 'Debugger',
-    b = { '<cmd>lua require("dap").toggle_breakpoint()<cr>', 'Set breakpoint' },
-    c = { '<cmd>lua require("dap").continue()<cr>', 'Debug continue' },
-    i = { '<cmd>lua require("dap").step_into()<cr>', 'Debug step into' },
-    l = { '<cmd>lua require("dap").launch()<cr>', 'Launch debug session' },
-    n = { '<cmd>lua require("dap").run()<cr>', 'Run' },
-    o = { '<cmd>lua require("dap").step_over()<cr>', 'Debug step over' },
-    r = { '<cmd>lua require("dap").repl.open()<cr>', 'REPL' },
-    u = { '<cmd>lua require("dapui").toggle()<cr>', 'Debug UI' },
-  },
-  f = {
-    name = 'Telescope',
-    b = { '<cmd>lua require("telescope.builtin").buffers()<cr>', 'Buffer list' },
-    c = { '<cmd>lua require("telescope.builtin").commands()<cr>', 'Commands' },
-    f = { '<cmd>lua require("telescope.builtin").find_files()<cr>', 'Find file' },
-    o = { '<cmd>lua require("telescope").extensions.file_browser.file_browser()<cr>', 'Find file' },
-    g = { '<cmd>lua require("telescope.builtin").live_grep()<cr>', 'Ripgrep' },
-    h = { '<cmd>lua require("telescope.builtin").help_tags()<cr>', 'Help' }
-  },
-  j = { ':%!jq .<cr>', 'Format a JSON file' },
-  l = {
-    name = 'LSP',
-    l = { '<cmd>lua vim.diagnostic.setloclist()<cr>', 'Open diagnostic location list' },
-    n = { '<cmd>lua vim.diagnostic.goto_prev()<cr>', 'Next diagnostic' },
-    p = { '<cmd>lua vim.diagnostic.goto_next()<cr>', 'Previous diagnostic' },
-    w = { '<cmd>lua vim.diagnostic.open_float()<cr>', 'Open floating diagnostic window' }
-  },
-  t = {
-    name = 'Nvim tree',
-    r = { '<cmd>NvimTreeRefresh<cr>', 'Refresh tree' },
-    t = { '<cmd>NvimTreeToggle<cr>', 'Toggle tree' }
-  },
-  u = {
-    name = 'Utilities',
-    r = { ':set invrelativenumber<cr>', 'Toggle relative line numbers' }
-  },
-  q = { ':q<cr>', 'Quit' }
-}
-local wk_opts = {
-  prefix = '<leader>'
-}
-wk.register(wk_mappings, wk_opts)
-
 local cmp = require('cmp')
 cmp.setup({
   mapping = {
@@ -91,4 +43,12 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }
 })
+
+local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>f', telescope.find_files, {})
+vim.keymap.set('n', '<C-p>', telescope.git_files, {})
+vim.keymap.set('n', '<leader>s', function()
+	telescope.grep_string({ search = vim.fn.input("Grep > ") })
+end)
+vim.keymap.set('n', '<leader>h', telescope.help_tags, {})
 

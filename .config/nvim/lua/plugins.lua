@@ -4,22 +4,11 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'  -- Package manager
 
-  use 'neovim/nvim-lspconfig'   -- Collection of configurations for the built-in LSP client
-  use {                         -- LSP debug adapter
-    'rcarriga/nvim-dap-ui',
-    requires = { 'mfussenegger/nvim-dap' }
-  }
-  use 'ray-x/lsp_signature.nvim' -- Show function signatures
-
-  -- Parse generator (syntax tree for souce files)
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-
   -- Fuzzy finder
   use {
-    'ctrlpvim/ctrlp.vim',
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    -- or                            , branch = '0.1.x',
+    requires = { {'nvim-lua/plenary.nvim'} }
   }
 
   -- File explorer
@@ -32,33 +21,46 @@ return require('packer').startup(function()
 
   use 'tpope/vim-surround' -- Quote, paranthesis wrapper
   use 'tomtom/tcomment_vim' -- Commenter
+  use 'mbbill/undotree' -- Undo manager
+  use 'sbdchd/neoformat' -- Prettier
 
   use 'folke/tokyonight.nvim' -- Theme
-  use 'folke/which-key.nvim' -- Show which hotkeys are available for use
-
-  use { -- Completion
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      -- snippets
-      'SirVer/ultisnips'
-    }
-  }
 
   -- Git decorations in the gutter
-  use {
-    'lewis6991/gitsigns.nvim',
-    tag = 'release'
-  }
+  use { 'lewis6991/gitsigns.nvim' }
 
   -- Honor .editorconfig file
   use 'gpanders/editorconfig.nvim'
 
   -- Find a .git upstream and make that the root
   use 'notjedi/nvim-rooter.lua'
+
+  -- Syntax highlighting
+  use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"})
+
+  -- LSP with lsp-zero
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v1.x',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},             -- Required
+      {'williamboman/mason.nvim'},           -- Optional
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},         -- Required
+      {'hrsh7th/cmp-nvim-lsp'},     -- Required
+      {'hrsh7th/cmp-buffer'},       -- Optional
+      {'hrsh7th/cmp-path'},         -- Optional
+      {'saadparwaiz1/cmp_luasnip'}, -- Optional
+      {'hrsh7th/cmp-nvim-lua'},     -- Optional
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},             -- Required
+      {'rafamadriz/friendly-snippets'}, -- Optional
+    }
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

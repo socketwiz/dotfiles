@@ -9,5 +9,5 @@ end
 require('plugins')
 require('options')
 require('keymaps')
-require('lsp')
+-- require('lsp')
 
