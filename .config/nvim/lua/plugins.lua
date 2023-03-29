@@ -23,8 +23,20 @@ return require('packer').startup(function()
   use 'tomtom/tcomment_vim' -- Commenter
   use 'mbbill/undotree' -- Undo manager
   use 'sbdchd/neoformat' -- Prettier
+  use 'github/copilot.vim'
 
   use 'folke/tokyonight.nvim' -- Theme
+  use { -- Diagnostics (linter errors and such)
+    "folke/trouble.nvim",
+    requires = "nvim-tree/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
   -- Git decorations in the gutter
   use { 'lewis6991/gitsigns.nvim' }

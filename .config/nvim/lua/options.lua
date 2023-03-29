@@ -27,9 +27,17 @@ vim.opt.showmode = true                 -- Message on the last line showing mode
 vim.opt.smartcase = true                -- Do not ignore case with capitals
 vim.opt.tabstop = 2                     -- Number of spaces tabs count for
 vim.opt.termguicolors = true            -- True color support
-vim.opt.timeoutlen = 200                -- Time before which key appears
 -- Store undo files in fixed location, not current directory.
 vim.opt.undodir='~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,.'
 vim.opt.undofile = true                 -- Enable undo support
 vim.opt.visualbell = true               -- Turn the beep into a visual representation rather than a sound
 
+
+vim.api.nvim_exec(
+[[
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
+]],
+true)
