@@ -25,9 +25,12 @@ cmp.setup({
 })
 
 local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
-vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
-vim.keymap.set('n', '<C-p>', telescope.git_files, {})
+local path_display = {
+  path_display = { shorten = 3 }
+}
+vim.keymap.set('n', '<leader>fb', (function() telescope.buffers(path_display) end), {})
+vim.keymap.set('n', '<leader>ff', (function() telescope.find_files(path_display) end), {})
+vim.keymap.set('n', '<C-p>', (function() telescope.git_files(path_display) end), {})
 vim.keymap.set('n', '<leader>fg', function()
 	telescope.grep_string({ search = vim.fn.input("Grep > ") })
 end)
