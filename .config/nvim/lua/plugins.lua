@@ -25,6 +25,14 @@ return require('packer').startup(function()
   use 'mbbill/undotree' -- Undo manager
   use 'sbdchd/neoformat' -- Prettier
   use 'zbirenbaum/copilot.lua'
+  use 'xiyaowong/transparent.nvim' -- Transparency
+  use { -- Fancy status line
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
+  use { -- comments
+    'numToStr/Comment.nvim',
+  }
 
   use 'folke/tokyonight.nvim' -- Theme
   use { -- Diagnostics (linter errors and such)
