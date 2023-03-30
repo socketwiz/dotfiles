@@ -20,6 +20,7 @@ return require('packer').startup(function()
   }
 
   use 'tpope/vim-surround' -- Quote, paranthesis wrapper
+  use 'tpope/vim-fugitive' -- Git integration
   use 'tomtom/tcomment_vim' -- Commenter
   use 'mbbill/undotree' -- Undo manager
   use 'sbdchd/neoformat' -- Prettier
