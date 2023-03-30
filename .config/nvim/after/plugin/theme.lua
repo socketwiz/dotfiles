@@ -2,7 +2,7 @@
 vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-vim.g.UltiSnipsSnippetDirectories = { os.getenv("HOME") .. '/.config/nvim/ultisnips' }
+--vim.o.termguicolors = true
 
 -- Load the colorscheme
 vim.cmd[[colorscheme tokyonight]]
