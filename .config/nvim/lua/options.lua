@@ -32,8 +32,8 @@ vim.opt.undodir = "~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,."
 vim.opt.undofile = true -- Enable undo support
 vim.opt.visualbell = true -- Turn the beep into a visual representation rather than a sound
 
--- local fmtGrp = vim.api.nvim_create_augroup("fmt", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- 	command = "undojoin | Neoformat",
--- 	group = fmtGrp,
--- })
+local fmtGrp = vim.api.nvim_create_augroup("fmt", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+	command = "undojoin | Neoformat",
+	group = fmtGrp,
+})
