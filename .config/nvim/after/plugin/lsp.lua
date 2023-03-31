@@ -1,8 +1,5 @@
 local lsp = require("lsp-zero").preset({
-	name = "minimal",
-	set_lsp_keymaps = true,
-	manage_nvim_cmp = true,
-	suggest_lsp_servers = false,
+	name = "recommended",
 })
 
 lsp.ensure_installed({
@@ -11,6 +8,17 @@ lsp.ensure_installed({
 	"tsserver",
 })
 
-lsp.setup_servers({ "eslint", "rust_analyzer", "tsserver" })
+lsp.format_on_save({
+	servers = {
+		["eslint"] = { "javascript" },
+		["tsserver"] = { "typescript" },
+		["rust_analyzer"] = { "rust" },
+	},
+})
 
 lsp.setup()
+
+local rust_lsp = lsp.build_options('rust_analyzer', {})
+
+require('rust-tools').setup({server = rust_lsp})
+

@@ -49,6 +49,9 @@ return require("packer").startup(function()
 	-- Find a .git upstream and make that the root
 	use("notjedi/nvim-rooter.lua")
 
+  -- Rust support
+  use 'simrat39/rust-tools.nvim'
+
 	-- Syntax highlighting
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 
@@ -72,7 +75,6 @@ return require("packer").startup(function()
 
 			-- Snippets
 			{ "L3MON4D3/LuaSnip" }, -- Required
-			{ "rafamadriz/friendly-snippets" }, -- Optional
 		},
 	})
 
