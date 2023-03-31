@@ -49,7 +49,12 @@ cmp.setup.cmdline({ "/", "?" }, {
 -- Set up lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lsp_config = require("lspconfig")
-
-lsp_config["eslint"].setup({ capabilities = capabilities })
-lsp_config["rust_analyzer"].setup({ capabilities = capabilities })
-lsp_config["tsserver"].setup({ capabilities = capabilities })
+--
+-- lsp_config["eslint"].setup({ capabilities = capabilities })
+lsp_config["rust_analyzer"].setup({
+  capabilities = capabilities,
+  cmd = {
+    "rustup", "run", "stable", "rust-analyzer"
+  }
+})
+-- lsp_config["tsserver"].setup({ capabilities = capabilities })
