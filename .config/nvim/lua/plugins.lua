@@ -24,7 +24,7 @@ return require("packer").startup(function()
 	use("tomtom/tcomment_vim") -- Commenter
 	use("mbbill/undotree") -- Undo manager
 	use("sbdchd/neoformat") -- Prettier
-	use("zbirenbaum/copilot.lua")
+	use("github/copilot.vim")
 	use("xiyaowong/transparent.nvim") -- Transparency
 	use({ -- Fancy status line
 		"nvim-lualine/lualine.nvim",
@@ -49,8 +49,8 @@ return require("packer").startup(function()
 	-- Find a .git upstream and make that the root
 	use("notjedi/nvim-rooter.lua")
 
-  -- Rust support
-  use 'simrat39/rust-tools.nvim'
+	-- Rust support
+	use("simrat39/rust-tools.nvim")
 
 	-- Syntax highlighting
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })

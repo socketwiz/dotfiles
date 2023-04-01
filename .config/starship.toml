@@ -1,4 +1,3 @@
-
 [git_branch]
 symbol = " "
 truncation_symbol = ""
@@ -19,8 +18,8 @@ deleted = "🗑"
 staged = '[++\($count\)](green)'
 
 [jobs]
-symbol = "+ "
-threshold = 4
+symbol = "✦ "
+number_threshold = 4
 
 [nodejs]
 symbol = " "
@@ -93,4 +92,3 @@ symbol = "🅢 "
 
 [rust]
 symbol = " "
-
