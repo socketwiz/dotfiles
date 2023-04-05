@@ -10,9 +10,7 @@ lsp.ensure_installed({
 
 lsp.format_on_save({
   servers = {
-    ["eslint"] = { "javascript" },
     ["lua_ls"] = { "lua" },
-    ["tsserver"] = { "typescript" },
     ["rust_analyzer"] = { "rust" },
   },
 })

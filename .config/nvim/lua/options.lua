@@ -31,3 +31,27 @@ vim.opt.termguicolors = true  -- True color support
 vim.opt.undodir = "~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,."
 vim.opt.undofile = true   -- Enable undo support
 vim.opt.visualbell = true -- Turn the beep into a visual representation rather than a sound
+
+local autocmd = vim.api.nvim_create_autocmd
+
+-- Run prettier on save
+autocmd('BufWritePre', {
+  pattern = '*.css',
+  command = "Neoformat"
+})
+autocmd('BufWritePre', {
+  pattern = '*.scss',
+  command = "command Neoformat"
+})
+autocmd('BufWritePre', {
+  pattern = '*.html',
+  command = "Neoformat"
+})
+autocmd('BufWritePre', {
+  pattern = '*.js',
+  command = "Neoformat"
+})
+autocmd('BufWritePre', {
+  pattern = '*.ts',
+  command = "Neoformat"
+})
