@@ -28,3 +28,18 @@ fi
 export DENO_INSTALL="${HOME}/.deno"
 export TMPDIR=${HOME}/tmp
 
+function cargo {
+  # check to see if the first argument is present and if it is check the first
+  # argument to see if it is `install`
+  if [[ -n $1 && $1 == "install" ]]; then
+    RUSTC_WRAPPER=sccache command cargo "$@"
+  else
+    # otherwise, pass the arguments to cargo
+    print "HERE-1: $@"
+    if [[ -n $@ ]]; then
+      command cargo "$@"
+    else
+      command cargo
+    fi
+  fi
+}
