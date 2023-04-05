@@ -27,12 +27,15 @@
 /.config/i3/config.work
 !/.config/i3status-rs/
 !/.config/kitty/
+!/.config/nushell
+/.config/nushell/history.txt
 !/.config/nvim/
 .config/nvim/plugin/
 !.config/picom.conf
 !/.config/rofi/
 !/.config/termite/
 !/.config/starship.toml
+!/.config/zellij
 /.cookiecutter_replay/
 /.deno
 /.dmrc
