@@ -35,6 +35,7 @@
 !/.config/rofi/
 !/.config/termite/
 !/.config/starship.toml
+!/.config/wezterm
 !/.config/zellij
 /.cookiecutter_replay/
 /.deno

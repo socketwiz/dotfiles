@@ -1,5 +1,5 @@
 layout {
-  tab name="Build" {
+  tab name="1:Build" {
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
     }
@@ -8,7 +8,7 @@ layout {
         plugin location="zellij:status-bar"
     }
   }
-  tab focus=true name="Code" {
+  tab focus=true name="2:Code" {
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
     }
@@ -17,7 +17,7 @@ layout {
         plugin location="zellij:status-bar"
     }
   }
-  tab name="Nushell" {
+  tab name="3:Shell" {
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
     }

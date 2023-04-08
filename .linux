@@ -22,6 +22,9 @@ fi
 # setup Rust
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
+# setup neovim
+PATH=$PATH:/home/hackerzol/.local/share/bob/nvim-bin
+
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
