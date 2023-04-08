@@ -38,7 +38,7 @@ let dark_theme = {
       } else if $in < 52wk {
         'deepskyblue3b'
       } else { 'dark_gray' }
-    }    
+    }
     range: white
     float: white
     string: white
@@ -97,7 +97,7 @@ let-env config = {
     always_trash: false # always act as if -t was given. Can be overridden with -p
   }
   cd: {
-    abbreviations: false # allows `cd s/o/f` to expand to `cd some/other/folder`
+    abbreviations: true # allows `cd s/o/f` to expand to `cd some/other/folder`
   }
   table: {
     mode: rounded # basic, compact, compact_double, light, thin, with_love, rounded, reinforced, heavy, none, other
