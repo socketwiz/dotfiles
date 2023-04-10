@@ -23,13 +23,15 @@ fi
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # setup neovim
-PATH=$PATH:/home/hackerzol/.local/share/bob/nvim-bin
+PATH=$PATH:~/.local/share/bob/nvim-bin
 
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
 export DENO_INSTALL="${HOME}/.deno"
 export TMPDIR=${HOME}/tmp
+# rust search engine
+export QW_CONFIG=~/.config/quickwit/quickwit.yaml
 
 function cargo {
   # check to see if the first argument is present and if it is check the first
@@ -38,7 +40,6 @@ function cargo {
     RUSTC_WRAPPER=sccache command cargo "$@"
   else
     # otherwise, pass the arguments to cargo
-    print "HERE-1: $@"
     if [[ -n $@ ]]; then
       command cargo "$@"
     else
@@ -46,3 +47,8 @@ function cargo {
     fi
   fi
 }
+
+function hx {
+  helix "$@"
+}
+
