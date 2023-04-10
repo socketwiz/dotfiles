@@ -15,6 +15,8 @@ bindkey "^X^E" edit-command-line
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
+# Save most-recent 1000 lines
+SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 # Use modern completion system

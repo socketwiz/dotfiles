@@ -15,7 +15,9 @@ config.font = wezterm.font("FiraCode NF", { weight = "Regular", stretch = "Norma
 config.font_size = 16.0
 
 -- For example, changing the color scheme:
-config.color_scheme = 'DarkPastel'
+--config.color_scheme = 'Dark Pastel'
+--config.color_scheme = 'Dark Violet (base16)'
+config.color_scheme = 'deep'
 
 -- and finally, return the configuration to wezterm
 return config
