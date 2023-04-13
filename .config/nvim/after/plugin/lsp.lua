@@ -1,5 +1,6 @@
 local lsp = require("lsp-zero").preset({
   name = "recommended",
+  suggest_lsp_servers = false,
 })
 
 lsp.ensure_installed({
