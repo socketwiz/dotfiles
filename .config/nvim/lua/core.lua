@@ -9,24 +9,32 @@ vim.opt.cursorline = true              -- Display a line below the line the curs
 -- Store swap files in fixed location, not current directory.
 vim.opt.dir = "~/.vimswap//,/var/tmp//,/tmp//,c:\tmp,."
 vim.opt.encoding = "utf-8"
-vim.opt.expandtab = true      -- Use spaces instead of tabs
+
+-- Indentation
+vim.opt.expandtab = true  -- Use spaces instead of tabs
+vim.opt.shiftwidth = 2    -- Size of an indent
+vim.opt.softtabstop = 2   -- Number of spaces tabs count for
+vim.opt.tabstop = 2       -- Number of spaces tabs count for
+
+vim.opt.ignorecase = true -- Ignore case
+vim.opt.smartcase = true  -- Do not ignore case with capitals
+
+-- Numbers
+vim.opt.number = true         -- Show line numbers
+vim.opt.relativenumber = true -- Relative line numbers
+vim.opt.ruler = true          -- Display the line and column Separated by a comma
+
 vim.opt.hidden = true         -- Enable background buffers
 vim.opt.hlsearch = true
-vim.opt.ignorecase = true     -- Ignore case
 vim.opt.joinspaces = false    -- No double spaces with join
 vim.opt.laststatus = 2        -- Make sure the last window always has a status line
 vim.opt.list = true           -- Show some invisible characters
 vim.opt.mouse = "a"           -- Enable mouse support to make navigating the LSP UI easier
-vim.opt.number = true         -- Show line numbers
-vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.ruler = true          -- Display the line and column Separated by a comma
 vim.opt.scrolloff = 3         -- Lines of context
-vim.opt.shiftwidth = 2        -- Size of an indent
 vim.opt.showcmd = true        -- Show partial command in the last line of the screen
 vim.opt.showmode = true       -- Message on the last line showing mode (insert, replace or visual)
-vim.opt.smartcase = true      -- Do not ignore case with capitals
-vim.opt.tabstop = 2           -- Number of spaces tabs count for
 vim.opt.termguicolors = true  -- True color support
+
 -- Store undo files in fixed location, not current directory.
 vim.opt.undodir = "~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,."
 vim.opt.undofile = true   -- Enable undo support

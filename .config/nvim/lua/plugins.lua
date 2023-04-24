@@ -19,15 +19,15 @@ return require("packer").startup(function()
     },
   })
 
-  use("tpope/vim-surround")        -- Quote, paranthesis wrapper
-  use("tpope/vim-fugitive")        -- Git integration
-  use("tomtom/tcomment_vim")       -- Commenter
-  use("mbbill/undotree")           -- Undo manager
-  use("sbdchd/neoformat")          -- Prettier
+  use("tpope/vim-surround")         -- Quote, paranthesis wrapper
+  use("tpope/vim-fugitive")         -- Git integration
+  use("tomtom/tcomment_vim")        -- Commenter
+  use("mbbill/undotree")            -- Undo manager
+  use("sbdchd/neoformat")           -- Prettier
   use("github/copilot.vim")
   use("xiyaowong/transparent.nvim") -- Transparency
   use({
-                                   -- Fancy status line
+    -- Fancy status line
     "nvim-lualine/lualine.nvim",
     requires = { "nvim-tree/nvim-web-devicons", opt = true },
   })
@@ -37,7 +37,7 @@ return require("packer").startup(function()
 
   use("folke/tokyonight.nvim") -- Theme
   use({
-                              -- Diagnostics (linter errors and such)
+    -- Diagnostics (linter errors and such)
     "folke/trouble.nvim",
     requires = "nvim-tree/nvim-web-devicons",
   })
@@ -55,7 +55,7 @@ return require("packer").startup(function()
   use("simrat39/rust-tools.nvim")
 
   -- Syntax highlighting
-  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+  use({ "nvim-treesitter/nvim-treesitter" })
 
   -- LSP with lsp-zero
   use({
@@ -63,17 +63,17 @@ return require("packer").startup(function()
     branch = "v1.x",
     requires = {
       -- LSP Support
-      { "neovim/nvim-lspconfig" },          -- Required
-      { "williamboman/mason.nvim" },        -- Optional
+      { "neovim/nvim-lspconfig" },             -- Required
+      { "williamboman/mason.nvim" },           -- Optional
       { "williamboman/mason-lspconfig.nvim" }, -- Optional
 
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" },      -- Required
-      { "hrsh7th/cmp-nvim-lsp" },  -- Required
-      { "hrsh7th/cmp-buffer" },    -- Optional
-      { "hrsh7th/cmp-path" },      -- Optional
+      { "hrsh7th/nvim-cmp" },         -- Required
+      { "hrsh7th/cmp-nvim-lsp" },     -- Required
+      { "hrsh7th/cmp-buffer" },       -- Optional
+      { "hrsh7th/cmp-path" },         -- Optional
       { "saadparwaiz1/cmp_luasnip" }, -- Optional
-      { "hrsh7th/cmp-nvim-lua" },  -- Optional
+      { "hrsh7th/cmp-nvim-lua" },     -- Optional
 
       -- Snippets
       { "L3MON4D3/LuaSnip" }, -- Required
