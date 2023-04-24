@@ -1,16 +1,17 @@
-local actions = require("telescope.actions")
-local builtin = require("telescope.builtin")
+if require("utils").is_plugin_installed("telescope.nvim") then
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
 
-require("telescope").setup({
-	defaults = {
-		layout_strategy = "vertical",
-		layout_config = { height = 0.95 },
-
-		mappings = {
-			i = {
-				-- close telescope with a single ESC
-				["<esc>"] = actions.close,
-			},
-		},
-	},
-})
+  require("telescope").setup({
+    defaults = {
+      layout_strategy = "vertical",
+      layout_config = { height = 0.95 },
+      mappings = {
+        i = {
+          -- close telescope with a single ESC
+          ["<esc>"] = actions.close,
+        },
+      },
+    },
+  })
+end
