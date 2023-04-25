@@ -34,8 +34,10 @@
 .config/nvim/plugin/
 !.config/picom.conf
 !/.config/rofi/
+!/.config/sway/
 !/.config/termite/
 !/.config/starship.toml
+!/.config/waybar
 !/.config/wezterm
 !/.config/zellij
 /.cookiecutter_replay/
