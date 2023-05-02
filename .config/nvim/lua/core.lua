@@ -60,6 +60,10 @@ autocmd('BufWritePre', {
   command = "Neoformat prettier"
 })
 autocmd('BufWritePre', {
+  pattern = '*.jsx',
+  command = "Neoformat"
+})
+autocmd('BufWritePre', {
   pattern = '*.ts',
   command = "Neoformat prettier"
 })
