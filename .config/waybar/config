@@ -22,7 +22,7 @@
         "memory",
         "cpu",
         "pulseaudio",
-        "custom/keyboard-layout",
+        //"custom/keyboard-layout",
         "battery",
         //"custom/PBPbattery",
         "backlight#icon",
@@ -46,8 +46,8 @@
     "temperature": {
        // "thermal-zone": 2,
        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-       // "critical-threshold": 80,
-       // "format-critical": "{temperatureC}°C ",
+       "critical-threshold": 80,
+       "format-critical": "{temperatureC}°C ",
        "format": "{temperatureC}°C "
     },
 
@@ -84,7 +84,7 @@
             "warning": 70,
             "critical": 90,
         },
-        "on-click": "xfce4-terminal -e 'htop'",
+        "on-click": "xfce4-terminal -e 'htop --sort-key=PERCENT_CPU'",
     },
 
     "custom/keyboard-layout": {
@@ -101,7 +101,7 @@
     "memory": {
         "interval": 5,
         "format": " {}%", // Icon: memory
-        "on-click": "xfce4-terminal -e 'htop'", 
+        "on-click": "xfce4-terminal -e 'htop --sort-key=PERCENT_MEM'", 
         "states": {
             "warning": 70,
             "critical": 90
