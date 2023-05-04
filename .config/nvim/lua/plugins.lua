@@ -19,13 +19,12 @@ return require("packer").startup(function()
     },
   })
 
-  use("tpope/vim-surround")         -- Quote, paranthesis wrapper
-  use("tpope/vim-fugitive")         -- Git integration
-  use("tomtom/tcomment_vim")        -- Commenter
-  use("mbbill/undotree")            -- Undo manager
-  use("sbdchd/neoformat")           -- Prettier
+  use("tpope/vim-surround")  -- Quote, paranthesis wrapper
+  use("tpope/vim-fugitive")  -- Git integration
+  use("tomtom/tcomment_vim") -- Commenter
+  use("mbbill/undotree")     -- Undo manager
+  use("sbdchd/neoformat")    -- Prettier
   use("github/copilot.vim")
-  use("xiyaowong/transparent.nvim") -- Transparency
   use({
     -- Fancy status line
     "nvim-lualine/lualine.nvim",
