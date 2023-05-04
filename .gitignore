@@ -34,9 +34,10 @@
 .config/nvim/plugin/
 !.config/picom.conf
 !/.config/rofi/
+!/.config/starship.toml
 !/.config/sway/
 !/.config/termite/
-!/.config/starship.toml
+!/.config/tmux/
 !/.config/waybar
 !/.config/wezterm
 !/.config/zellij
@@ -65,6 +66,7 @@
 /.sdkman/
 /.ssh/
 /.sudo_as_admin_successful
+/.tmux/
 /.var/
 /.vim/
 /.Xauthority
