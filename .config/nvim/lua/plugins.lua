@@ -26,6 +26,14 @@ return require("packer").startup(function()
   use("sbdchd/neoformat")    -- Prettier
   use("github/copilot.vim")
   use({
+    "folke/noice.nvim",
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    }
+  })
+
+  use({
     -- Fancy status line
     "nvim-lualine/lualine.nvim",
     requires = { "nvim-tree/nvim-web-devicons", opt = true },
