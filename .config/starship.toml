@@ -37,6 +37,7 @@ pyenv_prefix = "foo "
 symbol = "  "
 
 [gcloud]
+format = '[$symbol]($style) '
 symbol = "  "
 
 [buf]
