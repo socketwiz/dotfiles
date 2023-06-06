@@ -46,5 +46,8 @@ if require("utils").is_plugin_installed("telescope.nvim") then
 
     telescope.grep_string({ search = vim.fn.input("Grep > ", current_word) })
   end)
+  vim.keymap.set("n", "<leader>fk", function()
+    telescope.keymaps()
+  end)
   vim.keymap.set("n", "<leader>h", telescope.help_tags, {})
 end
