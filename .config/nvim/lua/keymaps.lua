@@ -5,11 +5,6 @@ vim.keymap.set("n", "<Right>", "<Nop>")
 -- Clear the search highlighting
 vim.keymap.set("n", "<leader><space>", ":noh<cr>")
 
-if require("utils").is_plugin_installed("nvim-tree.lua") then
-  -- Nvim tree
-  vim.keymap.set("n", "<C-x><C-j>", "<cmd>NvimTreeFindFile<cr>")
-end
-
 if require("utils").is_plugin_installed("nvim-cmp") then
   print('Plugin cmp is installed.')
   local cmp = require("cmp")

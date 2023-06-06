@@ -60,11 +60,12 @@ if require("utils").is_plugin_installed("nvim-tree.lua") then
     -- END_DEFAULT_ON_ATTACH
 
     -- custom mappings
-    vim.keymap.set('n', 'g', api.tree.reload, opts('Refresh'))
-    vim.keymap.set('n', '+', api.fs.create, opts('Create'))
-    vim.keymap.set('n', 'x', api.fs.remove, opts('Delete'))
-    vim.keymap.set('n', 'R', api.fs.rename, opts('Rename'))
-    vim.keymap.set('n', '^', api.tree.change_root_to_parent, opts('Up'))
+    --vim.keymap.set('n', 'g', api.tree.reload, opts('Refresh'))
+    --vim.keymap.set('n', '+', api.fs.create, opts('Create'))
+    --vim.keymap.set('n', 'x', api.fs.remove, opts('Delete'))
+    --vim.keymap.set('n', 'R', api.fs.rename, opts('Rename'))
+    --vim.keymap.set('n', '^', api.tree.change_root_to_parent, opts('Up'))
+    --vim.keymap.set('n', '<C-x><C-j>', '<cmd>NvimTreeFindFile<cr>')
   end
 
   require("nvim-tree").setup({

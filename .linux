@@ -37,7 +37,7 @@ function cargo {
   # check to see if the first argument is present and if it is check the first
   # argument to see if it is `install`
   if [[ -n $1 && $1 == "install" ]]; then
-    RUSTC_WRAPPER=sccache command cargo "$@"
+    RUSTC_WRAPPER="${HOME}/.cargo/bin/sccache" command cargo "$@"
   else
     # otherwise, pass the arguments to cargo
     if [[ -n $@ ]]; then
