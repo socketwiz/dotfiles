@@ -32,6 +32,7 @@ return require("packer").startup(function()
       "rcarriga/nvim-notify",
     }
   })
+  use("stevearc/oil.nvim")
 
   use({
     -- Fancy status line
