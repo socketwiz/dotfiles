@@ -3,21 +3,9 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     name = "recommended",
     suggest_lsp_servers = false,
   })
+  local lspconfig = require('lspconfig')
 
-  lsp.ensure_installed({
-    "eslint",
-    "rust_analyzer",
-    "tsserver",
-  })
-
-  lsp.format_on_save({
-    servers = {
-      ["lua_ls"] = { "lua" },
-      ["rust_analyzer"] = { "rust" },
-    },
-  })
-
-  lsp.on_attach(function(client, bufnr)
+  function on_attach(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
     vim.keymap.set("n", "gd", function()
@@ -50,7 +38,27 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     vim.keymap.set("n", "<C-k>", function()
       vim.lsp.buf.signature_help()
     end, opts)
-  end)
+  end
+
+  lsp.ensure_installed({
+    "eslint",
+    "rust_analyzer",
+    "tsserver",
+  })
+
+  lsp.format_on_save({
+    servers = {
+      ["lua_ls"] = { "lua" },
+      ["rust_analyzer"] = { "rust" },
+    },
+  })
+
+  lsp.configure('denols', {
+    on_attach = on_attach,
+    root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+  })
+
+  lsp.on_attach(on_attach)
 
   lsp.setup()
 
