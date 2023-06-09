@@ -11,20 +11,14 @@ return require("packer").startup(function()
     requires = { { "nvim-lua/plenary.nvim" } },
   })
 
-  -- File explorer
-  use({
-    "kyazdani42/nvim-tree.lua",
-    requires = {
-      "kyazdani42/nvim-web-devicons", -- optional, for file icon
-    },
-  })
-
   use("tpope/vim-surround")  -- Quote, paranthesis wrapper
   use("tpope/vim-fugitive")  -- Git integration
   use("tomtom/tcomment_vim") -- Commenter
   use("mbbill/undotree")     -- Undo manager
   use("sbdchd/neoformat")    -- Prettier
-  use("github/copilot.vim")
+  use("github/copilot.vim")  -- AI code completion
+
+  -- Replaces UI messages, cmdline and the popupmenu
   use({
     "folke/noice.nvim",
     requires = {
@@ -32,6 +26,8 @@ return require("packer").startup(function()
       "rcarriga/nvim-notify",
     }
   })
+
+  -- File explorer
   use("stevearc/oil.nvim")
 
   use({
