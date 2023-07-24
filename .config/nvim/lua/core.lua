@@ -44,6 +44,6 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Run prettier on save
 autocmd('BufWritePre', {
-	pattern = { '*.css', '*.scss', '*.html', '*.js', '*.jsx', '*.ts', '*.json' },
+	pattern = { '*.css', '*.scss', '*.html', '*.js', '*.jsx', '*.lua', '*.ts', '*.json' },
 	command = "Neoformat"
 })
