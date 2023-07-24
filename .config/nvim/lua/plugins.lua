@@ -17,6 +17,14 @@ return require("packer").startup(function()
   use("mbbill/undotree")     -- Undo manager
   use("sbdchd/neoformat")    -- Prettier
   use("github/copilot.vim")  -- AI code completion
+  use({
+    "jackMort/ChatGPT.nvim",
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
 
   -- Replaces UI messages, cmdline and the popupmenu
   use({
