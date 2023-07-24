@@ -1,9 +1,9 @@
 if require("utils").is_plugin_installed("telescope.nvim") then
   local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
 
   require("telescope").setup({
     defaults = {
+      file_ignore_patterns = { ".git" },
       layout_strategy = "vertical",
       layout_config = { height = 0.95 },
       mappings = {
@@ -13,5 +13,10 @@ if require("utils").is_plugin_installed("telescope.nvim") then
         },
       },
     },
+    pickers = {
+      find_files = {
+        hidden = true,
+      }
+    }
   })
 end
