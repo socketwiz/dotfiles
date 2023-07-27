@@ -1,9 +1,10 @@
 if require("utils").is_plugin_installed("lsp-zero.nvim") then
-  local lsp = require("lsp-zero").preset({
+  local lsp_zero = require("lsp-zero").preset({
     name = "recommended",
     suggest_lsp_servers = false,
   })
-  local lspconfig = require('lspconfig')
+  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+  local lspconfig = require("lspconfig")
 
   function on_attach(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
@@ -40,29 +41,30 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     end, opts)
   end
 
-  lsp.ensure_installed({
+  lsp_zero.ensure_installed({
     "eslint",
     "rust_analyzer",
     "tsserver",
   })
 
-  lsp.format_on_save({
+  lsp_zero.format_on_save({
     servers = {
       ["lua_ls"] = { "lua" },
       ["rust_analyzer"] = { "rust" },
     },
   })
 
-  lsp.configure('denols', {
+  lsp_zero.configure("denols", {
+    capabilities = lsp_capabilities,
     on_attach = on_attach,
     root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
   })
 
-  lsp.on_attach(on_attach)
+  lsp_zero.on_attach(on_attach)
 
-  lsp.setup()
+  lsp_zero.setup()
 
-  local rust_lsp = lsp.build_options("rust_analyzer", {})
+  local rust_lsp = lsp_zero.build_options("rust_analyzer", {})
 
   require("rust-tools").setup({ server = rust_lsp })
 end
