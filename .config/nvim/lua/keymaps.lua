@@ -6,8 +6,8 @@ vim.keymap.set("n", "<Right>", "<Nop>")
 vim.keymap.set("n", "<leader><space>", ":noh<cr>")
 
 if require("utils").is_plugin_installed("nvim-cmp") then
-  print('Plugin cmp is installed.')
   local cmp = require("cmp")
+
   cmp.setup({
     mapping = {
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
@@ -24,7 +24,7 @@ if require("utils").is_plugin_installed("nvim-cmp") then
     },
   })
 else
-  print('Plugin cmp is not installed.')
+  print("Plugin cmp is not installed.")
 end
 
 if require("utils").is_plugin_installed("telescope.nvim") then
@@ -42,7 +42,7 @@ if require("utils").is_plugin_installed("telescope.nvim") then
     telescope.git_files(path_display)
   end, {})
   vim.keymap.set("n", "<leader>fg", function()
-    local current_word = vim.call('expand', '<cword>')
+    local current_word = vim.call("expand", "<cword>")
 
     telescope.grep_string({ search = vim.fn.input("Grep > ", current_word) })
   end)
