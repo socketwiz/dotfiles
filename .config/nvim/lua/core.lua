@@ -1,5 +1,6 @@
 vim.g.mapleader = " "      -- Change leader key to <Space>
 vim.g.mapleaderlocal = " " -- Change leader key to <Space>
+vim.g.python3_host_prog = "/usr/bin/python3"
 
 -- Options
 vim.opt.autoindent = true
@@ -42,8 +43,8 @@ vim.opt.visualbell = true -- Turn the beep into a visual representation rather t
 
 local autocmd = vim.api.nvim_create_autocmd
 
--- Run prettier on save
-autocmd('BufWritePre', {
-	pattern = { '*.css', '*.scss', '*.html', '*.js', '*.jsx', '*.lua', '*.ts', '*.json' },
-	command = "Neoformat"
+-- Run rettier on save
+autocmd("BufWritePre", {
+  pattern = { "*.css", "*.scss", "*.html", "*.js", "*.jsx", "*.lua", "*.ts", "*.json" },
+  command = "Neoformat",
 })
