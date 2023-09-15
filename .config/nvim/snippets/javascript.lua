@@ -26,6 +26,11 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
+local useEffect = s("ue", {
+  t("useEffect(() => {"),
+  i(1),
+  t("}, [])"),
+})
 local ternary = s("ternary", {
   -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
   i(1, "cond"),
@@ -41,4 +46,5 @@ ls.add_snippets("javascript", {
 
 ls.add_snippets("javascriptreact", {
   ternary,
+  useEffect,
 })

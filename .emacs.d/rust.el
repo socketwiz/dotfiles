@@ -37,6 +37,8 @@
   ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
   (setq eglot-stay-out-of '())
   (eglot-ensure)
+  ;; treesit-install-language-grammar
+  (rust-ts-mode)
   (when (and (bound-and-true-p evil-mode))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))

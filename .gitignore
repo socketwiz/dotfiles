@@ -94,6 +94,7 @@
 /tmp/
 
 /.emacs.d/*~
+/.emacs.d/*.elc
 /.emacs.d/.cache/
 /.emacs.d/.dap-breakpoints
 /.emacs.d/.lsp-session-v1
@@ -116,6 +117,7 @@
 /.emacs.d/smex-items
 /.emacs.d/tramp
 /.emacs.d/transient
+/.emacs.d/tree-sitter
 /.emacs.d/undo/
 /.emacs.d/url/
 /.emacs.d/var/

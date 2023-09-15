@@ -23,7 +23,7 @@ fi
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # setup neovim
-PATH=$PATH:~/.local/share/bob/nvim-bin
+PATH=$PATH:~/.local/share/bob/nvim-bin:~/.local/share/rtx/shims
 
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"

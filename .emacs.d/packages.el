@@ -10,15 +10,12 @@
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 (setq use-package-always-ensure t)
 
 ;; Set the path from the shell
 ;; call after (package-initialize)
 (use-package exec-path-from-shell
-  :init
+  :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
@@ -184,7 +181,8 @@
 ;; Minor mode for dealing with pairs, such as parenthesis and quotes
 (use-package smartparens
   :config
-  (smartparens-global-mode t))
+  (smartparens-global-mode t)
+  (add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode))
 
 ;; Modeline theme, bottom of each window
 (use-package doom-modeline
@@ -300,8 +298,6 @@
   :after (evil)
   :config
   (global-evil-surround-mode 1))
-
-(use-package eglot)
 
 (use-package tree-sitter
   :hook ((rust-mode . tree-sitter-mode)

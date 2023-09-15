@@ -26,8 +26,6 @@
 (setq column-number-mode t)
 ;; Make line numbers relative
 (menu-bar-display-line-numbers-mode 'relative)
-;; Display regular line numbers too
-(global-linum-mode)
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
@@ -35,7 +33,6 @@
 (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
 (add-to-list 'display-buffer-alist '("*Info*" display-buffer-same-window))
 
-(add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode)
 
 ;; Font
 (set-face-attribute 'default nil
