@@ -77,6 +77,11 @@
    (delete-windows-on "*Occur*"))
   (advice-add 'occur-mode-goto-occurrence :filter-return 'after-occur-mode-goto-occurrence))
 
+;; convert major modes to use the new treesitter tech
+(setq major-mode-remap-alist
+      '((bash-mode . bash-ts-mode)
+        (python-mode . python-ts-mode)
+        (yaml-mode . yaml-ts-mode)))
 
 (provide 'settings)
 ;;; settings.el ends here

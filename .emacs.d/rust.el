@@ -37,8 +37,6 @@
   ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
   (setq eglot-stay-out-of '())
   (eglot-ensure)
-  ;; treesit-install-language-grammar
-  (rust-ts-mode)
   (when (and (bound-and-true-p evil-mode))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
@@ -47,16 +45,13 @@
   (setq rust-format-on-save t)
   (prettify-symbols-mode))
 
+(add-hook 'rust-ts-mode-hook 'setup-rust)
+
 ;; Syntax highlighting, indentation, etc..
-(use-package rust-mode
-  :if config-enable-rust-mode
-  :hook (rust-mode . setup-rust)
-  :mode ("\\.rs\\'" . rust-mode)
-  :bind (:map rust-mode-map
-              (("C-c C-c" . rust-compile)
-               ("C-c C-k" . rust-check)
-               ("C-c C-r" . rust-run)
-               ("C-c C-t" . rust-test))))
+;; Enable rust treesitter mode when opening .rs files
+;; treesit-install-language-grammar
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+
 
 (provide 'rust)
 ;;; rust.el ends here
