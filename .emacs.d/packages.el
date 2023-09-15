@@ -299,14 +299,6 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package tree-sitter
-  :hook ((rust-mode . tree-sitter-mode)
-         (rust-mode . tree-sitter-hl-mode)
-         (js-mode . tree-sitter-mode)
-         (js-mode . tree-sitter-hl-mode)))
-(use-package tree-sitter-langs
-  :after (tree-sitter))
-
 ;; Advanced undo/redo system
 (use-package undo-tree
   :config

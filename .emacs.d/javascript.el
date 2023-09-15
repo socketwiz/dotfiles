@@ -49,31 +49,23 @@
 (use-package flymake-eslint
   :if config-enable-web-mode)
 
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :interpreter "node"
-  :config
-  (add-hook 'js2-mode-hook '(lambda ()
-                                ;; treesit-install-language-grammar
-                                (js-ts-mode))))
-
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :interpreter "node"
-  :config
-  (add-hook 'typescript-mode-hook '(lambda ()
-                                ;; treesit-install-language-grammar
-                                (typescript-ts-mode))))
-
 (use-package prettier-js)
 
-(add-hook 'js-mode-hook 'configure-mode)
-(add-hook 'typescript-mode-hook 'configure-mode)
+(add-hook 'css-ts-mode-hook 'configure-mode)
+(add-hook 'js-ts-mode-hook 'configure-mode)
+(add-hook 'typescript-ts-mode-hook 'configure-mode)
 (add-hook 'web-mode-hook 'configure-web-mode)
-;; Enable typescript-mode for .tsx files
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
 
-;; * Language HTML, CSS
+;; treesit-install-language-grammar
+;;(add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
+;;(add-to-list 'auto-mode-alist '("\\.scss\\'" . css-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-ts-mode))
+
+;; * Language HTML
 (defun web-mode-init ()
   "Setup yas when in \"web-mode\"."
   (interactive)
@@ -85,10 +77,7 @@
 ;; Major mode for editing web templates
 (use-package web-mode
   :if config-enable-web-mode
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.css\\'" . web-mode)
-         ("\\.js?\\'" . web-mode)
-         ("\\.json\\'" . web-mode))
+  :mode (("\\.html?\\'" . web-mode))
   :config
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
     (if (equal web-mode-content-type "js")
@@ -118,16 +107,6 @@
   ;; Automatically close tag
   (web-mode-enable-auto-pairing t)
   (web-mode-enable-css-colorization t))
-
-;; SASS
-(use-package scss-mode
-  :if config-enable-web-mode
-  :mode ("\\.scss\\'" . scss-mode)
-  :config
-  (add-hook 'scss-mode-hook '(lambda ()
-                               (eglot-ensure)
-                               (css-ts-mode)
-                               (prettier-js-mode))))
 
 (use-package indium
   :init
