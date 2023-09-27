@@ -280,7 +280,7 @@
   ;; Set undo-tree as the undo/redo system. I thought one could set
   ;; the variable evil-undo-system to enable this, but I can't seem to
   ;; get that to work :( evil-set-undo-system seems to work, though
-  ;; I'm not sure if this is the recommended
+  ;; I'm not sure if this is recommended
   (evil-set-undo-system 'undo-tree)
 
   ;; For some reason these modes are starting in emacs state, set them to normal
@@ -289,7 +289,10 @@
   (evil-set-initial-state 'yaml-mode 'normal)
 
   (define-key evil-normal-state-map (kbd "C-c C-/") 'comment-dwim)
-  (define-key evil-motion-state-map (kbd "/") 'swiper))
+  (define-key evil-motion-state-map (kbd "/") 'swiper)
+
+  (unless (fboundp 'shell-completion-vars)
+    (defun shell-completion-vars () nil)))
 
 
 ;; Surround text objects with characters
