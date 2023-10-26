@@ -62,7 +62,6 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
 
   lsp_zero.configure("tsserver", {
     capabilities = lsp_capabilities,
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
     on_attach = on_attach,
     root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
   })
