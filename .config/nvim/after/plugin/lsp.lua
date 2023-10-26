@@ -60,6 +60,13 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
   })
 
+  lsp_zero.configure("tsserver", {
+    capabilities = lsp_capabilities,
+    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+    on_attach = on_attach,
+    root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+  })
+
   lsp_zero.on_attach(on_attach)
 
   lsp_zero.setup()
