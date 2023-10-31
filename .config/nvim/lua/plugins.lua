@@ -1,3 +1,4 @@
+
 return require("lazy").setup({
   {
   -- Fuzzy finder
@@ -80,6 +81,7 @@ return require("lazy").setup({
       lazy = false,
       config = true,
     },
+
     -- Autocompletion
     {
       'hrsh7th/nvim-cmp',
