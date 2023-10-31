@@ -11,7 +11,6 @@
 /.bashrc
 /.cache/
 /.cargo/
-/.config/*
 !/.config/Code
 /.config/Code/*
 !/.config/Code/User
@@ -30,8 +29,6 @@
 !/.config/kitty/
 !/.config/nushell
 /.config/nushell/history.txt
-!/.config/nvim/
-.config/nvim/plugin/
 !.config/picom.conf
 !/.config/rofi/
 !/.config/starship.toml

@@ -41,12 +41,6 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     end, opts)
   end
 
-  lsp_zero.ensure_installed({
-    "eslint",
-    "rust_analyzer",
-    "tsserver",
-  })
-
   lsp_zero.format_on_save({
     servers = {
       ["lua_ls"] = { "lua" },
