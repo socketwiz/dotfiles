@@ -61,7 +61,8 @@
 /.rustup/
 /.s3cfg
 /.sdkman/
-/.ssh/
+~/.ssh/
+!~/.ssh/config
 /.sudo_as_admin_successful
 /.tmux/
 /.var/
