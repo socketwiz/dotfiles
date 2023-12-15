@@ -115,5 +115,5 @@ case $(uname) in
     ;;
 esac
 
+# node version manager
 eval "$(~/.cargo/bin/rtx activate zsh)"
-

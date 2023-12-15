@@ -1,3 +1,4 @@
+vim.keymap.set("n", " ", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "      -- Change leader key to <Space>
 vim.g.mapleaderlocal = " " -- Change leader key to <Space>
 vim.g.python3_host_prog = "/usr/bin/python3"
@@ -45,6 +46,6 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Run rettier on save
 autocmd("BufWritePre", {
-  pattern = { "*.css", "*.scss", "*.html", "*.js", "*.jsx", "*.lua", "*.ts", "*.tsx", "*.json" },
+  pattern = { "*.css", "*.scss", "*.html", "*.js", "*.jsx", "*.lua", "*.ts", "*.tsx", "*.json", "*.vue" },
   command = "Neoformat",
 })
