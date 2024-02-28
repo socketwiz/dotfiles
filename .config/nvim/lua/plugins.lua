@@ -11,7 +11,7 @@ return require("lazy").setup({
 	"tomtom/tcomment_vim", -- Commenter
 	"mbbill/undotree", -- Undo manager
 	"sbdchd/neoformat", -- Prettier
-	"github/copilot.vim", -- AI code completion
+	"github/copilot.vim", -- github AI code completion
 
 	-- Replaces UI messages, cmdline and the popupmenu
 	{
