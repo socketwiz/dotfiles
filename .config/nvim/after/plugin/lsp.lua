@@ -60,6 +60,11 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
   })
 
+  lsp_zero.configure("eslint", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
   lsp_zero.on_attach(on_attach)
 
   lsp_zero.setup()

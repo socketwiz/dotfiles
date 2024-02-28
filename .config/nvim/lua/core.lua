@@ -42,6 +42,9 @@ vim.opt.undodir = "~/.vimundo//,/var/tmp//,/tmp//,c:\tmp,."
 vim.opt.undofile = true   -- Enable undo support
 vim.opt.visualbell = true -- Turn the beep into a visual representation rather than a sound
 
+-- gitlab
+vim.opt.completeopt = 'menu,menuone'
+
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Run rettier on save
