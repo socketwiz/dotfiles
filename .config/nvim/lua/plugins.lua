@@ -41,13 +41,6 @@ return require("lazy").setup({
 		opts = {},
 	},
 
-	{
-		-- Diagnostics (linter errors and such)
-		"folke/trouble.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {},
-	},
-
 	-- Git decorations in the gutter
 	{ "lewis6991/gitsigns.nvim" },
 
