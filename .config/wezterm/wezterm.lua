@@ -9,7 +9,7 @@ if wezterm.config_builder then
 end
 
 -- This is where you actually apply your config choices
-config.font = wezterm.font("FiraCode NF", { weight = "Regular", stretch = "Normal", style = "Normal" })
+config.font = wezterm.font("FiraCode Nerd Font")
 config.font_size = 16.0
 
 -- For example, changing the color scheme:

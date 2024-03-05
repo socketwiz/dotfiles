@@ -48,10 +48,41 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     },
   })
 
+  lsp_zero.configure("bashls", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
   lsp_zero.configure("denols", {
     capabilities = lsp_capabilities,
     on_attach = on_attach,
     root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+  })
+
+  lsp_zero.configure("eslint", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
+  lsp_zero.configure("html", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
+  lsp_zero.configure("jsonls", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
+  -- python
+  lsp_zero.configure("pylsp", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
+  })
+
+  lsp_zero.configure("rust_analyzer", {
+    capabilities = lsp_capabilities,
+    on_attach = on_attach,
   })
 
   lsp_zero.configure("tsserver", {
@@ -60,7 +91,7 @@ if require("utils").is_plugin_installed("lsp-zero.nvim") then
     root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
   })
 
-  lsp_zero.configure("eslint", {
+  lsp_zero.configure("volar", {
     capabilities = lsp_capabilities,
     on_attach = on_attach,
   })
