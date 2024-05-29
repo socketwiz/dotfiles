@@ -6,15 +6,24 @@
 ;; Package setup, configuration, and general packages (not language specific)
 
 ;;; Code:
+(require 'package)
+(setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
-(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+
+;; Bootstrap `use-package`
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; Set the path from the shell
 ;; call after (package-initialize)
 (use-package exec-path-from-shell
+  :ensure t
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))

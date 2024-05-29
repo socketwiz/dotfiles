@@ -28,7 +28,7 @@ return require("lazy").setup({
 	{
 		-- Fancy status line
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{ -- comments
 		"numToStr/Comment.nvim",
