@@ -24,3 +24,5 @@
     defaultBranch = main
 [includeIf "gitdir:~/dev/rust/"]
     path = ~/.gitconfig.zolmok
+[credential]
+	helper = store

@@ -116,4 +116,6 @@ case $(uname) in
 esac
 
 # node version manager
-eval "$(rtx activate zsh)"
+eval "$(~/.cargo/bin/rtx activate zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
