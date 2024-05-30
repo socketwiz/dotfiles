@@ -65,6 +65,17 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-ts-mode))
 
+;; Ensure the grammar is loaded for JavaScript mode
+(add-hook 'js-mode-hook
+          (lambda ()
+            (tree-sitter-mode)
+            (tree-sitter-hl-mode)))
+;; JSON grammar
+(add-hook 'json-mode-hook
+          (lambda ()
+            (tree-sitter-mode)
+            (tree-sitter-hl-mode)))
+
 ;; * Language HTML
 (defun web-mode-init ()
   "Setup yas when in \"web-mode\"."
