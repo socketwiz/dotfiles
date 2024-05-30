@@ -20,6 +20,14 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Install quelpa
+(unless (package-installed-p 'quelpa)
+  (package-refresh-contents)
+  (package-install 'quelpa))
+
+(use-package quelpa-use-package
+  :ensure t)
+
 ;; Set the path from the shell
 ;; call after (package-initialize)
 (use-package exec-path-from-shell
@@ -303,7 +311,6 @@
   (unless (fboundp 'shell-completion-vars)
     (defun shell-completion-vars () nil)))
 
-
 ;; Surround text objects with characters
 (use-package evil-surround
   :if config-enable-evil-mode
@@ -318,6 +325,14 @@
   :init
   (global-undo-tree-mode))
 
+;; An alternative to isearch
+(use-package swiper
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper-backward)))
+
+;; Terraform syntax highlighting
+(use-package terraform-mode)
+
 ;; In-buffer completion framework
 (use-package company
   :init
@@ -328,13 +343,20 @@
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
 
-;; An alternative to isearch
-(use-package swiper
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper-backward)))
+;; Syntax tree parser, used for coloring languages among other things
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
 
-;; Terraform syntax highlighting
-(use-package terraform-mode)
+;; AI pair programmer
+;; M-x copilot-install-server
+(use-package copilot
+  :quelpa (copilot :fetcher github
+                   :repo "copilot-emacs/copilot.el"
+                   :branch "main"
+                   :files ("*.el"))
+  :bind (("C-j" . copilot-accept-completion)))
+
 
 (provide 'packages)
 ;;; packages.el ends here
