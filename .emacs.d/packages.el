@@ -34,7 +34,10 @@
   :ensure t
   :config
   (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize))
+  (exec-path-from-shell-copy-env "PATH")
+  (exec-path-from-shell-copy-env "SHELL"))
+(setq shell-file-name "/usr/bin/bash")
 
 ;; * Core packages
 (use-package diminish)
@@ -355,7 +358,8 @@
                    :repo "copilot-emacs/copilot.el"
                    :branch "main"
                    :files ("*.el"))
-  :bind (("C-j" . copilot-accept-completion)))
+  :bind (("C-j" . copilot-accept-completion))
+  :hook (prog-mode . copilot-mode))
 
 
 (provide 'packages)
