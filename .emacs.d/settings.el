@@ -56,6 +56,15 @@
                     :family config-font-family
                     :height config-font-height)
 
+;; On mac, make the cmd key the meta key in emacs
+;; Conditional configuration for macOS
+(when (eq system-type 'darwin)
+  ;; Remap keys on macOS
+  (setq mac-command-modifier 'meta)  ;; Command key -> Super
+  (setq mac-option-modifier 'super)    ;; Option key -> Meta
+  (setq mac-control-modifier 'control)  ;; Control key -> Control
+  (setq ns-function-modifier 'hyper))  ;; Function key -> Hyper
+
 ;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
 
