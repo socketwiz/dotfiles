@@ -189,15 +189,6 @@
   (declare-function recentf-save-list "recentf.el.gz")
   (add-hook 'delete-terminal-functions (lambda (terminal) (recentf-save-list))))
 
-;; Display used hotkeys in another window
-(use-package command-log-mode
-  :if config-enable-command-log-mode
-  :diminish 'command-log-mode
-  :hook (after-init . global-command-log-mode))
-
-;; Syntax highlighting for GraphQL
-(use-package graphql-mode)
-
 ;; Minor mode for dealing with pairs, such as parenthesis and quotes
 (use-package smartparens
   :config
@@ -246,7 +237,7 @@
          ("\\.markdown\\'" . markdown-mode))
   :custom (markdown-command "multimarkdown"))
 
-;; Syntax highlighting for docker files
+;; Major mode for docker files
 (use-package dockerfile-mode
   :if config-enable-dockerfile-mode
   :defer t)
@@ -255,6 +246,12 @@
 (use-package yaml-mode
   :if config-enable-yaml-mode
   :mode ("\\.yml\\'" . yaml-mode))
+
+;; Major mode for GraphQL
+(use-package graphql-mode)
+
+;; Majro mode for terraform
+(use-package terraform-mode)
 
 ;; Extensible vi layer for Emacs
 (declare-function evil-set-initial-state "evil-core.el")
@@ -333,14 +330,12 @@
   :bind (("C-s" . swiper)
          ("C-r" . swiper-backward)))
 
-;; Terraform syntax highlighting
-(use-package terraform-mode)
-
 ;; In-buffer completion framework
 (use-package company
   :init
   (global-company-mode))
 
+;; Highlights uncommited changes on the left side of the window
 (use-package diff-hl
   :init
   (global-diff-hl-mode)
