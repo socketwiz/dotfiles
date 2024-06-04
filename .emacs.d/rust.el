@@ -34,9 +34,6 @@
 ;;
 (defun setup-rust ()
   "Do these things after \"rust-mode\" is enabled."
-  ;; reset eglot-stay-out-of in case we've run a javascript file which adds flymake
-  (setq eglot-stay-out-of '())
-  (eglot-ensure)
   (when (and (bound-and-true-p evil-mode))
     ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
