@@ -57,6 +57,7 @@
                         "Display Flymake documentation."
                         (interactive)
                         (info-display-manual "flymake")))
+         :map flymake-mode-map
          ("C-c ! l" . consult-flymake)
          ("C-c ! n" . flymake-goto-next-error)
          ("C-c ! p" . flymake-goto-prev-error)))
@@ -153,8 +154,8 @@
   (add-to-list 'org-link-frame-setup '(file . find-file)))
 
 (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;; Respect editor configs
 (use-package editorconfig
@@ -193,7 +194,11 @@
 (use-package smartparens
   :config
   (smartparens-global-mode t)
-  (add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode))
+  (add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode)
+  (add-hook 'js-ts-mode-hook 'show-smartparens-mode)
+  (add-hook 'typescript-ts-mode-hook 'show-smartparens-mode)
+  (add-hook 'rust-mode-hook 'show-smartparens-mode)
+  (add-hook 'json-mode-hook 'show-smartparens-mode))
 
 ;; Modeline theme, bottom of each window
 (use-package doom-modeline
@@ -342,9 +347,35 @@
   (diff-hl-margin-mode))
 
 ;; Syntax tree parser, used for coloring languages among other things
+;; Tree-sitter configuration
+(use-package tree-sitter
+  :ensure t
+  :hook (prog-mode . global-tree-sitter-mode)
+  :config
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 (use-package tree-sitter-langs
   :ensure t
   :after tree-sitter)
+
+(use-package eglot
+  :init
+  (setq eglot-stay-out-of '(flymake))
+  :hook (prog-mode . eglot-ensure)
+  :bind (("M-TAB" . completion-at-point)
+         ("M-g i" . imenu)
+         ("C-h ." . display-local-help)
+         ("M-." . xref-find-definitions)
+         ("M-," . xref-go-back)
+         :map
+         eglot-mode-map
+         ("C-c c a" . eglot-code-actions)
+         ("C-c c o" . eglot-code-actions-organize-imports)
+         ("C-c c r" . eglot-rename)
+	 ("C-c c f" . eglot-format)))
+
+(use-package eldoc
+  :init
+  (global-eldoc-mode))
 
 ;; AI pair programmer
 ;; M-x copilot-install-server
@@ -355,6 +386,11 @@
                    :files ("*.el"))
   :bind (("C-j" . copilot-accept-completion))
   :hook (prog-mode . copilot-mode))
+
+;; Provides a transient over info pages to make them easier to navigate
+(use-package casual-info
+  :ensure t
+  :bind (:map Info-mode-map ("C-o" . 'casual-info-tmenu)))
 
 
 (provide 'packages)
