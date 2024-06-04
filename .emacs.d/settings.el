@@ -63,7 +63,16 @@
   (setq mac-command-modifier 'meta)  ;; Command key -> Super
   (setq mac-option-modifier 'super)    ;; Option key -> Meta
   (setq mac-control-modifier 'control)  ;; Control key -> Control
-  (setq ns-function-modifier 'hyper))  ;; Function key -> Hyper
+  (setq ns-function-modifier 'hyper)  ;; Function key -> Hyper
+
+  ;; Get dired to work on macOS
+  ;; requires coreutils ~brew install coreutils~
+  (setq insert-directory-program (executable-find "gls"))
+  (setq dired-listing-switches "-ahgo --group-directories-first")
+
+  ;; Get ripgrep to work on macOS
+  (setq shell-file-name "/bin/bash")
+  (setq explicit-shell-file-name "/bin/bash"))
 
 ;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
