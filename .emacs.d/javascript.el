@@ -30,27 +30,37 @@
 (use-package flymake-eslint
   :if config-enable-web-mode)
 
-(use-package prettier-js)
+(use-package prettier-js
+  :ensure t)
+
+(defun enable-prettier-js-mode ()
+  "Enable `prettier-js-mode`."
+  (prettier-js-mode t))
 
 (use-package js-base-mode
-  :defer 't
+  :defer t
   :ensure js
   :custom
   (js-indent-level 2)
   :config
-  (unbind-key "M-." js-base-mode-map))
+  (unbind-key "M-." js-base-mode-map)
+  :hook (js-base-mode . enable-prettier-js-mode))
 
 (use-package typescript-ts-mode
-  :ensure typescript-ts-mode
-  :defer 't
+  :defer t
   :custom
   (typescript-indent-level 2)
   :config
-  (unbind-key "M-." typescript-ts-base-mode-map))
+  (unbind-key "M-." typescript-ts-base-mode-map)
+  :hook (typescript-ts-mode . enable-prettier-js-mode))
+
+(use-package css-mode
+  :hook (css-mode . enable-prettier-js-mode))
 
 (use-package indium
   :init
   (add-hook 'js-mode-hook 'indium-interaction-mode))
+
 
 (provide 'javascript)
 ;;; javascript.el ends here

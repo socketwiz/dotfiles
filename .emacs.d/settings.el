@@ -36,20 +36,21 @@
 ;; Treesitter grammars
 ;; M-x treesit-install-language-grammar
 (setq treesit-language-source-alist
-   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	(cmake "https://github.com/uyha/tree-sitter-cmake")
+	(css "https://github.com/tree-sitter/tree-sitter-css")
+	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	(html "https://github.com/tree-sitter/tree-sitter-html")
+	(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	(json "https://github.com/tree-sitter/tree-sitter-json")
+	(make "https://github.com/alemuller/tree-sitter-make")
+	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	(python "https://github.com/tree-sitter/tree-sitter-python")
+	(toml "https://github.com/tree-sitter/tree-sitter-toml")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml")
+	(vue "https://github.com/ikatyang/tree-sitter-vue")))
 
 ;; Font
 (set-face-attribute 'default nil
@@ -58,10 +59,11 @@
 
 ;; On mac, make the cmd key the meta key in emacs
 ;; Conditional configuration for macOS
-(when (eq system-type 'darwin)
+(cond
+ ((eq system-type 'darwin)
   ;; Remap keys on macOS
-  (setq mac-command-modifier 'meta)  ;; Command key -> Super
-  (setq mac-option-modifier 'super)    ;; Option key -> Meta
+  (setq mac-command-modifier 'meta)  ;; Command key -> Meta
+  (setq mac-option-modifier 'super)  ;; Option key -> Super
   (setq mac-control-modifier 'control)  ;; Control key -> Control
   (setq ns-function-modifier 'hyper)  ;; Function key -> Hyper
 
@@ -73,6 +75,11 @@
   ;; Get ripgrep to work on macOS
   (setq shell-file-name "/bin/bash")
   (setq explicit-shell-file-name "/bin/bash"))
+ (t
+  ;; Settings for other systems
+  (setq shell-file-name "/usr/bin/bash")
+  (setq explicit-shell-file-name "/usr/bin/bash")))
+
 
 ;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
@@ -106,10 +113,10 @@
   ;; Make occur focus results
   (add-hook #'occur-hook
             #'(lambda ()
-               (switch-to-buffer-other-window "*Occur*")))
+		(switch-to-buffer-other-window "*Occur*")))
   ;; After a selection is made, close the occur buffer
   (defun after-occur-mode-goto-occurrence (&optional event)
-   (delete-windows-on "*Occur*"))
+    (delete-windows-on "*Occur*"))
   (advice-add 'occur-mode-goto-occurrence :filter-return 'after-occur-mode-goto-occurrence))
 
 ;; convert major modes to use the new treesitter tech
