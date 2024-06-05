@@ -37,7 +37,6 @@
     (exec-path-from-shell-initialize))
   (exec-path-from-shell-copy-env "PATH")
   (exec-path-from-shell-copy-env "SHELL"))
-(setq shell-file-name "/usr/bin/bash")
 
 ;; * Core packages
 (use-package diminish)
