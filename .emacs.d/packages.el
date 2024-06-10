@@ -359,6 +359,8 @@
 (use-package eglot
   :init
   (setq eglot-stay-out-of '(flymake))
+  :config
+  (add-to-list 'eglot-server-programs '(web-mode . ("vls")))
   :hook (prog-mode . eglot-ensure)
   :bind (("M-TAB" . completion-at-point)
          ("M-g i" . imenu)
