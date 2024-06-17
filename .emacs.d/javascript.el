@@ -44,7 +44,8 @@
   (js-indent-level 2)
   :config
   (unbind-key "M-." js-base-mode-map)
-  :hook (js-base-mode . enable-prettier-js-mode))
+  :hook ((js-base-mode . enable-prettier-js-mode)
+         (js-base-mode . flymake-eslint-enable)))
 
 (use-package typescript-ts-mode
   :defer t
