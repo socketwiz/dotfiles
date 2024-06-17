@@ -80,8 +80,13 @@ return require("lazy").setup({
 			"hrsh7th/nvim-cmp",
 			event = "InsertEnter",
 			dependencies = {
-				{ "L3MON4D3/LuaSnip" },
+				{
+					"L3MON4D3/LuaSnip",
+					version = "v2.*",
+					build = "make install_jsregexp",
+				},
 			},
+
 			config = function()
 				-- Here is where you configure the autocompletion settings.
 				local lsp_zero = require("lsp-zero")
