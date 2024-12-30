@@ -4,7 +4,7 @@
 [core]
     editor = nvim
     excludesfile = ~/.gitignore_global
-	askpass = git-gui--askpass
+    askpass = git-gui--askpass
 [color]
     ui = true
 [diff]
@@ -24,5 +24,5 @@
     defaultBranch = main
 [includeIf "gitdir:~/dev/rust/"]
     path = ~/.gitconfig.zolmok
-[includeIf "gitdir:~/dev/sorcero-react-app/"]
+[includeIf "gitdir:~/dev/sorcero-*/"]
     path = ~/.gitconfig.work
