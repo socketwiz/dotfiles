@@ -2,16 +2,16 @@ if require("utils").is_plugin_installed("LuaSnip") then
   local ls = require("luasnip")
   local types = require("luasnip.util.types")
 
-  -- enable some builtin html snippets for jsx
+  -- Enable some builtin HTML snippets for JSX
   ls.filetype_extend("javascriptreact", { "html" })
 
+  -- Set LuaSnip configuration
   ls.config.set_config({
-    history = true,
+    history = true, -- Enable snippet history
+    updateevents = "TextChanged,TextChangedI", -- Update snippets as you type
+    enable_autosnippets = true, -- Allow automatic snippets
 
-    updateevents = "TextChanged,TextChangedI",
-
-    enable_autosnippets = true,
-
+    -- Visual settings for choice nodes
     ext_opts = {
       [types.choiceNode] = {
         active = {
@@ -19,13 +19,15 @@ if require("utils").is_plugin_installed("LuaSnip") then
         },
       },
     },
+
+    -- Enable jsregexp transformations for placeholders/variables
+    enable_jsregexp = true,
   })
 
+  -- Load snippets from custom paths
   require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/snippets" } })
-  -- for _, snippet_path in ipairs(vim.api.nvim_get_runtime_file("snippets/*.lua", true)) do
-  --   loadfile(snippet_path)()
-  -- end
 
+  -- Key mappings for snippet operations
   vim.keymap.set({ "i" }, "<A-K>", function()
     ls.expand()
   end, { silent = true })
@@ -36,9 +38,11 @@ if require("utils").is_plugin_installed("LuaSnip") then
     ls.jump(-1)
   end, { silent = true })
 
+  -- Key mapping for cycling through choices
   vim.keymap.set({ "i", "s" }, "<A-E>", function()
     if ls.choice_active() then
       ls.change_choice(1)
     end
   end, { silent = true })
 end
+
