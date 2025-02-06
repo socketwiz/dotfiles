@@ -119,10 +119,6 @@
 (use-package css-mode
   :hook (css-mode . enable-prettier-js-mode))
 
-(use-package indium
-  :init
-  (add-hook 'js-mode-hook 'indium-interaction-mode))
-
 
 (provide 'javascript)
 ;;; javascript.el ends here

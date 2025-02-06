@@ -28,16 +28,6 @@
 (use-package quelpa-use-package
   :ensure t)
 
-;; Set the path from the shell
-;; call after (package-initialize)
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  (exec-path-from-shell-copy-env "PATH")
-  (exec-path-from-shell-copy-env "SHELL"))
-
 ;; * Core packages
 (use-package diminish)
 
@@ -93,9 +83,46 @@
   (doom-themes-enable-bold nil)
   (doom-themes-enable-italic nil))
 
-;; This required some fonts to be downloaded, run `all-the-icons-install-fonts` manually
 ;; https://github.com/emacs-jp/replace-colorthemes
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t
+  :config
+  (defun my/all-the-icons-fonts-installed-p ()
+    "Check if all-the-icons fonts are installed in the user's font directory."
+    (let ((font-dir (cond
+                     ((eq system-type 'darwin) "~/Library/Fonts/") ;; macOS
+                     ((eq system-type 'gnu/linux) "~/.local/share/fonts/") ;; Linux
+                     ((eq system-type 'windows-nt) "~/AppData/Local/Microsoft/Windows/Fonts/") ;; Windows
+                     (t nil))) ;; Unknown system
+          (fonts '("all-the-icons.ttf" "file-icons.ttf" "fontawesome.ttf"
+                   "material-design-icons.ttf" "octicons.ttf" "weathericons.ttf")))
+      (and font-dir
+           (cl-every (lambda (font)
+                       (file-exists-p (expand-file-name font font-dir)))
+                     fonts))))
+
+  (unless (my/all-the-icons-fonts-installed-p)
+    (all-the-icons-install-fonts t)))
+
+(use-package nerd-icons
+  :ensure t
+  :config
+  (defun my/nerd-icons-fonts-installed-p ()
+    "Check if nerd-icons fonts are installed in the user's font directory."
+    (let ((font-dir (cond
+                     ((eq system-type 'darwin) "~/Library/Fonts/") ;; macOS
+                     ((eq system-type 'gnu/linux) "~/.local/share/fonts/") ;; Linux
+                     ((eq system-type 'windows-nt) "~/AppData/Local/Microsoft/Windows/Fonts/") ;; Windows
+                     (t nil))) ;; Unknown system
+          (fonts '("NerdFontsSymbolsOnly-Regular.ttf")))
+      (and font-dir
+           (cl-every (lambda (font)
+                       (file-exists-p (expand-file-name font font-dir)))
+                     fonts))))
+
+  (unless (my/nerd-icons-fonts-installed-p)
+    (nerd-icons-install-fonts t)))
+
 (use-package all-the-icons-dired
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
@@ -390,10 +417,15 @@
   :hook (prog-mode . copilot-mode))
 
 ;; Provides a transient over info pages to make them easier to navigate
-(use-package casual-info
+(use-package transient
+  :ensure t)
+(use-package casual
   :ensure t
-  :bind (:map Info-mode-map ("C-o" . 'casual-info-tmenu)))
-
+  :after transient ;; Ensure transient is loaded first
+  :bind (:map Info-mode-map
+              ("C-o" . casual-info-tmenu))
+  :config
+  (require 'casual-info))
 
 (provide 'packages)
 ;;; packages.el ends here

@@ -5,6 +5,7 @@ export WORKON_HOME=~/.virtualenvs
 alias ql='qlmanage -p'
 alias la='/bin/ls -ahG'
 alias ll='/bin/ls -lhG'
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # spotlight from the shell
 spot() {
@@ -30,7 +31,7 @@ export PATH=$HOME/.npm-packages/bin:$PATH
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 
 # Homebrew paths
-BREW_PATHS="/usr/local/bin:/usr/local/sbin"
+BREW_PATHS="/opt/homebrew/bin:/opt/homebrew/sbin"
 export PATH=${BREW_PATHS}:${PATH}
 
 # up arrow history search
@@ -42,3 +43,5 @@ export PATH="/usr/local/opt/libxml2/bin:$PATH"
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
