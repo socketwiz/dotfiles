@@ -67,11 +67,6 @@
   (setq mac-control-modifier 'control)  ;; Control key -> Control
   (setq ns-function-modifier 'hyper)  ;; Function key -> Hyper
 
-  ;; Get dired to work on macOS
-  ;; requires coreutils ~brew install coreutils~
-  (setq insert-directory-program (executable-find "gls"))
-  (setq dired-listing-switches "-ahgo --group-directories-first")
-
   ;; Get ripgrep to work on macOS
   (setq shell-file-name "/bin/bash")
   (setq explicit-shell-file-name "/bin/bash"))
