@@ -131,7 +131,10 @@
 (use-package dired
   :ensure nil ;; needed for some built-in packages
   :commands (dired dired-jump)
-  :custom ((dired-listing-switches "-ahgo --group-directories-first"))
+  :custom
+  ((dired-listing-switches (if (eq system-type 'darwin)
+                               "-alh" ;; Use macOS-compatible flags
+                             "-ahgo --group-directories-first"))) ;; Use GNU ls flags elsewhere
   :bind (("C-x C-j" . dired-jump)))
 
 ;; Snippets, a template system for emacs
