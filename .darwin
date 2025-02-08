@@ -37,8 +37,5 @@ export PATH="/usr/local/opt/libxml2/bin:$PATH"
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
-
 # setup homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"

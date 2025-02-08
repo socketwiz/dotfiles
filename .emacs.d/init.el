@@ -8,9 +8,14 @@
 ;; Set the path from the shell
 ;; call after (package-initialize)
 (use-package exec-path-from-shell
-  :if (memq window-system '(mac ns x))
   :config
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-copy-envs '("PATH" "NODE_PATH")))
+
+(let ((node-bin (string-trim (shell-command-to-string "rtx which node"))))
+  (when (and node-bin (not (string-empty-p node-bin)))
+    (setenv "PATH" (concat (file-name-directory node-bin) ":" (getenv "PATH")))
+    (add-to-list 'exec-path (file-name-directory node-bin))))
+
 
 ;;; Code:
 (load "~/.emacs.d/variables.el")

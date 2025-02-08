@@ -6,6 +6,7 @@
 !/.bashrc
 !/.deno
 !/.profile
+!/.zprofile
 
 # Ignore everything in the .ssh directory
 .ssh/*
