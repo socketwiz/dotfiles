@@ -12,11 +12,7 @@ export EDITOR='nvim'
 export ENABLE_CORRECTION="true"
 
 ### Paths
-export PATH="$HOME/bin:${PATH}"
-export PATH="$HOME/flutter/bin:$PATH"
 export PATH="$DENO_INSTALL/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/rtx/bin:$HOME/.local/share/rtx/shims:$PATH"
-export PATH="$HOME/.local/share/rtx/installs/node/22.13.1/bin"
+export PATH="$HOME/bin:$HOME/.local/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"

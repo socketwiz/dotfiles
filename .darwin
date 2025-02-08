@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 export WORKON_HOME=~/.virtualenvs
 
@@ -23,16 +23,10 @@ spot() {
     sed "s/^[-dltrwx]*\\ *[0-9]*\\ [a-z]*\\ *[a-z]*\\ *[0-9]*//";
 }
 
-[ -f "$HOME/.work" ] && source "$HOME/.work"
-
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
 export PATH=$HOME/bin:$HOME/.npm-packages/bin:$PATH
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
-
-# Homebrew paths
-BREW_PATHS="/opt/homebrew/bin:/opt/homebrew/sbin"
-export PATH=${BREW_PATHS}:${PATH}
 
 # up arrow history search
 bindkey "^[[A" history-beginning-search-backward
@@ -45,3 +39,6 @@ export PATH="/usr/local/opt/libxml2/bin:$PATH"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# setup homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"

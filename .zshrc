@@ -118,4 +118,5 @@ esac
 # node version manager
 eval "$(~/.cargo/bin/rtx activate zsh)"
 
+# command-line fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
