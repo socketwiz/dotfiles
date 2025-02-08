@@ -92,13 +92,20 @@ alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='${HOME}/.cargo/bin/bat'
 alias ls='${HOME}/.cargo/bin/exa --git'
 
-# fzf
+# command-line fuzzy finder
+FZF_BIN="$(command -v fzf)"
+
+if [ -n "$FZF_BIN" ]; then
+    source <("$FZF_BIN" --zsh)
+fi
 # pop-os
-[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+[ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ] && source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+[ -f "/usr/share/doc/fzf/examples/completion.zsh" ] && source "/usr/share/doc/fzf/examples/completion.zsh"
 # arch
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
+[ -f "/usr/share/fzf/completion.zsh" ] && source /"usr/share/fzf/completion.zsh"
+# macOS
+[ -f "/opt/homebrew/opt/fzf/shell/key-bindings.zsh" ] && source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
@@ -114,9 +121,3 @@ case $(uname) in
     source "$HOME/.linux"
     ;;
 esac
-
-# node version manager
-eval "$(~/.cargo/bin/rtx activate zsh)"
-
-# command-line fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
