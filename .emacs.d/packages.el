@@ -365,24 +365,41 @@
   :bind (("C-s" . swiper)
          ("C-r" . swiper-backward)))
 
-;; In-buffer completion framework
-(use-package company
-  :init
-  (global-company-mode))
-
 ;; Highlights uncommited changes on the left side of the window
 (use-package diff-hl
   :init
   (global-diff-hl-mode)
-  (diff-hl-margin-mode))
+  (diff-hl-margin-mode)
+  :config
+  (setq diff-hl-flydiff-delay 0.5))
 
 ;; Syntax tree parser, used for coloring languages among other things
 ;; Tree-sitter configuration
 (use-package tree-sitter
   :ensure t
-  :hook (prog-mode . global-tree-sitter-mode)
   :config
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  ;; Only enable tree-sitter for specific major modes
+  (add-hook 'rust-ts-mode-hook #'tree-sitter-mode)
+  (add-hook 'python-ts-mode-hook #'tree-sitter-mode)
+  (add-hook 'js-mode-hook #'tree-sitter-mode)
+  (add-hook 'js-ts-mode-hook #'tree-sitter-mode)
+  (add-hook 'typescript-ts-mode-hook #'tree-sitter-mode)
+
+  ;; Configure tree-sitter to be less aggressive
+  (setq tree-sitter-debug nil)
+  (setq tree-sitter-debug-jump-buttons nil)
+  (setq tree-sitter-debug-highlight-jump-region nil)
+
+  ;; Increase the delay before highlighting
+  (setq tree-sitter-after-change-functions-delay 0.5)
+
+  ;; When we do enable highlighting, ensure we're not duplicating work
+  (add-hook 'tree-sitter-after-on-hook
+            (lambda ()
+              ;; Disable some font-lock features that tree-sitter will handle
+              (font-lock-remove-keywords nil '())  ; Remove any extra keywords
+              (tree-sitter-hl-mode))))
+
 (use-package tree-sitter-langs
   :ensure t
   :after tree-sitter)
@@ -390,20 +407,14 @@
 (use-package eglot
   :init
   (setq eglot-stay-out-of '(flymake))
+  (setq eglot-send-changes-idle-time 0.5)
+  (setq eglot-extend-to-xref nil)
   :config
   (add-to-list 'eglot-server-programs '(web-mode . ("vls")))
-  :hook (prog-mode . eglot-ensure)
-  :bind (("M-TAB" . completion-at-point)
-         ("M-g i" . imenu)
-         ("C-h ." . display-local-help)
-         ("M-." . xref-find-definitions)
-         ("M-," . xref-go-back)
-         :map
-         eglot-mode-map
-         ("C-c c a" . eglot-code-actions)
-         ("C-c c o" . eglot-code-actions-organize-imports)
-         ("C-c c r" . eglot-rename)
-	 ("C-c c f" . eglot-format)))
+  :hook ((python-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
+         (js-mode . eglot-ensure)))
 
 (use-package eldoc
   :init
@@ -416,8 +427,18 @@
                    :repo "copilot-emacs/copilot.el"
                    :branch "main"
                    :files ("*.el"))
-  :bind (("C-j" . copilot-accept-completion))
-  :hook (prog-mode . copilot-mode))
+  :bind (:map copilot-completion-map
+              ("C-j" . copilot-accept-completion)
+              ("C-l" . copilot-accept-completion-by-line)
+              ("M-n" . copilot-next-completion)
+              ("M-p" . copilot-previous-completion))
+  :hook (prog-mode . copilot-mode)
+  :config
+  (add-to-list 'copilot-disable-predicates
+               (lambda () (memq major-mode '(shell-mode
+                                             eshell-mode
+                                             term-mode
+                                             vterm-mode)))))
 
 ;; Provides a transient over info pages to make them easier to navigate
 (use-package transient
