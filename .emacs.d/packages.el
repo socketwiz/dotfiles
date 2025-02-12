@@ -393,11 +393,17 @@
   ;; Increase the delay before highlighting
   (setq tree-sitter-after-change-functions-delay 0.5)
 
+  ;; set json to use tree-sitter
+  (setq major-mode-remap-alist
+        '((json-mode . json-ts-mode)
+          (js-json-mode . json-ts-mode)))
+
+
   ;; When we do enable highlighting, ensure we're not duplicating work
   (add-hook 'tree-sitter-after-on-hook
             (lambda ()
               ;; Disable some font-lock features that tree-sitter will handle
-              (font-lock-remove-keywords nil '())  ; Remove any extra keywords
+              (font-lock-remove-keywords nil '()) ; Remove any extra keywords
               (tree-sitter-hl-mode))))
 
 (use-package tree-sitter-langs
@@ -436,9 +442,9 @@
   :config
   (add-to-list 'copilot-disable-predicates
                (lambda () (memq major-mode '(shell-mode
-                                             eshell-mode
-                                             term-mode
-                                             vterm-mode)))))
+                                        eshell-mode
+                                        term-mode
+                                        vterm-mode)))))
 
 ;; Provides a transient over info pages to make them easier to navigate
 (use-package transient
