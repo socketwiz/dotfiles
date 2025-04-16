@@ -16,3 +16,7 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH="$HOME/bin:$HOME/.local/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

@@ -373,51 +373,46 @@
   :config
   (setq diff-hl-flydiff-delay 0.5))
 
-;; Syntax tree parser, used for coloring languages among other things
-;; Tree-sitter configuration
+;; Tree-sitter core
 (use-package tree-sitter
   :ensure t
   :config
-  ;; Only enable tree-sitter for specific major modes
-  (add-hook 'rust-ts-mode-hook #'tree-sitter-mode)
-  (add-hook 'python-ts-mode-hook #'tree-sitter-mode)
-  (add-hook 'js-mode-hook #'tree-sitter-mode)
-  (add-hook 'js-ts-mode-hook #'tree-sitter-mode)
-  (add-hook 'typescript-ts-mode-hook #'tree-sitter-mode)
+  ;; Configure Tree-sitter behavior
+  (setq tree-sitter-debug nil
+        tree-sitter-debug-jump-buttons nil
+        tree-sitter-debug-highlight-jump-region nil
+        tree-sitter-after-change-functions-delay 0.5)
 
-  ;; Configure tree-sitter to be less aggressive
-  (setq tree-sitter-debug nil)
-  (setq tree-sitter-debug-jump-buttons nil)
-  (setq tree-sitter-debug-highlight-jump-region nil)
-
-  ;; Increase the delay before highlighting
-  (setq tree-sitter-after-change-functions-delay 0.5)
-
-  ;; set json to use tree-sitter
-  (setq major-mode-remap-alist
-        '((json-mode . json-ts-mode)
-          (js-json-mode . json-ts-mode)))
-
-
-  ;; When we do enable highlighting, ensure we're not duplicating work
+  ;; Enable highlighting after tree-sitter is on
   (add-hook 'tree-sitter-after-on-hook
             (lambda ()
-              ;; Disable some font-lock features that tree-sitter will handle
-              (font-lock-remove-keywords nil '()) ; Remove any extra keywords
-              (tree-sitter-hl-mode))))
+              (font-lock-remove-keywords nil '())
+              (tree-sitter-hl-mode)))
 
-(use-package tree-sitter-langs
+  ;; Register Rust grammar source with treesit (Emacs 29+)
+  (with-eval-after-load 'treesit
+    (add-to-list 'treesit-language-source-alist
+                 '(rust "https://github.com/tree-sitter/tree-sitter-rust")))
+
+  ;; Remap rust-mode to rust-ts-mode
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode)))
+
+(use-package treesit-auto
   :ensure t
-  :after tree-sitter)
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package eglot
   :init
-  (setq eglot-stay-out-of '(flymake))
   (setq eglot-send-changes-idle-time 0.5)
   (setq eglot-extend-to-xref nil)
   :config
   (add-to-list 'eglot-server-programs '(web-mode . ("vls")))
   :hook ((python-ts-mode . eglot-ensure)
+         (rust-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (js-mode . eglot-ensure)))

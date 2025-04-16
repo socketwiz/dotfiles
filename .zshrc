@@ -62,6 +62,16 @@ bindkey "^[[B" down-line-or-beginning-search
 
 # aliases
 function ec() { emacsclient -c -nw "$@"; }
+function git() {
+  allowed_paths=("$HOME" "$HOME/.config" "$HOME/.emacs.d")
+  for allowed in "${allowed_paths[@]}"; do
+    if [[ "$PWD/" == "$allowed"/* || "$PWD" == "$allowed" ]]; then
+      /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+      return
+    fi
+  done
+  command git "$@"
+}
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
@@ -86,7 +96,6 @@ alias gcb='git checkout -b'
 alias gd='git diff'
 alias glog='git log --oneline --decorate --graph'
 alias gst='git status'
-alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # cli replacements
 alias cat='${HOME}/.cargo/bin/bat'
@@ -121,3 +130,8 @@ case $(uname) in
     source "$HOME/.linux"
     ;;
 esac
+
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
