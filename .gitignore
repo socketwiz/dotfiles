@@ -1,6 +1,8 @@
-# ignore everything
+# Ignore everything
 /*
+.*
 
+# Allow specific top-level dotfiles
 !/.bash_logout
 !/.bash_profile
 !/.bashrc
@@ -8,38 +10,44 @@
 !/.profile
 !/.zprofile
 
-# Ignore everything in the .ssh directory
-.ssh/*
-# except for the following files and directories
+# Allow only specific .ssh file
+!/.ssh/
 !/.ssh/config
 
-# Ignore everything in the .config directory
-.config/*
-# except for the following files and directories
-!/.config/Code/**/*
-!/.config/Code/**/*
-!/.config/alacritty/**/*
-!/.config/dunst/**/*
-!/.config/fish/**/*
-!/.config/gitui/**/*
-!/.config/helix/**/*
-!/.config/i3/**/*
-!/.config/i3status-rs/**/*
-!/.config/kitty/**/*
-!/.config/nushell/**/*
-!/.config/picom.conf
-!/.config/rofi/**/*
-!/.config/starship.toml
-!/.config/sway/**/*
-!/.config/termite/**/*
-!/.config/tmux/**/*
-!/.config/waybar/**/*
-!/.config/wezterm/**/*
-!/.config/zellij/**/*
+# Explicitly ignore other .ssh files
+.ssh/*
+!.ssh/config
 
-# Ignore everything in the .emacs.d directory
-.emacs.d/**/*
-# except for the following files and directories
+# Allow only listed .config files and folders
+!/.config/
+!/.config/Code/**
+!/.config/alacritty/**
+!/.config/dunst/**
+!/.config/fish/**
+!/.config/gitui/**
+!/.config/helix/**
+!/.config/i3/**
+!/.config/i3status-rs/**
+!/.config/iterm2/**
+!/.config/kitty/**
+!/.config/nushell/**
+!/.config/picom.conf
+!/.config/rofi/**
+!/.config/starship.toml
+!/.config/sway/**
+!/.config/termite/**
+!/.config/tmux/**
+!/.config/waybar/**
+!/.config/wezterm/**
+!/.config/zellij/**
+
+# ❌ Ignore this explicitly
+.config/nvim/profile.log
+.config/github-copilot/
+.zshrc.local
+
+# Allow only listed .emacs.d content
+!/.emacs.d/
 !/.emacs.d/dashboard.el
 !/.emacs.d/email.el
 !/.emacs.d/fira-code.el
@@ -50,8 +58,15 @@
 !/.emacs.d/rust.el
 !/.emacs.d/settings.el
 !/.emacs.d/shell.el
-!/.emacs.d/snippets
+!/.emacs.d/snippets/**
 !/.emacs.d/variables.el
 
-.gitconfig.local
-.work
+# ❌ Explicitly ignore .emacs.d garbage
+.emacs.d/backups/
+.emacs.d/bookmarks
+.emacs.d/elpa/
+.emacs.d/projects
+.emacs.d/quelpa/
+.emacs.d/recentf
+.emacs.d/transient/
+.emacs.d/tree-sitter/

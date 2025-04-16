@@ -1,7 +1,7 @@
+
 ;;; javascript.el --- Language JavaScript/TypeScript
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
-
 ;;; Commentary:
 ;; Setting the JavaScript/TypeScript, HTML, and CSS languages for frontend development
 
@@ -119,6 +119,48 @@
 (use-package css-mode
   :hook (css-mode . enable-prettier-js-mode))
 
+;;; javascript.el --- ESLint + Flymake integration
+(defun flymake-eslint--checker (report-fn &rest _args)
+  "Run ESLint on the current buffer and report results to REPORT-FN."
+  (let* ((source (current-buffer))
+         (eslint-bin (executable-find "eslint"))
+         (buffer (generate-new-buffer "*flymake-eslint*")))
+    (if (not eslint-bin)
+        (progn
+          (flymake-log :warning "eslint executable not found")
+          (funcall report-fn nil))
+      (let ((default-directory (or (locate-dominating-file (buffer-file-name source) ".eslintrc.js")
+                                   default-directory)))
+        (let ((proc
+               (make-process
+                :name "flymake-eslint"
+                :buffer buffer
+                :command (list eslint-bin "--format=json" "--stdin" "--stdin-filename" (buffer-file-name source))
+                :noquery t
+                :connection-type 'pipe
+                :sentinel
+                (lambda (proc _event)
+                  (when (eq (process-status proc) 'exit)
+                    (let ((exit-code (process-exit-status proc)))
+                      (if (= exit-code 0)
+                          (with-current-buffer (process-buffer proc)
+                            ;; TODO: parse ESLint JSON output
+                            (let ((parsed-diagnostics nil))
+                              (condition-case nil
+                                  (funcall report-fn parsed-diagnostics)
+                                (error (flymake-log :warning "Flymake state was gone for eslint diagnostics")))))
+                        (flymake-log :warning "eslint exited with code %d" exit-code)
+                        (condition-case nil
+                            (funcall report-fn nil)
+                          (error (flymake-log :warning "Flymake state was gone for eslint failure"))))))))))
+          (process-send-region proc (point-min) (point-max))
+          (process-send-eof proc))))))
+
+(defun setup-eslint-flymake ()
+  (add-hook 'flymake-diagnostic-functions #'flymake-eslint--checker nil t))
+
+(add-hook 'js-mode-hook #'setup-eslint-flymake)
+(add-hook 'js-ts-mode-hook #'setup-eslint-flymake)
 
 (provide 'javascript)
 ;;; javascript.el ends here

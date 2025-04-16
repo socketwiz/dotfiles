@@ -36,7 +36,17 @@
  ;; If there is more than one, they won't work right.
  '(gnutls-algorithm-priority "normal:-vers-tls1.3")
  '(package-selected-packages
-   '(all-the-icons all-the-icons-dired bind-key casual command-log-mode consult copilot diff-hl diminish dockerfile-mode doom-modeline doom-themes editorconfig evil evil-surround exec-path-from-shell flymake-eslint flymake-shellcheck graphql-mode helpful indium marginalia markdown-mode orderless org-bullets org-mode paredit prettier-js quelpa quelpa-use-package rainbow-mode rg smartparens swiper terraform-mode tree-sitter tree-sitter-langs treesit treesitter undo-tree vertico web-mode which-key yaml-mode yasnippet)))
+   '(all-the-icons all-the-icons-dired bind-key casual command-log-mode
+                   consult copilot diff-hl diminish dockerfile-mode
+                   doom-modeline doom-themes editorconfig evil
+                   evil-surround exec-path-from-shell flymake-eslint
+                   flymake-shellcheck graphql-mode helpful indium
+                   marginalia markdown-mode orderless org-bullets
+                   org-mode paredit prettier-js quelpa
+                   quelpa-use-package rainbow-mode rg smartparens
+                   swiper terraform-mode tree-sitter tree-sitter-langs
+                   treesit treesit-auto treesitter undo-tree vertico
+                   web-mode which-key yaml-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

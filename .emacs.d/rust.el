@@ -33,22 +33,21 @@
 ;; rustup component add rls rust-analysis rust-src
 ;;
 (defun setup-rust ()
-  "Do these things after \"rust-mode\" is enabled."
+  "Custom Rust setup for rust-ts-mode."
   (when (and (bound-and-true-p evil-mode))
-    ;; Setup find-definitions when in rust-mode
     (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
   (yas-minor-mode)
   (smartparens-mode)
-  (setq rust-format-on-save t)
   (prettify-symbols-mode))
 
-(add-hook 'rust-ts-mode-hook 'setup-rust)
+(setq-default eglot-workspace-configuration
+              '((:rust-analyzer . (:rustfmt (:enableRangeFormatting t)
+                                            :checkOnSave (:command "clippy")))))
 
-;; Syntax highlighting, indentation, etc..
-;; Enable rust treesitter mode when opening .rs files
-;; treesit-install-language-grammar
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-
+(add-hook 'rust-ts-mode-hook #'setup-rust)
+(add-hook 'rust-ts-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'eglot-format-buffer -10 t)))
 
 (provide 'rust)
 ;;; rust.el ends here
