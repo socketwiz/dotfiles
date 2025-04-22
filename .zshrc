@@ -65,7 +65,7 @@ function ec() { emacsclient -c -nw "$@"; }
 function git() {
   allowed_paths=("$HOME" "$HOME/.config" "$HOME/.emacs.d")
   for allowed in "${allowed_paths[@]}"; do
-    if [[ "$PWD/" == "$allowed"/* || "$PWD" == "$allowed" ]]; then
+    if [[ "$(realpath "$PWD")" == "$(realpath "$allowed")" ]]; then
       /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
       return
     fi
