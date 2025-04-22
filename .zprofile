@@ -8,4 +8,4 @@ fi
 # setup secrets that don't belong in the repo
 [ -f "$HOME/.secrets" ] && source "$HOME/.secrets"
 
-eval "$(/opt/homebrew/bin/pyenv init --path)"
+eval "$(pyenv init --path)"
