@@ -18,8 +18,13 @@
 .ssh/*
 !.ssh/config
 
-# Allow only listed .config files and folders
+# Allow .config folder
 !/.config/
+
+# Ignore everything inside it
+/.config/*
+
+# Allow only specific subfolders
 !/.config/Code/**
 !/.config/alacritty/**
 !/.config/dunst/**
