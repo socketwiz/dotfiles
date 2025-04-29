@@ -8,6 +8,25 @@
 ;;; Code:
 (setq debug-on-error t)
 
+;; Prevent the startup window
+(setq inhibit-startup-message t)
+
+;; Keep backups
+(setq make-backup-files config-keep-backups)
+
+(dolist (dir '("~/.emacs.d/backups" "~/.emacs.d/undo"))
+  (make-directory dir t))
+;; Save ALL backup files to this location
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+;; Undo history
+(setq undo-tree-history-directory-alist `(("." . "~/.emacs.d/undo")))
+
+;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
+(setq scroll-conservatively 101)
+
+;; Give focus to new help windows
+(setq help-window-select t)
+
 ;; Hide ui elements
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -21,11 +40,11 @@
 
 ;; Turn on line numbers
 (global-display-line-numbers-mode)
-(display-line-numbers-mode)
+
 ;; Turn on column number
 (setq column-number-mode t)
 ;; Make line numbers relative
-(menu-bar-display-line-numbers-mode 'relative)
+(setq display-line-numbers-type 'relative)
 
 ;; Put these documents in current buffer so they can be read and exited with minimum effort
 (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
@@ -104,15 +123,25 @@
   (if (not (string= window-system nil))
       (global-unset-key (kbd "C-z"))))
 
-(with-eval-after-load 'replace
-  ;; Make occur focus results
-  (add-hook #'occur-hook
-            #'(lambda ()
-		(switch-to-buffer-other-window "*Occur*")))
-  ;; After a selection is made, close the occur buffer
-  (defun after-occur-mode-goto-occurrence (&optional event)
+(use-package replace
+  :ensure nil ;; don't try to install, just configure
+  :defer t
+  :init
+  ;; Hooks and helpers for occur behavior
+  (defun my/occur-focus-on-results ()
+    "Focus occur results in other window."
+    (switch-to-buffer-other-window "*Occur*"))
+
+  (defun my/after-occur-goto-occurrence (&rest _)
+    "After jumping to an occurrence, close the *Occur* buffer."
     (delete-windows-on "*Occur*"))
-  (advice-add 'occur-mode-goto-occurrence :filter-return 'after-occur-mode-goto-occurrence))
+
+  :config
+  ;; Focus occur results immediately
+  (add-hook 'occur-hook #'my/occur-focus-on-results)
+  
+  ;; After jumping to a result, close *Occur*
+  (advice-add 'occur-mode-goto-occurrence :after #'my/after-occur-goto-occurrence))
 
 ;; convert major modes to use the new treesitter tech
 (setq major-mode-remap-alist

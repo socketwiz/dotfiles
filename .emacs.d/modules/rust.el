@@ -1,9 +1,9 @@
-;;; init.el --- Language Rust
+;;; rust.el --- Language support for Rust -*- lexical-binding: t; -*-
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
 ;;; Commentary:
-;; Settings to make Rust development easier
+;; Settings to make Rust development easier.
 
 ;;; Code:
 ;; Debug with rust-llb (installed with cargo)
@@ -34,20 +34,26 @@
 ;;
 (defun setup-rust ()
   "Custom Rust setup for rust-ts-mode."
-  (when (and (bound-and-true-p evil-mode))
-    (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
-  (yas-minor-mode)
-  (smartparens-mode)
-  (prettify-symbols-mode))
+  ;; Evil-mode specific binding
+  (when (bound-and-true-p evil-mode)
+    (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions))
 
+  ;; Enable useful minor modes
+  (yas-minor-mode 1)
+  (smartparens-mode 1)
+  (prettify-symbols-mode 1)
+
+  ;; Format buffer on save using eglot
+  (when (featurep 'eglot)
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t)))
+
+;; Configure rust-analyzer for eglot
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer . (:rustfmt (:enableRangeFormatting t)
                                             :checkOnSave (:command "clippy")))))
 
+;; Rust mode hooks
 (add-hook 'rust-ts-mode-hook #'setup-rust)
-(add-hook 'rust-ts-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook #'eglot-format-buffer -10 t)))
 
 (provide 'rust)
 ;;; rust.el ends here

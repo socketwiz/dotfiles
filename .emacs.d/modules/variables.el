@@ -1,4 +1,4 @@
-;;; init.el --- Variables required by Emacs configuration
+;;; settings.el --- Variables required by Emacs configuration
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
@@ -38,23 +38,6 @@
   "Whether or not to enable \"dockerfile-mode\".")
 (defvar config-enable-yaml-mode t
   "Whether or not to enable \"yaml-mode\".")
-
-;; Prevent the startup window
-(setq inhibit-startup-message t)
-
-;; Keep backups
-(setq make-backup-files config-keep-backups)
-
-;; Save ALL backup files to this location
-(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
-;; Undo history
-(setq undo-tree-history-directory-alist `(("." . "~/.emacs.d/undo")))
-
-;; Disable re-center of the cursor to the middle of page when scroll hits top or bottom of the page
-(setq scroll-conservatively 101)
-
-;; Give focus to new help windows
-(setq help-window-select t)
 
 (provide 'variables)
 ;;; variables.el ends here
