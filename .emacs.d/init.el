@@ -1,13 +1,15 @@
-;;; init.el --- Initialization file for Emacs
+;;; init.el --- Main Emacs initialization -*- lexical-binding: t; -*-
 
-;; Author: Ricky Nelson <rickyn@socketwiz.com>
+;; Load bootstrap
+(load (expand-file-name "bootstrap.el" user-emacs-directory))
 
-;;; Commentary:
-;; Emacs Startup File --- initialization for Emacs
+;; Set up custom file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
-;; Set the path from the shell
-;; call after (package-initialize)
+;; Shell environment setup
 (use-package exec-path-from-shell
+  :ensure t
   :config
   (exec-path-from-shell-copy-envs '("PATH" "NODE_PATH")))
 
@@ -16,40 +18,15 @@
     (setenv "PATH" (concat (file-name-directory node-bin) ":" (getenv "PATH")))
     (add-to-list 'exec-path (file-name-directory node-bin))))
 
+;; Load critical config variables early
+(load (expand-file-name "modules/variables.el" user-emacs-directory))
 
-;;; Code:
-(load "~/.emacs.d/variables.el")
-(load "~/.emacs.d/settings.el")
-(load "~/.emacs.d/packages.el")
-(load "~/.emacs.d/javascript.el")
-(load "~/.emacs.d/rust.el")
-(load "~/.emacs.d/shell.el")
-(load "~/.emacs.d/elisp.el")
+;; Load all remaining modules automatically
+(let ((modules-dir (expand-file-name "modules" user-emacs-directory)))
+  (add-to-list 'load-path modules-dir)
+  (dolist (file (directory-files modules-dir t "^[^#].*\\.el$"))
+    (unless (string-match-p "variables\\.el\\'" file)
+      (load file))))
 
 (provide 'init)
-
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(gnutls-algorithm-priority "normal:-vers-tls1.3")
- '(package-selected-packages
-   '(all-the-icons all-the-icons-dired bind-key casual command-log-mode
-                   consult copilot diff-hl diminish dockerfile-mode
-                   doom-modeline doom-themes editorconfig evil
-                   evil-surround exec-path-from-shell flymake-eslint
-                   flymake-shellcheck graphql-mode helpful indium
-                   marginalia markdown-mode orderless org-bullets
-                   org-mode paredit prettier-js quelpa
-                   quelpa-use-package rainbow-mode rg smartparens
-                   swiper terraform-mode tree-sitter tree-sitter-langs
-                   treesit treesit-auto treesitter undo-tree vertico
-                   web-mode which-key yaml-mode yasnippet)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

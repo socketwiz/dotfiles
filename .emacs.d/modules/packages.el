@@ -6,27 +6,6 @@
 ;; Package setup, configuration, and general packages (not language specific)
 
 ;;; Code:
-(require 'package)
-(setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
-(package-initialize)
-
-;; Bootstrap `use-package`
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-;; Install quelpa
-(unless (package-installed-p 'quelpa)
-  (package-refresh-contents)
-  (package-install 'quelpa))
-
-(use-package quelpa-use-package
-  :ensure t)
 
 ;; * Core packages
 (use-package diminish)
@@ -72,16 +51,18 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-acario-dark t)
-  ;; This theme makes the selections too dark, lighten them up
-  (set-face-background 'hl-line "#1F2324")
-  (set-face-background 'region "#585F61")
-
-  ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
+
+  ;; Set face colors AFTER init
+  (add-hook 'after-init-hook
+            (lambda ()
+              (set-face-background 'hl-line "#1F2324")
+              (set-face-background 'region "#585F61")))
+
   :custom
-  ;; Global settings (defaults)
   (doom-themes-enable-bold nil)
   (doom-themes-enable-italic nil))
+
 
 ;; https://github.com/emacs-jp/replace-colorthemes
 (use-package all-the-icons
@@ -203,11 +184,9 @@
   (recentf-max-menu-items 5)
   ;; look for a .cache directory under ~/.emacs.d and create it if it
   ;; doesn't exist
-  (setq recentf-cache-dir (concat user-emacs-directory ".cache"))
-  (if (file-directory-p recentf-cache-dir)
-      (setq recentf-save-file (concat recentf-cache-dir "/recentf"))
-    (mkdir recentf-cache-dir)
-    (setq recentf-save-file (concat recentf-cache-dir "/recentf")))
+  (let ((recentf-cache-dir (expand-file-name ".cache" user-emacs-directory)))
+    (make-directory recentf-cache-dir t)
+    (setq recentf-save-file (expand-file-name "recentf" recentf-cache-dir)))
 
   (recentf-auto-cleanup 'never)
   :config
