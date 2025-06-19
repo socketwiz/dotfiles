@@ -146,6 +146,9 @@
 ;; convert major modes to use the new treesitter tech
 (setq major-mode-remap-alist
       '((bash-mode . bash-ts-mode)
+        (rust-mode . rust-ts-mode)
+        (js-mode . js-ts-mode)
+        (typescript-mode . typescript-ts-mode)
         (python-mode . python-ts-mode)
         (yaml-mode . yaml-ts-mode)))
 

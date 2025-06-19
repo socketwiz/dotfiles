@@ -1,6 +1,6 @@
-vim.keymap.set("n", " ", "<Nop>", { silent = true, remap = false })
-vim.g.mapleader = " " -- Change leader key to <Space>
-vim.g.mapleaderlocal = " " -- Change leader key to <Space>
+vim.g.mapleader = " "
+vim.g.mapleaderlocal = " "
+vim.keymap.set("n", "<leader>", "<Nop>", { silent = true, remap = false })
 vim.g.python3_host_prog = "/usr/bin/python3"
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -47,10 +47,3 @@ vim.opt.visualbell = true -- Turn the beep into a visual representation rather t
 -- gitlab
 vim.opt.completeopt = "menu,menuone"
 
-local autocmd = vim.api.nvim_create_autocmd
-
--- Run rettier on save
-autocmd("BufWritePre", {
-	pattern = { "*.css", "*.scss", "*.html", "*.js", "*.jsx", "*.mjs", "*.lua", "*.ts", "*.tsx", "*.json", "*.vue" },
-	command = "Neoformat",
-})

@@ -134,4 +134,6 @@ esac
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
+# mise setup
+eval "$(mise activate bash)"
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
