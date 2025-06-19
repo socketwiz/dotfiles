@@ -34,6 +34,14 @@
 ;;
 (defun setup-rust ()
   "Custom Rust setup for rust-ts-mode."
+  ;; Remove rust-ts built-in Flymake backend early
+  (setq-local flymake-diagnostic-functions
+              (remove 'rust-ts-flymake flymake-diagnostic-functions))
+
+  ;; Format buffer on save using eglot
+  (when (featurep 'eglot)
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
   ;; Evil-mode specific binding
   (when (bound-and-true-p evil-mode)
     (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions))
@@ -41,16 +49,13 @@
   ;; Enable useful minor modes
   (yas-minor-mode 1)
   (smartparens-mode 1)
-  (prettify-symbols-mode 1)
+  (prettify-symbols-mode 1))
 
-  ;; Format buffer on save using eglot
-  (when (featurep 'eglot)
-    (add-hook 'before-save-hook #'eglot-format-buffer -10 t)))
 
 ;; Configure rust-analyzer for eglot
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer . (:rustfmt (:enableRangeFormatting t)
-                                            :checkOnSave (:command "clippy")))))
+                                            :checkOnSave t))))
 
 ;; Rust mode hooks
 (add-hook 'rust-ts-mode-hook #'setup-rust)
