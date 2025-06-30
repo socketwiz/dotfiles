@@ -21,6 +21,14 @@
 # Allow .config folder
 !/.config/
 
+# Allow .local/bin and its contents
+!.local/
+!.local/bin/
+!.local/bin/**
+# Re-ignore everything else under .local/
+.local/*
+!.local/bin/
+
 # Ignore everything inside it
 /.config/*
 

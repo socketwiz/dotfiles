@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+imageName=$(basename -- "$1")
+imageName="${imageName%.*}"
+
+cwebp -q 80 "$1" -o "$imageName.webp"

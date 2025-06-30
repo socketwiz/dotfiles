@@ -1,0 +1,19 @@
+#! /bin/sh
+# create a mirror of a given website and convert the pages
+# to html
+
+# I have found it helps to leave off the www and just enter the server:
+#http://server.tld
+
+wget --mirror -w 2 p --html-extension --convert-links $1
+
+#--mirror:  Specifies to mirror the site.  Wget will recursively follow all links on the site and download all necessary files.  It will also only get files that have changed since the last mirror, which is handy in that it saves download time.
+
+#-w: Tells wget to "wait" or pause between requests, in this case for 2 seconds.  This is not necessary, but is the considerate thing to do.  It reduces the frequency of requests to the server, thus keeping the load down.  If you are in a hurry to get the mirror done, you may eliminate this option.
+
+#-p: Causes wget to get all required elements for the page to load correctly.  Apparently, the mirror option does not always guarantee that all images and peripheral files will be downloaded, so I add this for good measure.
+
+#--HTML-extension:  All files with a non-HTML extension will be converted to have an HTML extension.  This will convert any CGI, ASP or PHP generated files to HTML extensions for consistency.
+
+#--convert-links:  All links are converted so they will work when you browse locally.  Otherwise, relative (or absolute) links would not necessarily load the right pages, and style sheets could break as well.
+

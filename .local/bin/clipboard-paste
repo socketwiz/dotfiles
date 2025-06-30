@@ -1,0 +1,31 @@
+#! /usr/bin/env zsh
+# Original found here: https://blog.d46.us/zsh-tmux-emacs-copy-paste/
+    
+# Pastes data from the clipboard to stdout
+function clipboard-paste() {
+  emulate -L zsh
+  # If there's no X11 display, then fallback to our hacky reimplementation.  The
+  # data is populated by clipboard-copy.
+  if ! has-display; then
+    local fake_clipboard=/tmp/clipboard-data.txt
+    [[ -e $fake_clipboard ]] && cat $fake_clipboard
+    return
+  fi
+
+  if is-darwin; then
+    pbpaste
+  else
+    if command-exists xclip; then
+      xclip -out -selection clipboard
+    elif command-exists xsel; then
+      xsel --clipboard --output
+    else
+      message="clipboard-paste: Platform $OS_TYPE not supported "
+      message+="or xclip/xsel not installed"
+      print "$message" >&2
+      return 1
+    fi
+  fi
+}
+
+clipboard-paste "$@"
