@@ -37,5 +37,3 @@ export PATH="/usr/local/opt/libxml2/bin:$PATH"
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
 
-# setup homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"

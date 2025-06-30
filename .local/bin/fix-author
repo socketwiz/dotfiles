@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+echo "Select \"edit\" for rebase option"
+echo Then ammend each commit
+echo "git commit --amend --author=\"John Doe <john@doe.org>\" --no-edit"
+echo Press any key to continue
+read -n 1
+git rebase -i --root

@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+aws s3 "$@" --endpoint=https://nyc3.digitaloceanspaces.com

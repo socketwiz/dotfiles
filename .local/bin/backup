@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+# backup what we care about
+restic -r sftp:admin@backup:/share/Public/mac-pc/restic-repo --verbose -p ~/restic backup /Users/rickynelson > ~/log/zolmok-backup.log 2>&1
