@@ -6,17 +6,17 @@ return {
 
     vim.lsp.config("rust_analyzer", {
       capabilities = lsp.capabilities,
-      on_attach = lsp.on_attach,
+      on_attach = function(client, bufnr)
+        lsp.on_attach(client, bufnr)
+
+        -- Disable LSP formatting; handled by conform.nvim
+        client.server_capabilities.documentFormattingProvider = false
+      end,
+      root_dir = vim.fs.dirname(vim.fs.find({ "Cargo.toml", ".git" }, { upward = true })[1]),
       settings = {
         ["rust-analyzer"] = {
-          cargo = {
-            allFeatures = true,
-            buildScripts = { enable = false },
-          },
-          checkOnSave = {
-            command = "clippy",
-          },
-          procMacro = { enable = false },
+          cargo = { allFeatures = true },
+          checkOnSave = { command = "clippy" },
         },
       },
     })
@@ -24,3 +24,4 @@ return {
     vim.lsp.enable("rust_analyzer")
   end,
 }
+

@@ -1,16 +1,33 @@
+-- ts-ls.lua
+local filetypes = {
+  "javascript", "typescript",
+  "javascriptreact", "typescriptreact",
+}
+
 return {
   "neovim/nvim-lspconfig",
-  ft = { "javascript", "typescript" },
-  config = function()
-    local lsp = require("lsp")
+  ft = filetypes,
 
-    vim.lsp.config("tsserver", {
-      capabilities = lsp.capabilities,
-      on_attach = lsp.on_attach,
-      root_dir = vim.fs.dirname(vim.fs.find({ "package.json", "tsconfig.json", "jsconfig.json", ".git" },
-        { upward = true })[1]),
+  config = function()
+    local util = require("lspconfig.util")
+
+    vim.lsp.config("ts_ls", {
+      cmd = { "typescript-language-server", "--stdio" },
+      filetypes = filetypes,
+      root_dir = function(fname)
+        local filepath = type(fname) == "string"
+          and fname
+          or vim.api.nvim_buf_get_name(fname)
+
+        return util.search_ancestors(filepath, function(dir)
+          if util.path.exists(util.path.join(dir, "package.json")) then
+            return dir
+          end
+        end) or util.find_git_ancestor(filepath) or vim.loop.os_homedir()
+      end,
     })
 
-    vim.lsp.enable("tsserver")
+    vim.lsp.enable("ts_ls")
   end,
 }
+

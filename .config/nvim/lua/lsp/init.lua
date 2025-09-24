@@ -2,9 +2,10 @@ local M = {}
 
 M.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-M.on_attach = function(_, bufnr)
+M.on_attach = function(client, bufnr)
   local opts = { buffer = bufnr, silent = true, noremap = true }
   local map = vim.keymap.set
+
   map("n", "gd", vim.lsp.buf.definition, opts)
   map("n", "K", vim.lsp.buf.hover, opts)
   map("n", "[d", vim.diagnostic.goto_prev, opts)
@@ -17,3 +18,4 @@ M.on_attach = function(_, bufnr)
 end
 
 return M
+
