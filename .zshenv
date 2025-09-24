@@ -14,9 +14,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 if [ "$(uname)" = "Darwin" ]; then
   # Homebrew setup (adds its own entries, including /opt/homebrew/bin)
   eval "$(/opt/homebrew/bin/brew shellenv)"

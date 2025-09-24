@@ -1,12 +1,12 @@
 return {
   "neovim/nvim-lspconfig",
   ft = "python",
+  name = "pylsp-setup",
   config = function()
-    local lsp = require("lsp")
+    vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/shims/python3")
 
     vim.lsp.config("pylsp", {
-      capabilities = lsp.capabilities,
-      on_attach = lsp.on_attach,
+      cmd = { vim.fn.expand("~/.pyenv/shims/pylsp") },
       settings = {
         pylsp = {
           plugins = {
@@ -21,3 +21,4 @@ return {
     vim.lsp.enable("pylsp")
   end,
 }
+
