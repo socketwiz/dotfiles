@@ -135,5 +135,5 @@ eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
 # mise setup
-eval "$(mise activate bash)"
+eval "$(mise activate zsh)"
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

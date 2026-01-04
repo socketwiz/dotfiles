@@ -18,7 +18,7 @@ npm install -g \
   react-devtools
 
 # Python
-pip3 install --upgrade python-lsp-server
+pip3 install --upgrade ruff-lsp
 
 rustup install stable
 rustup component add rust-analyzer rust-src
