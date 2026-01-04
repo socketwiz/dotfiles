@@ -16,7 +16,7 @@ return {
       settings = {
         ["rust-analyzer"] = {
           cargo = { allFeatures = true },
-          checkOnSave = { command = "clippy" },
+          checkOnSave = { command = "check" },
         },
       },
     })
@@ -24,4 +24,3 @@ return {
     vim.lsp.enable("rust_analyzer")
   end,
 }
-

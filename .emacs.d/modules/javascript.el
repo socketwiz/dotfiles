@@ -7,10 +7,6 @@
 
 ;;; Code:
 
-;; Flymake ESLint backend
-(use-package flymake-eslint
-  :if config-enable-web-mode)
-
 ;; Prettier formatting
 (use-package prettier-js
   :ensure t)
@@ -34,7 +30,9 @@
 (defun maybe-enable-prettier ()
   "Enable Prettier if a Prettier config is detected."
   (when (project-has-prettier-config-p)
-    (prettier-js-mode 1)))
+    (prettier-js-mode 1)
+    (add-hook 'before-save-hook #'prettier-js nil t)
+    (message "Prettier enabled for %s" (buffer-name))))
 
 ;; JavaScript base mode
 (use-package js-base-mode
@@ -42,30 +40,14 @@
   :defer t
   :custom
   (js-indent-level 2)
-  :config
-  (unbind-key "M-." js-base-mode-map)
-  :hook ((js-base-mode . maybe-enable-prettier)
-         (js-base-mode . flymake-eslint-enable)))
+  :hook (js-base-mode . maybe-enable-prettier))
 
 ;; TypeScript mode
 (use-package typescript-ts-mode
   :defer t
   :custom
   (typescript-indent-level 2)
-  :config
-  (unbind-key "M-." typescript-ts-base-mode-map)
   :hook (typescript-ts-mode . maybe-enable-prettier))
-
-;; Vue and Web Mode setup
-(defun setup-vue-mode ()
-  "Setup settings specific for Vue files."
-  (setq web-mode-content-type "vue")
-  (add-to-list 'web-mode-engines-alist '("vue" . "\\.vue\\'"))
-  (web-mode-set-content-type "vue")
-  (setq-local web-mode-script-padding 0)
-  (setq-local web-mode-style-padding 0)
-  (setq-local web-mode-block-padding 0)
-  (maybe-enable-prettier))
 
 (defun web-mode-init ()
   "Setup yasnippet and disable electric pair for web-mode."
@@ -74,8 +56,7 @@
 
 (use-package web-mode
   :if config-enable-web-mode
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.vue\\'" . web-mode))
+  :mode ("\\.html?\\'" . web-mode)
   :init
   (setq-default indent-tabs-mode nil)
   :config
@@ -101,58 +82,15 @@
   (web-mode-markup-indent-offset config-indent-web-mode-spaces)
   (web-mode-css-indent-offset config-indent-web-mode-spaces)
   (web-mode-code-indent-offset config-indent-web-mode-spaces)
-  (web-mode-attr-indent-offset config-indent-web-mode-spaces)
-  :hook (web-mode . (lambda ()
-                      (when (and buffer-file-name
-                                 (string-equal "vue" (file-name-extension buffer-file-name)))
-                        (setup-vue-mode)))))
+  (web-mode-attr-indent-offset config-indent-web-mode-spaces))
 
 ;; CSS Mode
 (use-package css-mode
   :hook (css-mode . maybe-enable-prettier))
 
-;; Flymake ESLint checker
-(defun flymake-eslint--checker (report-fn &rest _args)
-  "Run ESLint on the current buffer and report results to REPORT-FN."
-  (let* ((source (current-buffer))
-         (eslint-bin (executable-find "eslint"))
-         (buffer (generate-new-buffer "*flymake-eslint*")))
-    (if (not (and eslint-bin (buffer-file-name source)))
-        (progn
-          (flymake-log :warning "eslint executable not found or buffer has no file")
-          (funcall report-fn nil))
-      (let ((default-directory (or (locate-dominating-file (buffer-file-name source) ".eslintrc.js")
-                                   default-directory)))
-        (let ((proc
-               (make-process
-                :name "flymake-eslint"
-                :buffer buffer
-                :command (list eslint-bin "--format=json" "--stdin" "--stdin-filename" (buffer-file-name source))
-                :noquery t
-                :connection-type 'pipe
-                :sentinel
-                (lambda (proc _event)
-                  (when (eq (process-status proc) 'exit)
-                    (let ((exit-code (process-exit-status proc)))
-                      (if (= exit-code 0)
-                          (with-current-buffer (process-buffer proc)
-                            (let ((parsed-diagnostics nil)) ;; TODO: parse ESLint output
-                              (condition-case nil
-                                  (funcall report-fn parsed-diagnostics)
-                                (error (flymake-log :warning "Flymake state gone for eslint")))))
-                        (flymake-log :warning "eslint exited with code %d" exit-code)
-                        (condition-case nil
-                            (funcall report-fn nil)
-                          (error (flymake-log :warning "Flymake state gone after eslint fail")))))))))))
-        (process-send-region proc (point-min) (point-max))
-        (process-send-eof proc)))))
-
-(defun setup-eslint-flymake ()
-  "Setup Flymake ESLint for JS modes."
-  (add-hook 'flymake-diagnostic-functions #'flymake-eslint--checker nil t))
-
-(add-hook 'js-mode-hook #'setup-eslint-flymake)
-(add-hook 'js-ts-mode-hook #'setup-eslint-flymake)
+(use-package js-ts-mode
+  :ensure nil
+  :defer t)
 
 (provide 'javascript)
 ;;; javascript.el ends here

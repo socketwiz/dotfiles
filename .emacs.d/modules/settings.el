@@ -68,8 +68,7 @@
 	(toml "https://github.com/tree-sitter/tree-sitter-toml")
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	(yaml "https://github.com/ikatyang/tree-sitter-yaml")
-	(vue "https://github.com/ikatyang/tree-sitter-vue")))
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 ;; Font
 (set-face-attribute 'default nil

@@ -6,16 +6,7 @@ truncation_symbol = ""
 cherry_pick = "🍒 PICKING"
 
 [git_status]
-conflicted = "🏳"
-ahead = "🏎💨"
-behind = "😰"
-diverged = "😵"
-untracked = "🤷"
-stashed = "📦"
-modified = "📝"
-renamed = "👅"
-deleted = "🗑"
-staged = '[++\($count\)](green)'
+disabled = true
 
 [jobs]
 symbol = "✦ "

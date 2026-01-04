@@ -389,7 +389,6 @@
   (setq eglot-send-changes-idle-time 0.5)
   (setq eglot-extend-to-xref nil)
   :config
-  (add-to-list 'eglot-server-programs '(web-mode . ("vls")))
   :hook ((python-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
