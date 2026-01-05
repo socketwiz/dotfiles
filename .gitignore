@@ -9,6 +9,7 @@
 !/.deno
 !/.profile
 !/.zprofile
+!/CLAUDE.md
 
 # Allow only specific .ssh file
 !/.ssh/
