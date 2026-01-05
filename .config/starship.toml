@@ -1,28 +1,35 @@
+# Show command duration when > 2 seconds
+[cmd_duration]
+min_time = 2_000
+
+# Show exit code on failure
+[status]
+disabled = false
+
 [git_branch]
 symbol = " "
 truncation_symbol = ""
 
 [git_state]
-cherry_pick = "🍒 PICKING"
+cherry_pick = " PICKING"
 
 [git_status]
-disabled = true
+disabled = false
 
 [jobs]
 symbol = "✦ "
-number_threshold = 4
+number_threshold = 1
 
 [nodejs]
 symbol = " "
 style = "bold green"
 
 [package]
-symbol = "⚙️ "
+symbol = " "
 
 [python]
 symbol = " "
 pyenv_version_name = false
-pyenv_prefix = "foo "
 
 [aws]
 symbol = "  "
@@ -80,7 +87,7 @@ symbol = " "
 symbol = " "
 
 [spack]
-symbol = "🅢 "
+symbol = " "
 
 [rust]
 symbol = " "
