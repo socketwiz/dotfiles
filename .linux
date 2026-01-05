@@ -1,8 +1,9 @@
 #! /usr/bin/env zsh
+# Linux-specific aliases and functions (env vars are in .zshenv)
 
 alias open='/usr/bin/xdg-open'
 alias refresh='sudo gnome-shell --replace & disown'
-alias ssh='TERM=xterm-256color ssh $@'
+ssh() { TERM=xterm-256color command ssh "$@"; }
 
 # ls
 alias ll='ls -l'
@@ -12,41 +13,5 @@ alias la='ls -a'
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
-# python
-if [ -f $HOME/.pyenv/bin ]; then
-    export PATH=$HOME/.pyenv/bin:$PATH
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-# setup Rust
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
-
-export DENO_INSTALL="${HOME}/.deno"
-export TMPDIR=${HOME}/tmp
-# rust search engine
-export QW_CONFIG=~/.config/quickwit/quickwit.yaml
-
-function cargo {
-  # check to see if the first argument is present and if it is check the first
-  # argument to see if it is `install`
-  if [[ -n $1 && $1 == "install" ]]; then
-    RUSTC_WRAPPER="${HOME}/.cargo/bin/sccache" command cargo "$@"
-  else
-    # otherwise, pass the arguments to cargo
-    if [[ -n $@ ]]; then
-      command cargo "$@"
-    else
-      command cargo
-    fi
-  fi
-}
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/hackerzol/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hackerzol/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/hackerzol/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hackerzol/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

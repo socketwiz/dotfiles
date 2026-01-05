@@ -48,4 +48,3 @@ vim.opt.visualbell = true -- Turn the beep into a visual representation rather t
 vim.opt.completeopt = "menu,menuone"
 
 vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/versions/3.11.6/bin/python3")
-vim.g.node_host_prog = "/opt/homebrew/bin/neovim-node-host"

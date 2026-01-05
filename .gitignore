@@ -76,6 +76,7 @@
 
 # ❌ Ignore this explicitly
 .config/nvim/profile.log
+.config/nvim/lazyvim.json
 .config/github-copilot/
 .zshrc.local
 
