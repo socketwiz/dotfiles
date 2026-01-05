@@ -37,28 +37,27 @@
 !/.config/Code/**
 !/.config/alacritty/
 !/.config/alacritty/**
-!/.config/dunst/
-!/.config/dunst/**
 !/.config/fish/
 !/.config/fish/**
 !/.config/gitui/
 !/.config/gitui/**
+!/.config/ghostty/
+!/.config/ghostty/**
 !/.config/helix/
 !/.config/helix/**
-!/.config/i3/
-!/.config/i3/**
-!/.config/i3status-rs/
-!/.config/i3status-rs/**
+!/.config/hypr/
+!/.config/hypr/**
 !/.config/iterm2/
 !/.config/iterm2/**
 !/.config/kitty/
 !/.config/kitty/**
 !/.config/nushell/
 !/.config/nushell/**
-!/.config/picom.conf
-!/.config/rofi/
-!/.config/rofi/**
+!/.config/omarchy/
+!/.config/omarchy/**
 !/.config/starship.toml
+!/.config/swayosd/
+!/.config/swayosd/**
 !/.config/sway/
 !/.config/sway/**
 !/.config/termite/
@@ -75,9 +74,14 @@
 !/.config/nvim/**
 
 # ❌ Ignore this explicitly
+.config/nvim/.nvimlog
 .config/nvim/profile.log
 .config/nvim/lazyvim.json
+.config/nvim/queries/
 .config/github-copilot/
+.config/hypr/shaders/
+.config/hypr/monitors.conf
+.local/bin/pynvim-python
 .zshrc.local
 
 # Allow only listed .emacs.d content
