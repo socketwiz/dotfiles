@@ -139,15 +139,15 @@
          ("C-c c" . org-capture))
   :custom
   (org-todo-keywords '("TODO" "STARTED" "DONE"))
-  (org-agenda-files (directory-files-recursively "~/org/agenda" "org$"))
+  (org-agenda-files (directory-files-recursively "~/Documents/org/agenda" "org$"))
   (org-capture-templates
-   (quote (("a" "agenda" entry (file "~/org/agenda/inbox.org")
+   (quote (("a" "agenda" entry (file "~/Documents/org/agenda/inbox.org")
             "* TODO %?\n%U\n%a\n")
-           ("n" "note" entry (file "~/org/notes.org")
+           ("n" "note" entry (file "~/Documents/org/notes.org")
             "* %? :NOTE:\n%U\n%a\n")
-           ("r" "read-later" entry (file "~/org/read-later.org")
+           ("r" "read-later" entry (file "~/Documents/org/read-later.org")
             "* %? :NOTE:\n%U\n%a\n")
-           ("w" "work" entry (file "~/org/work.org")
+           ("w" "work" entry (file "~/Documents/org/work.org")
             "* %? :NOTE:\n%U\n%a\n"))))
   (org-hide-emphasis-markers t)
   :config

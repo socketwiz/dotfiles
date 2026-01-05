@@ -36,7 +36,7 @@
 
 (defun action-open-wiki (button)
   "BUTTON to open personal notes and documentation."
-  (find-file "~/org/wiki/index.org"))
+  (find-file "~/Documents/org/wiki/index.org"))
 
 (define-button-type 'org-agenda-button
   'action 'action-org-agenda
