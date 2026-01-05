@@ -4,7 +4,14 @@
 # Set up the prompt
 eval "$(starship init zsh)"
 
-setopt histignorealldups sharehistory
+setopt histignorealldups sharehistory correct
+setopt AUTO_CD AUTO_PUSHD PUSHD_IGNORE_DUPS  # directory navigation
+setopt EXTENDED_GLOB                          # powerful globbing
+setopt NO_BEEP                                # silence
+setopt HIST_IGNORE_SPACE                      # don't save commands starting with space
+setopt HIST_REDUCE_BLANKS                     # remove extra whitespace
+setopt HIST_VERIFY                            # show expanded history before running
+setopt INC_APPEND_HISTORY                     # write immediately, not on exit
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -13,14 +20,18 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-# Save most-recent 1000 lines
-SAVEHIST=1000
+# History configuration
+HISTSIZE=50000
+SAVEHIST=50000
 HISTFILE=~/.zsh_history
 
-# Use modern completion system
-autoload -Uz compinit && compinit
+# Completion system with daily cache rebuild
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -51,9 +62,6 @@ autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
-#[[ -n "${key[Up]}" ]] && bindkey "${key[Up]}" up-line-or-beginning-search
-#[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" down-line-or-beginning-search
-
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
@@ -64,8 +72,10 @@ bindkey "^[[B" down-line-or-beginning-search
 function ec() { emacsclient -c -nw "$@"; }
 function git() {
   allowed_paths=("$HOME" "$HOME/.config" "$HOME/.emacs.d")
+  current_path="$(realpath "$PWD")"
   for allowed in "${allowed_paths[@]}"; do
-    if [[ "$(realpath "$PWD")" == "$(realpath "$allowed")" ]]; then
+    allowed_real="$(realpath "$allowed" 2>/dev/null)" || continue
+    if [[ "$current_path" == "$allowed_real" || "$current_path" == "$allowed_real"/* ]]; then
       /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
       return
     fi
@@ -80,26 +90,37 @@ alias rw='source .dev.env; yarn redwood'
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
 alias sdocker='sudo docker'
-alias sdocker-compose='sudo docker-compose'
-alias dcdestroy='sudo docker-compose stop && sudo docker-compose rm -f'
-alias dclogs='sudo docker-compose logs -f'
-alias dcps='sudo docker-compose ps'
-alias dcstop='sudo docker-compose stop'
-alias dcup='sudo docker-compose up -d'
+alias sdc='sudo docker compose'
+alias dcdestroy='sudo docker compose stop && sudo docker compose rm -f'
+alias dclogs='sudo docker compose logs -f'
+alias dcps='sudo docker compose ps'
+alias dcstop='sudo docker compose stop'
+alias dcup='sudo docker compose up -d'
 alias docker-ip='sudo docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias docker-rm-stopped='sudo docker system prune'
 alias docker-rm-untagged='sudo docker images -q --filter "dangling=true" | xargs sudo docker rmi'
 
 # git
+alias ga='git add'
 alias gb='git branch'
+alias gc='git commit'
+alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gd='git diff'
+alias gl='git pull'
 alias glog='git log --oneline --decorate --graph'
+alias gp='git push'
 alias gst='git status'
+alias gsw='git switch'
+
+# safety
+alias rm='rm -I'
+alias mv='mv -i'
+alias cp='cp -i'
 
 # cli replacements
-alias cat='${HOME}/.cargo/bin/bat'
-alias ls='${HOME}/.cargo/bin/exa --git'
+alias cat='bat'
+alias ls='eza --git'
 
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
@@ -107,14 +128,6 @@ FZF_BIN="$(command -v fzf)"
 if [ -n "$FZF_BIN" ]; then
     source <("$FZF_BIN" --zsh)
 fi
-# pop-os
-[ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ] && source "/usr/share/doc/fzf/examples/key-bindings.zsh"
-[ -f "/usr/share/doc/fzf/examples/completion.zsh" ] && source "/usr/share/doc/fzf/examples/completion.zsh"
-# arch
-[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
-[ -f "/usr/share/fzf/completion.zsh" ] && source /"usr/share/fzf/completion.zsh"
-# macOS
-[ -f "/opt/homebrew/opt/fzf/shell/key-bindings.zsh" ] && source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
 
 # fix the friggin del key
 bindkey "^[[3~" delete-char
@@ -131,9 +144,20 @@ case $(uname) in
     ;;
 esac
 
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+# pyenv shell integration - lazy loaded (PATH setup is in .zshenv)
+if command -v pyenv >/dev/null 2>&1; then
+  pyenv() {
+    unfunction pyenv
+    eval "$(command pyenv init -)"
+    pyenv "$@"
+  }
+fi
 
 # mise setup
 eval "$(mise activate zsh)"
+
+# zoxide - smart directory jumping (use 'z' to jump)
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
