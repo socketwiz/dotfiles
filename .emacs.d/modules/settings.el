@@ -99,12 +99,12 @@
 
 ;; Frequently accessed files (C-x r j <letter>)
 ;; jump-to-register
-(set-register ?b '(file . "~/org/blog/index.org"))
-(set-register ?i '(file . "~/org/agenda/inbox.org"))
-(set-register ?k '(file . "~/org/work.org"))
-(set-register ?n '(file . "~/org/notes.org"))
+(set-register ?b '(file . "~/Documents/org/blog/index.org"))
+(set-register ?i '(file . "~/Documents/org/agenda/inbox.org"))
+(set-register ?k '(file . "~/Documents/org/work.org"))
+(set-register ?n '(file . "~/Documents/org/notes.org"))
 (set-register ?s '(file . "~/.emacs.d/init.el"))
-(set-register ?w '(file . "~/org/wiki/index.org"))
+(set-register ?w '(file . "~/Documents/org/wiki/index.org"))
 
 ;; * Keybindings that replace defaults (except F5)
 (global-set-key (kbd "<f5>") 'revert-buffer)
