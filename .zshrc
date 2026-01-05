@@ -71,16 +71,28 @@ bindkey "^[[B" down-line-or-beginning-search
 # aliases
 function ec() { emacsclient -c -nw "$@"; }
 function git() {
-  allowed_paths=("$HOME" "$HOME/.config" "$HOME/.emacs.d")
-  current_path="$(realpath "$PWD")"
-  for allowed in "${allowed_paths[@]}"; do
-    allowed_real="$(realpath "$allowed" 2>/dev/null)" || continue
+  local git_bin="/usr/bin/git"
+  local current_path="$(realpath "$PWD")"
+  local home_real="$(realpath "$HOME")"
+
+  # Use dotfiles repo when:
+  # - Exactly in $HOME (not subdirectories)
+  # - In $HOME/.config or its subdirectories
+  # - In $HOME/.emacs.d or its subdirectories
+  if [[ "$current_path" == "$home_real" ]]; then
+    "$git_bin" --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+    return
+  fi
+
+  for allowed in "$HOME/.config" "$HOME/.emacs.d"; do
+    local allowed_real="$(realpath "$allowed" 2>/dev/null)" || continue
     if [[ "$current_path" == "$allowed_real" || "$current_path" == "$allowed_real"/* ]]; then
-      /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+      "$git_bin" --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
       return
     fi
   done
-  command git "$@"
+
+  "$git_bin" "$@"
 }
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
