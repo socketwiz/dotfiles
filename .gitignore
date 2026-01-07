@@ -29,6 +29,10 @@
 # Re-ignore everything else under .local/
 .local/*
 !.local/bin/
+!.local/share/
+!.local/share/omarchy/
+!.local/share/omarchy/bin/
+!.local/share/omarchy/bin/omarchy-cmd-screenshot
 
 # Ignore everything inside it
 /.config/*
