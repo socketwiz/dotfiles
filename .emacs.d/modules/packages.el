@@ -399,26 +399,6 @@
   :init
   (global-eldoc-mode))
 
-;; AI pair programmer
-;; M-x copilot-install-server
-(use-package copilot
-  :quelpa (copilot :fetcher github
-                   :repo "copilot-emacs/copilot.el"
-                   :branch "main"
-                   :files ("*.el"))
-  :bind (:map copilot-completion-map
-              ("C-j" . copilot-accept-completion)
-              ("C-l" . copilot-accept-completion-by-line)
-              ("M-n" . copilot-next-completion)
-              ("M-p" . copilot-previous-completion))
-  :hook (prog-mode . copilot-mode)
-  :config
-  (add-to-list 'copilot-disable-predicates
-               (lambda () (memq major-mode '(shell-mode
-                                        eshell-mode
-                                        term-mode
-                                        vterm-mode)))))
-
 ;; Provides a transient over info pages to make them easier to navigate
 (use-package transient
   :ensure t)
