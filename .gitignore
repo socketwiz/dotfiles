@@ -104,6 +104,7 @@
 .emacs.d/backups/
 .emacs.d/bookmarks
 .emacs.d/elpa/
+.emacs.d/eln-cache/
 .emacs.d/projects
 .emacs.d/quelpa/
 .emacs.d/recentf
