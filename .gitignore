@@ -82,6 +82,7 @@
 .config/github-copilot/
 .config/hypr/shaders/
 .config/hypr/monitors.conf
+.local/bin/claude
 .local/bin/pynvim-python
 .zshrc.local
 
