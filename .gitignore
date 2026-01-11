@@ -86,6 +86,14 @@
 .local/bin/pynvim-python
 .zshrc.local
 
+# Allow .claude folder
+!/.claude/
+# Ignore everything inside it
+.claude/*
+# Allow only specific files
+!/.claude/settings.json
+!/.claude/statusline.sh
+
 # Allow only listed .emacs.d content
 !/.emacs.d/
 !/.emacs.d/dashboard.el
