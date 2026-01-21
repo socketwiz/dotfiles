@@ -1,6 +1,9 @@
 {
   "includeCoAuthoredBy": false,
   "model": "sonnet",
+  "permissions": {
+    "defaultMode": "plan"
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
