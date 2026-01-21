@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+yay -Syu claude-code
