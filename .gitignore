@@ -78,6 +78,7 @@
 .config/nvim/.nvimlog
 .config/nvim/profile.log
 .config/nvim/lazyvim.json
+.config/nvim/lazy-lock.json
 .config/nvim/queries/
 .config/github-copilot/
 .config/hypr/shaders/
