@@ -134,6 +134,11 @@ alias cp='cp -i'
 alias cat='bat'
 alias ls='eza --git'
 
+# cargo build management
+alias cargo-nice='nice -n 19 cargo'
+alias cargo-low='nice -n 19 ionice -c 3 cargo'
+alias cargo-single='cargo -j 1'
+
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
 
