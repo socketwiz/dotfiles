@@ -1,4 +1,222 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# backup what we care about
-restic -r sftp:admin@backup:/share/Public/mac-pc/restic-repo --verbose -p ~/restic backup /Users/rickynelson > ~/log/zolmok-backup.log 2>&1
+#
+# Restic backup script with pre-flight checks, locking, and logging
+#
+
+# Configuration (override via environment variables)
+BACKUP_SOURCE="${BACKUP_SOURCE:-$HOME}"
+BACKUP_REPO="${BACKUP_REPO:-sftp:admin@backup:/share/Public/restic-repo}"
+RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-$HOME/.config/restic/password}"
+BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
+BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
+BACKUP_LOG_RETENTION="${BACKUP_LOG_RETENTION:-10}"
+
+# Parse arguments
+DRY_RUN=false
+VERBOSE=false
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dry-run|-n)
+            DRY_RUN=true
+            shift
+            ;;
+        --verbose|-v)
+            VERBOSE=true
+            shift
+            ;;
+        --help|-h)
+            echo "Usage: backup [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  -n, --dry-run    Show what would be backed up without actually doing it"
+            echo "  -v, --verbose    Enable verbose output"
+            echo "  -h, --help       Show this help message"
+            echo ""
+            echo "Environment variables:"
+            echo "  BACKUP_SOURCE         Directory to back up (default: \$HOME)"
+            echo "  BACKUP_REPO           Restic repository URL"
+            echo "  RESTIC_PASSWORD_FILE  Path to password file (default: ~/.config/restic/password)"
+            echo "  BACKUP_LOG_DIR        Directory for log files (default: ~/log)"
+            echo "  BACKUP_LOG_RETENTION  Number of log files to keep (default: 10)"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            echo "Use --help for usage information" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Logging functions
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
+}
+
+log_error() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2
+}
+
+# Cleanup function for trap
+cleanup() {
+    local exit_code=$?
+    # Release lock
+    if [[ -n "${LOCK_FD:-}" ]]; then
+        flock -u "$LOCK_FD" 2>/dev/null || true
+    fi
+    rm -f "$BACKUP_LOCK_FILE"
+
+    if [[ $exit_code -eq 0 ]]; then
+        log "Backup completed successfully"
+    else
+        log_error "Backup failed with exit code $exit_code"
+    fi
+    exit $exit_code
+}
+
+trap cleanup EXIT
+
+# Pre-flight checks
+preflight_checks() {
+    local errors=0
+
+    # Check restic is installed
+    if ! command -v restic &>/dev/null; then
+        log_error "restic command not found. Please install restic."
+        ((errors++))
+    fi
+
+    # Check password file exists and has correct permissions
+    if [[ ! -f "$RESTIC_PASSWORD_FILE" ]]; then
+        log_error "Password file not found: $RESTIC_PASSWORD_FILE"
+        ((errors++))
+    else
+        local perms
+        perms=$(stat -c '%a' "$RESTIC_PASSWORD_FILE" 2>/dev/null || stat -f '%Lp' "$RESTIC_PASSWORD_FILE" 2>/dev/null)
+        if [[ "$perms" != "600" ]]; then
+            log_error "Password file has insecure permissions ($perms). Should be 600."
+            log_error "Fix with: chmod 600 $RESTIC_PASSWORD_FILE"
+            ((errors++))
+        fi
+    fi
+
+    # Check source directory exists
+    if [[ ! -d "$BACKUP_SOURCE" ]]; then
+        log_error "Backup source directory does not exist: $BACKUP_SOURCE"
+        ((errors++))
+    fi
+
+    # Create log directory if needed
+    if [[ ! -d "$BACKUP_LOG_DIR" ]]; then
+        if ! mkdir -p "$BACKUP_LOG_DIR"; then
+            log_error "Failed to create log directory: $BACKUP_LOG_DIR"
+            ((errors++))
+        fi
+    fi
+
+    # Test SFTP connectivity (extract host from repo URL)
+    if [[ "$BACKUP_REPO" == sftp:* ]]; then
+        local sftp_target
+        sftp_target="${BACKUP_REPO#sftp:}"
+        sftp_target="${sftp_target%%:*}"
+
+        log "Testing SFTP connectivity to $sftp_target..."
+        if ! ssh -o BatchMode=yes -o ConnectTimeout=10 "$sftp_target" exit 2>/dev/null; then
+            log_error "Cannot connect to SFTP host: $sftp_target"
+            log_error "Ensure SSH keys are configured and the host is reachable."
+            ((errors++))
+        fi
+    fi
+
+    return $errors
+}
+
+# Acquire lock to prevent concurrent runs
+acquire_lock() {
+    exec {LOCK_FD}>"$BACKUP_LOCK_FILE"
+    if ! flock -n "$LOCK_FD"; then
+        log_error "Another backup is already running (lock file: $BACKUP_LOCK_FILE)"
+        exit 1
+    fi
+    echo $$ > "$BACKUP_LOCK_FILE"
+}
+
+# Rotate old log files
+rotate_logs() {
+    local log_count
+    log_count=$(find "$BACKUP_LOG_DIR" -maxdepth 1 -name 'backup-*.log' -type f 2>/dev/null | wc -l)
+
+    if [[ $log_count -gt $BACKUP_LOG_RETENTION ]]; then
+        local to_delete=$((log_count - BACKUP_LOG_RETENTION))
+        find "$BACKUP_LOG_DIR" -maxdepth 1 -name 'backup-*.log' -type f -printf '%T@ %p\n' 2>/dev/null | \
+            sort -n | head -n "$to_delete" | cut -d' ' -f2- | \
+            xargs -r rm -f
+        log "Rotated $to_delete old log file(s)"
+    fi
+}
+
+# Main backup function
+run_backup() {
+    local timestamp
+    timestamp=$(date '+%Y-%m-%d-%H%M%S')
+    local log_file="$BACKUP_LOG_DIR/backup-$timestamp.log"
+
+    local restic_args=(
+        -r "$BACKUP_REPO"
+        -p "$RESTIC_PASSWORD_FILE"
+    )
+
+    if [[ "$VERBOSE" == true ]]; then
+        restic_args+=(--verbose)
+    fi
+
+    if [[ "$DRY_RUN" == true ]]; then
+        restic_args+=(--dry-run)
+        log "Performing dry run (no data will be backed up)"
+    fi
+
+    log "Starting backup of $BACKUP_SOURCE to $BACKUP_REPO"
+    log "Log file: $log_file"
+
+    # Run restic backup
+    if restic "${restic_args[@]}" backup "$BACKUP_SOURCE" > "$log_file" 2>&1; then
+        log "Backup successful"
+        # Show summary from log
+        if grep -q "^Files:" "$log_file"; then
+            grep -E "^(Files|Added|Processed):" "$log_file" | while read -r line; do
+                log "  $line"
+            done
+        fi
+        return 0
+    else
+        local exit_code=$?
+        log_error "Backup failed. See log file for details: $log_file"
+        # Show last few lines of log for immediate feedback
+        tail -5 "$log_file" >&2
+        return $exit_code
+    fi
+}
+
+# Main execution
+main() {
+    log "Backup script starting"
+
+    # Acquire lock first
+    acquire_lock
+
+    # Run pre-flight checks
+    if ! preflight_checks; then
+        log_error "Pre-flight checks failed"
+        exit 1
+    fi
+
+    # Rotate old logs
+    rotate_logs
+
+    # Run the backup
+    run_backup
+}
+
+main
