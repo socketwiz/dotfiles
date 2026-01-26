@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Check if notify-send exists before running
+if ! command -v notify-send &> /dev/null; then
+    echo "libnotify is not installed. Run: sudo pacman -S libnotify"
+    exit 1
+fi
+
+# Set DBUS address for systemd user service compatibility
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
+
+TEXT=$(fortune -s)
+
+notify-send "Time to Stand Up!" "$TEXT" -i appointment-soon
