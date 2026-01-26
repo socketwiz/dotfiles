@@ -1,0 +1,8 @@
+[Unit]
+Description=Hourly Stand Up Reminder Service
+
+[Service]
+Type=oneshot
+# Use %h to represent your home directory dynamically
+ExecStart=%h/.local/bin/stand_up
+

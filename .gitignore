@@ -71,6 +71,10 @@
 !/.config/wezterm/**
 !/.config/zellij/
 !/.config/zellij/**
+!/.config/systemd/
+!/.config/systemd/user/
+!/.config/systemd/user/standup.service
+!/.config/systemd/user/standup.timer
 !/.config/nvim/
 !/.config/nvim/**
 
@@ -120,3 +124,8 @@
 .emacs.d/recentf
 .emacs.d/transient/
 .emacs.d/tree-sitter/
+
+# Allow .gemini folder
+!/.gemini/
+# Ignore everything inside it
+.gemini/*

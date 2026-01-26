@@ -94,6 +94,16 @@ function git() {
 
   "$git_bin" "$@"
 }
+# Gemini CLI Quick Memory
+memo() {
+    if [ -z "$1" ]; then
+        echo "Usage: memo 'Fact to remember'"
+        return 1
+    fi
+    # This runs the CLI in non-interactive mode, adds the memory, and exits
+    npx @google/gemini-cli --prompt "/memory add $*"
+    echo "✔ Added to memory: $*"
+}
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
