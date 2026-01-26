@@ -1,0 +1,6 @@
+[Unit]
+Description=Restic backup
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'source ~/.zshenv.local && ~/.local/bin/backup'

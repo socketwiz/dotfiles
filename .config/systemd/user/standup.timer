@@ -1,0 +1,12 @@
+[Unit]
+Description=Hourly Stand Up Reminder Service
+
+[Timer]
+# Mon..Fri = Monday through Friday
+# 9..17 = 9 AM through 5 PM
+# :00 = exactly at the top of the hour
+OnCalendar=Mon..Fri *-*-* 09..17:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
