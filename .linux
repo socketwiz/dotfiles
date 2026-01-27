@@ -13,5 +13,8 @@ alias la='ls -a'
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
+# khal - use system python to avoid pyenv interception
+alias khal='/usr/bin/python /usr/bin/khal'
+
 # setup work environment
 [ -f "$HOME/.work" ] && source "$HOME/.work"
