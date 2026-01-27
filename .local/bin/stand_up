@@ -11,4 +11,4 @@ export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user
 
 TEXT=$(fortune -s)
 
-notify-send "Time to Stand Up!" "$TEXT" -i appointment-soon
+notify-send "Time to Stand Up!" "$TEXT" -i appointment-soon --expire-time=0
