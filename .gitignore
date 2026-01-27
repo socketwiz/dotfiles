@@ -83,6 +83,7 @@
 !/.config/nvim/**
 
 # ❌ Ignore this explicitly
+.config/systemd/user/timers.target.wants/
 .config/nvim/.nvimlog
 .config/nvim/profile.log
 .config/nvim/lazyvim.json
