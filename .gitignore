@@ -75,6 +75,10 @@
 !/.config/systemd/user/
 !/.config/systemd/user/standup.service
 !/.config/systemd/user/standup.timer
+!/.config/systemd/user/vdirsyncer-sync.service
+!/.config/systemd/user/vdirsyncer-sync.timer
+!/.config/systemd/user/khal-notify.service
+!/.config/systemd/user/khal-notify.timer
 !/.config/nvim/
 !/.config/nvim/**
 

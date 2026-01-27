@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# khal-notify: Send desktop notifications for upcoming calendar events
+
+NOTIFY_MINUTES=${1:-15}  # Default: notify 15 minutes before
+CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/khal-notified"
+
+# Ensure cache directory exists
+mkdir -p "$(dirname "$CACHE_FILE")"
+touch "$CACHE_FILE"
+
+# Clean old entries from cache (older than 1 day)
+if [[ -f "$CACHE_FILE" ]]; then
+    tmpfile=$(mktemp)
+    awk -v cutoff="$(date -d '1 day ago' +%s)" '$1 > cutoff' "$CACHE_FILE" > "$tmpfile"
+    mv "$tmpfile" "$CACHE_FILE"
+fi
+
+# Get events starting in the next NOTIFY_MINUTES minutes
+now=$(date +%s)
+end_time=$(date -d "+${NOTIFY_MINUTES} minutes" +"%Y-%m-%d %H:%M")
+
+# Use khal list to get upcoming events
+/usr/bin/python /usr/bin/khal list now "${end_time}" --format "{start-time} {title}" 2>/dev/null | while read -r line; do
+    # Skip empty lines and date headers
+    [[ -z "$line" ]] && continue
+    [[ "$line" =~ ^[A-Za-z]+,|^Today|^Tomorrow ]] && continue
+
+    # Extract time and title
+    event_time=$(echo "$line" | grep -oP '^\d{2}:\d{2}' || echo "")
+    event_title=$(echo "$line" | sed 's/^[0-9:-]* //')
+
+    [[ -z "$event_title" ]] && continue
+
+    # Create unique hash for this event
+    event_hash=$(echo "${event_title}$(date +%Y-%m-%d)${event_time}" | md5sum | cut -d' ' -f1)
+
+    # Check if already notified
+    if ! grep -q "$event_hash" "$CACHE_FILE" 2>/dev/null; then
+        # Send notification
+        notify-send -u normal -i calendar "Upcoming: ${event_time}" "$event_title" --expire-time=0
+        # Mark as notified
+        echo "$now $event_hash" >> "$CACHE_FILE"
+    fi
+done
