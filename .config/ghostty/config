@@ -6,10 +6,14 @@ font-family = "FiraCode Nerd Font"
 font-style = Regular
 font-size = 18
 
+# Background
+background = 000000
+
 # Window
 window-theme = ghostty
 window-padding-x = 14
 window-padding-y = 14
+window-padding-color = background
 confirm-close-surface=false
 resize-overlay = never
 gtk-toolbar-style = flat
