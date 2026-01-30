@@ -38,8 +38,6 @@
 !/.config/Code/**
 !/.config/alacritty/
 !/.config/alacritty/**
-!/.config/fish/
-!/.config/fish/**
 !/.config/gitui/
 !/.config/gitui/**
 !/.config/ghostty/
@@ -93,7 +91,11 @@
 .config/hypr/shaders/
 .config/hypr/monitors.conf
 .local/bin/claude
+.local/bin/env
+.local/bin/env.fish
 .local/bin/pynvim-python
+.local/bin/uv
+.local/bin/uvx
 .zshrc.local
 
 # Allow .claude folder
