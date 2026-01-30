@@ -11,5 +11,17 @@
     "typescript-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/zolmok/.claude/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ]
   }
 }
