@@ -92,7 +92,7 @@ After restart, the `git` function in `.zshrc` automatically uses the dotfiles re
 - `.config/gitui/` — git TUI
 - `.config/starship.toml` — prompt config
 - `.config/systemd/user/` — systemd services and timers
-- `.weechat/` — IRC client
+- `.config/weechat/` — IRC client
 - `.claude/`, `.gemini/` — AI tool configs
 - `.ssh/config` — SSH configuration
 - `.local/bin/` — custom scripts
