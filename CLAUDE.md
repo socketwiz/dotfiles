@@ -33,13 +33,13 @@ git commit -m "message"
 The `.gitignore` uses an allowlist approach - everything is ignored except explicitly allowed paths:
 - Shell: `.zshrc`, `.zshenv`, `.zprofile`, `.bashrc`, `.bash_profile`, `.bash_logout`
 - Editors: `.emacs.d/*.el`, `.config/nvim/`, `.config/Code/`, `.config/helix/`
-- Terminals: `.config/alacritty/`, `.config/kitty/`, `.config/wezterm/`, `.config/termite/`
-- Window managers: `.config/i3/`, `.config/sway/`, `.config/waybar/`, `.config/rofi/`
-- Other: `.config/tmux/`, `.config/fish/`, `.config/gitui/`, `.config/starship.toml`
+- Terminals: `.config/ghostty/`, `.config/iterm2/`
+- Window managers: `.config/hypr/`, `.config/waybar/`, `.config/swayosd/`, `.config/omarchy/`
+- Other: `.config/tmux/`, `.config/gitui/`, `.config/starship.toml`
 
 ### CLI tool replacements
 - `cat` → `bat`
-- `ls` → `exa --git`
+- `ls` → `eza --git`
 - `vim` → `nvim`
 
 ### Editor setup
