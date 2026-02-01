@@ -35,7 +35,7 @@ The `.gitignore` uses an allowlist approach - everything is ignored except expli
 - Editors: `.emacs.d/*.el`, `.config/nvim/`, `.config/Code/`, `.config/helix/`
 - Terminals: `.config/ghostty/`, `.config/iterm2/`
 - Window managers: `.config/hypr/`, `.config/waybar/`, `.config/swayosd/`, `.config/omarchy/`
-- Other: `.config/tmux/`, `.config/gitui/`, `.config/starship.toml`
+- Other: `.config/tmux/`, `.config/weechat/`, `.config/gitui/`, `.config/starship.toml`
 
 ### CLI tool replacements
 - `cat` → `bat`
