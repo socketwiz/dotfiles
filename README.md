@@ -82,19 +82,20 @@ After restart, the `git` function in `.zshrc` automatically uses the dotfiles re
 - `.config/helix/` — Helix editor
 
 ### Terminals
-`.config/alacritty/`, `.config/kitty/`, `.config/wezterm/`, `.config/termite/`, `.config/iterm2/`
+`.config/ghostty/`, `.config/iterm2/`
 
 ### Window Managers & Desktop
-`.config/i3/`, `.config/i3status-rs/`, `.config/sway/`, `.config/waybar/`, `.config/rofi/`, `.config/dunst/`, `.config/picom.conf`
+`.config/hypr/`, `.config/waybar/`, `.config/swayosd/`, `.config/omarchy/`
 
 ### Other
-- `.config/tmux/`, `.config/zellij/` — terminal multiplexers
-- `.config/fish/`, `.config/nushell/` — alternative shells
+- `.config/tmux/` — terminal multiplexer
 - `.config/gitui/` — git TUI
 - `.config/starship.toml` — prompt config
+- `.config/systemd/user/` — systemd services and timers
+- `.weechat/` — IRC client
+- `.claude/`, `.gemini/` — AI tool configs
 - `.ssh/config` — SSH configuration
 - `.local/bin/` — custom scripts
-- `.deno/` — Deno runtime
 
 ---
 
