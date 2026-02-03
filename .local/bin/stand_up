@@ -9,6 +9,45 @@ fi
 # Set DBUS address for systemd user service compatibility
 export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
 
-TEXT=$(fortune -s)
+QUOTES=(
+    "You are not prepared! — Illidan Stormrage"
+    "Well met! — Uther the Lightbringer"
+    "My destiny is my own. — Illidan Stormrage"
+    "Let them come. Frostmourne hungers. — Arthas Menethil"
+    "I am my scars. — Illidan Stormrage"
+    "What are we if not slaves to this torment? — Arthas Menethil"
+    "Times change. — Garrosh Hellscream"
+    "I have sacrificed everything. What have you given? — Illidan Stormrage"
+    "Lok'tar ogar! Victory or death! — Orcish battle cry"
+    "For the Horde! — Thrall"
+    "For the Alliance! — Varian Wrynn"
+    "The light does not abandon its champions. — Tirion Fordring"
+    "In this world, nothing is certain but death and taxes... and status effects. — Hogger"
+    "Suffer well. — Sylvanas Windrunner"
+    "I am the warchief of the Horde. — Sylvanas Windrunner"
+    "We are the Forsaken. We will slaughter anyone who stands in our way. — Sylvanas Windrunner"
+    "What joy is there in this curse? — Sylvanas Windrunner"
+    "I have no time for games. — Sylvanas Windrunner"
+    "Let none survive! — Sylvanas Windrunner"
+    "Dark Lady watch over you. — Forsaken greeting"
+    "You will serve me, or be destroyed. — Sylvanas Windrunner"
+    "Arthas! The blood of your people demands justice! — Sylvanas Windrunner"
+    "I will never serve! — Sylvanas Windrunner"
+    "This world is a prison. — Sylvanas Windrunner"
+    "We have been nothing more than pawns in a game we never agreed to play. — Sylvanas Windrunner"
+    "The Horde is nothing! — Sylvanas Windrunner"
+    "Citizens of Dalaran! Raise your eyes to the skies and observe! — Rhonin"
+    "An illusion! What are you hiding? — Suramar guard"
+    "Something's not quite right... — Suramar guard"
+    "LEEEEROYYY JENKINS! — Leeroy Jenkins"
+    "You face Jaraxxus, Eredar Lord of the Burning Legion! — Lord Jaraxxus"
+    "Me not that kind of orc. — Orcish peon"
+    "Zug zug. — Orcish peon"
+    "Work, work. — Orcish peon"
+    "Job's done. — Human peasant"
+    "The king of diamonds has been made a pawn. — Wrathion"
+)
+
+TEXT="${QUOTES[$((RANDOM % ${#QUOTES[@]}))]}"
 
 notify-send "Time to Stand Up!" "$TEXT" -i appointment-soon --expire-time=0
