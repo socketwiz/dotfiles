@@ -1,13 +1,14 @@
 # Dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
+# Local overrides (loaded after theme)
+config-file = ?"~/.config/ghostty/overrides"
+
 # Font
 font-family = "FiraCode Nerd Font"
 font-style = Regular
 font-size = 18
 
-# Background
-background = 000000
 
 # Window
 window-theme = ghostty
@@ -36,3 +37,4 @@ keybind = super+control+shift+alt+arrow_right=resize_split:right,100
 
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
+
