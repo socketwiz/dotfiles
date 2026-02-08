@@ -28,6 +28,9 @@ function clipboard-copy() {
   elif is-darwin; then
     pbcopy
 
+  elif [[ -n "$WAYLAND_DISPLAY" ]] && command-exists wl-copy; then
+    wl-copy
+
   elif command-exists xclip; then
     xclip -in -selection clipboard
 
@@ -36,7 +39,7 @@ function clipboard-copy() {
 
   else
     local message="clipboard-copy: Platform $(uname -s) not supported or "
-    message+="xclip/xsel not installed"
+    message+="wl-copy/xclip/xsel not installed"
     print message >&2
     return 1
   fi
