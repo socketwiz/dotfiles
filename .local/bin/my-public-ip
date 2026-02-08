@@ -1,14 +1,15 @@
 #! /usr/bin/env bash
 MYIP=$(curl -s 'http://checkip.dyndns.org' | sed 's/.*Current IP Address: \([0-9\.\.]*\).*/\1/g')
 
-if hash pbcopy 2>/dev/null
-then
+if hash pbcopy 2>/dev/null; then
   echo "$MYIP" | pbcopy
   echo "IP address copied: $MYIP"
-elif hash xsel 2>/dev/null
-then
+elif [[ -n "$WAYLAND_DISPLAY" ]] && hash wl-copy 2>/dev/null; then
+  echo "$MYIP" | wl-copy
+  echo "IP address copied: $MYIP"
+elif hash xsel 2>/dev/null; then
   echo "$MYIP" | xsel --clipboard --input
   echo "IP address copied: $MYIP"
 else
-    echo "IP address: $MYIP"
+  echo "IP address: $MYIP"
 fi

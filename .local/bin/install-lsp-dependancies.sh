@@ -4,6 +4,17 @@ set -euo pipefail
 
 echo "Installing LSP servers..."
 
+# Platform-specific packages
+if [[ "$(uname)" == "Darwin" ]]; then
+  brew install lua-language-server ruff rustup
+  rustup install stable
+  rustup component add rust-analyzer rust-src
+else
+  sudo pacman -S --needed --noconfirm \
+    lua-language-server \
+    python-ruff
+fi
+
 # Bash
 npm install -g bash-language-server
 
@@ -17,13 +28,4 @@ npm install -g \
   @github/copilot-language-server \
   react-devtools
 
-# Python
-pip3 install --upgrade ruff-lsp
-
-rustup install stable
-rustup component add rust-analyzer rust-src
-
-# Lua (via Homebrew)
-brew install lua-language-server
-
-echo "✅ LSP install complete"
+echo "LSP install complete"
