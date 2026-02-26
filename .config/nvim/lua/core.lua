@@ -46,5 +46,3 @@ vim.opt.visualbell = true -- Turn the beep into a visual representation rather t
 
 -- gitlab
 vim.opt.completeopt = "menu,menuone"
-
-vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/versions/3.11.6/bin/python3")
