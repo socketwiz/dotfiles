@@ -5,6 +5,12 @@ set -euo pipefail
 # Restic backup script with pre-flight checks, locking, and logging
 #
 
+# Ensure common binary paths are available (cron/systemd may have minimal PATH)
+for dir in /opt/homebrew/bin /usr/local/bin /usr/bin /bin; do
+    [[ -d "$dir" && ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
+done
+export PATH
+
 # Configuration (override via environment variables)
 BACKUP_SOURCE="${BACKUP_SOURCE:-$HOME}"
 BACKUP_REPO="${BACKUP_REPO:-sftp:admin@backup:/share/Public/omarchy}"
