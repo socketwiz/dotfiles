@@ -13,6 +13,9 @@ BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
 BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
 BACKUP_LOG_RETENTION="${BACKUP_LOG_RETENTION:-10}"
 BACKUP_EXCLUDE_FILE="${BACKUP_EXCLUDE_FILE:-$HOME/.config/restic/excludes}"
+BACKUP_KEEP_DAILY="${BACKUP_KEEP_DAILY:-7}"
+BACKUP_KEEP_WEEKLY="${BACKUP_KEEP_WEEKLY:-4}"
+BACKUP_KEEP_MONTHLY="${BACKUP_KEEP_MONTHLY:-6}"
 
 # Parse arguments
 DRY_RUN=false
@@ -224,6 +227,16 @@ main() {
 
     # Run the backup
     run_backup
+
+    # Apply retention policy and prune
+    if [[ "$DRY_RUN" == false ]]; then
+        log "Applying retention policy (daily:$BACKUP_KEEP_DAILY weekly:$BACKUP_KEEP_WEEKLY monthly:$BACKUP_KEEP_MONTHLY)"
+        restic -r "$BACKUP_REPO" -p "$RESTIC_PASSWORD_FILE" forget \
+            --keep-daily "$BACKUP_KEEP_DAILY" \
+            --keep-weekly "$BACKUP_KEEP_WEEKLY" \
+            --keep-monthly "$BACKUP_KEEP_MONTHLY" \
+            --prune
+    fi
 }
 
 main
