@@ -1,3 +1,29 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-sudo pacman -S discord
+BUILD_DIR=$(mktemp -d)
+trap 'rm -rf "$BUILD_DIR"' EXIT
+
+cd "$BUILD_DIR"
+yay -G discord_arch_electron
+cd discord_arch_electron
+
+# Detect latest Discord Linux version from download redirect
+LATEST=$(curl -sI 'https://discord.com/api/download?platform=linux&format=tar.gz' \
+  | grep -i '^location:' | grep -oP '\d+\.\d+\.\d+' | head -1)
+
+echo "Latest Discord version: $LATEST"
+echo "Installed: $(pacman -Q discord_arch_electron 2>/dev/null || echo 'none')"
+
+# Update pkgver
+sed -i "s/^pkgver=.*/pkgver=$LATEST/" PKGBUILD
+
+# Download tarball and update its checksum (first entry in sha512sums)
+TARBALL_URL="https://dl.discordapp.net/apps/linux/${LATEST}/discord-${LATEST}.tar.gz"
+echo "Downloading discord-${LATEST}.tar.gz..."
+curl -LO "$TARBALL_URL"
+TARBALL_HASH=$(sha512sum "discord-${LATEST}.tar.gz" | awk '{print $1}')
+sed -i "s|^sha512sums=('[a-f0-9]*'|sha512sums=('${TARBALL_HASH}'|" PKGBUILD
+
+# Build and install (makepkg -si replaces the existing package)
+makepkg -si --noconfirm
