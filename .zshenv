@@ -28,6 +28,8 @@ if [ "$(uname)" = "Linux" ]; then
   export TMPDIR="$HOME/tmp"
   export QW_CONFIG="$HOME/.config/quickwit/quickwit.yaml"
   [ -d "$HOME/.pyenv/bin" ] && export PATH="$HOME/.pyenv/bin:$PATH"
+  export ANDROID_HOME="$HOME/Android/sdk"
+  export PATH="$ANDROID_HOME/platform-tools:$PATH"
 fi
 
 ### pyenv PATH setup (shell integration in .zshrc)
@@ -37,3 +39,4 @@ fi
 
 ### Local overrides (not tracked)
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
+. "$HOME/.cargo/env"
