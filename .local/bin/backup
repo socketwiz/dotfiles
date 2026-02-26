@@ -12,6 +12,7 @@ RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-$HOME/.config/restic/password}"
 BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
 BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
 BACKUP_LOG_RETENTION="${BACKUP_LOG_RETENTION:-10}"
+BACKUP_EXCLUDE_FILE="${BACKUP_EXCLUDE_FILE:-$HOME/.config/restic/excludes}"
 
 # Parse arguments
 DRY_RUN=false
@@ -169,6 +170,10 @@ run_backup() {
     )
 
     local backup_args=()
+
+    if [[ -f "$BACKUP_EXCLUDE_FILE" ]]; then
+        backup_args+=(--exclude-file "$BACKUP_EXCLUDE_FILE")
+    fi
 
     if [[ "$VERBOSE" == true ]]; then
         backup_args+=(--verbose)
