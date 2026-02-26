@@ -3,15 +3,6 @@
   "permissions": {
     "defaultMode": "plan"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  },
-  "enabledPlugins": {
-    "typescript-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
-  },
   "hooks": {
     "SessionStart": [
       {
@@ -23,5 +14,14 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true
   }
 }
