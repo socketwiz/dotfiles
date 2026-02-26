@@ -73,10 +73,7 @@ log_error() {
 cleanup() {
     local exit_code=$?
     # Release lock
-    if [[ -n "${LOCK_FD:-}" ]]; then
-        flock -u "$LOCK_FD" 2>/dev/null || true
-    fi
-    rm -f "$BACKUP_LOCK_FILE"
+    rm -rf "$BACKUP_LOCK_FILE"
 
     if [[ $exit_code -eq 0 ]]; then
         log "Backup completed successfully"
@@ -143,14 +140,21 @@ preflight_checks() {
     return $errors
 }
 
-# Acquire lock to prevent concurrent runs
+# Acquire lock to prevent concurrent runs (mkdir is atomic and cross-platform)
 acquire_lock() {
-    exec {LOCK_FD}>"$BACKUP_LOCK_FILE"
-    if ! flock -n "$LOCK_FD"; then
-        log_error "Another backup is already running (lock file: $BACKUP_LOCK_FILE)"
-        exit 1
+    if ! mkdir "$BACKUP_LOCK_FILE" 2>/dev/null; then
+        local old_pid
+        old_pid=$(cat "$BACKUP_LOCK_FILE/pid" 2>/dev/null || echo "")
+        if [[ -n "$old_pid" ]] && kill -0 "$old_pid" 2>/dev/null; then
+            log_error "Another backup is already running (pid $old_pid)"
+            exit 1
+        fi
+        # Stale lock — reclaim it
+        log "Removing stale lock (pid $old_pid)"
+        rm -rf "$BACKUP_LOCK_FILE"
+        mkdir "$BACKUP_LOCK_FILE"
     fi
-    echo $$ > "$BACKUP_LOCK_FILE"
+    echo $$ > "$BACKUP_LOCK_FILE/pid"
 }
 
 # Rotate old log files
@@ -160,9 +164,8 @@ rotate_logs() {
 
     if [[ $log_count -gt $BACKUP_LOG_RETENTION ]]; then
         local to_delete=$((log_count - BACKUP_LOG_RETENTION))
-        find "$BACKUP_LOG_DIR" -maxdepth 1 -name 'backup-*.log' -type f -printf '%T@ %p\n' 2>/dev/null | \
-            sort -n | head -n "$to_delete" | cut -d' ' -f2- | \
-            xargs -r rm -f
+        find "$BACKUP_LOG_DIR" -maxdepth 1 -name 'backup-*.log' -type f 2>/dev/null | \
+            sort | head -n "$to_delete" | while read -r f; do rm -f "$f"; done
         log "Rotated $to_delete old log file(s)"
     fi
 }
