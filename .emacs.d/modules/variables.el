@@ -14,8 +14,8 @@
 
 (defvar config-font-family "FiraCode Nerd Font"
   "Font to use in each buffer.")
-(defvar config-font-height 160
-  "The font-height is 1/10pt so 160 == 160/10 == 16pt.")
+(defvar config-font-height 180
+  "The font-height is 1/10pt so 180 == 180/10 == 18pt.")
 
 (defvar config-indent-web-mode-spaces 2
   "How many spaces to indent in \"web-mode\".")
