@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Configuration (override via environment variables)
 BACKUP_SOURCE="${BACKUP_SOURCE:-$HOME}"
-BACKUP_REPO="${BACKUP_REPO:-sftp:admin@backup:/share/Public/restic-repo}"
+BACKUP_REPO="${BACKUP_REPO:-sftp:admin@backup:/share/Public/omarchy}"
 RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-$HOME/.config/restic/password}"
 BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
 BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
@@ -168,12 +168,14 @@ run_backup() {
         -p "$RESTIC_PASSWORD_FILE"
     )
 
+    local backup_args=()
+
     if [[ "$VERBOSE" == true ]]; then
-        restic_args+=(--verbose)
+        backup_args+=(--verbose)
     fi
 
     if [[ "$DRY_RUN" == true ]]; then
-        restic_args+=(--dry-run)
+        backup_args+=(--dry-run)
         log "Performing dry run (no data will be backed up)"
     fi
 
@@ -181,7 +183,7 @@ run_backup() {
     log "Log file: $log_file"
 
     # Run restic backup
-    if restic "${restic_args[@]}" backup "$BACKUP_SOURCE" > "$log_file" 2>&1; then
+    if restic "${restic_args[@]}" backup "${backup_args[@]}" "$BACKUP_SOURCE" > "$log_file" 2>&1; then
         log "Backup successful"
         # Show summary from log
         if grep -q "^Files:" "$log_file"; then
