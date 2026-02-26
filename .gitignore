@@ -57,8 +57,12 @@
 !/.config/waybar/**
 !/.config/weechat/
 !/.config/weechat/**
+!/.config/restic/
+!/.config/restic/excludes
 !/.config/systemd/
 !/.config/systemd/user/
+!/.config/systemd/user/backup.service
+!/.config/systemd/user/backup.timer
 !/.config/systemd/user/standup.service
 !/.config/systemd/user/standup.timer
 !/.config/systemd/user/vdirsyncer-sync.service
