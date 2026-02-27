@@ -69,6 +69,8 @@
 !/.config/systemd/user/vdirsyncer-sync.timer
 !/.config/systemd/user/khal-notify.service
 !/.config/systemd/user/khal-notify.timer
+!/.config/systemd/user/minipc-monitor.service
+!/.config/systemd/user/minipc-monitor.timer
 !/.config/nvim/
 !/.config/nvim/**
 

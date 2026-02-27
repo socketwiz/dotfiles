@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MINIPC_IP="10.0.10.5"
+MINIPC_MAC="2c:f0:5d:0e:35:82"
+MINIPC_BROADCAST="10.0.10.255"
+PING_COUNT=3
+PING_TIMEOUT=3
+WOL_WAIT=60
+
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') minipc-monitor: $*"
+}
+
+ping_minipc() {
+    ping -c "$PING_COUNT" -W "$PING_TIMEOUT" "$MINIPC_IP" > /dev/null 2>&1
+}
+
+if ping_minipc; then
+    log "minipc ($MINIPC_IP) is UP"
+    exit 0
+fi
+
+log "minipc ($MINIPC_IP) is DOWN — sending WOL packet to $MINIPC_MAC"
+wol -h "$MINIPC_BROADCAST" "$MINIPC_MAC"
+
+log "Waiting ${WOL_WAIT}s for minipc to boot..."
+sleep "$WOL_WAIT"
+
+if ping_minipc; then
+    log "minipc ($MINIPC_IP) recovered after WOL"
+    exit 0
+fi
+
+log "minipc ($MINIPC_IP) still DOWN after WOL — manual intervention needed"
+exit 1
