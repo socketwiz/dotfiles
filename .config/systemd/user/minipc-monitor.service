@@ -1,0 +1,6 @@
+[Unit]
+Description=Monitor minipc and wake via WOL if down
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/minipc-monitor
