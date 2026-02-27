@@ -187,6 +187,12 @@ run_backup() {
         backup_args+=(--exclude-file "$BACKUP_EXCLUDE_FILE")
     fi
 
+    # Merge machine-local excludes if present
+    local local_exclude_file="${BACKUP_EXCLUDE_FILE}.local"
+    if [[ -f "$local_exclude_file" ]]; then
+        backup_args+=(--exclude-file "$local_exclude_file")
+    fi
+
     if [[ "$VERBOSE" == true ]]; then
         backup_args+=(--verbose)
     fi
