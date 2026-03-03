@@ -107,7 +107,6 @@ memo() {
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
-alias rw='source .dev.env; yarn redwood'
 
 ## docker
 function docker-enter() { sudo docker exec -it "$@" /bin/bash; }
@@ -143,11 +142,6 @@ alias cp='cp -i'
 # cli replacements
 alias cat='bat'
 alias ls='eza --git --icons --color-scale'
-
-# cargo build management
-alias cargo-nice='nice -n 19 cargo'
-alias cargo-low='nice -n 19 ionice -c 3 cargo'
-alias cargo-single='cargo -j 1'
 
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
