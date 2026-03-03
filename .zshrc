@@ -142,7 +142,7 @@ alias cp='cp -i'
 
 # cli replacements
 alias cat='bat'
-alias ls='eza --git'
+alias ls='eza --git --icons --color-scale'
 
 # cargo build management
 alias cargo-nice='nice -n 19 cargo'
