@@ -10,7 +10,7 @@ return {
     end
 
     configs.setup({
-      ensure_installed = { "vimdoc", "javascript", "typescript", "c", "lua", "rust" },
+      ensure_installed = { "vimdoc", "javascript", "typescript", "c", "lua", "rust", "html", "css" },
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -18,5 +18,7 @@ return {
         additional_vim_regex_highlighting = false,
       },
     })
+
+    vim.treesitter.language.register("html", "htmldjango")
   end,
 }
