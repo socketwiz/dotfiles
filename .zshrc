@@ -104,6 +104,15 @@ memo() {
     npx @google/gemini-cli --prompt "/memory add $*"
     echo "✔ Added to memory: $*"
 }
+function claude() {
+  if [[ -n "$CLAUDE_PROFILE" && -d "$HOME/.claude/profiles/$CLAUDE_PROFILE" ]]; then
+    local profile_dir="$HOME/.claude/profiles/$CLAUDE_PROFILE"
+    /usr/bin/cp "$profile_dir/claude.json" "$HOME/.claude.json"
+    CLAUDE_CONFIG_DIR="$profile_dir" command claude "$@"
+  else
+    command claude "$@"
+  fi
+}
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
@@ -173,6 +182,9 @@ if command -v pyenv >/dev/null 2>&1; then
     pyenv "$@"
   }
 fi
+
+# direnv - per-directory environment variables
+eval "$(direnv hook zsh)"
 
 # mise setup
 eval "$(mise activate zsh)"
