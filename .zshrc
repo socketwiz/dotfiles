@@ -150,7 +150,7 @@ alias cp='cp -i'
 
 # cli replacements
 alias cat='bat'
-alias ls='eza --git --icons --color-scale'
+alias ls='eza --git --color-scale'
 
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
@@ -184,10 +184,14 @@ if command -v pyenv >/dev/null 2>&1; then
 fi
 
 # direnv - per-directory environment variables
-eval "$(direnv hook zsh)"
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
 
 # mise setup
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 # zoxide - smart directory jumping (use 'z' to jump)
 if command -v zoxide >/dev/null 2>&1; then
