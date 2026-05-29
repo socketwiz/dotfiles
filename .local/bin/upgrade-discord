@@ -1,29 +1,50 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BUILD_DIR=$(mktemp -d)
-trap 'rm -rf "$BUILD_DIR"' EXIT
-
-cd "$BUILD_DIR"
-yay -G discord_arch_electron
-cd discord_arch_electron
+INSTALL_DIR=/opt/discord
+BIN_LINK=/usr/local/bin/discord
+DESKTOP_FILE=/usr/share/applications/discord.desktop
+ICON_FILE=/usr/share/icons/hicolor/256x256/apps/discord.png
+VERSION_STAMP="$INSTALL_DIR/.installed-version"
 
 # Detect latest Discord Linux version from download redirect
 LATEST=$(curl -sI 'https://discord.com/api/download?platform=linux&format=tar.gz' \
   | grep -i '^location:' | grep -oP '\d+\.\d+\.\d+' | head -1)
+[ -n "$LATEST" ] || { echo "Could not determine latest Discord version" >&2; exit 1; }
+
+INSTALLED=
+[ -r "$VERSION_STAMP" ] && INSTALLED=$(cat "$VERSION_STAMP")
 
 echo "Latest Discord version: $LATEST"
-echo "Installed: $(pacman -Q discord_arch_electron 2>/dev/null || echo 'none')"
+echo "Installed: ${INSTALLED:-none}"
 
-# Update pkgver
-sed -i "s/^pkgver=.*/pkgver=$LATEST/" PKGBUILD
+if [ "$INSTALLED" = "$LATEST" ]; then
+  echo "Already up to date."
+  exit 0
+fi
 
-# Download tarball and update its checksum (first entry in sha512sums)
-TARBALL_URL="https://dl.discordapp.net/apps/linux/${LATEST}/discord-${LATEST}.tar.gz"
+BUILD_DIR=$(mktemp -d)
+trap 'rm -rf "$BUILD_DIR"' EXIT
+
+TARBALL="$BUILD_DIR/discord-${LATEST}.tar.gz"
 echo "Downloading discord-${LATEST}.tar.gz..."
-curl -LO "$TARBALL_URL"
-TARBALL_HASH=$(sha512sum "discord-${LATEST}.tar.gz" | awk '{print $1}')
-sed -i "s|^sha512sums=('[a-f0-9]*'|sha512sums=('${TARBALL_HASH}'|" PKGBUILD
+curl -fL -o "$TARBALL" "https://dl.discordapp.net/apps/linux/${LATEST}/discord-${LATEST}.tar.gz"
 
-# Build and install (makepkg -si replaces the existing package)
-makepkg -si --noconfirm
+# Extract to /opt/discord (lowercase so the launcher's
+# /opt/discord/updater_bootstrap fallback path matches).
+echo "Installing to $INSTALL_DIR..."
+sudo rm -rf "$INSTALL_DIR"
+sudo tar -xzf "$TARBALL" -C /opt/ --transform 's,^Discord,discord,'
+
+# Patch Exec= away from the upstream /usr/bin/discord assumption.
+sed "s|^Exec=.*|Exec=$BIN_LINK|" "$INSTALL_DIR/discord.desktop" > "$BUILD_DIR/discord.desktop"
+sudo install -Dm644 "$BUILD_DIR/discord.desktop" "$DESKTOP_FILE"
+sudo install -Dm644 "$INSTALL_DIR/discord.png" "$ICON_FILE"
+sudo ln -sf "$INSTALL_DIR/discord" "$BIN_LINK"
+
+echo "$LATEST" | sudo tee "$VERSION_STAMP" >/dev/null
+
+command -v update-desktop-database >/dev/null && sudo update-desktop-database -q 2>/dev/null || true
+command -v gtk-update-icon-cache >/dev/null && sudo gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor 2>/dev/null || true
+
+echo "Done. Discord $LATEST installed at $INSTALL_DIR."
