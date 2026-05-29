@@ -18,5 +18,6 @@
     "github@claude-plugins-official": false,
     "pr-review-toolkit@claude-plugins-official": true,
     "stripe@claude-plugins-official": true
-  }
+  },
+  "theme": "dark-ansi"
 }
