@@ -4,3 +4,5 @@
 .dev.json
 .envrc
 .playwright-mcp/
+
+**/.claude/settings.local.json
