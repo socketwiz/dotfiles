@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Disable the internal touchpad while an external mouse is connected, and
+# re-enable it when the last external mouse is unplugged.
+#
+# Launched from ~/.config/hypr/autostart.conf so it inherits Hyprland's
+# environment (HYPRLAND_INSTANCE_SIGNATURE, XDG_RUNTIME_DIR).
+
+set -uo pipefail
+
+# Internal pointer devices to toggle, named as they appear in `hyprctl devices`.
+# MSNB0001 exposes both a touchpad node and a companion mouse node.
+TOUCHPADS=(
+  "msnb0001:00-06cb:7e7e-touchpad"
+  "msnb0001:00-06cb:7e7e-mouse"
+)
+
+SOCK="${XDG_RUNTIME_DIR}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.socket2.sock"
+
+# True when at least one external pointer is present. The built-in touchpad
+# hangs off the i2c bus; USB and Bluetooth mice do not.
+external_mouse_present() {
+  local dev props
+  for dev in /dev/input/event*; do
+    [[ -e $dev ]] || continue
+    props=$(udevadm info --query=property --name="$dev" 2>/dev/null) || continue
+    grep -qx 'ID_INPUT_MOUSE=1' <<<"$props" || continue
+    grep -qx 'ID_INPUT_TOUCHPAD=1' <<<"$props" && continue
+    grep -qx 'ID_BUS=i2c' <<<"$props" && continue
+    return 0
+  done
+  return 1
+}
+
+last_state=""
+
+# sync [force] - apply the desired state, skipping the hyprctl calls when
+# nothing changed unless forced (a config reload wipes runtime keywords).
+sync() {
+  local force="${1:-}" want=true dev
+  external_mouse_present && want=false
+  [[ -z $force && $want == "$last_state" ]] && return
+  last_state=$want
+  for dev in "${TOUCHPADS[@]}"; do
+    hyprctl keyword "device[$dev]:enabled" "$want" >/dev/null
+  done
+}
+
+[[ -S $SOCK ]] || { echo "touchpad-auto-toggle: no Hyprland socket at $SOCK" >&2; exit 1; }
+
+sync force
+
+{
+  udevadm monitor --udev --subsystem-match=input &
+  socat -U - "UNIX-CONNECT:$SOCK" 2>/dev/null | grep --line-buffered '^configreloaded' &
+  wait
+} | while read -r line; do
+  [[ -S $SOCK ]] || exit 0
+
+  force=""
+  [[ $line == configreloaded* ]] && force=1
+
+  # Coalesce the burst of events a single plug or unplug produces.
+  while read -r -t 0.4 extra; do
+    [[ $extra == configreloaded* ]] && force=1
+  done
+
+  sync "$force"
+done
