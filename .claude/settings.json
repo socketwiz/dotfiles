@@ -19,5 +19,20 @@
     "pr-review-toolkit@claude-plugins-official": true,
     "stripe@claude-plugins-official": true
   },
-  "theme": "dark-ansi"
+  "theme": "dark-ansi",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/no-dashes.sh",
+            "timeout": 10,
+            "statusMessage": "Checking for em/en dashes"
+          }
+        ]
+      }
+    ]
+  }
 }

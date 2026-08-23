@@ -99,6 +99,8 @@
 # Allow only specific files
 !/.claude/settings.json
 !/.claude/statusline.sh
+!/.claude/hooks/
+!/.claude/hooks/*.sh
 
 # Allow only listed .emacs.d content
 !/.emacs.d/
