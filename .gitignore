@@ -132,3 +132,46 @@
 !/.gemini/
 # Ignore everything inside it
 .gemini/*
+
+# ❌ Secrets: never track, whatever the allowlists above say
+#
+# This block is LAST on purpose. .gitignore is last-match-wins, so these
+# rules override the broad re-includes above (!/.config/omarchy/**,
+# !/.config/hypr/**, !/.config/weechat/**, !.local/bin/**, and friends),
+# which would otherwise sweep in any secret dropped into those trees.
+#
+# Caveat: ignore rules do NOT apply to files git already tracks. Adding a
+# path here does nothing until you also run:
+#     git rm --cached <path>
+# And note that untracking does not erase it from pushed history.
+
+# Known secret files
+.config/restic/password
+.config/weechat/sec.conf
+
+# Secret-shaped names, anywhere in the tree. Deliberately broad: a config
+# file wrongly ignored is an annoyance, a published key is not.
+**/*password*
+**/*passwd*
+**/*secret*
+**/*credential*
+**/*token*
+**/.env
+**/.env.*
+**/.netrc
+**/*.key
+**/*.pem
+**/*.p12
+**/*.pfx
+**/*.age
+**/*.gpg
+**/*.kdbx
+**/id_rsa*
+**/id_dsa*
+**/id_ecdsa*
+**/id_ed25519*
+
+# SSH: keys, known_hosts, and agent state stay out. The config is
+# allowlisted near the top of this file and re-allowed here.
+.ssh/*
+!.ssh/config
