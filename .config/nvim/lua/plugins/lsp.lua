@@ -19,7 +19,8 @@ return {
       html = {},
       jsonls = {},
       ruff = {}, -- modern ruff LSP (replaces the deprecated ruff_lsp)
-      ts_ls = {}, -- default root/cmd already match the old custom root_dir
+      -- NOTE: the TypeScript 7 (tsgo) native server is attached via a FileType
+      -- autocmd in lua/autocmds.lua, not here -- see the comment there for why.
       rust_analyzer = {
         settings = {
           ["rust-analyzer"] = {
