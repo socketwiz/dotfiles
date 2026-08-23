@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Re-apply a 30-minute lock idle timing after omarchy updates.
+#
+# omarchy-update refreshes ~/.config/hypr/hypridle.conf back to its stock
+# defaults (screensaver at 150s / 2.5min). This hook restores our preferred
+# timing. It keys off the command in each listener block rather than the
+# default timeout values, so it keeps working even if upstream changes the
+# stock numbers. Restarts hypridle only if the file actually changed.
+
+set -euo pipefail
+
+CONF="$HOME/.config/hypr/hypridle.conf"
+[[ -f $CONF ]] || exit 0
+
+# Launching the screensaver resets the idle timer, so the lock listener starts
+# counting again at SCREENSAVER_TIMEOUT and fires at the sum of the two: 900 +
+# 902 = 1802s, i.e. 30 minutes after the last activity.
+SCREENSAVER_TIMEOUT=900  # 15 minutes
+LOCK_TIMEOUT=902         # locks at 30 minutes total, with a 2s margin
+
+before=$(cat "$CONF")
+
+# Set the timeout in the listener block that launches the screensaver, and the
+# one that locks the system, to our preferred values.
+perl -0777 -i -pe "
+  s/(listener\s*\{[^}]*?timeout\s*=\s*)\d+([^}]*?omarchy-launch-screensaver)/\${1}${SCREENSAVER_TIMEOUT}\${2}/s;
+  s/(listener\s*\{[^}]*?timeout\s*=\s*)\d+([^}]*?on-timeout\s*=\s*omarchy-system-lock)/\${1}${LOCK_TIMEOUT}\${2}/s;
+" "$CONF"
+
+if [[ "$before" != "$(cat "$CONF")" ]]; then
+  echo "hypridle: restored 30-minute screensaver/lock timing"
+  pkill hypridle 2>/dev/null || true
+  sleep 0.5
+  setsid hypridle >/dev/null 2>&1 < /dev/null &
+fi
