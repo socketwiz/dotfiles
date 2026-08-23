@@ -150,7 +150,7 @@ alias cp='cp -i'
 
 # cli replacements
 alias cat='bat'
-alias ls='eza --git --color-scale'
+alias ls='eza --git --color-scale=all'
 
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
