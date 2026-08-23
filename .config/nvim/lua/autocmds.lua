@@ -14,12 +14,27 @@
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   callback = function(ev)
+    -- Only attach to real, file-backed buffers. Picker previews and other
+    -- scratch buffers set a TS filetype on a `nofile` buffer with no path;
+    -- letting one through sends a didOpen with a relative URI, which panics
+    -- tsgo ("vfs: path is not absolute") and takes down every tsgo client in
+    -- the session, not just this buffer. nvim's own vim.lsp.enable handler
+    -- guards the same way.
+    local bufname = vim.api.nvim_buf_get_name(ev.buf)
+    if vim.bo[ev.buf].buftype ~= "" or bufname == "" then
+      return
+    end
+
     local config = {
       name = "tsgo",
       cmd = { "tsc", "--lsp", "--stdio" }, -- `tsc` on PATH via mise; survives node bumps
+      -- Fall back to the buffer's own directory: vim.fs.root returns nil when
+      -- none of the markers exist anywhere up the tree, and vim.lsp.start's
+      -- reuse_client compares root_dir, so a nil root would make unrelated
+      -- single-file buffers in different directories share one rootless client.
       root_dir = vim.fs.root(ev.buf, {
         "tsconfig.json", "jsconfig.json", "package.json", ".git",
-      }),
+      }) or vim.fs.dirname(bufname),
     }
     -- Advertise blink.cmp's completion capabilities when available; degrade
     -- gracefully to nvim defaults if blink isn't loaded.
