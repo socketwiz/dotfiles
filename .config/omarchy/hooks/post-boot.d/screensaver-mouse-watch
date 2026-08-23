@@ -1,0 +1,8 @@
+#!/bin/bash
+# Start the screensaver mouse-dismiss watcher once per session.
+# Runs via `omarchy-hook post-boot` (wired in omarchy's default autostart).
+
+# Single instance only.
+pgrep -f 'omarchy-screensaver-mouse-watch' >/dev/null 2>&1 && exit 0
+
+setsid -f "$HOME/.local/bin/omarchy-screensaver-mouse-watch" >/dev/null 2>&1
