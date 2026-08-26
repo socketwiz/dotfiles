@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Remove Omarchy's Discord web app launcher after every update.
+#
+# Omarchy 4 added Discord to its preinstalled web app set, and
+# omarchy-refresh-applications copies every *.desktop out of
+# ~/.local/share/omarchy/applications/ into ~/.local/share/applications/
+# unconditionally. Any update that runs it restores the wrapper, which then
+# shows up in the launcher as a second "Discord" beside the native package
+# entry at /usr/share/applications/discord.desktop.
+#
+# We want the native client, so drop the wrapper again. Removing by name via
+# omarchy-webapp-remove keeps icon cleanup consistent with upstream, and that
+# command only ever touches $HOME, so the native launcher and its icon under
+# /usr/share are never at risk.
+
+set -euo pipefail
+
+command -v omarchy-webapp-remove >/dev/null || exit 0
+
+UNWANTED_WEBAPPS=(Discord)
+
+for app in "${UNWANTED_WEBAPPS[@]}"; do
+  desktop="$HOME/.local/share/applications/$app.desktop"
+  [[ -f $desktop ]] || continue
+
+  # Only ever delete an Omarchy wrapper. A hand-made launcher that happens to
+  # carry the same name has no omarchy-launch-webapp Exec line and is left be.
+  grep -q '^Exec=.*omarchy-launch-webapp' "$desktop" || continue
+
+  OMARCHY_REMOVE_NOTIFY=false omarchy-webapp-remove "$app"
+  echo "Removed the Omarchy $app web app launcher"
+done
