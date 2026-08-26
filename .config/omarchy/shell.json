@@ -7,9 +7,9 @@
           "id": "omarchy.indicators"
         },
         {
-          "format": "dddd HH:mm",
-          "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
+          "format": "yyyy-MM-dd HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy",
           "verticalFormat": "HH\n—\nmm"
         },
         {
@@ -53,12 +53,13 @@
           "id": "omarchy.monitor"
         },
         {
-          "id": "omarchy.power"
+          "id": "omarchy.power",
+          "showPercentage": false
         }
       ]
     },
     "position": "top",
-    "transparent": false
+    "transparent": true
   },
   "idle": {
     "lock": 1800,
