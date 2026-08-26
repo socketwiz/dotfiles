@@ -61,6 +61,11 @@
 !/.config/restic/excludes
 !/.config/systemd/
 !/.config/systemd/user/
+# Re-ignore the contents so only the units listed below are trackable. Without
+# this line the two rules above open the whole directory: systemd writes its
+# own enablement symlinks (*.target.wants/) and drop-ins (*.service.d/) in
+# here, and `git add -A .config/systemd` would sweep them all in.
+/.config/systemd/user/*
 !/.config/systemd/user/backup.service
 !/.config/systemd/user/backup.timer
 !/.config/systemd/user/standup.service
