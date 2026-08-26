@@ -21,6 +21,12 @@ o.bind("SUPER + SHIFT + T", "Activity", { tui = "btop" })
 o.bind("F10", "Discord push-to-talk", hl.dsp.pass({ window = "class:discord" }))
 o.bind("F10", nil, hl.dsp.pass({ window = "class:discord" }), { release = true })
 
+-- Open the annotation editor on a screenshot straight away, as it did before
+-- 4.0. Omarchy 4 leaves the editor behind a notification action instead, which
+-- stays available on SUPER + ALT + comma for shots taken any other way.
+hl.unbind("PRINT")
+o.bind("PRINT", "Screenshot and edit", os.getenv("HOME") .. "/.local/bin/screenshot-edit")
+
 -- Bindings dropped in the 4.0 port because Omarchy's defaults now match:
 --   SUPER + SHIFT + F (nautilus --new-window), SHIFT + B / SHIFT + ALT + B
 --   (browser), SHIFT + M (spotify), SHIFT + ALT + M (cliamp), SHIFT + N
@@ -30,10 +36,5 @@ o.bind("F10", nil, hl.dsp.pass({ window = "class:discord" }), { release = true }
 --   (google messages), SHIFT + P (google photos), SHIFT + X / SHIFT + ALT + X.
 --
 -- Also dropped:
---   * The PRINT override pointing at ~/.local/bin/omarchy-cmd-screenshot. That
---     was a patched copy of the Omarchy 3 script. Omarchy 4 replaced the whole
---     capture system with omarchy-capture-screenshot, which has its own
---     save-as flow plus a keyboard-driven region picker, so the patch no
---     longer applies.
 --   * SUPER + SHIFT + R -> ~/.local/bin/obs-record-toggle. That script does not
 --     exist on this machine.

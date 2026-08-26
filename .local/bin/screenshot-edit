@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Take a screenshot and open the annotation editor on it immediately.
+#
+# Before Omarchy 4 the screenshot pipeline fed grim straight into satty, so
+# the editor appeared as soon as you finished the selection. Omarchy 4 swapped
+# satty for tensaku and moved the editor behind a notification action, so
+# PRINT now saves and copies but opens nothing. This restores the old feel
+# while keeping the save-and-copy behavior 4.0 added, which means a shot is
+# never lost if you close the editor without saving.
+#
+# Deliberately NOT named omarchy-capture-screenshot: ~/.local/bin sits ahead
+# of /usr/bin on PATH, so that name would shadow the real command and recurse.
+#
+# omarchy-capture-screenshot prints the saved path on stdout and prints
+# nothing when the selection is cancelled. "save" mode is used rather than
+# "slurp" because slurp mode also raises its own "click to edit" notification,
+# which is redundant once the editor is already opening.
+
+set -euo pipefail
+
+EDITOR_CMD="${OMARCHY_SCREENSHOT_EDITOR:-tensaku-edit}"
+
+path=$(omarchy-capture-screenshot "${1:-smart}" save)
+
+# Cancelled selection: nothing captured, nothing to edit.
+[[ -n $path && -f $path ]] || exit 0
+
+# Match Omarchy 4 and put the raw capture on the clipboard right away. The
+# editor re-copies the annotated version when you press Enter.
+wl-copy --type image/png <"$path"
+
+exec "$EDITOR_CMD" "$path"
