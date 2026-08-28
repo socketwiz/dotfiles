@@ -1,5 +1,54 @@
+# Shared restic excludes. Distributed to omarchy, omarchy-laptop and minipc
+# (minipc's copy lives at /root/.config/restic/excludes).
+#
+# Pattern rules: a bare name with no slash matches that basename at ANY depth.
+# A pattern starting with / is an absolute filesystem path. `*` does not cross
+# a directory separator. Spaces are literal, no quoting needed.
+#
+# Everything here must be genuinely regenerable. When in doubt, keep it: the
+# cost of storing a spare gigabyte is far lower than discovering at restore
+# time that something was not actually reproducible.
+
+# --- build artifacts and dependency trees, at any depth ---
 node_modules
 target
-.cache
 __pycache__
 .venv
+.cache
+
+# --- language and tool caches, all re-fetchable from upstream ---
+/home/zolmok/.npm
+/home/zolmok/.gradle
+/home/zolmok/.rustup
+/home/zolmok/.cargo/registry
+/home/zolmok/.cargo/git
+/home/zolmok/.m2/repository
+/home/zolmok/go/pkg/mod
+/home/zolmok/.local/share/pipx
+/home/zolmok/.local/share/mise
+/home/zolmok/.local/share/pnpm
+/home/zolmok/.local/share/uv
+
+# --- SDKs and games: large and re-downloadable ---
+/home/zolmok/Android
+/home/zolmok/.local/share/Steam
+/home/zolmok/.local/share/lutris
+/home/zolmok/.local/share/umu
+
+# --- Electron apps whose local state is cache over a cloud source of truth ---
+/home/zolmok/.config/Notion
+/home/zolmok/.config/discord
+/home/zolmok/.config/vesktop
+/home/zolmok/.config/Slack
+
+# --- browsers: drop the caches, KEEP the profile (history, logins, extensions) ---
+/home/zolmok/.config/google-chrome/*/Cache
+/home/zolmok/.config/google-chrome/*/Code Cache
+/home/zolmok/.config/google-chrome/*/GPUCache
+/home/zolmok/.config/google-chrome/*/Service Worker/CacheStorage
+/home/zolmok/.config/chromium/*/Cache
+/home/zolmok/.config/chromium/*/Code Cache
+/home/zolmok/.config/chromium/*/GPUCache
+
+# --- misc ---
+.Trash-1000

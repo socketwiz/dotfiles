@@ -13,7 +13,34 @@ export PATH
 
 # Configuration (override via environment variables)
 BACKUP_SOURCE="${BACKUP_SOURCE:-$HOME}"
-BACKUP_REPO="${BACKUP_REPO:-sftp:admin@backup:/share/Public/omarchy}"
+# No default: a wrong-but-plausible repo path is how backups fail silently.
+# Unset is a hard preflight error rather than a surprise repo somewhere.
+BACKUP_REPO="${BACKUP_REPO:-}"
+
+# Optional second, offsite repository (Backblaze B2 over its S3-compatible
+# endpoint). Deliberately a SEPARATE backup run rather than `restic copy` from
+# the primary: copy would make the offsite repo depend on the health of the
+# local one, so corruption on the NAS could propagate offsite. Two independent
+# targets fail independently. After the first run restic's cache and parent
+# snapshot make the second pass cheap.
+#
+# NOTE: restic's native `b2:` backend does NOT work against current Backblaze
+# ("b2_authorize_account: 400: not supported on API version number 3"). Use the
+# S3 endpoint form:
+#   s3:https://s3.us-west-001.backblazeb2.com/<bucket>/<path>
+BACKUP_REPO_OFFSITE="${BACKUP_REPO_OFFSITE:-}"
+
+# Credentials for the offsite repo, kept out of the shell environment so they
+# are not exported into every interactive shell. Mode 600. For B2 this sets
+# AWS_ACCESS_KEY_ID (the keyID) and AWS_SECRET_ACCESS_KEY (the applicationKey).
+# Sourced whenever present, not only when BACKUP_REPO_OFFSITE is set: a job
+# whose PRIMARY repo is remote (e.g. backing up the NAS shares themselves,
+# where a NAS-hosted repo would be pointless) still needs these credentials.
+BACKUP_OFFSITE_ENV="${BACKUP_OFFSITE_ENV:-$HOME/.config/restic/offsite.env}"
+if [[ -f "$BACKUP_OFFSITE_ENV" ]]; then
+    # shellcheck disable=SC1090
+    set -a; source "$BACKUP_OFFSITE_ENV"; set +a
+fi
 RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-$HOME/.config/restic/password}"
 BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
 BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
@@ -22,6 +49,26 @@ BACKUP_EXCLUDE_FILE="${BACKUP_EXCLUDE_FILE:-$HOME/.config/restic/excludes}"
 BACKUP_KEEP_DAILY="${BACKUP_KEEP_DAILY:-7}"
 BACKUP_KEEP_WEEKLY="${BACKUP_KEEP_WEEKLY:-4}"
 BACKUP_KEEP_MONTHLY="${BACKUP_KEEP_MONTHLY:-6}"
+
+# Guard against backing up into an unmounted mountpoint. When the repo lives
+# on a network mount declared `nofail` + `x-systemd.automount`, an outage
+# leaves an empty local directory behind, and restic would cheerfully init a
+# brand new repo there and fill the root filesystem. Set this to the mount
+# the repo depends on and the run aborts instead.
+BACKUP_REQUIRE_MOUNT="${BACKUP_REQUIRE_MOUNT:-}"
+
+# Optional dead-man's-switch. On success this URL is pinged; if the ping stops
+# arriving, the external monitor alerts. Catches "never ran at all", which an
+# OnFailure= handler structurally cannot. Unset means every ping is a no-op.
+BACKUP_HEALTHCHECK_URL="${BACKUP_HEALTHCHECK_URL:-}"
+
+# Optional command run before restic, e.g. dumping a database to a path that
+# is itself inside BACKUP_SOURCE. A non-zero exit aborts the backup.
+BACKUP_PRE_HOOK="${BACKUP_PRE_HOOK:-}"
+
+# BACKUP_SOURCE is whitespace-separated so a machine can back up several trees
+# (a server needs /var/lib/<service> and /etc/<service>, not just $HOME).
+read -ra BACKUP_SOURCES <<< "$BACKUP_SOURCE"
 
 # Parse arguments
 DRY_RUN=false
@@ -45,11 +92,14 @@ while [[ $# -gt 0 ]]; do
             echo "  -h, --help       Show this help message"
             echo ""
             echo "Environment variables:"
-            echo "  BACKUP_SOURCE         Directory to back up (default: \$HOME)"
-            echo "  BACKUP_REPO           Restic repository URL"
-            echo "  RESTIC_PASSWORD_FILE  Path to password file (default: ~/.config/restic/password)"
-            echo "  BACKUP_LOG_DIR        Directory for log files (default: ~/log)"
-            echo "  BACKUP_LOG_RETENTION  Number of log files to keep (default: 10)"
+            echo "  BACKUP_SOURCE           Space-separated dirs to back up (default: \$HOME)"
+            echo "  BACKUP_REPO             Restic repository URL (required)"
+            echo "  RESTIC_PASSWORD_FILE    Path to password file (default: ~/.config/restic/password)"
+            echo "  BACKUP_LOG_DIR          Directory for log files (default: ~/log)"
+            echo "  BACKUP_LOG_RETENTION    Number of log files to keep (default: 10)"
+            echo "  BACKUP_REQUIRE_MOUNT    Abort unless this path is a live mountpoint"
+            echo "  BACKUP_HEALTHCHECK_URL  Dead-man's-switch URL pinged on start/success/fail"
+            echo "  BACKUP_PRE_HOOK         Command run after preflight, before restic"
             exit 0
             ;;
         *)
@@ -69,7 +119,27 @@ log_error() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2
 }
 
-# Cleanup function for trap
+# Ping the dead-man's-switch. Never allowed to affect the backup's own exit
+# status: a monitoring outage must not turn a good backup into a failed one.
+# $1 is the endpoint suffix ("/start", "/fail", or empty for success).
+# $2 is an optional body (the log tail, so a failure alert carries the reason).
+healthcheck() {
+    [[ -n "$BACKUP_HEALTHCHECK_URL" ]] || return 0
+    local suffix="${1:-}" body="${2:-}"
+    if [[ -n "$body" ]]; then
+        printf '%s' "$body" | curl -fsS -m 10 --retry 3 \
+            --data-binary @- "${BACKUP_HEALTHCHECK_URL}${suffix}" >/dev/null 2>&1 || true
+    else
+        curl -fsS -m 10 --retry 3 \
+            "${BACKUP_HEALTHCHECK_URL}${suffix}" >/dev/null 2>&1 || true
+    fi
+}
+
+# Set by run_backup so the failure ping can carry the actual restic output
+CURRENT_LOG_FILE=""
+
+# Cleanup function for trap. This is the single exit point, so both the
+# success and failure pings live here and cannot be bypassed by an early exit.
 cleanup() {
     local exit_code=$?
     # Release lock
@@ -77,8 +147,14 @@ cleanup() {
 
     if [[ $exit_code -eq 0 ]]; then
         log "Backup completed successfully"
+        healthcheck
     else
         log_error "Backup failed with exit code $exit_code"
+        local body="backup failed on $(hostname 2>/dev/null || cat /etc/hostname) with exit code $exit_code"
+        if [[ -n "$CURRENT_LOG_FILE" && -f "$CURRENT_LOG_FILE" ]]; then
+            body+=$'\n\n'"$(tail -30 "$CURRENT_LOG_FILE" 2>/dev/null)"
+        fi
+        healthcheck "/fail" "$body"
     fi
     exit $exit_code
 }
@@ -109,10 +185,34 @@ preflight_checks() {
         fi
     fi
 
-    # Check source directory exists
-    if [[ ! -d "$BACKUP_SOURCE" ]]; then
-        log_error "Backup source directory does not exist: $BACKUP_SOURCE"
+    # Check the repo was actually configured
+    if [[ -z "$BACKUP_REPO" ]]; then
+        log_error "BACKUP_REPO is not set. Refusing to guess a repository."
         ((errors++))
+    fi
+
+    # Every source path must exist and be readable by this user
+    local src
+    for src in "${BACKUP_SOURCES[@]}"; do
+        if [[ ! -d "$src" ]]; then
+            log_error "Backup source directory does not exist: $src"
+            ((errors++))
+        elif [[ ! -r "$src" ]]; then
+            log_error "Backup source directory is not readable: $src"
+            ((errors++))
+        fi
+    done
+
+    # Refuse to run if the repo's mount is missing. Without this an unmounted
+    # automount silently becomes an empty local dir and restic inits there.
+    if [[ -n "$BACKUP_REQUIRE_MOUNT" ]]; then
+        # Touch the path first so x-systemd.automount gets a chance to mount it
+        ls "$BACKUP_REQUIRE_MOUNT" >/dev/null 2>&1 || true
+        if ! mountpoint -q "$BACKUP_REQUIRE_MOUNT"; then
+            log_error "Required mount is not mounted: $BACKUP_REQUIRE_MOUNT"
+            log_error "Refusing to run: restic would create a new repo on local disk."
+            ((errors++))
+        fi
     fi
 
     # Create log directory if needed
@@ -170,14 +270,17 @@ rotate_logs() {
     fi
 }
 
-# Main backup function
+# Main backup function. $1 is the repository to back up to; $2 is a short
+# label used in log filenames so the local and offsite runs do not collide.
 run_backup() {
+    local repo="$1" label="$2"
     local timestamp
     timestamp=$(date '+%Y-%m-%d-%H%M%S')
-    local log_file="$BACKUP_LOG_DIR/backup-$timestamp.log"
+    local log_file="$BACKUP_LOG_DIR/backup-$label-$timestamp.log"
+    CURRENT_LOG_FILE="$log_file"
 
     local restic_args=(
-        -r "$BACKUP_REPO"
+        -r "$repo"
         -p "$RESTIC_PASSWORD_FILE"
     )
 
@@ -202,11 +305,11 @@ run_backup() {
         log "Performing dry run (no data will be backed up)"
     fi
 
-    log "Starting backup of $BACKUP_SOURCE to $BACKUP_REPO"
+    log "Starting backup of ${BACKUP_SOURCES[*]} to $repo"
     log "Log file: $log_file"
 
     # Run restic backup
-    if restic "${restic_args[@]}" backup "${backup_args[@]}" "$BACKUP_SOURCE" > "$log_file" 2>&1; then
+    if restic "${restic_args[@]}" backup "${backup_args[@]}" "${BACKUP_SOURCES[@]}" > "$log_file" 2>&1; then
         log "Backup successful"
         # Show summary from log
         if grep -q "^Files:" "$log_file"; then
@@ -235,6 +338,8 @@ main() {
     # Acquire lock first
     acquire_lock
 
+    healthcheck "/start"
+
     # Run pre-flight checks
     if ! preflight_checks; then
         log_error "Pre-flight checks failed"
@@ -244,18 +349,56 @@ main() {
     # Rotate old logs
     rotate_logs
 
-    # Run the backup (exit code 3 = success with warnings)
-    run_backup || [[ $? -eq 3 ]] || exit $?
-
-    # Apply retention policy and prune
-    if [[ "$DRY_RUN" == false ]]; then
-        log "Applying retention policy (daily:$BACKUP_KEEP_DAILY weekly:$BACKUP_KEEP_WEEKLY monthly:$BACKUP_KEEP_MONTHLY)"
-        restic -r "$BACKUP_REPO" -p "$RESTIC_PASSWORD_FILE" forget \
-            --keep-daily "$BACKUP_KEEP_DAILY" \
-            --keep-weekly "$BACKUP_KEEP_WEEKLY" \
-            --keep-monthly "$BACKUP_KEEP_MONTHLY" \
-            --prune
+    # Pre-hook runs after preflight (so it does not fire on a doomed run) and
+    # before restic (so whatever it produces is captured by this backup).
+    if [[ -n "$BACKUP_PRE_HOOK" && "$DRY_RUN" == false ]]; then
+        log "Running pre-hook: $BACKUP_PRE_HOOK"
+        if ! eval "$BACKUP_PRE_HOOK"; then
+            log_error "Pre-hook failed, aborting backup"
+            exit 1
+        fi
     fi
+
+    # Back up to each configured target in turn. The local repo goes first so
+    # that if the offsite leg fails (outage, expired key, bad bandwidth) there
+    # is still a fresh local backup. A failure on either leg is reported.
+    local failed=0 repo label pair rc
+    local targets=("local:$BACKUP_REPO")
+    [[ -n "$BACKUP_REPO_OFFSITE" ]] && targets+=("offsite:$BACKUP_REPO_OFFSITE")
+
+    for pair in "${targets[@]}"; do
+        # Split on the FIRST colon only: an offsite repo looks like
+        # "offsite:s3:https://..." and the repo itself contains colons.
+        label="${pair%%:*}"
+        repo="${pair#*:}"
+
+        # Capture the real exit code. Inside `if ! cmd; then`, $? would be the
+        # status of the negation rather than of cmd, which silently hides
+        # exactly the failure we care about.
+        rc=0
+        run_backup "$repo" "$label" || rc=$?
+        # 3 means "completed with warnings" (unreadable files), which still
+        # produces a usable snapshot. Anything else is a real failure.
+        if [[ $rc -ne 0 && $rc -ne 3 ]]; then
+            log_error "Backup to $label repo failed (exit $rc): $repo"
+            failed=1
+            continue
+        fi
+
+        if [[ "$DRY_RUN" == false ]]; then
+            log "Applying retention to $label (daily:$BACKUP_KEEP_DAILY weekly:$BACKUP_KEEP_WEEKLY monthly:$BACKUP_KEEP_MONTHLY)"
+            if ! restic -r "$repo" -p "$RESTIC_PASSWORD_FILE" forget \
+                --keep-daily "$BACKUP_KEEP_DAILY" \
+                --keep-weekly "$BACKUP_KEEP_WEEKLY" \
+                --keep-monthly "$BACKUP_KEEP_MONTHLY" \
+                --prune; then
+                log_error "Retention/prune failed on $label repo: $repo"
+                failed=1
+            fi
+        fi
+    done
+
+    [[ $failed -eq 0 ]] || exit 1
 }
 
 main
