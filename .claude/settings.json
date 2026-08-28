@@ -1,7 +1,7 @@
 {
   "includeCoAuthoredBy": false,
   "permissions": {
-    "defaultMode": "plan"
+    "defaultMode": "default"
   },
   "statusLine": {
     "type": "command",
@@ -20,6 +20,7 @@
     "stripe@claude-plugins-official": true
   },
   "theme": "dark-ansi",
+  "tui": "fullscreen",
   "hooks": {
     "PreToolUse": [
       {

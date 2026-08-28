@@ -27,8 +27,16 @@ o.bind("F10", nil, hl.dsp.pass({ window = "class:discord" }), { release = true }
 hl.unbind("PRINT")
 o.bind("PRINT", "Screenshot and edit", os.getenv("HOME") .. "/.local/bin/screenshot-edit")
 
+-- Thunar instead of Omarchy's Files (nautilus), for both the plain and the
+-- cwd-aware file manager bindings.
+hl.unbind("SUPER + SHIFT + F")
+o.bind("SUPER + SHIFT + F", "File manager", { launch = "thunar" })
+
+hl.unbind("SUPER + ALT + SHIFT + F")
+o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", 'uwsm-app -- thunar "$(omarchy-cmd-terminal-cwd)"')
+
 -- Bindings dropped in the 4.0 port because Omarchy's defaults now match:
---   SUPER + SHIFT + F (nautilus --new-window), SHIFT + B / SHIFT + ALT + B
+--   SHIFT + B / SHIFT + ALT + B
 --   (browser), SHIFT + M (spotify), SHIFT + ALT + M (cliamp), SHIFT + N
 --   (editor), SHIFT + D (docker TUI), SHIFT + G (signal), SHIFT + O (obsidian),
 --   SHIFT + SLASH (1password), SHIFT + ALT + A (grok), SHIFT + C / SHIFT + E
