@@ -37,6 +37,15 @@ if command -v pyenv >/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
+### Tool version management (mise)
+# mise holds back releases newer than its default minimum age, so a plain
+# `mise upgrade` resolves "latest" to an older build than the claude shim in
+# ~/.local/bin installs, which exports this as 0 itself. Without this, `mise
+# upgrade claude` reports "All tools are up to date" while sitting on a version
+# newer than the one mise considers latest. Takes a duration or date such as
+# 0, 1d, 90d, or 2026-06-01. Plain seconds are rejected.
+export MISE_MINIMUM_RELEASE_AGE=0
+
 ### Local overrides (not tracked)
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 . "$HOME/.cargo/env"
