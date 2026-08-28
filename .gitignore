@@ -57,6 +57,9 @@
 !/.config/waybar/**
 !/.config/weechat/
 !/.config/weechat/**
+# The terminal picked by xdg-terminal-exec, which drives SUPER + RETURN and
+# SUPER + ALT + RETURN. Tracked so the choice follows the dotfiles.
+!/.config/xdg-terminals.list
 !/.config/restic/
 !/.config/restic/excludes
 !/.config/systemd/
