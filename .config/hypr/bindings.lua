@@ -35,6 +35,10 @@ o.bind("SUPER + SHIFT + F", "File manager", { launch = "thunar" })
 hl.unbind("SUPER + ALT + SHIFT + F")
 o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", 'uwsm-app -- thunar "$(omarchy-cmd-terminal-cwd)"')
 
+-- Toggle OBS recording, as before 4.0. The 4.0 port dropped this on the
+-- assumption the script was missing, but it exists on this machine.
+o.bind("SUPER + SHIFT + R", "Toggle recording", os.getenv("HOME") .. "/.local/bin/obs-record-toggle")
+
 -- Bindings dropped in the 4.0 port because Omarchy's defaults now match:
 --   SHIFT + B / SHIFT + ALT + B
 --   (browser), SHIFT + M (spotify), SHIFT + ALT + M (cliamp), SHIFT + N
@@ -42,7 +46,3 @@ o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", 'uwsm-app -- thunar "$(o
 --   SHIFT + SLASH (1password), SHIFT + ALT + A (grok), SHIFT + C / SHIFT + E
 --   (hey), SHIFT + Y (youtube), SHIFT + ALT + G (whatsapp), SHIFT + CTRL + G
 --   (google messages), SHIFT + P (google photos), SHIFT + X / SHIFT + ALT + X.
---
--- Also dropped:
---   * SUPER + SHIFT + R -> ~/.local/bin/obs-record-toggle. That script does not
---     exist on this machine.
