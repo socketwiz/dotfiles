@@ -49,18 +49,17 @@
 !/.config/omarchy/
 !/.config/omarchy/**
 !/.config/starship.toml
-!/.config/swayosd/
-!/.config/swayosd/**
 !/.config/tmux/
 !/.config/tmux/**
-!/.config/waybar/
-!/.config/waybar/**
 !/.config/weechat/
 !/.config/weechat/**
 # The terminal picked by xdg-terminal-exec, which drives SUPER + RETURN and
 # SUPER + ALT + RETURN. Tracked so the choice follows the dotfiles.
 !/.config/xdg-terminals.list
 !/.config/restic/
+# Re-ignore the contents so only the excludes file is trackable. Un-ignoring
+# the directory alone also exposes the repository password that lives here.
+/.config/restic/*
 !/.config/restic/excludes
 !/.config/systemd/
 !/.config/systemd/user/
