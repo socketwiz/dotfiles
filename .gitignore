@@ -140,6 +140,21 @@
 # Ignore everything inside it
 .gemini/*
 
+# systemd enablement state, not configuration. The *.wants symlinks are
+# written by `systemctl enable` and say which units THIS machine runs. Sharing
+# them forced every machine to enable the same timers: minipc runs its backup
+# as a root system service, so a user-level backup.timer arriving by git meant
+# a second, misconfigured run failing nightly. Unit files stay tracked; which
+# ones are switched on is a per-machine decision.
+#
+# Re-enable after a fresh clone with, e.g.:
+#     systemctl --user enable --now backup.timer standup.timer
+.config/systemd/user/*.target.wants/
+
+# Per-machine unit overrides (`systemctl --user edit <unit>`). The backup
+# timer is staggered per machine, which one shared unit file cannot express.
+.config/systemd/user/*.d/
+
 # ❌ Secrets: never track, whatever the allowlists above say
 #
 # This block is LAST on purpose. .gitignore is last-match-wins, so these

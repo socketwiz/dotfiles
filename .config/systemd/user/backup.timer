@@ -2,6 +2,18 @@
 Description=Nightly backup timer
 
 [Timer]
+# Runs are staggered so three machines do not hit the NAS and the uplink at
+# once: desktop 01:00, minipc 03:00, laptop 04:00. This file carries the
+# desktop's time because one tracked unit cannot hold three schedules. Each
+# other machine overrides it with a LOCAL drop-in, which git ignores:
+#
+#     systemctl --user edit backup.timer
+#     [Timer]
+#     OnCalendar=
+#     OnCalendar=*-*-* 04:00:00
+#
+# The empty OnCalendar= first is required; without it the drop-in ADDS a
+# second schedule rather than replacing this one, and the backup runs twice.
 OnCalendar=*-*-* 01:00:00
 Persistent=true
 
