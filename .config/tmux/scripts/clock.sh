@@ -11,4 +11,5 @@
 #
 # With no % in tmux.conf there is nothing for tmux to substitute, so this runs
 # as written and a freshly forked date re-reads /etc/localtime every time.
-exec date '+%l:%M %p'
+# 24-hour, to match the system bar's "2026-08-28 14:43".
+exec date '+%H:%M'
