@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MINIPC_IP="10.0.10.5"
+# Addresses are on the FL network (10.27.4.0/24). The old VA network was
+# 10.0.10.0/24; leaving those values here made this unit fail every 5 minutes
+# for a month without anyone noticing. minipc has a UniFi DHCP reservation
+# for .5, so this should not drift again.
+MINIPC_IP="10.27.4.5"
 MINIPC_MAC="2c:f0:5d:0e:35:82"
-MINIPC_BROADCAST="10.0.10.255"
+MINIPC_BROADCAST="10.27.4.255"
 PING_COUNT=3
 PING_TIMEOUT=3
 WOL_WAIT=60
