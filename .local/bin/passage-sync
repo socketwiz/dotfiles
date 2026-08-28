@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Sync the passage store with another Tailscale machine (default: omarchy-laptop).
+#
+# Both machines share the single age identity age1rdn40...hzc4v, since passage
+# 0.1.0 encrypts to exactly one recipient. Key material (.age-identity,
+# .age-recipients) is deliberately NOT synced -- it is set up once per machine
+# and this script only checks that it still matches.
+#
+# Merge is by mtime in both directions: newer file wins. Deletions do not
+# propagate, so removing an entry needs `passage rm` on both machines.
+#
+# Usage: passage-sync [peer]
+
+set -euo pipefail
+
+PEER="${1:-omarchy-laptop}"
+STORE="$HOME/.passage"
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=40 -o ServerAliveInterval=5)
+# Entries and the gitignore only; never key material.
+FILTER=(--include='*/' --include='*.age' --include='.gitignore' --exclude='*')
+
+[ -d "$STORE" ] || { echo "no passage store at $STORE" >&2; exit 1; }
+
+# The Tailscale path to a sleeping peer often needs a nudge before SSH.
+tailscale ping -c 1 "$PEER" >/dev/null 2>&1 || true
+"${SSH[@]}" "$PEER" true 2>/dev/null || { echo "cannot reach $PEER over Tailscale" >&2; exit 1; }
+
+# A divergent identity means one side's entries would be undecryptable on the
+# other. Copying entries in that state silently produces unreadable secrets.
+local_keys=$(sha256sum "$STORE/.age-identity" "$STORE/.age-recipients" | awk '{print $1}')
+peer_keys=$("${SSH[@]}" "$PEER" 'sha256sum ~/.passage/.age-identity ~/.passage/.age-recipients | awk "{print \$1}"')
+if [ "$local_keys" != "$peer_keys" ]; then
+	echo "ABORT: age identity/recipients differ between this machine and $PEER." >&2
+	echo "Reconcile the keys first -- syncing now would copy undecryptable secrets." >&2
+	exit 1
+fi
+
+stamp=$(date +%Y%m%d-%H%M%S)
+cp -a "$STORE" "$STORE.bak-$stamp"
+echo "backup: $STORE.bak-$stamp"
+
+echo "pull $PEER -> local"
+rsync -au "${FILTER[@]}" -e "${SSH[*]}" "$PEER:.passage/" "$STORE/"
+
+echo "push local -> $PEER"
+rsync -au "${FILTER[@]}" -e "${SSH[*]}" "$STORE/" "$PEER:.passage/"
+
+echo "verifying"
+fail=0
+cd "$STORE"
+while read -r entry; do
+	passage show "$entry" >/dev/null 2>&1 || { echo "FAIL: $entry" >&2; fail=1; }
+done < <(find . -name '*.age' | sed 's|^\./||; s|\.age$||' | sort)
+
+count=$(find . -name '*.age' | wc -l)
+if [ "$fail" -eq 0 ]; then
+	echo "ok: $count entries, all decrypt"
+else
+	echo "some entries failed to decrypt; backup is at $STORE.bak-$stamp" >&2
+	exit 1
+fi
