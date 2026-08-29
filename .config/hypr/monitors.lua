@@ -22,17 +22,22 @@ local function has_internal_panel()
   return found
 end
 
+-- Steam is X11 only, so it always runs under XWayland and never sees the
+-- Wayland fractional scale. Left alone it renders at 1x and comes out too small
+-- on a scaled display, so tell it the scale explicitly.
 if has_internal_panel() then
   -- Laptop: retina-class internal panel, 2x scaling throughout.
   local omarchy_gdk_scale = 2
   local omarchy_monitor_scale = "auto"
 
   hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
+  hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "2")
   hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy_monitor_scale })
 else
   -- Desktop: 28" 4K BenQ RD280U. A 1.25 fractional scale relies on Wayland
   -- fractional-scale-v1 for GTK, so GDK_SCALE stays unset. Leaving it at 2
   -- while the monitor scales 1.6 makes GTK apps oversized and blurry.
+  hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "1.25")
   hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.25 })
 end
 

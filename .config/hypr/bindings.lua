@@ -16,10 +16,24 @@ o.bind("SUPER + SHIFT + A", "Claude", { webapp = "https://claude.ai" })
 -- SUPER + CTRL + T, which stays bound as well.
 o.bind("SUPER + SHIFT + T", "Activity", { tui = "btop" })
 
--- Discord push-to-talk: pass F10 through to Discord on both press and release
--- instead of letting Hyprland swallow it.
-o.bind("F10", "Discord push-to-talk", hl.dsp.pass({ window = "class:discord" }))
-o.bind("F10", nil, hl.dsp.pass({ window = "class:discord" }), { release = true })
+-- Discord push-to-talk: send F10 to Discord on both press and release instead
+-- of letting Hyprland swallow it. The `pass` dispatcher would be the obvious
+-- choice, but it is broken for binds registered from the Lua config: the
+-- special-casing that makes it emit the release event is only applied to the
+-- legacy text config (hyprwm/Hyprland discussion #14417), so push-to-talk
+-- either never fires or sticks on. send_key_state takes the state explicitly,
+-- so bind press to "down" and release to "up".
+local ptt = function(state)
+  return hl.dsp.send_key_state({
+    mods = "",
+    key = "F10",
+    state = state,
+    window = "class:discord",
+  })
+end
+
+o.bind("F10", "Discord push-to-talk", ptt("down"))
+o.bind("F10", nil, ptt("up"), { release = true })
 
 -- Open the annotation editor on a screenshot straight away, as it did before
 -- 4.0. Omarchy 4 leaves the editor behind a notification action instead, which
