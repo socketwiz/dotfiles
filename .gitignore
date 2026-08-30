@@ -78,6 +78,13 @@
 !/.config/systemd/user/khal-notify.timer
 !/.config/systemd/user/minipc-monitor.service
 !/.config/systemd/user/minipc-monitor.timer
+# Retention rules for $HOME/tmp, which TMPDIR points at on Linux and which
+# systemd's own /tmp cleanup never touches. Shared, so every Linux machine
+# ages out its scratch space the same way. The clean timer is enablement
+# state, so it stays per-machine:
+#     systemctl --user enable --now systemd-tmpfiles-clean.timer
+!/.config/user-tmpfiles.d/
+!/.config/user-tmpfiles.d/**
 !/.config/nvim/
 !/.config/nvim/**
 
