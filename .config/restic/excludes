@@ -52,9 +52,9 @@ __pycache__
 
 # --- scratch space ---
 #
-# .zshenv points TMPDIR at $HOME/tmp on Linux, because /tmp here is tmpfs
-# (16 GB of RAM on a 30 GB box), so anything large written there is held in
-# memory. That redirect is deliberate and load bearing, but it drops every
+# .zshenv points TMPDIR at $HOME/tmp on Linux, because /tmp is tmpfs on these
+# machines (desktop 16G, minipc 2.9G), so anything large written there is held
+# in RAM. That redirect is deliberate and load bearing, but it drops every
 # temp file this machine produces inside BACKUP_SOURCE.
 #
 # Left unexcluded it is pure waste: one Google Photos import in Aug 2026 put
