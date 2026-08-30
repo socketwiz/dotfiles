@@ -66,5 +66,18 @@ __pycache__
 # since systemd-tmpfiles only cleans /tmp, never a directory under $HOME.
 /home/zolmok/tmp
 
+# --- derived media (minipc) ---
+#
+# Gnomeflix keeps its data in /var/lib/gnomeflix, outside the source tree, so
+# the repo can move without breaking the service. Of that, hls-assets is
+# ~9.9 GB of HLS segments transcoded from video-assets, which is regenerable
+# by re-running the import. video-assets itself is the 19 GB of source .mp4
+# files and is NOT excluded: those are the originals and exist nowhere else.
+#
+# This path only exists on minipc; listing it here is harmless elsewhere and
+# keeps the shared file the single source of truth, since minipc's root job
+# reads a COPY at /root/.config/restic/excludes.
+/var/lib/gnomeflix/hls-assets
+
 # --- misc ---
 .Trash-1000
