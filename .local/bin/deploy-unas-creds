@@ -1,0 +1,260 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#
+# Push the UNAS SMB password from passage to every machine that mounts the
+# share, then remount and prove the new credential actually works.
+#
+# Why this exists: rotating that password by hand means editing four files
+# across four machines in two different formats. On 2026-08-31 it was rotated
+# and two machines were missed. minipc's mount silently broke and both its
+# 03:00 and 05:00 backup jobs would have failed that night with nothing
+# pointing at the cause. The store already knows the password; the only real
+# work is fanning it out and checking it took.
+#
+# Usage:
+#   deploy-unas-creds                 # all machines
+#   deploy-unas-creds --dry-run       # report what differs, change nothing
+#   deploy-unas-creds minipc          # one machine (repeatable)
+#
+# Rotating end to end:
+#   1. change the password in the UniFi console (Local Credentials on the user)
+#   2. passage insert -f unas-password
+#   3. deploy-unas-creds
+#
+
+SECRET_NAME="${UNAS_SECRET_NAME:-unas-password}"
+SMB_USER="${UNAS_SMB_USER:-zolmok}"
+UNAS_HOST="${UNAS_HOST:-10.27.4.200}"
+SHARE="${UNAS_SHARE:-Personal-Drive}"
+
+# host:kind. "local" runs here, everything else goes over SSH.
+# linux  = /etc/samba/unas-creds + systemd automount units
+# darwin = /etc/auto_unas + autofs, which needs a different reload dance
+TARGETS=(
+    "local:linux"
+    "omarchy-laptop:linux"
+    "minipc:linux"
+    "rickys-mac-studio:darwin"
+)
+
+SSH_OPTS=(-o BatchMode=yes -o ConnectTimeout=15)
+
+DRY_RUN=false
+ONLY=()
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dry-run|-n) DRY_RUN=true; shift ;;
+        # Print the header comment block and stop at the first non-comment
+        # line, so the help never drifts out of sync with the code below it.
+        -h|--help)    awk 'NR>=4 { if (/^#/) { sub(/^# ?/,""); print } else exit }' "$0"; exit 0 ;;
+        -*)           echo "unknown option: $1" >&2; exit 1 ;;
+        *)            ONLY+=("$1"); shift ;;
+    esac
+done
+
+log()  { printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
+fail() { printf '[%s] ERROR: %s\n' "$(date '+%H:%M:%S')" "$*" >&2; }
+
+# ---------------------------------------------------------------------------
+# The remote halves. Each reads the password on stdin so it never appears in
+# argv, in `ps`, or in a shell history. They are deliberately idempotent: if
+# the on-disk value already matches, nothing is written and nothing is
+# remounted, so running this when it is already correct is a no-op.
+# ---------------------------------------------------------------------------
+
+read -r -d '' HELPER_LINUX <<'HELPER' || true
+set -euo pipefail
+# `|| true`: the caller may send the value without a trailing newline, in
+# which case read hits EOF and returns 1, which `set -e` would treat as fatal
+# before the helper produces any output at all.
+IFS= read -r P || true
+[[ -n "$P" ]] || { echo "no password on stdin"; exit 1; }
+# A value with a space or '=' is almost certainly a stray line of script text
+# rather than a password, which is exactly how a botched pipeline corrupts a
+# credentials file without anyone noticing.
+case "$P" in *' '*|*'='*|'#'*) echo "refusing: value does not look like a password"; exit 1 ;; esac
+
+DEST=/etc/samba/unas-creds
+NEW=$(printf 'username=%s\npassword=%s\n' "$SMB_USER_R" "$P")
+OLD=$(sudo -n cat "$DEST" 2>/dev/null || true)
+if [[ "$OLD" == "$NEW" ]]; then
+    echo "STATUS unchanged"
+else
+    if [[ "$DRY_RUN_R" == true ]]; then echo "STATUS would-change"; exit 0; fi
+    [[ -n "$OLD" ]] && sudo -n cp -a "$DEST" "$DEST.bak-$(date +%Y%m%d-%H%M%S)"
+    printf '%s\n' "$NEW" | sudo -n tee "$DEST" >/dev/null
+    sudo -n chown root:root "$DEST"
+    sudo -n chmod 600 "$DEST"
+    echo "STATUS written"
+fi
+
+[[ "$DRY_RUN_R" == true ]] && exit 0
+
+# Restart the automount UNITS. Do not `umount` the automount path itself: that
+# tears down the autofs trigger and leaves the unit failed.
+for u in mnt-unas-personal.automount mnt-unas-shared.automount; do
+    systemctl list-unit-files "$u" >/dev/null 2>&1 && sudo -n systemctl restart "$u" 2>/dev/null || true
+done
+sleep 2
+ls /mnt/unas/personal >/dev/null 2>&1 || true
+
+if mountpoint -q /mnt/unas/personal; then
+    T=/mnt/unas/personal/.credtest-$$
+    if touch "$T" 2>/dev/null; then rm -f "$T"; echo "VERIFY ok"; else echo "VERIFY mounted-but-readonly"; fi
+else
+    echo "VERIFY not-mounted"
+fi
+HELPER
+
+read -r -d '' HELPER_DARWIN <<'HELPER' || true
+set -euo pipefail
+# `|| true`: the caller may send the value without a trailing newline, in
+# which case read hits EOF and returns 1, which `set -e` would treat as fatal
+# before the helper produces any output at all.
+IFS= read -r P || true
+[[ -n "$P" ]] || { echo "no password on stdin"; exit 1; }
+case "$P" in *' '*|*'='*|'#'*) echo "refusing: value does not look like a password"; exit 1 ;; esac
+
+# The map file is a URL, so any reserved character in the password would
+# truncate or corrupt the entry. Percent-encode in pure bash.
+enc=""
+for (( i=0; i<${#P}; i++ )); do
+    c="${P:i:1}"
+    case "$c" in
+        [A-Za-z0-9.~_-]) enc+="$c" ;;
+        *) enc+=$(printf '%%%02X' "'$c") ;;
+    esac
+done
+
+DEST=/etc/auto_unas
+NEW="# UNAS ${SHARE_R}, automounted on access. Managed by deploy-unas-creds.
+# Root-only: it embeds the share password.
+/opt/unas/personal -fstype=smbfs,soft,noowners ://${SMB_USER_R}:${enc}@${UNAS_HOST_R}/${SHARE_R}"
+OLD=$(sudo -n cat "$DEST" 2>/dev/null || true)
+
+if [[ "$OLD" == "$NEW" ]]; then
+    echo "STATUS unchanged"
+else
+    if [[ "$DRY_RUN_R" == true ]]; then echo "STATUS would-change"; exit 0; fi
+    [[ -n "$OLD" ]] && sudo -n cp -a "$DEST" "$DEST.bak-$(date +%Y%m%d-%H%M%S)"
+    printf '%s\n' "$NEW" | sudo -n tee "$DEST" >/dev/null
+    sudo -n chown root:wheel "$DEST"
+    sudo -n chmod 600 "$DEST"
+    echo "STATUS written"
+fi
+
+[[ "$DRY_RUN_R" == true ]] && exit 0
+
+# `automount -vc` alone is NOT enough. It flushes the map cache but leaves the
+# existing SMB session attached, and that session then fails every access with
+# "Permission denied" while still appearing in `mount`. Drop the session first,
+# then let autofs mount fresh on the next access.
+sudo -n umount -f /opt/unas/personal >/dev/null 2>&1 || true
+sudo -n automount -vc >/dev/null 2>&1 || true
+sleep 2
+ls /opt/unas/personal >/dev/null 2>&1 || true
+
+if mount | grep -q "on /opt/unas/personal (smbfs"; then
+    T=/opt/unas/personal/.credtest-$$
+    if touch "$T" 2>/dev/null; then rm -f "$T"; echo "VERIFY ok"; else echo "VERIFY mounted-but-readonly"; fi
+else
+    echo "VERIFY not-mounted"
+fi
+HELPER
+
+# ---------------------------------------------------------------------------
+
+wanted() {
+    [[ ${#ONLY[@]} -eq 0 ]] && return 0
+    local h="$1" w
+    for w in "${ONLY[@]}"; do [[ "$w" == "$h" ]] && return 0; done
+    return 1
+}
+
+# Read the secret once. Everything downstream gets it on stdin.
+PASSWORD=$(passage show "$SECRET_NAME" 2>/dev/null | head -1) || true
+if [[ -z "${PASSWORD:-}" ]]; then
+    fail "could not read '$SECRET_NAME' from passage"
+    exit 1
+fi
+log "read '$SECRET_NAME' from passage (${#PASSWORD} chars)"
+$DRY_RUN && log "DRY RUN: nothing will be written"
+
+failed=0
+declare -a SUMMARY=()
+
+for entry in "${TARGETS[@]}"; do
+    host="${entry%%:*}"
+    kind="${entry##*:}"
+    wanted "$host" || continue
+
+    case "$kind" in
+        linux)  helper="$HELPER_LINUX" ;;
+        darwin) helper="$HELPER_DARWIN" ;;
+    esac
+
+    # Values the helper interpolates, prepended as assignments so the helper
+    # itself stays a fixed string and the password stays on stdin.
+    preamble="SMB_USER_R=$(printf '%q' "$SMB_USER")
+UNAS_HOST_R=$(printf '%q' "$UNAS_HOST")
+SHARE_R=$(printf '%q' "$SHARE")
+DRY_RUN_R=$(printf '%q' "$DRY_RUN")
+"
+    script="$preamble$helper"
+
+    log "--- $host ($kind)"
+    if [[ "$host" == "local" ]]; then
+        # A non-zero exit is reported through the parsed status below, so keep
+        # going rather than letting `set -e` abort the whole fan-out.
+        out=$(printf '%s\n' "$PASSWORD" | bash -c "$script" 2>&1) || true
+    else
+        if ! ssh "${SSH_OPTS[@]}" "$host" true 2>/dev/null; then
+            fail "$host unreachable, skipping"
+            SUMMARY+=("$host: UNREACHABLE")
+            failed=1
+            continue
+        fi
+        # The script travels base64 in argv (it holds no secret) and is decoded
+        # into a temp file, which leaves SSH's stdin free to carry the password.
+        # Piping the password while also using a heredoc does NOT work: the
+        # heredoc wins and `read` consumes a line of the script instead.
+        b64=$(printf '%s' "$script" | base64 | tr -d '\n')
+        remote="t=\$(mktemp); printf %s '$b64' | base64 -d > \"\$t\"; bash \"\$t\"; rc=\$?; rm -f \"\$t\"; exit \$rc"
+        # shellcheck disable=SC2029  # $remote is built locally on purpose: the
+        # base64 payload must be expanded here, not on the remote side.
+        out=$(printf '%s\n' "$PASSWORD" | ssh "${SSH_OPTS[@]}" "$host" "$remote" 2>&1) || true
+    fi
+
+    # `|| true` matters: a helper that printed no STATUS makes grep exit 1, and
+    # under `set -e` that would abort the whole fan-out while swallowing the
+    # very output that explains why.
+    status=$(grep -o 'STATUS [a-z-]*' <<<"$out" | head -1 | cut -d' ' -f2) || true
+    verify=$(grep -o 'VERIFY [a-z-]*' <<<"$out" | head -1 | cut -d' ' -f2) || true
+    printf '%s\n' "$out" | grep -vE '^(STATUS|VERIFY) ' | sed 's/^/    /' || true
+
+    if [[ -z "$status" ]]; then
+        fail "$host: no status returned"
+        SUMMARY+=("$host: FAILED"); failed=1
+    elif $DRY_RUN; then
+        log "$host: $status"
+        SUMMARY+=("$host: $status")
+    elif [[ "$verify" == "ok" ]]; then
+        log "$host: $status, mount verified writable"
+        SUMMARY+=("$host: $status / verified")
+    else
+        fail "$host: $status but verification said '${verify:-none}'"
+        SUMMARY+=("$host: $status / VERIFY ${verify:-none}"); failed=1
+    fi
+done
+
+echo
+log "summary"
+printf '    %s\n' "${SUMMARY[@]}"
+
+if [[ "$failed" -ne 0 ]]; then
+    echo
+    fail "at least one machine did not end up in a good state"
+    fail "a machine left on the old password will fail its next backup silently"
+    exit 1
+fi
