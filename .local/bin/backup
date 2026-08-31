@@ -119,6 +119,31 @@ log_error() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2
 }
 
+# Whether $1 is a mountpoint, portably.
+#
+# util-linux's mountpoint(1) does not exist on macOS, and its absence used to
+# read as "not mounted", so any machine setting BACKUP_REQUIRE_MOUNT there
+# failed preflight on every run. Fall back to comparing the device backing the
+# path against the device backing its parent, which differ at a mount boundary.
+#
+# The fallback is deliberately only a fallback: it cannot see a boundary where
+# both sides report the same device, such as a Linux bind mount or a btrfs
+# subvolume. Linux has mountpoint(1) and never reaches it. What it does need to
+# catch, a network share that dropped and left a bare directory behind, it
+# catches, because the leftover path reverts to the local root device.
+is_mountpoint() {
+    local path="$1"
+    if command -v mountpoint >/dev/null 2>&1; then
+        mountpoint -q "$path"
+        return $?
+    fi
+    [[ -d "$path" ]] || return 1
+    local dev parent_dev
+    dev=$(df -P "$path" 2>/dev/null | awk 'NR==2 {print $1}')
+    parent_dev=$(df -P "$path/.." 2>/dev/null | awk 'NR==2 {print $1}')
+    [[ -n "$dev" && "$dev" != "$parent_dev" ]]
+}
+
 # Ping the dead-man's-switch. Never allowed to affect the backup's own exit
 # status: a monitoring outage must not turn a good backup into a failed one.
 # $1 is the endpoint suffix ("/start", "/fail", or empty for success).
@@ -208,7 +233,7 @@ preflight_checks() {
     if [[ -n "$BACKUP_REQUIRE_MOUNT" ]]; then
         # Touch the path first so x-systemd.automount gets a chance to mount it
         ls "$BACKUP_REQUIRE_MOUNT" >/dev/null 2>&1 || true
-        if ! mountpoint -q "$BACKUP_REQUIRE_MOUNT"; then
+        if ! is_mountpoint "$BACKUP_REQUIRE_MOUNT"; then
             log_error "Required mount is not mounted: $BACKUP_REQUIRE_MOUNT"
             log_error "Refusing to run: restic would create a new repo on local disk."
             ((errors++))
