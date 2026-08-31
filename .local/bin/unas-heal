@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+#
+# Repair a half-dead UNAS automount before something depends on it.
+#
+# macOS autofs (AUTOMOUNT_TIMEOUT=3600) tears the SMB session down after an
+# hour idle, and the teardown does not always complete. What is left looks
+# mounted -- `mount` still lists an smbfs entry for the path -- but every
+# access returns "Permission denied", and `df` fails the same way. The tell is
+# that the stale entry has lost its `mounted by <user>` attribute.
+#
+# That matters because the backup's BACKUP_REQUIRE_MOUNT guard resolves the
+# device via `df`, so a stale mount reads as "not a mountpoint" and preflight
+# refuses to run. The refusal is correct (it is what stops restic from
+# initialising a phantom repo on the local disk) but it aborts BOTH the local
+# and the offsite leg, and the nightly cron run is precisely the case where
+# the share has been idle for hours.
+#
+# So: try the path, and only if it is unusable drop the session and let autofs
+# mount it fresh. On a healthy mount this is a no-op.
+#
+# Usage: unas-heal [mountpoint]     (default /opt/unas/personal)
+#
+# Exit 0 if the mount is usable when we finish, 1 if it could not be repaired,
+# so a caller can decide whether to continue.
+#
+
+MP="${1:-/opt/unas/personal}"
+
+log() { printf '[%s] unas-heal: %s\n' "$(date '+%H:%M:%S')" "$*"; }
+
+# Usable means we can actually read it, not merely that it appears in `mount`.
+usable() { ls "$MP" >/dev/null 2>&1; }
+
+# Touch the path first: on an idle-but-clean automount this alone triggers the
+# mount and nothing further is needed.
+usable
+if usable; then
+    exit 0
+fi
+
+log "$MP is not readable, attempting recovery"
+
+if mount | grep -q "on $MP (smbfs"; then
+    log "stale smbfs session present, forcing unmount"
+    sudo -n umount -f "$MP" >/dev/null 2>&1 || log "umount -f reported an error, continuing"
+fi
+
+# Re-trigger. `automount -vc` flushes the map cache; it is not sufficient on
+# its own (it leaves the dead session attached) but it is useful after the
+# session has actually been dropped.
+sudo -n automount -vc >/dev/null 2>&1 || true
+sleep 2
+usable
+
+if usable; then
+    log "recovered, $MP is readable again"
+    exit 0
+fi
+
+log "FAILED to recover $MP"
+log "check that the share is reachable and /etc/auto_unas has the current password"
+exit 1
