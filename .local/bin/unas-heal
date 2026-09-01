@@ -20,13 +20,22 @@ set -uo pipefail
 # So: try the path, and only if it is unusable drop the session and let autofs
 # mount it fresh. On a healthy mount this is a no-op.
 #
-# Usage: unas-heal [mountpoint]     (default /opt/unas/personal)
+# Usage: unas-heal [mountpoint ...]   (default: BOTH UNAS mounts)
 #
-# Exit 0 if the mount is usable when we finish, 1 if it could not be repaired,
-# so a caller can decide whether to continue.
+# Defaults to both because they are separate SMB sessions that go stale
+# independently. Healing only /opt/unas/personal, as an earlier version did,
+# leaves /opt/unas/shared broken and the failure then looks like missing or
+# corrupt data rather than a dead mount.
+#
+# Exit 0 if every mount is usable when we finish, 1 otherwise, so a caller can
+# decide whether to continue.
 #
 
-MP="${1:-/opt/unas/personal}"
+if [[ $# -gt 0 ]]; then
+    MOUNTS=("$@")
+else
+    MOUNTS=(/opt/unas/personal /opt/unas/shared)
+fi
 
 log() { printf '[%s] unas-heal: %s\n' "$(date '+%H:%M:%S')" "$*"; }
 
@@ -54,32 +63,36 @@ ensure_auto_master() {
 
 ensure_auto_master
 
-# Touch the path first: on an idle-but-clean automount this alone triggers the
-# mount and nothing further is needed.
-usable
-if usable; then
-    exit 0
-fi
+rc=0
+for MP in "${MOUNTS[@]}"; do
+    # Touch the path first: on an idle-but-clean automount this alone triggers
+    # the mount and nothing further is needed.
+    usable
+    if usable; then
+        continue
+    fi
 
-log "$MP is not readable, attempting recovery"
+    log "$MP is not readable, attempting recovery"
 
-if mount | grep -q "on $MP (smbfs"; then
-    log "stale smbfs session present, forcing unmount"
-    sudo -n umount -f "$MP" >/dev/null 2>&1 || log "umount -f reported an error, continuing"
-fi
+    if mount | grep -q "on $MP (smbfs"; then
+        log "stale smbfs session present, forcing unmount"
+        sudo -n umount -f "$MP" >/dev/null 2>&1 || log "umount -f reported an error, continuing"
+    fi
 
-# Re-trigger. `automount -vc` flushes the map cache; it is not sufficient on
-# its own (it leaves the dead session attached) but it is useful after the
-# session has actually been dropped.
-sudo -n automount -vc >/dev/null 2>&1 || true
-sleep 2
-usable
+    # Re-trigger. `automount -vc` flushes the map cache; it is not sufficient
+    # on its own (it leaves the dead session attached) but it is useful after
+    # the session has actually been dropped.
+    sudo -n automount -vc >/dev/null 2>&1 || true
+    sleep 2
+    usable
 
-if usable; then
-    log "recovered, $MP is readable again"
-    exit 0
-fi
+    if usable; then
+        log "recovered, $MP is readable again"
+    else
+        log "FAILED to recover $MP"
+        log "check the share is reachable and /etc/auto_unas has the current password"
+        rc=1
+    fi
+done
 
-log "FAILED to recover $MP"
-log "check that the share is reachable and /etc/auto_unas has the current password"
-exit 1
+exit $rc
