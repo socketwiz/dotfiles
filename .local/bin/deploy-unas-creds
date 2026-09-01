@@ -26,7 +26,11 @@ set -euo pipefail
 SECRET_NAME="${UNAS_SECRET_NAME:-unas-password}"
 SMB_USER="${UNAS_SMB_USER:-zolmok}"
 UNAS_HOST="${UNAS_HOST:-10.27.4.200}"
+# Both shares are mounted on every machine. On Linux they come from fstab and
+# this script only refreshes the credentials file they share; on macOS this
+# script owns the whole autofs map, so it has to describe both.
 SHARE="${UNAS_SHARE:-Personal-Drive}"
+SHARE2="${UNAS_SHARE2:-Shared_Drive}"
 
 # host:kind. "local" runs here, everything else goes over SSH.
 # linux  = /etc/samba/unas-creds + systemd automount units
@@ -127,10 +131,13 @@ for (( i=0; i<${#P}; i++ )); do
     esac
 done
 
+sudo -n mkdir -p /opt/unas/personal /opt/unas/shared
+
 DEST=/etc/auto_unas
-NEW="# UNAS ${SHARE_R}, automounted on access. Managed by deploy-unas-creds.
-# Root-only: it embeds the share password.
-/opt/unas/personal -fstype=smbfs,soft,noowners ://${SMB_USER_R}:${enc}@${UNAS_HOST_R}/${SHARE_R}"
+NEW="# UNAS shares, automounted on access. Managed by deploy-unas-creds.
+# Root-only: these lines embed the share password.
+/opt/unas/personal -fstype=smbfs,soft,noowners ://${SMB_USER_R}:${enc}@${UNAS_HOST_R}/${SHARE_R}
+/opt/unas/shared -fstype=smbfs,soft,noowners ://${SMB_USER_R}:${enc}@${UNAS_HOST_R}/${SHARE2_R}"
 OLD=$(sudo -n cat "$DEST" 2>/dev/null || true)
 
 if [[ "$OLD" == "$NEW" ]]; then
@@ -151,16 +158,24 @@ fi
 # "Permission denied" while still appearing in `mount`. Drop the session first,
 # then let autofs mount fresh on the next access.
 sudo -n umount -f /opt/unas/personal >/dev/null 2>&1 || true
+sudo -n umount -f /opt/unas/shared >/dev/null 2>&1 || true
 sudo -n automount -vc >/dev/null 2>&1 || true
 sleep 2
 ls /opt/unas/personal >/dev/null 2>&1 || true
+ls /opt/unas/shared >/dev/null 2>&1 || true
 
-if mount | grep -q "on /opt/unas/personal (smbfs"; then
-    T=/opt/unas/personal/.credtest-$$
-    if touch "$T" 2>/dev/null; then rm -f "$T"; echo "VERIFY ok"; else echo "VERIFY mounted-but-readonly"; fi
-else
-    echo "VERIFY not-mounted"
-fi
+# Both shares must come back, so verify both rather than assuming the second
+# followed the first.
+bad=""
+for mp in /opt/unas/personal /opt/unas/shared; do
+    if mount | grep -q "on $mp (smbfs"; then
+        T="$mp/.credtest-$$"
+        touch "$T" 2>/dev/null && rm -f "$T" || bad="$bad $mp:readonly"
+    else
+        bad="$bad $mp:not-mounted"
+    fi
+done
+if [[ -z "$bad" ]]; then echo "VERIFY ok"; else echo "VERIFY failed"; echo "  unhealthy:$bad"; fi
 HELPER
 
 # ---------------------------------------------------------------------------
@@ -199,6 +214,7 @@ for entry in "${TARGETS[@]}"; do
     preamble="SMB_USER_R=$(printf '%q' "$SMB_USER")
 UNAS_HOST_R=$(printf '%q' "$UNAS_HOST")
 SHARE_R=$(printf '%q' "$SHARE")
+SHARE2_R=$(printf '%q' "$SHARE2")
 DRY_RUN_R=$(printf '%q' "$DRY_RUN")
 "
     script="$preamble$helper"

@@ -184,6 +184,21 @@ cleanup() {
     exit $exit_code
 }
 
+# Turn a fatal signal into a non-zero exit BEFORE the EXIT trap runs.
+#
+# Without these, a shutdown, a `systemctl stop`, or a dropped SSH session kills
+# restic mid-run while the shell still executes `cleanup` with whatever `$?`
+# happened to be left over, which is usually 0. The run is then logged as
+# "Backup completed successfully" and, worse, pings the healthcheck SUCCESS
+# endpoint, so the dead-man's-switch reports green for a backup that never
+# saved a snapshot. Observed on rickys-mac-studio 2026-08-31: the machine
+# rebooted during the first offsite run, restic logged "signal terminated
+# received" and saved nothing, and the script still reported success.
+#
+# 128+N is the conventional status for "killed by signal N".
+trap 'exit 143' TERM
+trap 'exit 130' INT
+trap 'exit 129' HUP
 trap cleanup EXIT
 
 # Pre-flight checks
