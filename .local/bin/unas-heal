@@ -33,6 +33,27 @@ log() { printf '[%s] unas-heal: %s\n' "$(date '+%H:%M:%S')" "$*"; }
 # Usable means we can actually read it, not merely that it appears in `mount`.
 usable() { ls "$MP" >/dev/null 2>&1; }
 
+# The direct-map line in /etc/auto_master is what makes autofs consult
+# /etc/auto_unas at all. Without it nothing mounts and the map file looks
+# perfectly fine, which is a confusing place to end up.
+#
+# It has gone missing once already: on 2026-09-01 the file was back to an
+# Aug 12 copy with the line absent, so the 02:00 backup found no mount and
+# aborted before it even opened a log. Whatever restores it (an OS update, a
+# migration step), re-adding it is cheap and idempotent, so just check.
+ensure_auto_master() {
+    [[ -f /etc/auto_master ]] || return 0
+    if grep -qE '^/-[[:space:]]+auto_unas' /etc/auto_master; then
+        return 0
+    fi
+    log "/etc/auto_master lost its auto_unas line, re-adding"
+    printf '/-\t\t\tauto_unas\t-nobrowse,hidefromfinder\n' | sudo -n tee -a /etc/auto_master >/dev/null
+    sudo -n automount -vc >/dev/null 2>&1 || true
+    sleep 2
+}
+
+ensure_auto_master
+
 # Touch the path first: on an idle-but-clean automount this alone triggers the
 # mount and nothing further is needed.
 usable
