@@ -92,11 +92,11 @@ run_bounded() {
 # Sized for the worst realistic case: both mounts taking the slow remount
 # path (forced unmount plus a 90s re-probe window each). Too tight a bound
 # here just recreates the bug the retry window fixes.
-HEAL_TIMEOUT="${BACKUP_HEAL_TIMEOUT:-420}"
+HEAL_TIMEOUT="${BACKUP_HEAL_TIMEOUT:-900}"
 
 # Bound for the single-mount gate below. Half of HEAL_TIMEOUT because it probes
 # one path rather than two.
-MOUNT_GATE_TIMEOUT="${BACKUP_MOUNT_GATE_TIMEOUT:-240}"
+MOUNT_GATE_TIMEOUT="${BACKUP_MOUNT_GATE_TIMEOUT:-450}"
 
 # Generous on purpose. A nightly incremental is well under a minute, but the
 # initial offsite seed of this machine took 1h32m, and killing a legitimate

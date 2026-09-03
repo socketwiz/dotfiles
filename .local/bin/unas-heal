@@ -94,12 +94,29 @@ wait_usable() {
     done
 }
 
-# How long to keep re-probing after a repair before calling the mount dead.
-UNAS_REMOUNT_WAIT="${UNAS_REMOUNT_WAIT:-90}"
+# How long to keep re-probing after EACH repair cycle before trying again.
+#
+# Sized against the retry loop, not on its own: three cycles of 45s give the
+# mount 135s of total patience, more than the single 90s window it replaced,
+# while keeping the pathological case (a path that will never come back) to a
+# couple of minutes instead of ten. The measured successful remount took 23s.
+UNAS_REMOUNT_WAIT="${UNAS_REMOUNT_WAIT:-45}"
 
-# Seconds allowed for any single mount probe or repair command. A healthy probe
-# answers instantly; anything near this bound is already a dead mount.
-UNAS_OP_TIMEOUT="${UNAS_OP_TIMEOUT:-20}"
+# How many full unmount/remount cycles to try before giving up.
+UNAS_REPAIR_ATTEMPTS="${UNAS_REPAIR_ATTEMPTS:-3}"
+
+# Seconds allowed for any single mount probe or repair command.
+#
+# Generous on purpose. The bound exists to stop a wedged share hanging the run
+# forever, NOT to judge how fast a healthy mount should answer. Measured from
+# cron on 2026-09-03: a warm probe returns in 0s and a cold automount trigger in
+# about 4s, but that was minutes after other activity. The 02:00 run is the
+# coldest access of the day, and an earlier value of 20s risked mistaking a slow
+# cold trigger for a dead mount, which then force-unmounts a perfectly good
+# share and turns a working night into a failed one. Erring high costs nothing
+# when healthy (the probe still returns in a few seconds) and only delays the
+# failure alert when genuinely broken.
+UNAS_OP_TIMEOUT="${UNAS_OP_TIMEOUT:-60}"
 
 # Usable means the backup would accept this mount, not merely that the path
 # lists or that it appears in `mount`.
@@ -125,7 +142,25 @@ _probe_mount() {
     local dev parent_dev
     dev=$(df -P "$MP" 2>/dev/null | awk 'NR==2 {print $1}')
     parent_dev=$(df -P "$MP/.." 2>/dev/null | awk 'NR==2 {print $1}')
-    [[ -n "$dev" && "$dev" != "$parent_dev" ]]
+    [[ -n "$dev" && "$dev" != "$parent_dev" ]] || return 1
+
+    # Then prove real I/O, because metadata is not enough.
+    #
+    # A half-dead SMB session answers `ls` and `df` from cached metadata while
+    # every actual read or write blocks forever. On 2026-09-03 this script
+    # declared a mount "recovered" on the strength of ls and df, handed it to
+    # restic, and restic sat there for 36 minutes at 0% CPU having written a
+    # zero-byte log. Nothing above this line would have caught that.
+    #
+    # Write, read back, and delete: the backup needs to write, so test writing.
+    # If any step blocks, with_timeout kills the probe and the caller treats the
+    # timeout as unusable, which is the correct verdict.
+    local probe="$MP/.unas-heal-probe.$$"
+    printf 'probe\n' > "$probe" 2>/dev/null || return 1
+    local got
+    got=$(cat "$probe" 2>/dev/null)
+    rm -f "$probe" 2>/dev/null
+    [[ "$got" == "probe" ]]
 }
 
 # The direct-map line in /etc/auto_master is what makes autofs consult
@@ -158,31 +193,50 @@ for MP in "${MOUNTS[@]}"; do
         continue
     fi
 
-    log "$MP is not readable, attempting recovery"
-
-    if mount | grep -q "on $MP (smbfs"; then
-        log "stale smbfs session present, forcing unmount"
-        with_timeout "$UNAS_OP_TIMEOUT" sudo -n umount -f "$MP" >/dev/null 2>&1 ||
-            log "umount -f failed or timed out, continuing"
-    fi
-
-    # Re-trigger. `automount -vc` flushes the map cache; it is not sufficient
-    # on its own (it leaves the dead session attached) but it is useful after
-    # the session has actually been dropped.
-    with_timeout "$UNAS_OP_TIMEOUT" sudo -n automount -vc >/dev/null 2>&1 || true
-    sleep 2
-
-    # Re-probe on a retry window rather than once.
+    # Repair in up to UNAS_REPAIR_ATTEMPTS cycles, not one.
     #
-    # Re-establishing an SMB session after a forced unmount takes appreciably
-    # longer than probing an already-live one, and a single probe judged it too
-    # early: on 2026-09-03 the 13:00 cron run gave the remount about 22 seconds,
-    # declared FAILED, and aborted the night, yet the very same mount answered
-    # normally minutes later. Re-mounting is the slow path, so wait like it.
-    if wait_usable; then
+    # A badly wedged session needs one umount -f to tear it down and a LATER
+    # attempt to actually remount; the first cycle often only does the teardown.
+    # Measured on 2026-09-03: the first cycle gave up at 14:44:47 after its full
+    # window, and a second cycle minutes later recovered the same mount in 23
+    # seconds. Every failing run that day got exactly one cycle. The one run that
+    # succeeded did so only because the caller happened to invoke this script a
+    # second time, which is far too subtle a thing to depend on.
+    # Plain assignments, not `local`: this loop is at script top level, not
+    # inside a function, and `local` there is a runtime error that leaves
+    # `recovered` unset. Under `set -u` the failure branch then aborted the
+    # whole script on an unbound variable, so a first mount that could not be
+    # repaired would take the second one down with it, unprocessed.
+    recovered=false
+    attempt=1
+    for (( attempt = 1; attempt <= UNAS_REPAIR_ATTEMPTS; attempt++ )); do
+        log "$MP is not readable, attempting recovery ($attempt of $UNAS_REPAIR_ATTEMPTS)"
+
+        if mount | grep -q "on $MP (smbfs"; then
+            log "stale smbfs session present, forcing unmount"
+            with_timeout "$UNAS_OP_TIMEOUT" sudo -n umount -f "$MP" >/dev/null 2>&1 ||
+                log "umount -f failed or timed out, continuing"
+        fi
+
+        # Re-trigger. `automount -vc` flushes the map cache; it is not sufficient
+        # on its own (it leaves the dead session attached) but it is useful after
+        # the session has actually been dropped.
+        with_timeout "$UNAS_OP_TIMEOUT" sudo -n automount -vc >/dev/null 2>&1 || true
+        sleep 2
+
+        # Re-probe on a window rather than once: re-establishing an SMB session
+        # after a forced unmount is appreciably slower than probing a live one,
+        # and judging it too early condemns a mount that would have come back.
+        if wait_usable; then
+            recovered=true
+            break
+        fi
+    done
+
+    if [[ "$recovered" == true ]]; then
         log "recovered, $MP is readable again"
     else
-        log "FAILED to recover $MP"
+        log "FAILED to recover $MP after $UNAS_REPAIR_ATTEMPTS attempts"
         log "check the share is reachable and /etc/auto_unas has the current password"
         rc=1
     fi
