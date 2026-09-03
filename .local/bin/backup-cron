@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+#
+# Cron entry point for the nightly backup. Exists so the crontab line stays a
+# single command and so the run leaves evidence behind.
+#
+# The crontab used to be:
+#
+#     0 2 * * * /bin/bash -c "... unas-heal; backup" >/dev/null 2>&1
+#
+# That >/dev/null threw away the only account of what happened. When the 02:00
+# runs on 2026-09-02 and 2026-09-03 both produced nothing, there was no log to
+# read: `backup` creates its dated log file inside run_backup, which is AFTER
+# preflight_checks, so a failed mount guard aborts before any log exists.
+# Reconstructing it needed the healthchecks.io alert body. Everything the run
+# prints now lands in a dated file here instead.
+#
+# Sourcing .zshenv.local (not .zshenv) is what cron did before and is kept, so
+# running this by hand behaves the same as running it from cron. All the
+# BACKUP_* configuration lives in that file.
+#
+
+LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
+
+# How many of THIS script's logs to keep. These are a few KB each (the wrapper
+# only sees log() lines, since restic's own chatter goes to the dated
+# backup-local-*.log that `backup` opens), so this is a trivial ceiling.
+KEEP="${BACKUP_CRON_LOG_RETENTION:-14}"
+
+# Deliberately NOT the backup-*.log namespace that `backup`'s own rotate_logs
+# prunes. Sharing it would make these files compete for that 10-file budget and
+# silently shorten how far back the real restic logs reach.
+GLOB="cron-backup-*.log"
+
+mkdir -p "$LOG_DIR" || exit 1
+
+# Prune BEFORE the run, not after: this is the half that must happen even if
+# the backup wedges, is killed, or the disk is already tight. Dated names sort
+# lexically in chronological order, so `sort | head` is the oldest. Mirrors the
+# idiom in rotate_logs, including avoiding `head -n -N`, which macOS lacks.
+prune() {
+    local count to_delete
+    count=$(find "$LOG_DIR" -maxdepth 1 -name "$GLOB" -type f 2>/dev/null | wc -l | tr -d "[:space:]")
+    if [[ "${count:-0}" -gt "$KEEP" ]]; then
+        to_delete=$((count - KEEP))
+        find "$LOG_DIR" -maxdepth 1 -name "$GLOB" -type f 2>/dev/null |
+            sort | head -n "$to_delete" | while read -r f; do rm -f "$f"; done
+    fi
+}
+
+# Run "$@" with a hard deadline. Returns 124 if it had to be killed.
+#
+# A hang is the worst failure mode here: `backup` pings healthchecks /start and
+# /fail itself, but a process wedged BEFORE or DURING that never pings at all,
+# so the night dies in silence until the 6h grace expires. Seen for real on
+# 2026-09-03, when a cron run sat on `ls /opt/unas/personal` for 70+ seconds.
+#
+# SIGTERM first, and only SIGKILL after a grace period: `backup` traps TERM,
+# turns it into exit 143, and its cleanup then pings /fail with the reason. Going
+# straight to SIGKILL would bypass that trap and throw away the alert.
+run_bounded() {
+    local secs="$1"; shift
+    # Own process group, so the signals below reach restic and not just the
+    # wrapper shell. bash defers a TERM trap until its current foreground
+    # command finishes, so TERMing only `backup` would leave restic running and
+    # the trap unfired; the later KILL would then orphan restic mid-write with
+    # the repo lock still held.
+    set -m
+    "$@" &
+    local pid=$!
+    set +m
+    local waited=0 ticks=$((secs * 2))
+    while kill -0 "$pid" 2>/dev/null; do
+        if [[ $waited -ge $ticks ]]; then
+            echo "!!! TIMEOUT: $1 exceeded ${secs}s, sending TERM"
+            kill -TERM "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null
+            sleep 20
+            if kill -0 "$pid" 2>/dev/null; then
+                echo "!!! still alive after TERM, sending KILL"
+                kill -9 "-$pid" 2>/dev/null || kill -9 "$pid" 2>/dev/null
+            fi
+            return 124
+        fi
+        sleep 0.5
+        waited=$((waited + 1))
+    done
+    wait "$pid" 2>/dev/null
+}
+
+# unas-heal bounds each of its own operations, so this is only a backstop.
+# Sized for the worst realistic case: both mounts taking the slow remount
+# path (forced unmount plus a 90s re-probe window each). Too tight a bound
+# here just recreates the bug the retry window fixes.
+HEAL_TIMEOUT="${BACKUP_HEAL_TIMEOUT:-420}"
+
+# Bound for the single-mount gate below. Half of HEAL_TIMEOUT because it probes
+# one path rather than two.
+MOUNT_GATE_TIMEOUT="${BACKUP_MOUNT_GATE_TIMEOUT:-240}"
+
+# Generous on purpose. A nightly incremental is well under a minute, but the
+# initial offsite seed of this machine took 1h32m, and killing a legitimate
+# long run would be worse than the hang this guards against.
+BACKUP_TIMEOUT="${BACKUP_RUN_TIMEOUT:-14400}"
+
+prune
+
+LOG_FILE="$LOG_DIR/cron-backup-$(date +%Y-%m-%d-%H%M%S).log"
+
+{
+    echo "=== backup-cron starting $(date "+%Y-%m-%d %H:%M:%S %Z") on $(hostname) ==="
+
+    # cron runs with PATH=/usr/bin:/bin, and restic lives in /opt/homebrew/bin.
+    # Interactively that path comes from .zshenv (`brew shellenv`), NOT from
+    # .zshenv.local, so the old cron line sourced the wrong half and preflight
+    # failed with "restic command not found" on every single run. A hand run
+    # over ssh gets the full PATH from .zshenv and cannot see this, which is why
+    # the only snapshots this machine ever produced were manual ones. Do not
+    # source .zshenv itself here: it is zsh, and bash cannot be trusted to parse
+    # it. `brew shellenv` emits plain POSIX exports and is safe.
+    if [[ -x /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+    # /sbin and /usr/sbin matter as much as the homebrew path: mount, umount and
+    # automount live there, and cron's default PATH has neither. Without them
+    # unas-heal's repair path dies with "mount: command not found" and can only
+    # ever report failure, which is exactly what the 2026-09-03 10:57 run did.
+    export PATH="$HOME/.local/bin:/usr/local/bin:$PATH:/sbin:/usr/sbin"
+
+    # shellcheck disable=SC1090
+    source "$HOME/.zshenv.local" 2>/dev/null || echo "WARNING: could not source ~/.zshenv.local"
+
+    echo "PATH=$PATH"
+    command -v restic >/dev/null || echo "WARNING: restic still not on PATH"
+
+    # Repair a stale UNAS automount before the backup guard trips over it. This
+    # call covers BOTH shares and its status is deliberately NOT fatal: shared
+    # being dead has no bearing on whether the backup can run, and treating it
+    # as fatal would skip a perfectly good backup.
+    run_bounded "$HEAL_TIMEOUT" "$HOME/.local/bin/unas-heal"
+    echo "unas-heal (both mounts) exit=$?"
+
+    # Now gate on the one mount the backup actually needs. This second call is
+    # idempotent and costs well under a second when healthy.
+    #
+    # The point is to avoid handing a dead mount to `backup`. Its preflight
+    # probes the path with unbounded `ls` and `df`, which do not fail on a wedged
+    # SMB session, they BLOCK: on 2026-09-03 a run sat in preflight for nearly
+    # two hours. Because that hang happens after the /start ping but before any
+    # result, healthchecks sees silence rather than a failure, so the night is
+    # lost and the alert only arrives when the 6h grace expires. Refusing here
+    # instead turns that into an immediate, explanatory /fail.
+    if [[ -n "${BACKUP_REQUIRE_MOUNT:-}" ]] &&
+       ! run_bounded "$MOUNT_GATE_TIMEOUT" "$HOME/.local/bin/unas-heal" "$BACKUP_REQUIRE_MOUNT"; then
+        echo "!!! $BACKUP_REQUIRE_MOUNT is unusable and could not be repaired; skipping backup"
+        if [[ -n "${BACKUP_HEALTHCHECK_URL:-}" ]]; then
+            printf "%s" "backup skipped on $(hostname): required mount $BACKUP_REQUIRE_MOUNT is dead and unas-heal could not repair it. Not starting restic, which would block in preflight rather than fail." |
+                curl -fsS -m 10 --retry 3 --data-binary @- \
+                    "${BACKUP_HEALTHCHECK_URL}/fail" >/dev/null 2>&1 || true
+            echo "pinged healthchecks /fail"
+        fi
+        echo "=== backup-cron aborted at $(date "+%Y-%m-%d %H:%M:%S %Z") ==="
+        exit 1
+    fi
+
+    run_bounded "$BACKUP_TIMEOUT" "$HOME/.local/bin/backup"
+    rc=$?
+    echo "=== backup exit=$rc at $(date "+%Y-%m-%d %H:%M:%S %Z") ==="
+    exit "$rc"
+} >"$LOG_FILE" 2>&1

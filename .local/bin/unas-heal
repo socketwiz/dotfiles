@@ -39,8 +39,94 @@ fi
 
 log() { printf '[%s] unas-heal: %s\n' "$(date '+%H:%M:%S')" "$*"; }
 
-# Usable means we can actually read it, not merely that it appears in `mount`.
-usable() { ls "$MP" >/dev/null 2>&1; }
+# Run "$@" with a hard deadline in seconds. Returns 124 on timeout, the way
+# timeout(1) does. macOS ships no timeout(1) and coreutils is not installed
+# here, so this is done by hand.
+#
+# This exists because probing a dead SMB mount does not always fail: on
+# 2026-09-03 a real cron run sat on `ls /opt/unas/personal` for over 70 seconds
+# and had to be killed. A hang is worse than an error, because `backup` never
+# runs, so it never pings healthchecks and the night is lost in silence until
+# the 6h grace expires, rather than alerting in five seconds.
+#
+# Deliberately polls with `kill -0` rather than using `wait`, and does NOT wait
+# for the process to be reaped after SIGKILL. A task stuck in an
+# uninterruptible kernel wait on an unresponsive share cannot be reaped, and
+# `wait` would then block forever, reintroducing the very problem this is here
+# to prevent. The cost is a possibly leaked process, which is the right trade.
+with_timeout() {
+    local secs="$1"; shift
+    # Deliberately NO `set -m` here. A new process group would escape a group
+    # kill aimed at this script by a caller (backup-cron's run_bounded), which
+    # is how a hung `ls /opt/unas/shared` outlived its parent by 1h48m on
+    # 2026-09-03. Staying in the caller's group means one kill up there reaps
+    # this whole tree. Descendants are reaped explicitly below instead.
+    "$@" &
+    local pid=$!
+    # Poll in 200ms ticks, not 1s: a healthy probe answers almost immediately
+    # and this runs four times per invocation, so second-granularity polling
+    # added ~4s of dead time to the common case.
+    local waited=0 ticks=$((secs * 5))
+    while kill -0 "$pid" 2>/dev/null; do
+        if [[ $waited -ge $ticks ]]; then
+            # Children first: the thing actually wedged on a dead share is the
+            # `ls`, not the subshell that forked it. Killing the parent first
+            # re-parents the child to init and pkill -P would then find nothing.
+            pkill -9 -P "$pid" 2>/dev/null
+            kill -9 "$pid" 2>/dev/null
+            return 124
+        fi
+        sleep 0.2
+        waited=$((waited + 1))
+    done
+    wait "$pid" 2>/dev/null
+}
+
+# Poll `usable` until it succeeds or the window expires. Used only on the slow
+# path, after a forced unmount, where the mount legitimately needs time to come
+# back. The healthy path still answers on the first probe and never waits.
+wait_usable() {
+    local deadline=$((SECONDS + UNAS_REMOUNT_WAIT))
+    while :; do
+        usable && return 0
+        [[ $SECONDS -ge $deadline ]] && return 1
+        sleep 3
+    done
+}
+
+# How long to keep re-probing after a repair before calling the mount dead.
+UNAS_REMOUNT_WAIT="${UNAS_REMOUNT_WAIT:-90}"
+
+# Seconds allowed for any single mount probe or repair command. A healthy probe
+# answers instantly; anything near this bound is already a dead mount.
+UNAS_OP_TIMEOUT="${UNAS_OP_TIMEOUT:-20}"
+
+# Usable means the backup would accept this mount, not merely that the path
+# lists or that it appears in `mount`.
+#
+# This MUST mirror is_mountpoint() in ~/.local/bin/backup, because that guard is
+# what decides whether the backup runs at all. macOS has no mountpoint(1), so it
+# falls back to comparing the device behind the path with the device behind its
+# parent, using `df -P`. On a stale SMB session `df` returns "Permission denied"
+# and yields no device, while a bare `ls` on the mountpoint can still succeed.
+# Probing with `ls` alone therefore reported healthy, this script no-opped, and
+# the backup died in preflight five seconds later. That is precisely what
+# happened on 2026-09-02 and 2026-09-03: two nights with no snapshot and no log.
+# A timeout counts as "not usable", which is what we want: a probe that hangs
+# means the mount needs repair, so fall through to recovery.
+usable() { with_timeout "$UNAS_OP_TIMEOUT" _probe_mount; }
+
+_probe_mount() {
+    # Touch the path first so autofs gets a chance to mount on demand; on an
+    # idle-but-clean automount that alone is enough. Callers probe twice for
+    # this reason, since the mount may not have settled by the time `df` runs.
+    ls "$MP" >/dev/null 2>&1
+
+    local dev parent_dev
+    dev=$(df -P "$MP" 2>/dev/null | awk 'NR==2 {print $1}')
+    parent_dev=$(df -P "$MP/.." 2>/dev/null | awk 'NR==2 {print $1}')
+    [[ -n "$dev" && "$dev" != "$parent_dev" ]]
+}
 
 # The direct-map line in /etc/auto_master is what makes autofs consult
 # /etc/auto_unas at all. Without it nothing mounts and the map file looks
@@ -76,17 +162,24 @@ for MP in "${MOUNTS[@]}"; do
 
     if mount | grep -q "on $MP (smbfs"; then
         log "stale smbfs session present, forcing unmount"
-        sudo -n umount -f "$MP" >/dev/null 2>&1 || log "umount -f reported an error, continuing"
+        with_timeout "$UNAS_OP_TIMEOUT" sudo -n umount -f "$MP" >/dev/null 2>&1 ||
+            log "umount -f failed or timed out, continuing"
     fi
 
     # Re-trigger. `automount -vc` flushes the map cache; it is not sufficient
     # on its own (it leaves the dead session attached) but it is useful after
     # the session has actually been dropped.
-    sudo -n automount -vc >/dev/null 2>&1 || true
+    with_timeout "$UNAS_OP_TIMEOUT" sudo -n automount -vc >/dev/null 2>&1 || true
     sleep 2
-    usable
 
-    if usable; then
+    # Re-probe on a retry window rather than once.
+    #
+    # Re-establishing an SMB session after a forced unmount takes appreciably
+    # longer than probing an already-live one, and a single probe judged it too
+    # early: on 2026-09-03 the 13:00 cron run gave the remount about 22 seconds,
+    # declared FAILED, and aborted the night, yet the very same mount answered
+    # normally minutes later. Re-mounting is the slow path, so wait like it.
+    if wait_usable; then
         log "recovered, $MP is readable again"
     else
         log "FAILED to recover $MP"
