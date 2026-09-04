@@ -148,19 +148,39 @@ _probe_mount() {
     #
     # A half-dead SMB session answers `ls` and `df` from cached metadata while
     # every actual read or write blocks forever. On 2026-09-03 this script
-    # declared a mount "recovered" on the strength of ls and df, handed it to
-    # restic, and restic sat there for 36 minutes at 0% CPU having written a
-    # zero-byte log. Nothing above this line would have caught that.
+    # declared such a mount "recovered", handed it to restic, and restic sat for
+    # 36 minutes at 0% CPU having written a zero-byte log.
     #
-    # Write, read back, and delete: the backup needs to write, so test writing.
-    # If any step blocks, with_timeout kills the probe and the caller treats the
-    # timeout as unusable, which is the correct verdict.
-    local probe="$MP/.unas-heal-probe.$$"
-    printf 'probe\n' > "$probe" 2>/dev/null || return 1
-    local got
-    got=$(cat "$probe" 2>/dev/null)
-    rm -f "$probe" 2>/dev/null
-    [[ "$got" == "probe" ]]
+    # READ, do not write. An earlier version wrote a probe file here, which was
+    # wrong twice over: /opt/unas/shared is legitimately read-only for this user,
+    # so the write failed every time and condemned a perfectly healthy share on
+    # every run; and a write at a share root can return EPERM for reasons that
+    # say nothing about liveness.
+    #
+    # What matters is whether the server ANSWERS, not whether this particular
+    # path is writable. A fast error is a definitive answer from a live server;
+    # only silence means dead, and silence is what the caller's timeout catches.
+    # So force a real data transfer and treat completion, not success, as proof
+    # of life. Writability is the backup's problem, and restic reports it
+    # properly instead of being hung by it.
+    # maxdepth 4, not 2: under /opt/unas/personal the first two levels are all
+    # directories (restic/, restic/mac-studio/) and the shallowest regular file
+    # is restic/mac-studio/config at depth 3. At maxdepth 2 the find returned
+    # nothing, the read was skipped, and this "real I/O" probe silently degraded
+    # back into the metadata-only check it was written to replace. Verified from
+    # cron on 2026-09-04: the find printed no file at all.
+    local f
+    f=$(find "$MP" -maxdepth 4 -type f -print -quit 2>/dev/null)
+    if [[ -n "$f" ]]; then
+        head -c 1 "$f" >/dev/null 2>&1
+    else
+        # No readable file anywhere shallow: force a round trip some other way,
+        # ignoring whether it is permitted. We need the server to answer, not to
+        # agree. A wedged session blocks here and the caller's timeout catches it.
+        : > "$MP/.unas-heal-probe.$$" 2>/dev/null
+        rm -f "$MP/.unas-heal-probe.$$" 2>/dev/null
+    fi
+    return 0
 }
 
 # The direct-map line in /etc/auto_master is what makes autofs consult
