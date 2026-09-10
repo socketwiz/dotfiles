@@ -1,0 +1,79 @@
+#!/home/zolmok/.local/share/notification-logger-venv/bin/python3
+"""Logs desktop notifications (summary + body) to a JSONL file via D-Bus."""
+import asyncio
+import json
+import os
+from datetime import datetime
+
+from dbus_next import BusType, Message, MessageType
+from dbus_next.aio import MessageBus
+
+LOG_DIR = os.path.join(
+    os.environ.get("XDG_DATA_HOME", os.path.expanduser("~/.local/share")),
+    "notification-history",
+)
+LOG_FILE = os.path.join(LOG_DIR, "notifications.jsonl")
+MAX_BYTES = 10 * 1024 * 1024
+
+os.makedirs(LOG_DIR, exist_ok=True)
+
+
+def rotate_if_needed():
+    try:
+        if os.path.getsize(LOG_FILE) > MAX_BYTES:
+            os.rename(LOG_FILE, LOG_FILE + ".1")
+    except FileNotFoundError:
+        pass
+
+
+def log_notification(app, summary, body):
+    rotate_if_needed()
+    entry = {
+        "timestamp": datetime.now().astimezone().isoformat(),
+        "app": app,
+        "summary": summary,
+        "body": body,
+    }
+    with open(LOG_FILE, "a") as f:
+        f.write(json.dumps(entry) + "\n")
+        f.flush()
+
+
+async def main():
+    bus = await MessageBus(bus_type=BusType.SESSION).connect()
+
+    def message_handler(msg):
+        if (
+            msg.message_type == MessageType.METHOD_CALL
+            and msg.member == "Notify"
+            and msg.interface == "org.freedesktop.Notifications"
+        ):
+            args = msg.body
+            app = args[0] if len(args) > 0 else ""
+            summary = args[3] if len(args) > 3 else ""
+            body = args[4] if len(args) > 4 else ""
+            if summary or body:
+                log_notification(app, summary, body)
+
+    bus.add_message_handler(message_handler)
+
+    await bus.call(
+        Message(
+            destination="org.freedesktop.DBus",
+            path="/org/freedesktop/DBus",
+            interface="org.freedesktop.DBus.Monitoring",
+            member="BecomeMonitor",
+            signature="asu",
+            body=[
+                [
+                    "type='method_call',interface='org.freedesktop.Notifications',member='Notify'"
+                ],
+                0,
+            ],
+        )
+    )
+
+    await asyncio.Event().wait()
+
+
+asyncio.run(main())

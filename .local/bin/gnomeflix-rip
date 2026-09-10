@@ -1,0 +1,31 @@
+#!/bin/bash
+# Rip a DVD, process it, and upload to minipc
+set -euo pipefail
+
+API_URL="${GNOMEFLIX_API_URL:-http://10.0.10.5:3000}"
+
+echo "=== Ripping DVD ==="
+gnomeflix-cli rip --nvenc --all
+
+# Find all .mp4 files created by the rip
+shopt -s nullglob
+MP4_FILES=(*.mp4)
+shopt -u nullglob
+
+if [ ${#MP4_FILES[@]} -eq 0 ]; then
+    echo "No .mp4 file found after rip"
+    exit 1
+fi
+
+echo "=== Found ${#MP4_FILES[@]} file(s) to process ==="
+
+for MP4 in "${MP4_FILES[@]}"; do
+    echo "=== Processing and uploading: $MP4 ==="
+    gnomeflix-cli process "$MP4" --whisper-model large --upload "$API_URL"
+
+    echo "=== Cleaning up: $MP4 ==="
+    rm -f "$MP4"
+    rm -f *.tar.gz
+done
+
+echo "=== Done ==="

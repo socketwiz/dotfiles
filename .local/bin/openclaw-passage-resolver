@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# OpenClaw exec secret provider that resolves secrets via passage.
+# Protocol: reads JSON request from stdin, returns JSON response on stdout.
+set -euo pipefail
+
+request="$(cat)"
+ids=$(printf '%s' "$request" | jq -r '.ids[]')
+
+values="{"
+first=true
+for id in $ids; do
+  val=$(passage show "$id" 2>/dev/null) || { echo '{"error":"passage: secret not found: '"$id"'"}' >&2; exit 1; }
+  if [ "$first" = true ]; then first=false; else values+=","; fi
+  values+="$(jq -n --arg k "$id" --arg v "$val" '{($k): $v}' | sed '1d;$d')"
+done
+values+="}"
+
+jq -n --argjson vals "$values" '{"protocolVersion":1,"values":$vals}'
