@@ -5,7 +5,7 @@
     "sessionUrl": false
   },
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "bypassPermissions"
   },
   "hooks": {
     "PreToolUse": [
@@ -39,5 +39,6 @@
     "stripe@claude-plugins-official": true
   },
   "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
   "theme": "dark-ansi"
 }
