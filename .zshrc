@@ -107,7 +107,6 @@ memo() {
 function claude() {
   if [[ -n "$CLAUDE_PROFILE" && -d "$HOME/.claude/profiles/$CLAUDE_PROFILE" ]]; then
     local profile_dir="$HOME/.claude/profiles/$CLAUDE_PROFILE"
-    /usr/bin/cp "$profile_dir/claude.json" "$HOME/.claude.json"
     CLAUDE_CONFIG_DIR="$profile_dir" command claude "$@"
   else
     command claude "$@"
