@@ -107,7 +107,12 @@ memo() {
 function claude() {
   if [[ -n "$CLAUDE_PROFILE" && -d "$HOME/.claude/profiles/$CLAUDE_PROFILE" ]]; then
     local profile_dir="$HOME/.claude/profiles/$CLAUDE_PROFILE"
-    CLAUDE_CONFIG_DIR="$profile_dir" command claude "$@"
+    # settings.json is shared by every profile (symlink), so settings that
+    # belong to one profile only, like autoMode, live in settings.profile.json
+    local -a profile_settings
+    [[ -f "$profile_dir/settings.profile.json" ]] &&
+      profile_settings=(--settings "$profile_dir/settings.profile.json")
+    CLAUDE_CONFIG_DIR="$profile_dir" command claude "${profile_settings[@]}" "$@"
   else
     command claude "$@"
   fi
