@@ -104,6 +104,16 @@
 .local/bin/pynvim-python
 .local/bin/uv
 .local/bin/uvx
+# Installer-generated entry points (pip --user, pipx) and binaries
+.local/bin/http
+.local/bin/httpie
+.local/bin/https
+.local/bin/normalizer
+.local/bin/pgadmin4
+.local/bin/pgadmin4-cli
+.local/bin/pygmentize
+.local/bin/rust-analyzer
+.local/bin/whisper
 .zshrc.local
 
 # Allow .claude folder
