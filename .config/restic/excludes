@@ -79,5 +79,17 @@ __pycache__
 # reads a COPY at /root/.config/restic/excludes.
 /var/lib/gnomeflix/hls-assets
 
+# --- Claude Code agent worktrees, at any depth ---
+#
+# A relative pattern containing a slash also matches at any depth, so this
+# catches <repo>/.claude/worktrees under every checkout. Each worktree is a
+# full throwaway checkout of its repo, plus build output (dist/, build/) the
+# rules above don't catch. In Sep 2026 eight of them in Hedy were 79 GB and
+# added 45 GiB of new data across two nightly snapshots.
+#
+# Commits made in a worktree live in the parent repo's .git, which IS backed
+# up, so only uncommitted edits inside a worktree are left out.
+.claude/worktrees
+
 # --- misc ---
 .Trash-1000
