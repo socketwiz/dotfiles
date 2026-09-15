@@ -12,7 +12,6 @@ export DENO_INSTALL="${HOME}/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 ### Platform-specific environment
 if [ "$(uname)" = "Darwin" ]; then
