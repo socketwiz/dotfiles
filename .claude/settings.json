@@ -51,6 +51,14 @@
     "pr-review-toolkit@claude-plugins-official": true,
     "stripe@claude-plugins-official": true
   },
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "high"
+    },
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    }
+  },
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-ansi",
