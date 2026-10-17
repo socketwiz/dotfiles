@@ -117,6 +117,7 @@ function claude() {
     command claude "$@"
   fi
 }
+alias claude='claude --allow-dangerously-skip-permissions'
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
