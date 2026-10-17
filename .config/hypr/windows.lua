@@ -11,9 +11,9 @@ o.window("org.omarchy.btop", { center = true })
 o.window("org.omarchy.btop", { size = { 1800, 1200 } })
 
 -- Enshrouded: allow tearing, keep rendering while unfocused, never idle out.
-o.window("steam_app_2079670", { immediate = true })
-o.window("steam_app_2079670", { render_unfocused = true })
-o.window("steam_app_2079670", { idle_inhibit = "always" })
+o.window("steam_app_1203620", { immediate = true })
+o.window("steam_app_1203620", { render_unfocused = true })
+o.window("steam_app_1203620", { idle_inhibit = "always" })
 
 -- WoW Classic under Lutris/Wine: fullscreen windowed with no Waybar gap.
 o.window({ class = "steam_app_default", title = "World of Warcraft" }, { fullscreen = true })
