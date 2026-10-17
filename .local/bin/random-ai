@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-exec tm new . random_ai
+# Scratch tmux session rooted at ~ that starts claude. claude is typed
+# into the shell (not run as the pane command) so the .zshrc claude()
+# profile wrapper applies, and the pane stays open after claude exits.
+if ! tmux has-session -t=random_ai 2>/dev/null; then
+  tmux new-session -d -s random_ai -c "$HOME"
+  tmux send-keys -t=random_ai: claude Enter
+fi
+exec tm new "$HOME" random_ai
