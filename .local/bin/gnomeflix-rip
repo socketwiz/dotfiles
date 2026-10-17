@@ -2,7 +2,7 @@
 # Rip a DVD, process it, and upload to minipc
 set -euo pipefail
 
-API_URL="${GNOMEFLIX_API_URL:-http://10.0.10.5:3000}"
+API_URL="${GNOMEFLIX_API_URL:-http://minipc:3000}"
 
 echo "=== Ripping DVD ==="
 gnomeflix-cli rip --nvenc --all
