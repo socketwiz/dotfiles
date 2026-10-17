@@ -20,6 +20,17 @@
             "statusMessage": "Checking for em/en dashes"
           }
         ]
+      },
+      {
+        "matcher": "Bash|WebFetch|WebSearch|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=~/.claude/hooks/guard.py; [ -f \"$f\" ] || exit 0; exec python3 -I \"$f\"",
+            "timeout": 15,
+            "statusMessage": "Guard: checking command"
+          }
+        ]
       }
     ],
     "SessionStart": [

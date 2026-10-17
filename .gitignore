@@ -124,7 +124,9 @@
 !/.claude/settings.json
 !/.claude/statusline.sh
 !/.claude/hooks/
+.claude/hooks/*
 !/.claude/hooks/*.sh
+!/.claude/hooks/*.py
 
 # Allow only listed .emacs.d content
 !/.emacs.d/
