@@ -1,0 +1,22 @@
+#!/bin/bash
+OBS_WEBSOCKET_PASSWORD=$(passage show obs-websocket-password 2>/dev/null | head -1)
+if [ -z "$OBS_WEBSOCKET_PASSWORD" ]; then
+    notify-send "OBS Toggle Failed" "Could not read obs-websocket-password from passage" -u critical
+    exit 1
+fi
+OBS_WEBSOCKET_URL="obsws://localhost:4455/$OBS_WEBSOCKET_PASSWORD"
+
+if ! pgrep -x obs > /dev/null; then
+    notify-send "OBS Not Running" "Start OBS Studio first" -u normal -t 3000
+    exit 1
+fi
+
+export OBS_WEBSOCKET_URL
+obs-cmd recording toggle 2>&1
+
+STATUS=$(obs-cmd recording status 2>&1)
+if echo "$STATUS" | grep -qi "recording"; then
+    notify-send "Recording Started" "Saving to ~/Videos" -t 2000
+else
+    notify-send "Recording Stopped" "Video saved to ~/Videos" -t 2000
+fi
