@@ -115,8 +115,17 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
 }
 
+# Every error is also kept for the failure ping. The ping body otherwise only
+# carries the tail of the last restic log, which after a failure early in the
+# run (e.g. a stale lock blocking the local prune) is a successful offsite leg
+# and hides the actual cause.
+RUN_ERRORS=()
+
 log_error() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2
+    local line
+    line="[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $*"
+    echo "$line" >&2
+    RUN_ERRORS+=("$line")
 }
 
 # Whether $1 is a mountpoint, portably.
@@ -174,8 +183,13 @@ cleanup() {
         log "Backup completed successfully"
         healthcheck
     else
-        log_error "Backup failed with exit code $exit_code"
         local body="backup failed on $(hostname 2>/dev/null || cat /etc/hostname) with exit code $exit_code"
+        # Length check rather than expanding: an empty array is "unbound"
+        # under set -u in bash < 4.4.
+        if [[ ${#RUN_ERRORS[@]} -gt 0 ]]; then
+            body+=$'\n\n'"$(printf '%s\n' "${RUN_ERRORS[@]}")"
+        fi
+        log_error "Backup failed with exit code $exit_code"
         if [[ -n "$CURRENT_LOG_FILE" && -f "$CURRENT_LOG_FILE" ]]; then
             body+=$'\n\n'"$(tail -30 "$CURRENT_LOG_FILE" 2>/dev/null)"
         fi
