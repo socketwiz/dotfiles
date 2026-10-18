@@ -15,7 +15,7 @@ export OBS_WEBSOCKET_URL
 obs-cmd recording toggle 2>&1
 
 STATUS=$(obs-cmd recording status 2>&1)
-if echo "$STATUS" | grep -qi "recording"; then
+if echo "$STATUS" | grep -q "Active: true"; then
     notify-send "Recording Started" "Saving to ~/Videos" -t 2000
 else
     notify-send "Recording Stopped" "Video saved to ~/Videos" -t 2000
