@@ -1,0 +1,330 @@
+#!/usr/bin/python3
+"""Rip the audio CD in the drive to tagged FLAC, named from MusicBrainz.
+
+Each disc lands in <dest>/<artist>_<album>/ as NN-title.flac (D-NN-title.flac
+on multi-disc releases), lowercase and hyphenated, with cover.jpg when the
+Cover Art Archive has one. The drive ejects when the rip finishes.
+"""
+
+import argparse
+import base64
+import fcntl
+import hashlib
+import json
+import os
+import re
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+import unicodedata
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path
+from typing import NamedTuple
+
+# linux/cdrom.h
+CDROMREADTOCHDR = 0x5305
+CDROMREADTOCENTRY = 0x5306
+CDROM_LBA = 0x01
+CDROM_LEADOUT = 0xAA
+CDROM_DATA_TRACK = 0x04
+TOC_ENTRY = struct.Struct("BBBxiBxxx")  # struct cdrom_tocentry; the address union is 4-aligned
+
+PREGAP = 150  # MusicBrainz offsets include the 2-second lead-in
+SESSION_GAP = 11400  # sectors between an enhanced CD's audio and data sessions
+MAX_SLUG = 100  # keeps "NN-<slug>.flac" well under the 255-byte name limit
+HEADERS = {"User-Agent": "rip-cd/1.0 (personal CD archiving)", "Accept": "application/json"}
+
+
+class Toc(NamedTuple):
+    first: int
+    last: int
+    leadout: int  # sector offsets are MusicBrainz-style (+PREGAP)
+    offsets: list
+
+
+def read_toc(device):
+    """Read the audio tracks' table of contents via the kernel CD-ROM ioctls."""
+    fd = os.open(device, os.O_RDONLY | os.O_NONBLOCK)
+    try:
+        first, last = struct.unpack("BB", fcntl.ioctl(fd, CDROMREADTOCHDR, b"\0\0"))
+
+        def entry(track):
+            buf = fcntl.ioctl(fd, CDROMREADTOCENTRY, TOC_ENTRY.pack(track, 0, CDROM_LBA, 0, 0))
+            _, adr_ctrl, _, lba, _ = TOC_ENTRY.unpack(buf)
+            return lba, bool((adr_ctrl >> 4) & CDROM_DATA_TRACK)
+
+        tracks = [entry(t) for t in range(first, last + 1)]
+        leadout = entry(CDROM_LEADOUT)[0]
+    finally:
+        os.close(fd)
+    # Enhanced CDs end with a data session; MusicBrainz ends the disc before it.
+    if len(tracks) > 1 and tracks[-1][1]:
+        leadout = tracks.pop()[0] - SESSION_GAP
+        last -= 1
+    return Toc(first, last, leadout + PREGAP, [lba + PREGAP for lba, _ in tracks])
+
+
+def disc_id(toc):
+    """MusicBrainz disc ID: SHA-1 of the hex TOC, base64 with URL-safe swaps."""
+    slots = [0] * 100
+    slots[0] = toc.leadout
+    for i, offset in enumerate(toc.offsets):
+        slots[toc.first + i] = offset
+    text = f"{toc.first:02X}{toc.last:02X}" + "".join(f"{s:08X}" for s in slots)
+    digest = base64.b64encode(hashlib.sha1(text.encode("ascii")).digest()).decode("ascii")
+    return digest.translate(str.maketrans("+/=", "._-"))
+
+
+def slug(text):
+    """'Don't Stop (Live) & Más' -> 'dont-stop-live-and-mas'."""
+    text = re.sub(r"['‘’`]", "", text)  # "don't" -> "dont", not "don-t"
+    text = unicodedata.normalize("NFKD", text.lower().replace("&", " and "))
+    text = "".join(c for c in text if not unicodedata.combining(c))  # "á" -> "a"
+    # \w keeps letters of any script; everything else, Unicode hyphens included,
+    # is a word break. "_" is excluded because it separates artist from album.
+    text = re.sub(r"[\W_]+", "-", text)
+    return text[:MAX_SLUG].strip("-") or "unknown"
+
+
+def credit(artist_credit):
+    return "".join(c.get("name", "") + c.get("joinphrase", "") for c in artist_credit or [])
+
+
+def fetch_json(url, attempts=4):
+    """GET JSON, retrying the 503s MusicBrainz sends when it's rate limiting."""
+    request = urllib.request.Request(url, headers=HEADERS)
+    for attempt in range(attempts):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code != 503 or attempt == attempts - 1:
+                raise
+            time.sleep(2**attempt)
+
+
+def lookup(did, toc):
+    """MusicBrainz releases for the disc: exact disc-ID matches, else fuzzy TOC matches."""
+    query = urllib.parse.urlencode({
+        "toc": " ".join(map(str, [toc.first, toc.last, toc.leadout, *toc.offsets])),
+        "inc": "artist-credits recordings",
+        "fmt": "json",
+    })
+    try:
+        data = fetch_json(f"https://musicbrainz.org/ws/2/discid/{did}?{query}")
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return []
+        raise
+    if "releases" in data:
+        return data["releases"]
+    if "tracks" in data:  # an unverified CD stub rather than a full release
+        return [stub_as_release(data, did)]
+    return []
+
+
+def stub_as_release(stub, did):
+    tracks = [
+        {"title": t.get("title"), "artist-credit": [{"name": t["artist"]}] if t.get("artist") else None}
+        for t in stub["tracks"]
+    ]
+    return {
+        "id": None,
+        "title": stub.get("title"),
+        "artist-credit": [{"name": stub.get("artist", "")}],
+        "media": [{"position": 1, "discs": [{"id": did}], "tracks": tracks}],
+    }
+
+
+def album_from_release(release, did, track_count):
+    """Album info for the release's medium matching this disc, or None if none fits."""
+    media = release.get("media") or []
+    medium = next((m for m in media if any(d.get("id") == did for d in m.get("discs") or [])), None)
+    exact = medium is not None
+    if medium is None:
+        medium = next((m for m in media if len(m.get("tracks") or []) == track_count), None)
+    if medium is None or len(medium.get("tracks") or []) != track_count:
+        return None
+    artist = credit(release.get("artist-credit")) or "Unknown Artist"
+    return {
+        "mbid": release.get("id"),
+        "artist": artist,
+        "album": release.get("title") or "Unknown Album",
+        "date": release.get("date") or "",
+        "country": release.get("country") or "",
+        "disc": medium.get("position") or 1,
+        "discs": len(media),
+        "exact": exact,
+        "tracks": [
+            {
+                "title": t.get("title") or f"Track {n}",
+                "artist": credit(t.get("artist-credit")) or artist,
+                "recording": (t.get("recording") or {}).get("id"),
+            }
+            for n, t in enumerate(medium["tracks"], 1)
+        ],
+    }
+
+
+def candidates(releases, did, track_count):
+    """Albums that fit the disc, exact disc-ID matches first."""
+    albums = [a for a in (album_from_release(r, did, track_count) for r in releases) if a]
+    return sorted(albums, key=lambda a: not a["exact"])
+
+
+def blank_album(track_count, artist, album):
+    return {
+        "mbid": None, "artist": artist, "album": album, "date": "", "country": "",
+        "disc": 1, "discs": 1, "exact": False,
+        "tracks": [{"title": f"Track {n}", "artist": artist, "recording": None}
+                   for n in range(1, track_count + 1)],
+    }
+
+
+def album_dir(album, dest):
+    return dest / f"{slug(album['artist'])}_{slug(album['album'])}"
+
+
+def track_files(album):
+    """[(track number, file name, tags)] for every track on the disc."""
+    prefix = f"{album['disc']}-" if album["discs"] > 1 else ""
+    total = len(album["tracks"])
+    plan = []
+    for n, t in enumerate(album["tracks"], 1):
+        tags = {
+            "TITLE": t["title"],
+            "ARTIST": t["artist"],
+            "ALBUM": album["album"],
+            "ALBUMARTIST": album["artist"],
+            "TRACKNUMBER": str(n),
+            "TRACKTOTAL": str(total),
+            "DISCNUMBER": str(album["disc"]),
+            "DISCTOTAL": str(album["discs"]),
+            "DATE": album["date"],
+            "MUSICBRAINZ_ALBUMID": album["mbid"],
+            "MUSICBRAINZ_TRACKID": t["recording"],
+        }
+        plan.append((n, f"{prefix}{n:02d}-{slug(t['title'])}.flac", {k: v for k, v in tags.items() if v}))
+    return plan
+
+
+def fetch_cover(mbid, into):
+    if not mbid:
+        return None
+    url = f"https://coverartarchive.org/release/{mbid}/front-500"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=30) as r:
+            if r.headers.get_content_type() != "image/jpeg":
+                return None
+            path = into / "cover.jpg"
+            path.write_bytes(r.read())
+            return path
+    except (urllib.error.URLError, TimeoutError):
+        return None
+
+
+def rip(album, toc, device, dest):
+    final = album_dir(album, dest)
+    plan = track_files(album)
+    clashes = [name for _, name, _ in plan if (final / name).exists()]
+    if clashes:
+        sys.exit(f"rip-cd: {final} already has {', '.join(clashes)}; not overwriting")
+    # Stage on the same filesystem so finished files move in by rename, and an
+    # aborted rip never leaves a half-filled album directory behind.
+    staging = Path(tempfile.mkdtemp(prefix=f".{final.name}.", dir=dest))
+    encoders = []
+    try:
+        cover = fetch_cover(album["mbid"], staging)
+        for n, name, tags in plan:
+            print(f"  ripping {n:2d}/{len(plan)}  {tags['TITLE']}", flush=True)
+            wav = staging / f"{n:02d}.wav"
+            # -X: fail on unreadable sectors rather than silently skipping them.
+            cmd = ["cdparanoia", "-q", "-X", "-d", device, str(toc.first + n - 1), str(wav)]
+            if subprocess.run(cmd).returncode != 0:
+                sys.exit(f"rip-cd: couldn't read track {n} cleanly; clean the disc and retry")
+            # Encode in the background while the drive reads the next track.
+            cmd = ["flac", "-s", "-8", "--delete-input-file", "-o", str(staging / name)]
+            cmd += [f"--tag={k}={v}" for k, v in tags.items()]
+            if cover:
+                cmd.append(f"--picture=3||||{cover}")
+            encoders.append((name, subprocess.Popen(cmd + [str(wav)])))
+        failed = [name for name, proc in encoders if proc.wait() != 0]
+        if failed:
+            sys.exit(f"rip-cd: flac failed on {', '.join(failed)}")
+        final.mkdir(exist_ok=True)
+        for _, name, _ in plan:
+            (staging / name).rename(final / name)
+        if cover and not (final / "cover.jpg").exists():
+            cover.rename(final / "cover.jpg")
+    finally:
+        for _, proc in encoders:
+            if proc.poll() is None:
+                proc.kill()
+                proc.wait()
+        shutil.rmtree(staging, ignore_errors=True)
+    return final
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    p.add_argument("--device", default="/dev/sr0")
+    p.add_argument("--dest", type=Path, default=Path.home() / "Music")
+    p.add_argument("--release", metavar="MBID", help="MusicBrainz release to use when several match")
+    p.add_argument("--artist", help="album artist (required when MusicBrainz has no match)")
+    p.add_argument("--album", help="album title (required when MusicBrainz has no match)")
+    p.add_argument("-n", "--dry-run", action="store_true", help="show the lookup and plan without ripping")
+    p.add_argument("--no-eject", action="store_true")
+    args = p.parse_args()
+
+    try:
+        toc = read_toc(args.device)
+    except OSError as e:
+        sys.exit(f"rip-cd: can't read a disc in {args.device}: {e.strerror}")
+    did = disc_id(toc)
+    count = len(toc.offsets)
+    print(f"Disc {did}: {count} audio tracks")
+
+    try:
+        albums = candidates(lookup(did, toc), did, count)
+    except (urllib.error.URLError, TimeoutError) as e:
+        sys.exit(f"rip-cd: MusicBrainz lookup failed: {e}")
+    if args.release:
+        albums = [a for a in albums if a["mbid"] == args.release]
+        if not albums:
+            sys.exit(f"rip-cd: release {args.release} doesn't match this disc")
+
+    if albums:
+        album = albums[0]
+        for a in albums:
+            mark = "*" if a is album else " "
+            match = "disc ID" if a["exact"] else "track count"
+            print(f" {mark} {a['mbid']}  {a['artist']} - {a['album']} "
+                  f"({a['date'] or '?'} {a['country']}, {match} match)")
+        album["artist"] = args.artist or album["artist"]
+        album["album"] = args.album or album["album"]
+    elif args.artist and args.album:
+        album = blank_album(count, args.artist, args.album)
+    else:
+        toc_param = "+".join(map(str, [toc.first, toc.last, toc.leadout, *toc.offsets]))
+        sys.exit("rip-cd: MusicBrainz doesn't know this disc. Rerun with --artist and --album, "
+                 f"or add it at https://musicbrainz.org/cdtoc/attach?id={did}&tracks={count}&toc={toc_param}")
+
+    print(f"-> {album_dir(album, args.dest)}/")
+    if args.dry_run:
+        for _, name, _ in track_files(album):
+            print(f"     {name}")
+        return
+
+    final = rip(album, toc, args.device, args.dest)
+    print(f"Done: {final}")
+    if not args.no_eject and subprocess.run(["eject", args.device]).returncode != 0:
+        print("rip-cd: eject failed; remove the disc by hand", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

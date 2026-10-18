@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Re-read the CD in the drive and compare every track, bit for bit, with an
+# existing rip: each FLAC's STREAMINFO carries the MD5 of its decoded audio.
+#
+# usage: recheck-cd ~/Music/<artist>_<album>
+set -euo pipefail
+
+album=${1:?usage: recheck-cd ALBUM_DIR}
+album=${album%/}
+dev=${DEVICE:-/dev/sr0}
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+mapfile -t files < <(find "$album" -maxdepth 1 -name '*.flac' | sort)
+[ ${#files[@]} -gt 0 ] || { echo "recheck-cd: no FLACs in $album" >&2; exit 1; }
+
+# Refuse to compare against the wrong disc: audio track count must match.
+on_disc=$(cdparanoia -Q -d "$dev" 2>&1 | awk '/^ +[0-9]+\. /{c++} END{print c+0}')
+if [ "$on_disc" -ne ${#files[@]} ]; then
+    echo "recheck-cd: disc has $on_disc tracks, $album has ${#files[@]}; wrong disc?" >&2
+    exit 1
+fi
+
+bad=0
+for i in "${!files[@]}"; do
+    n=$((i + 1))
+    f=${files[$i]}
+    # -r writes raw little-endian 16-bit PCM, the same bytes FLAC's MD5 covers.
+    if ! cdparanoia -q -X -r -d "$dev" "$n" "$tmp/t.raw"; then
+        printf '%2d  READ ERROR  %s\n' "$n" "${f##*/}"
+        bad=$((bad + 1))
+        continue
+    fi
+    got=$(md5sum < "$tmp/t.raw" | cut -d' ' -f1)
+    want=$(metaflac --show-md5sum "$f")
+    if [ "$got" = "$want" ]; then
+        printf '%2d  identical   %s\n' "$n" "${f##*/}"
+    else
+        printf '%2d  DIFFERENT   %s\n' "$n" "${f##*/}"
+        bad=$((bad + 1))
+    fi
+    rm -f "$tmp/t.raw"
+done
+
+if [ "$bad" -eq 0 ]; then
+    echo "ALL ${#files[@]} TRACKS BIT-IDENTICAL: $album"
+else
+    echo "$bad of ${#files[@]} tracks differ or failed: $album"
+    exit 2
+fi

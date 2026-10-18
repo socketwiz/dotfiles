@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Turn upsmon events (logged by /usr/local/bin/ups-notify) into desktop
+# notifications. Each event replaces the previous one, so "Power restored"
+# clears a lingering "Running on battery" instead of stacking on top of it.
+set -u
+
+id=0
+journalctl -f -n0 -o cat SYSLOG_IDENTIFIER=ups-notify |
+  while IFS='|' read -r type msg; do
+    case $type in
+      ONBATT|LOWBATT|FSD|SHUTDOWN|SHUTDOWN_HOSTSYNC|COMMBAD|NOCOMM|NOPARENT|REPLBATT|ALARM|OVER|OFF|BYPASS)
+        urgency=critical ;;
+      *)
+        urgency=normal ;;
+    esac
+    id=$(notify-send -p -r "$id" -u "$urgency" -a UPS UPS "$msg") || id=0
+  done

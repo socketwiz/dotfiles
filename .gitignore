@@ -114,6 +114,8 @@
 .local/bin/pygmentize
 .local/bin/rust-analyzer
 .local/bin/whisper
+# Python bytecode cache, regenerated whenever a script here is imported
+.local/bin/__pycache__/
 .zshrc.local
 
 # Allow .claude folder

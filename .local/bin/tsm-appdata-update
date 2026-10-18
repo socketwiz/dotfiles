@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+"""Generate TradeSkillMaster_AppHelper/AppData.lua without the TSM desktop app.
+
+The TSM desktop app can't authenticate under Wine (see
+~/Documents/ai/wow-addons.md), so this builds the file the addon reads at
+login from two sources:
+
+* TSM's public CSVs (public-data.tradeskillmaster.com): market value,
+  recent, historical and region stats. These are only as fresh as TSM's
+  last publish, which for US Classic can lag by most of a day.
+* Your own full AH scans. TSM records any GetAll scan (including
+  Auctionator's) into TradeSkillMaster_AppHelper SavedVariables at logout
+  or /reload. When that scan is newer than TSM's CSV, it supplies
+  minBuyout and numAuctions for that faction.
+"""
+
+import base64
+import csv
+import email.utils
+import io
+import os
+import re
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.request
+import zlib
+from decimal import Decimal
+from pathlib import Path
+
+GAME = "classic"
+REGION = "US"
+REALM = "Thunderfury"
+FACTIONS = ("Horde", "Alliance")
+CLIENT_DIR = Path("/mnt/games/battlenet/drive_c/Program Files (x86)/World of Warcraft/_classic_era_")
+ADDON_DIR = CLIENT_DIR / "Interface/AddOns/TradeSkillMaster_AppHelper"
+
+BASE_URL = f"https://public-data.tradeskillmaster.com/{GAME}/{REGION.lower()}"
+CACHE_DIR = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "tsm-appdata"
+
+# (AuctionDB field, CSV column, multiplier). TSM divides regionSalePercent
+# and regionSoldPerDay by 1000 when reading them.
+REALM_FIELDS = (
+    ("minBuyout", "minBuyout", 1),
+    ("marketValue", "marketValue", 1),
+    ("marketValueRecent", "recent", 1),
+    ("historical", "historical", 1),
+)
+REGION_FIELDS = (
+    ("regionMarketValue", "marketValue", 1),
+    ("regionHistorical", "historical", 1),
+    ("regionSale", "avgSalePrice", 1),
+    ("regionSalePercent", "saleRate", 1000),
+    ("regionSoldPerDay", "soldPerDay", 1000),
+)
+SCAN_FIELDS = ("minBuyout", "numAuctions")
+
+B32 = "0123456789abcdefghijklmnopqrstuv"
+
+
+def fetch(path):
+    """Return (csv text, last-modified epoch), using a conditional GET cache."""
+    cache = CACHE_DIR / path.replace("/", "_")
+    # The CDN rejects the default Python-urllib user agent with 403.
+    request = urllib.request.Request(f"{BASE_URL}/{path}", headers={"User-Agent": "tsm-appdata-update/1.0"})
+    if cache.exists():
+        request.add_header("If-Modified-Since", email.utils.formatdate(cache.stat().st_mtime, usegmt=True))
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            body = response.read()
+            modified = email.utils.parsedate_to_datetime(response.headers["Last-Modified"]).timestamp()
+    except urllib.error.HTTPError as err:
+        if err.code != 304:
+            if not cache.exists():
+                raise
+            print(f"{path}: HTTP {err.code}, using cached copy", file=sys.stderr)
+    except urllib.error.URLError as err:
+        # Offline: reuse the cache. downloadTime still reports its true age.
+        if not cache.exists():
+            raise
+        print(f"{path}: {err.reason}, using cached copy", file=sys.stderr)
+    else:
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        tmp = cache.with_suffix(".tmp")
+        tmp.write_bytes(body)
+        os.utime(tmp, (modified, modified))
+        tmp.replace(cache)
+        # Logged so `journalctl --user -u tsm-appdata` shows TSM's real publish cadence.
+        print(f"{path}: new data, published {response.headers['Last-Modified']}", file=sys.stderr)
+    return cache.read_text(), int(cache.stat().st_mtime)
+
+
+def load_scans():
+    """Newest full AH scan per (realm, faction) from TSM's SavedVariables.
+
+    Each saved scan is base64(raw deflate(text)): a header line
+    "startTime,gameVersion,region,realm,faction,character", then one line per
+    item, "itemString,buyout[xquantity],..." with per-unit buyouts ascending.
+    """
+    scans = {}
+    for saved in (CLIENT_DIR / "WTF/Account").glob("*/SavedVariables/TradeSkillMaster_AppHelper.lua"):
+        # Scans aren't the only ["data"] strings in the file; anything that
+        # doesn't decode to a Classic Era scan header is skipped.
+        for match in re.finditer(r'\["data"\]\s*=\s*"([A-Za-z0-9+/]+={0,2})"', saved.read_text(errors="replace")):
+            try:
+                text = zlib.decompress(base64.b64decode(match.group(1)), -15).decode()
+            except (ValueError, zlib.error, UnicodeDecodeError):
+                continue
+            header, _, body = text.partition("\n")
+            parts = header.split(",")
+            if len(parts) != 6 or not parts[0].isdigit() or parts[1] != "Classic Era":
+                continue
+            scan_time, realm, faction = int(parts[0]), parts[3], parts[4]
+            if realm != REALM or scan_time <= scans.get((realm, faction), (0,))[0]:
+                continue
+            items = {}
+            for line in body.splitlines():
+                item, *prices = line.split(",")
+                if not prices:
+                    continue
+                quantities = [int(p.partition("x")[2] or 1) for p in prices]
+                items[item] = (int(prices[0].partition("x")[0]), sum(quantities))
+            scans[(realm, faction)] = (scan_time, items)
+    return scans
+
+
+def encode(value):
+    """TSM's packed number: base 32, low 30 bits as a fixed 6-digit tail."""
+    def b32(n):
+        digits = ""
+        while True:
+            n, rem = divmod(n, 32)
+            digits = B32[rem] + digits
+            if not n:
+                return digits
+    if value < 2 ** 30:
+        return b32(value)
+    high, low = divmod(value, 2 ** 30)
+    return b32(high) + b32(low).rjust(6, "0")
+
+
+def csv_rows(text, fields):
+    for row in csv.DictReader(io.StringIO(text)):
+        yield row["itemId"], [max(0, round(Decimal(row[col] or "0") * scale)) for _, col, scale in fields]
+
+
+def blob(rows, names, download_time):
+    packed = []
+    for item, values in rows:
+        # TSM re-adds "i:" only to all-digit keys, so a suffixed item like
+        # "i:14119:844" must keep its prefix.
+        if item.removeprefix("i:").isdigit():
+            item = item.removeprefix("i:")
+        else:
+            item = f'"{item}"'
+        packed.append("{" + ",".join([item, *map(encode, values)]) + "}")
+    if not packed:
+        raise ValueError(f"no rows for fields {names}")
+    quoted = ",".join(f'"{name}"' for name in ("itemString", *names))
+    return f"return {{downloadTime={download_time},fields={{{quoted}}},data={{{','.join(packed)}}}}}"
+
+
+def call(tag, realm_or_region, data):
+    return f'TSM_APPHELPER_LOAD_DATA("{tag}", "{realm_or_region}", [=[{data}]=])\n'
+
+
+def main():
+    if not ADDON_DIR.is_dir():
+        sys.exit(f"AppHelper addon not found: {ADDON_DIR}")
+
+    scans = load_scans()
+    now = int(time.time())
+    out = [call("APP_INFO", "Global", f"return {{version=1,lastSync={now},message={{id=0}},news={{}}}}")]
+    for faction in FACTIONS:
+        key = f"{REALM}-{faction}"
+        text, modified = fetch(f"realm/{REALM.lower()}-{faction.lower()}/items.csv")
+        scan_time, scan_items = scans.get((REALM, faction), (0, None))
+        if scan_time > modified:
+            # TSM rejects a field loaded twice for one realm, so minBuyout
+            # comes only from the scan; items not listed now get none.
+            fields = REALM_FIELDS[1:]
+            out.append(call("AUCTIONDB_NON_COMMODITY_DATA", key,
+                            blob(csv_rows(text, fields), [f for f, _, _ in fields], modified)))
+            out.append(call("AUCTIONDB_NON_COMMODITY_SCAN_STAT", key,
+                            blob(((item, list(v)) for item, v in scan_items.items()),
+                                 SCAN_FIELDS, scan_time)))
+            print(f"{key}: using your scan from {time.strftime('%F %T', time.localtime(scan_time))} "
+                  f"({len(scan_items)} items)", file=sys.stderr)
+        else:
+            out.append(call("AUCTIONDB_NON_COMMODITY_DATA", key,
+                            blob(csv_rows(text, REALM_FIELDS), [f for f, _, _ in REALM_FIELDS], modified)))
+    text, modified = fetch("region/items.csv")
+    out.append(call("AUCTIONDB_REGION_STAT", f"Classic-{REGION}",
+                    blob(csv_rows(text, REGION_FIELDS), [f for f, _, _ in REGION_FIELDS], modified)))
+
+    # Atomic replace: WoW may read the file at login while this runs.
+    fd, tmp = tempfile.mkstemp(dir=ADDON_DIR, prefix=".AppData.", suffix=".tmp")
+    with os.fdopen(fd, "w") as f:
+        f.writelines(out)
+    os.chmod(tmp, 0o644)
+    os.replace(tmp, ADDON_DIR / "AppData.lua")
+
+
+if __name__ == "__main__":
+    main()
