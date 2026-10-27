@@ -1,4 +1,4 @@
-;;; settings.el --- General settings for Emacs
+;;; settings.el --- General settings for Emacs -*- lexical-binding: t; -*-
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 

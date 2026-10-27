@@ -1,4 +1,4 @@
-;;; init.el --- General packages
+;;; init.el --- General packages -*- lexical-binding: t; -*-
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
@@ -304,7 +304,7 @@
   (with-eval-after-load 'evil
     (add-hook 'after-init-hook
               (lambda (&rest _)
-                (when-let ((messages-buffer (get-buffer "*Messages*")))
+                (when-let* ((messages-buffer (get-buffer "*Messages*")))
                   (with-current-buffer messages-buffer
                     (evil-emacs-state))))))
 

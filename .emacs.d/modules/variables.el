@@ -1,4 +1,4 @@
-;;; settings.el --- Variables required by Emacs configuration
+;;; settings.el --- Variables required by Emacs configuration -*- lexical-binding: t; -*-
 
 ;; Author: Ricky Nelson <rickyn@socketwiz.com>
 
