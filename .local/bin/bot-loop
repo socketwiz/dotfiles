@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+# bot-loop: implement and merge Forgejo tickets unattended until a deadline or
+# through a ticket list, then raise a notification that stays up until
+# dismissed.
+#
+# Usage: bot-loop <owner/repo> <duration>     e.g. bot-loop zolmok/neomacs 1h
+#        bot-loop <owner/repo> <ticket>...    e.g. bot-loop zolmok/neomacs 1 2 35
+#
+# Each iteration runs /bot-implement-ticket, then /bot-merge-ready, each as a
+# fresh headless Claude session in the dedicated clone ~/src/minipc/<repo>-bot.
+# The deadline is only checked between iterations: an iteration running when
+# it passes finishes, merge included. The loop also stops early when there is
+# nothing left to do or a run reports an error.
+#
+# With a ticket list, only those tickets are implemented and merged, in the
+# given order: a ticket must be merged before the next one starts, and the loop
+# stops at the first one that isn't. Rerun the same list to resume, since
+# tickets already closed are skipped.
+
+set -u
+
+# How long to keep re-checking a PR whose CI is still running, and how often
+CI_WAIT_MAX=1800
+CI_POLL=120
+
+usage() {
+    echo "Usage: bot-loop <owner/repo> <duration, e.g. 1h or 90m>" >&2
+    echo "       bot-loop <owner/repo> <ticket>..., e.g. 1 2 35 16" >&2
+    exit 1
+}
+
+repo=${1:-}
+[[ "$repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]] || usage
+tickets=()
+if [[ "${2:-}" =~ ^[0-9]+$ ]]; then
+    for ticket in "${@:2}"; do
+        [[ "$ticket" =~ ^[0-9]+$ ]] || usage
+    done
+    tickets=("${@:2}")
+else
+    (( $# == 2 )) || usage
+    duration=$2
+    case "$duration" in
+        *h) [[ "${duration%h}" =~ ^[0-9]+$ ]] || usage; secs=$(( ${duration%h} * 3600 )) ;;
+        *m) [[ "${duration%m}" =~ ^[0-9]+$ ]] || usage; secs=$(( ${duration%m} * 60 )) ;;
+        *) usage ;;
+    esac
+fi
+
+clone="$HOME/src/minipc/${repo#*/}-bot"
+if [[ ! -d "$clone/.git" ]]; then
+    echo "No bot clone at $clone" >&2
+    exit 1
+fi
+
+# One loop per clone: two would fight over the working tree
+exec 9>"$clone/.git/bot-loop.lock"
+if ! flock -n 9; then
+    echo "Another bot-loop is already running in $clone" >&2
+    exit 1
+fi
+
+log_dir="${XDG_STATE_HOME:-$HOME/.local/state}/bot-loop"
+mkdir -p "$log_dir"
+log="$log_dir/${repo//\//_}-$(date +%Y%m%d-%H%M%S).log"
+
+# Set DBUS address in case this runs outside the desktop session's environment
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
+export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude/profiles/personal}"
+# A third review round rarely approves what the second didn't, and costs
+# ~4 minutes per ticket; the review gate reads this
+export REVIEW_GATE_MAX_ROUNDS=2
+
+merged=()
+needs_human=()
+waiting="-"
+stop_reason="interrupted"
+
+# Urgency must be critical to stay up until dismissed (see stand_up)
+notify_done() {
+    local body="Stopped: $stop_reason"
+    body+=$'\n'"Merged: ${merged[*]:-none}"
+    body+=$'\n'"Needs human: ${needs_human[*]:-none}"
+    [[ "$waiting" != "-" ]] && body+=$'\n'"Waiting on CI: $waiting"
+    body+=$'\n'"Log: $log"
+    echo "$body" | tee -a "$log"
+    notify-send "Bot loop: $repo" "$body" -i dialog-information -u critical --expire-time=0
+}
+trap notify_done EXIT
+
+# Run one bot command headless and set $result to its BOT-RESULT line
+run_bot() {
+    echo "=== $(date '+%F %T') $1" >>"$log"
+    echo "$(date +%H:%M) ${1%% *} ..."
+    local out
+    out=$(cd "$clone" && claude -p "$1" --dangerously-skip-permissions 2>&1 | tee -a "$log")
+    result=$(grep '^BOT-RESULT:' <<<"$out" | tail -n 1)
+    echo "$(date +%H:%M)   ${result:-no BOT-RESULT}"
+}
+
+# Print a key's value from $result, e.g. `field ticket`
+field() {
+    grep -oP "(?<= $1=)\S+" <<<"$result"
+}
+
+# Add a comma list like 6,9 as "#6 #9" entries, ignoring "-" and repeats
+# (an escalated ticket is reported again by every later merge run)
+add_tickets() {
+    local -n into=$1
+    [[ "$2" == "-" || -z "$2" ]] && return
+    local t
+    for t in ${2//,/ }; do
+        [[ " ${into[*]} " == *" #$t "* ]] || into+=("#$t")
+    done
+}
+
+# Merge, re-checking for a while if a PR is still waiting on CI.
+# $1 is the arguments for /bot-merge-ready. Sets $merged_now.
+merge_ready() {
+    merged_now=0
+    local ci_deadline=$(( $(date +%s) + CI_WAIT_MAX ))
+    while :; do
+        run_bot "/bot-merge-ready $1"
+        case "$(awk '{print $2}' <<<"$result")" in
+            ok) ;;
+            error) stop_reason="merge error"; exit 1 ;;
+            *) stop_reason="merge run gave no BOT-RESULT"; exit 1 ;;
+        esac
+        [[ "$(field merged)" != "-" ]] && merged_now=1
+        add_tickets merged "$(field merged)"
+        add_tickets needs_human "$(field needs-human)"
+        waiting=$(field waiting)
+        [[ "$waiting" == "-" ]] && break
+        (( $(date +%s) + CI_POLL < ci_deadline )) || break
+        sleep "$CI_POLL"
+    done
+}
+
+ticket_closed() {
+    [[ "$(tea api --login minipc-bot "/repos/$repo/issues/$1" | jq -r .state)" == closed ]]
+}
+
+if (( ${#tickets[@]} )); then
+    echo "bot-loop started on $repo, tickets in order: ${tickets[*]}"
+    echo "Log: $log"
+    for ticket in "${tickets[@]}"; do
+        if ticket_closed "$ticket"; then
+            echo "$(date +%H:%M) #$ticket already closed, skipping"
+            continue
+        fi
+
+        run_bot "/bot-implement-ticket $repo --ticket $ticket"
+        impl=$(awk '{print $2}' <<<"$result")
+        case "$impl" in
+            pr-opened|pr-updated|nothing-ready) ;;
+            needs-human) add_tickets needs_human "$ticket"; stop_reason="#$ticket needs a human"; exit 1 ;;
+            blocked) stop_reason="#$ticket is blocked by an open ticket"; exit 1 ;;
+            error) stop_reason="implement error (ticket $ticket)"; exit 1 ;;
+            *) stop_reason="implement run gave no BOT-RESULT (ticket $ticket)"; exit 1 ;;
+        esac
+
+        merge_ready "$repo --ticket $ticket"
+        if [[ " ${merged[*]} " != *" #$ticket "* ]]; then
+            stop_reason="#$ticket was not merged"
+            exit 1
+        fi
+    done
+    stop_reason="ticket list finished"
+    exit 0
+fi
+
+deadline=$(( $(date +%s) + secs ))
+echo "bot-loop started on $repo, runs until about $(date -d "@$deadline" +%H:%M) (finishing the iteration in progress)"
+echo "Log: $log"
+while (( $(date +%s) < deadline )); do
+    run_bot "/bot-implement-ticket $repo"
+    impl=$(awk '{print $2}' <<<"$result")
+    case "$impl" in
+        pr-opened|pr-updated|nothing-ready|blocked) ;;
+        needs-human) add_tickets needs_human "$(field ticket)" ;;
+        error) stop_reason="implement error (ticket $(field ticket))"; exit 1 ;;
+        *) stop_reason="implement run gave no BOT-RESULT"; exit 1 ;;
+    esac
+
+    merge_ready "$repo"
+
+    if [[ "$impl" == "nothing-ready" || "$impl" == "blocked" ]] && (( ! merged_now )); then
+        stop_reason="$impl"
+        exit 0
+    fi
+done
+stop_reason="deadline reached"
