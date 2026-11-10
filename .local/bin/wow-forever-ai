@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# tmux session rooted at the WoW Forever install that starts claude.
+# claude is typed into the shell (not run as the pane command) so the
+# .zshrc claude() profile wrapper applies, and the pane stays open after
+# claude exits.
+dir="/mnt/games/battlenet/drive_c/Program Files (x86)/World of Warcraft/_forever_"
+if ! tmux has-session -t=wow_forever_ai 2>/dev/null; then
+  tmux new-session -d -s wow_forever_ai -c "$dir"
+  tmux send-keys -t=wow_forever_ai: claude Enter
+fi
+exec tm new "$dir" wow_forever_ai
