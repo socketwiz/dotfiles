@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Rebuild the cloned Agents bar panel (zolmok.agents) from the stock plugin
+# after every update, then re-apply our patch that shows the usage
+# percentage beside each limit's reset time (stock shows it only on hover).
+#
+# The clone is replaced only when the patch applies cleanly. If upstream
+# changed that code and the patch no longer fits, the existing clone is left
+# alone and a sticky notification says so. Safe to run by hand any time.
+
+set -euo pipefail
+
+STOCK=/usr/share/omarchy/shell/plugins/agents
+CLONE="$HOME/.config/omarchy/plugins/zolmok.agents"
+PATCH="$HOME/.config/omarchy/patches/agents-percent.patch"
+STAGE="$HOME/.cache/omarchy-agents-percent/stage"
+
+[[ -d $STOCK && -d $CLONE && -f $PATCH ]] || exit 0
+
+mkdir -p "$STAGE"
+rsync -aL --delete "$STOCK/" "$STAGE/"
+
+if ! patch -s -d "$STAGE" -p1 --no-backup-if-mismatch -r - <"$PATCH" >/dev/null; then
+  notify-send -u critical "Agents panel patch failed" \
+    "Omarchy changed the Agents panel and the percentage patch no longer applies. Kept the old clone at $CLONE; update $PATCH."
+  exit 0
+fi
+
+# Same manifest rewrite omarchy-plugin-clone does.
+jq '
+  .id = "zolmok.agents" |
+  .name = "My Agents" |
+  .barWidget.displayName = "My Agents" |
+  .omarchy = ((if (.omarchy | type) == "object" then .omarchy else {} end) + { clonedFrom: "omarchy.agents" }) |
+  del(.omarchy.clonePaths)
+' "$STAGE/manifest.json" >"$STAGE/manifest.json.tmp"
+mv "$STAGE/manifest.json.tmp" "$STAGE/manifest.json"
+
+diff -rq "$STAGE" "$CLONE" >/dev/null && exit 0
+
+rsync -a --delete "$STAGE/" "$CLONE/"
+omarchy restart shell
+echo "Agents panel clone rebuilt from the updated stock plugin with the percentage patch"

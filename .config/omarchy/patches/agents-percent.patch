@@ -1,0 +1,24 @@
+--- a/Panel.qml
++++ b/Panel.qml
+@@ -2043,7 +2043,7 @@
+       id: compactValueMetrics
+       font.family: root.fontFamily
+       font.pixelSize: Style.font.bodySmall
+-      text: "00h 00m"
++      text: "100% · 00h 00m"
+     }
+ 
+     // How long until the window resets. The meter says how full it is; the
+@@ -2055,7 +2055,11 @@
+       anchors.verticalCenter: parent.verticalCenter
+       textFormat: Text.PlainText
+       horizontalAlignment: Text.AlignRight
+-      text: compact.resetMs > 0 ? root.formatDuration(compact.resetMs) : ""
++      text: {
++        if (!compact.window) return ""
++        var used = Commons.I18n.formatNumber(Math.round(compact.window.percent * 100)) + "%"
++        return compact.resetMs > 0 ? used + " · " + root.formatDuration(compact.resetMs) : used
++      }
+       color: root.dim
+       font.family: root.fontFamily
+       font.pixelSize: Style.font.bodySmall
