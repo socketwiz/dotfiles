@@ -18,7 +18,18 @@ return {
       bashls = {},
       html = {},
       jsonls = {},
-      ruff = {}, -- modern ruff LSP (replaces the deprecated ruff_lsp)
+      ruff = { -- modern ruff LSP (replaces the deprecated ruff_lsp)
+        -- Stay out of Code: Terraform scripts folders: game scripts use
+        -- builtins like `self` and `get_component` that ruff flags as
+        -- undefined, and the game's own server (lua/autocmds.lua) covers
+        -- linting and formatting there.
+        root_dir = function(bufnr, on_dir)
+          if vim.fs.root(bufnr, "codeterraform-workspace.json") then
+            return
+          end
+          on_dir(vim.fs.root(bufnr, { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" }))
+        end,
+      },
       -- NOTE: the TypeScript 7 (tsgo) native server is attached via a FileType
       -- autocmd in lua/autocmds.lua, not here -- see the comment there for why.
       rust_analyzer = {
