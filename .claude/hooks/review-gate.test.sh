@@ -11,21 +11,40 @@ trap 'command rm -rf -- "$work"' EXIT
 pass=0
 fail=0
 
-# Stub claude: records its cwd and args, then prints the verdict in $work/verdict.
+# Stub claude: records its cwd, args and scratch env, leaves a build artifact
+# behind, then prints any events in $work/events and the verdict in
+# $work/verdict.
 cat >"$work/claude" <<'EOF'
 #!/usr/bin/env bash
 dir=$(dirname "$0")
 echo "$PWD" >>"$dir/calls"
 printf '%s\n' "$@" >"$dir/last-args"
+printf '%s\n' "${CARGO_TARGET_DIR:-}" >"$dir/last-target"
+printf '%s\n' "${TMPDIR:-}" >"$dir/last-tmpdir"
+printf '%s\n' "${CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS-unset}" >"$dir/last-ceiling"
+mkdir -p "$CARGO_TARGET_DIR" && echo built >"$CARGO_TARGET_DIR/artifact"
 [ -e "$dir/stub-exit" ] && exit "$(cat "$dir/stub-exit")"
+[ -e "$dir/events" ] && cat "$dir/events"
 cat "$dir/verdict"
 EOF
 chmod +x "$work/claude"
 export REVIEW_GATE_CLAUDE=$work/claude
 
-verdict() { # critical important
-  jq -n --argjson c "$1" --argjson i "$2" \
-    '{structured_output: {critical: $c, important: $i, report: "## Report c=\($c) i=\($i)"}}' >"$work/verdict"
+# Stub npm: records its cwd and args, then fails if $work/npm-exit says so
+mkdir -p "$work/bin"
+cat >"$work/bin/npm" <<'EOF2'
+#!/usr/bin/env bash
+dir=$(dirname "$0")/..
+echo "$PWD $*" >>"$dir/npm-calls"
+[ -e "$dir/npm-exit" ] && exit "$(cat "$dir/npm-exit")"
+exit 0
+EOF2
+chmod +x "$work/bin/npm"
+npm_calls() { [ -e "$work/npm-calls" ] && wc -l <"$work/npm-calls" || echo 0; }
+
+verdict() { # critical important [suggestions]
+  jq -n --argjson c "$1" --argjson i "$2" --argjson s "${3:-0}" \
+    '{type: "result", structured_output: {critical: $c, important: $i, suggestions: $s, report: "## Report c=\($c) i=\($i) s=\($s)"}}' >"$work/verdict"
 }
 
 calls() { [ -e "$work/calls" ] && wc -l <"$work/calls" || echo 0; }
@@ -34,7 +53,8 @@ calls() { [ -e "$work/calls" ] && wc -l <"$work/calls" || echo 0; }
 run() {
   local out
   out=$(jq -n --arg c "$1" --arg d "$repo" \
-    '{tool_name: "Bash", tool_input: {command: $c}, cwd: $d}' | bash "$HOOK")
+    '{tool_name: "Bash", tool_input: {command: $c}, cwd: $d}' |
+    TMPDIR=$work REVIEW_GATE_DIR=$work PATH="$work/bin:$PATH" bash "$HOOK")
   if [ -z "$out" ]; then
     echo allow
   else
@@ -98,11 +118,19 @@ check "no review for denied/deletes" 0 "$(calls)"
 verdict 1 2
 r=$(run 'git push -u origin 3-fix')
 check "round 1 fails" "deny: Review round 1 of 3 found 1 Critical and 2 Important" "$r"
+check "Critical count recorded" 1 "$(cat "$(git -C "$repo" rev-parse --absolute-git-dir)/review-gate/3-fix/last-critical")"
 check "report included" "yes" "$([[ "$r" == *"## Report c=1 i=2"* ]] && echo yes)"
 check "ran once" 1 "$(calls)"
 check "ran in a worktree" yes "$([ "$(tail -1 "$work/calls")" != "$repo" ] && echo yes)"
 check "hooks disabled in nested run" yes "$(command grep -q disableAllHooks "$work/last-args" && echo yes)"
 check "worktree cleaned up" 1 "$(git -C "$repo" worktree list | wc -l)"
+target=$(cat "$work/last-target")
+check "review gets its own cargo target" "$work/review-gate-scratch." "$target"
+check "review TMPDIR is the scratch dir" "${target%/target}" "$(cat "$work/last-tmpdir")"
+check "scratch dir removed after review" gone "$([ -e "${target%/target}" ] || echo gone)"
+check "review waits for every agent" 0 "$(cat "$work/last-ceiling")"
+check "one test run per review" yes "$(command grep -q 'Run the test suite at most once' "$work/last-args" && echo yes)"
+check "decisions and wording graded as Suggestions" yes "$(command grep -q 'Decision needed:' "$work/last-args" && command grep -q 'wording of comments and documentation' "$work/last-args" && echo yes)"
 check "same HEAD is not re-reviewed" "deny: HEAD" "$(run 'git push')"
 check "still one run" 1 "$(calls)"
 commit
@@ -169,11 +197,49 @@ for n in 1 2; do
   check "cap round $n" "deny: Review round $n of 3" "$(run 'git push')"
 done
 commit
-check "cap round 3" "deny: Review round 3 of 3 (the cap)" "$(run 'git push')"
+r=$(run 'git push')
+check "cap round 3" "deny: Review round 3 of 3 (the cap)" "$r"
+check "cap asks for a cleanup issue" yes "$([[ "$r" == *"file one cleanup issue"* ]] && echo yes)"
+state=$(git -C "$repo" rev-parse --absolute-git-dir)/review-gate/9-cap
+check "cap records the last round's Critical count" 0 "$(cat "$state/last-critical")"
+check "cap records the reviewed HEAD" "$(git -C "$repo" rev-parse HEAD)" "$(cat "$state/last-sha")"
 check "push after cap allowed" allow "$(run 'git push')"
 commit
 check "later commits pass once capped" allow "$(run 'git push')"
 check "no 4th round" 3 "$(calls)"
+
+# --- REVIEW_GATE_MAX_ROUNDS moves the cap ---
+new_repo l 10-cap2
+verdict 0 1
+commit
+check "2-round cap, round 1" "deny: Review round 1 of 2 found" "$(REVIEW_GATE_MAX_ROUNDS=2 run 'git push')"
+commit
+check "2-round cap, round 2 is the cap" "deny: Review round 2 of 2 (the cap)" "$(REVIEW_GATE_MAX_ROUNDS=2 run 'git push')"
+check "2-round cap, push after cap allowed" allow "$(REVIEW_GATE_MAX_ROUNDS=2 run 'git push')"
+check "2-round cap, two reviews" 2 "$(calls)"
+
+# --- a pass that leaves Suggestions asks for a cleanup issue once ---
+new_repo i 40-tidy
+commit
+verdict 0 0 2
+r=$(run 'git push')
+check "pass with suggestions denied once" "deny: Review round 1 of 3 approved HEAD" "$r"
+check "early round may apply them" yes "$([[ "$r" == *"a new commit starts round 2 of 3"* ]] && echo yes)"
+check "suggestions report included" yes "$([[ "$r" == *"## Report c=0 i=0 s=2"* ]] && echo yes)"
+check "approved HEAD then pushes" allow "$(run 'git push')"
+check "one review for suggestions" 1 "$(calls)"
+new_repo j 41-last
+verdict 0 1
+for n in 1 2; do
+  commit
+  run 'git push' >/dev/null
+done
+commit
+verdict 0 0 1
+r=$(run 'git push')
+check "last-round pass with suggestions" "deny: Review round 3 of 3 approved HEAD" "$r"
+check "last round says not to apply" yes "$([[ "$r" == *"do not apply them: file one cleanup issue"* ]] && echo yes)"
+check "last-round approved HEAD pushes" allow "$(run 'git push')"
 
 # --- base branch from git config ---
 new_repo e 4-stacked
@@ -190,11 +256,78 @@ new_repo f 5-broken
 commit
 echo 'not json' >"$work/verdict"
 check "unreadable verdict" "deny: review-gate: could not read the review verdict" "$(run 'git push')"
+jq -n '{structured_output: {critical: 0, important: 0, report: "r"}}' >"$work/verdict"
+check "verdict without suggestions" "deny: review-gate: could not read the review verdict" "$(run 'git push')"
 echo 1 >"$work/stub-exit"
 check "review crash" "deny: review-gate: the headless review failed (exit 1" "$(run 'git push')"
+check "scratch dir removed after failed review" gone "$(t=$(cat "$work/last-target"); [ -e "${t%/target}" ] || echo gone)"
 command rm -f -- "$work/stub-exit"
 verdict 0 0
 check "recovers after failure" allow "$(run 'git push')"
+
+# --- a reviewer stopped before reporting fails closed ---
+# A task's start and its stopped notification, as `claude -p` logs them.
+task() { # id task_type summary
+  jq -c -n --arg id "$1" --arg t "$2" --arg s "$3" \
+    '{type: "system", subtype: "task_started", task_id: $id, task_type: $t, description: $s},
+     {type: "system", subtype: "task_notification", task_id: $id, status: "stopped", summary: $s}'
+}
+new_repo k 50-partial
+commit
+verdict 0 0
+{ task a1 local_agent "General code review"; task a2 local_agent "Test coverage review"; } >"$work/events"
+r=$(run 'git push')
+check "stopped agents deny" "deny: review-gate: review agent(s) stopped before reporting (General code review, Test coverage review)" "$r"
+check "stopped review is no round" no "$([ -e "$(git -C "$repo" rev-parse --absolute-git-dir)/review-gate/50-partial/rounds" ] && echo yes || echo no)"
+task b1 local_bash "Rerun the test suite" >"$work/events"
+check "a stopped shell task alone passes" allow "$(run 'git push')"
+check "same HEAD reviewed again after the stop" 2 "$(calls)"
+command rm -f -- "$work/events"
+
+# --- dependencies are installed in the worktree from its lockfile ---
+new_repo m 60-deps
+commit
+verdict 0 0
+check "no lockfile, no install" allow "$(run 'git push')"
+check "npm not run without a lockfile" 0 "$(npm_calls)"
+echo '{}' >"$repo/package-lock.json"
+git -C "$repo" add package-lock.json
+git -C "$repo" -c user.name=t -c user.email=t@example.invalid commit -q -m lock
+check "lockfile, installed" allow "$(run 'git push')"
+check "npm ci run once" 1 "$(npm_calls)"
+check "npm ci in the worktree" "$work/review-gate." "$(tail -1 "$work/npm-calls")"
+check "npm ci from the lockfile" yes "$(command grep -q ' ci --prefer-offline' "$work/npm-calls" && echo yes)"
+check "reviewer told dependencies are installed" yes "$(command grep -q 'Dependencies are installed' "$work/last-args" && echo yes)"
+commit
+echo 1 >"$work/npm-exit"
+check "failed install still reviews" allow "$(run 'git push')"
+check "reviewer told the install failed" yes "$(command grep -q 'Installing dependencies (npm ci) failed' "$work/last-args" && echo yes)"
+check "install log kept" yes "$([ -e "$(git -C "$repo" rev-parse --absolute-git-dir)/review-gate/60-deps/npm-ci.log" ] && echo yes)"
+command rm -f -- "$work/npm-exit"
+
+# --- a later round checks the last one's findings and reviews only what's new ---
+new_repo n 70-rounds
+commit
+jq -n '{type: "result", structured_output: {critical: 0, important: 1, suggestions: 1,
+  report: "# Summary\n## Important Issues (1 found)\n1. important-marker\n## Suggestions (1 found)\n1. suggestion-marker"}}' >"$work/verdict"
+check "round 1 fails" "deny: Review round 1 of 3 found" "$(run 'git push')"
+check "round 1 is a full review" no "$(command grep -q 'This is round' "$work/last-args" && echo yes || echo no)"
+check "missing tests graded by reach" yes "$(command grep -q 'A missing test is Important only when' "$work/last-args" && echo yes)"
+round1=$(git -C "$repo" rev-parse HEAD)
+commit
+check "round 2 fails" "deny: Review round 2 of 3 found" "$(run 'git push')"
+check "round 2 told it is a follow-up" yes "$(command grep -q 'This is round 2 of 3' "$work/last-args" && echo yes)"
+check "round 2 scoped to new commits" yes "$(command grep -qF "git diff $round1 $(git -C "$repo" rev-parse HEAD)" "$work/last-args" && echo yes)"
+check "round 2 gets round 1's findings" yes "$(command grep -q 'important-marker' "$work/last-args" && echo yes)"
+check "round 2 doesn't get round 1's suggestions" no "$(command grep -q 'suggestion-marker' "$work/last-args" && echo yes || echo no)"
+# A rebase drops the reviewed commit from HEAD's history: review it all
+git -C "$repo" reset -q --hard main
+commit
+check "round 3 after a rebase" "deny: Review round 3 of 3 (the cap)" "$(run 'git push')"
+check "rebased branch gets a full review" no "$(command grep -q 'This is round' "$work/last-args" && echo yes || echo no)"
+
+check "no scratch dirs left behind" 0 "$(find "$work" -maxdepth 1 -name 'review-gate-scratch.*' | wc -l)"
+check "no worktrees left behind" 0 "$(find "$work" -maxdepth 1 -name 'review-gate.*' | wc -l)"
 
 echo "passed: $pass  failed: $fail"
 [ "$fail" -eq 0 ]
