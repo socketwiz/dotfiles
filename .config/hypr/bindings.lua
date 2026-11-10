@@ -16,30 +16,17 @@ o.bind("SUPER + SHIFT + A", "Claude", { webapp = "https://claude.ai" })
 -- SUPER + CTRL + T, which stays bound as well.
 o.bind("SUPER + SHIFT + T", "Activity", { tui = "btop" })
 
--- Discord push-to-talk: send F10 to Discord on both press and release instead
--- of letting Hyprland swallow it. The `pass` dispatcher would be the obvious
--- choice, but it is broken for binds registered from the Lua config: the
--- special-casing that makes it emit the release event is only applied to the
--- legacy text config (hyprwm/Hyprland discussion #14417), so push-to-talk
--- either never fires or sticks on. send_key_state takes the state explicitly,
--- so bind press to "down" and release to "up".
-local ptt = function(state)
-  return hl.dsp.send_key_state({
-    mods = "",
-    key = "F10",
-    state = state,
-    window = "class:discord",
-  })
-end
-
-o.bind("F10", "Discord push-to-talk", ptt("down"))
-o.bind("F10", nil, ptt("up"), { release = true })
+-- Discord push-to-talk. Discord 1.0.166 registers push-to-talk through the
+-- GlobalShortcuts portal and ignores raw key events sent to its window, so
+-- trigger the portal shortcut with the `global` dispatcher. Discord shows
+-- "Your desktop hasn't allowed this shortcut yet" until a key is bound here.
+o.bind("F10", "Discord push-to-talk", hl.dsp.global("discord:discord-push-to-talk"))
 
 -- Open the annotation editor on a screenshot straight away, as it did before
--- 4.0. Omarchy 4 leaves the editor behind a notification action instead, which
--- stays available on SUPER + ALT + comma for shots taken any other way.
+-- 4.0. Omarchy's default PRINT only copies and shows a preview with an Edit
+-- button. In the editor, Enter copies and saves.
 hl.unbind("PRINT")
-o.bind("PRINT", "Screenshot and edit", os.getenv("HOME") .. "/.local/bin/screenshot-edit")
+o.bind("PRINT", "Screenshot and edit", "omasnap --editor overlay")
 
 -- Thunar instead of Omarchy's Files (nautilus), for both the plain and the
 -- cwd-aware file manager bindings.
