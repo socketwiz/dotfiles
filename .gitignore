@@ -78,6 +78,8 @@
 !/.config/systemd/user/khal-notify.timer
 !/.config/systemd/user/minipc-monitor.service
 !/.config/systemd/user/minipc-monitor.timer
+!/.config/systemd/user/ms-index.service
+!/.config/systemd/user/ms-index.timer
 # Retention rules for $HOME/tmp, which TMPDIR points at on Linux and which
 # systemd's own /tmp cleanup never touches. Shared, so every Linux machine
 # ages out its scratch space the same way. The clean timer is enablement

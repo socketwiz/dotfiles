@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily ms-index run
+
+[Timer]
+# An hour after the desktop backup (backup.timer, 01:00).
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
