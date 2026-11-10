@@ -45,6 +45,17 @@
             "statusMessage": "Review gate: checking push"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/no-attribution.sh",
+            "timeout": 10,
+            "statusMessage": "Checking for AI attribution"
+          }
+        ]
       }
     ],
     "SessionStart": [
