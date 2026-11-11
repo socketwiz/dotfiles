@@ -318,8 +318,13 @@ rotate_logs() {
 
     if [[ $log_count -gt $BACKUP_LOG_RETENTION ]]; then
         local to_delete=$((log_count - BACKUP_LOG_RETENTION))
-        find "$BACKUP_LOG_DIR" -maxdepth 1 -name 'backup-*.log' -type f 2>/dev/null | \
-            sort | head -n "$to_delete" | while read -r f; do rm -f "$f"; done
+        # Newest first by mtime, then drop everything past the retention count.
+        # Sorting by name instead put every backup-local-* ahead of every
+        # backup-offsite-*, so the local logs were always the ones deleted.
+        # tail (not head) reads all of ls's output, so no SIGPIPE under pipefail.
+        (cd "$BACKUP_LOG_DIR" && ls -1t -- backup-*.log) | \
+            tail -n +"$((BACKUP_LOG_RETENTION + 1))" | \
+            while read -r f; do rm -f "$BACKUP_LOG_DIR/$f"; done
         log "Rotated $to_delete old log file(s)"
     fi
 }

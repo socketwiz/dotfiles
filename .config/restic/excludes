@@ -31,6 +31,9 @@ __pycache__
 
 # --- SDKs and games: large and re-downloadable ---
 /home/zolmok/Android
+# Emulator disk images and RAM snapshots: rewritten on every emulator run,
+# recreatable from Android Studio's device manager.
+/home/zolmok/.config/.android/avd
 /home/zolmok/.local/share/Steam
 /home/zolmok/.local/share/lutris
 /home/zolmok/.local/share/umu
@@ -93,3 +96,5 @@ __pycache__
 
 # --- misc ---
 .Trash-1000
+# The home-directory trash; .Trash-1000 only covers other filesystems.
+/home/zolmok/.local/share/Trash
