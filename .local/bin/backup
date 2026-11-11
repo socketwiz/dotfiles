@@ -42,7 +42,17 @@ if [[ -f "$BACKUP_OFFSITE_ENV" ]]; then
     set -a; source "$BACKUP_OFFSITE_ENV"; set +a
 fi
 RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-$HOME/.config/restic/password}"
-BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
+# Default log location follows each platform's convention: ~/Library/Logs on
+# macOS (where Console.app looks), /var/log for a root job on Linux (minipc),
+# and the XDG state dir for a user job on Linux.
+if [[ "$(uname -s)" == Darwin ]]; then
+    default_log_dir="$HOME/Library/Logs/backup"
+elif [[ $EUID -eq 0 ]]; then
+    default_log_dir="/var/log/backup"
+else
+    default_log_dir="${XDG_STATE_HOME:-$HOME/.local/state}/backup"
+fi
+BACKUP_LOG_DIR="${BACKUP_LOG_DIR:-$default_log_dir}"
 BACKUP_LOCK_FILE="${BACKUP_LOCK_FILE:-/tmp/backup.lock}"
 BACKUP_LOG_RETENTION="${BACKUP_LOG_RETENTION:-10}"
 BACKUP_EXCLUDE_FILE="${BACKUP_EXCLUDE_FILE:-$HOME/.config/restic/excludes}"
@@ -95,7 +105,7 @@ while [[ $# -gt 0 ]]; do
             echo "  BACKUP_SOURCE           Space-separated dirs to back up (default: \$HOME)"
             echo "  BACKUP_REPO             Restic repository URL (required)"
             echo "  RESTIC_PASSWORD_FILE    Path to password file (default: ~/.config/restic/password)"
-            echo "  BACKUP_LOG_DIR          Directory for log files (default: ~/log)"
+            echo "  BACKUP_LOG_DIR          Directory for log files (default: platform log dir)"
             echo "  BACKUP_LOG_RETENTION    Number of log files to keep (default: 10)"
             echo "  BACKUP_REQUIRE_MOUNT    Abort unless this path is a live mountpoint"
             echo "  BACKUP_HEALTHCHECK_URL  Dead-man's-switch URL pinged on start/success/fail"

@@ -21,7 +21,8 @@ set -uo pipefail
 # BACKUP_* configuration lives in that file.
 #
 
-LOG_DIR="${BACKUP_LOG_DIR:-$HOME/log}"
+# Must match `backup`'s macOS default so both scripts' logs sit together.
+LOG_DIR="${BACKUP_LOG_DIR:-$HOME/Library/Logs/backup}"
 
 # How many of THIS script's logs to keep. These are a few KB each (the wrapper
 # only sees log() lines, since restic's own chatter goes to the dated
