@@ -107,11 +107,11 @@
       "**Repository visibility**: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public",
       "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
       "**Secrets management**: None configured",
-      "**Default / protected branches**: unknown — no remotes configured, origin/HEAD unset, not queryable via gh",
+      "**Default / protected branches**: unknown; check the repo's origin/HEAD when it matters",
       "**CI/CD deploy targets**: None configured",
       "**Network posture**: None configured",
       "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine or CI runner with open internet",
-      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) — this repo currently has no remotes configured",
+      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured)",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: None configured",
@@ -123,7 +123,7 @@
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
       "### User-specific",
       "**Primary use of Claude Code**: software development",
-      "**Trusted repo**: The git repository the agent started in (/home/zolmok/Work) — no tracked files and no remotes currently configured, so no remote host to scope trust to",
+      "**Trusted repo**: The git repository the agent started in, and its configured remote(s)",
       "**Org-specific CLIs**: None configured"
     ]
   },
