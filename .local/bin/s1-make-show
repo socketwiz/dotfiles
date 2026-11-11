@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""Build a PreSonus Studio One 7 Show (.show) from a list of audio files.
+
+A .show file is a zip of XML documents. This script takes an existing Show
+as a template, keeps its device/workspace files verbatim, and regenerates
+metainfo.xml, Show/show.xml and Show/mediapool.xml so the Show contains one
+backing-track player and one setlist item per song.
+
+Non-WAV inputs are converted to 24-bit 44.1 kHz stereo WAV with ffmpeg,
+which is what Studio One itself does on import.
+
+Usage:
+  s1-make-show --name 2026-09-13-audition song1.mp3 song2.m4a ...
+  s1-make-show --name myshow @songs.txt        # one path per line
+
+Output: <out>/<name>/<name>.show and <out>/<name>/Media/*.wav, ready to
+rsync into "~/Documents/Studio One/Shows/" on the Mac.
+"""
+import argparse
+import datetime as dt
+import os
+import re
+import shutil
+import subprocess
+import sys
+import uuid
+import wave
+import zipfile
+from xml.sax.saxutils import escape, quoteattr
+
+DEFAULT_TEMPLATE = os.path.expanduser("~/.local/share/s1-make-show/template.show")
+DEFAULT_MAC_SHOWS = "/Users/rickynelson/Documents/Studio One/Shows"
+BOM = "﻿"
+COLORS = ["FFFF2D1E", "FFFF5E2A", "FFFFAD2A", "FF2AC4FF", "FF9B59FF", "FF3DD46B"]
+SMALL_WORDS = {"of", "the", "a", "an", "and", "to", "in", "for"}
+KEY_RE = re.compile(r"^[a-g](b|#)?$")
+
+
+def guid():
+    return "{%s}" % str(uuid.uuid4()).upper()
+
+
+def title_from_filename(path):
+    stem = os.path.splitext(os.path.basename(path))[0]
+    words = [w for w in re.split(r"[-_ ]+", stem) if w]
+    key = None
+    if len(words) > 1 and KEY_RE.match(words[-1].lower()):
+        k = words.pop().lower()
+        key = k[0].upper() + k[1:]
+    out = []
+    for i, w in enumerate(words):
+        out.append(w.lower() if (i and w.lower() in SMALL_WORDS) else w.capitalize())
+    title = " ".join(out)
+    return f"{title} ({key})" if key else title
+
+
+def to_wav(src, dst):
+    if src.lower().endswith(".wav"):
+        shutil.copyfile(src, dst)
+        return
+    subprocess.run(
+        ["ffmpeg", "-loglevel", "error", "-y", "-i", src,
+         "-vn", "-ar", "44100", "-ac", "2", "-c:a", "pcm_s24le", dst],
+        check=True,
+    )
+
+
+def wav_format(path):
+    with wave.open(path, "rb") as w:
+        return dict(frameCount=w.getnframes(), sampleRate=w.getframerate(),
+                    numChannels=w.getnchannels(), bitDepth=w.getsampwidth() * 8)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, fromfile_prefix_chars="@",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--name", required=True, help="Show name (folder and .show basename)")
+    ap.add_argument("--template", default=DEFAULT_TEMPLATE, help="existing .show to copy device files from")
+    ap.add_argument("--mac-shows-dir", default=DEFAULT_MAC_SHOWS,
+                    help="absolute Shows directory on the Mac, used for the file:// URLs inside the Show")
+    ap.add_argument("--out", default=".", help="local directory to build <name>/ under")
+    ap.add_argument("--player", default="MP3", help="name of the single backing-track player")
+    ap.add_argument("--stop-at-end", action="store_true",
+                    help="stop after each song instead of continuing to the next (playbackMode=1)")
+    ap.add_argument("--creator", default="Ricky Nelson")
+    ap.add_argument("songs", nargs="+", help="audio files in setlist order (or @file with one path per line)")
+    a = ap.parse_args()
+
+    if not os.path.isfile(a.template):
+        sys.exit(f"template not found: {a.template}")
+    show_dir = os.path.join(a.out, a.name)
+    media_dir = os.path.join(show_dir, "Media")
+    if os.path.exists(show_dir):
+        sys.exit(f"refusing to overwrite existing {show_dir}")
+    os.makedirs(media_dir)
+
+    mac_show_dir = f"{a.mac_shows_dir}/{a.name}"
+    now = dt.datetime.now().strftime("%Y/%m/%d %H:%M:%S.000")
+
+    items, clips, total = [], [], 0.0
+    for i, src in enumerate(a.songs):
+        if not os.path.isfile(src):
+            sys.exit(f"song not found: {src}")
+        wav_name = os.path.splitext(os.path.basename(src))[0] + ".wav"
+        wav_path = os.path.join(media_dir, wav_name)
+        to_wav(src, wav_path)
+        fmt = wav_format(wav_path)
+        length = fmt["frameCount"] / fmt["sampleRate"]
+        total += length
+        clip_id = guid()
+        title = title_from_filename(src)
+        color = COLORS[i % len(COLORS)]
+        print(f"{i + 1:2d}. {title:40s} {length:7.1f}s  {wav_name}")
+        items.append(f"""				<SetListItem length="{length!r}" pause="0" color="{color}" playbackMode="{1 if a.stop_at_end else 0}" enabled="1" timeSignature.numerator="4" timeSignature.denominator="4" tempo="0.5">
+					<Attributes x:id="key" root="0" scale=""/>
+					<PersistentAttributes x:id="metaInfo">
+						<Attribute id="Media:Title" value={quoteattr(title)}/>
+					</PersistentAttributes>
+					<List x:id="players">
+						<ShowPlayerData playerID={quoteattr(a.player)} patch="" clipID="{clip_id}"/>
+					</List>
+				</SetListItem>
+""")
+        url = f"file://{mac_show_dir}/Media/{wav_name}"
+        clips.append(f"""			<AudioClip mediaID="{clip_id}" useCount="1" peak="1">
+				<Url x:id="path" type="1" url={quoteattr(url)}/>
+				<DateTime x:id="recordTime" time="{now}"/>
+				<AudioTempoMap x:id="tempoMap" tempoApproved="1"/>
+				<Attributes x:id="format" frameCount="{fmt['frameCount']}" sampleRate="{fmt['sampleRate']}" numChannels="{fmt['numChannels']}" bitDepth="{fmt['bitDepth']}"/>
+				<List x:id="modifications">
+					<AudioModification id="0">
+						<List x:id="propertySets">
+							<AudioBendProperties threshold="0.2000000000000000111022302462515654042363166809082" visible="0"/>
+						</List>
+					</AudioModification>
+				</List>
+			</AudioClip>
+""")
+
+    tpl = zipfile.ZipFile(a.template)
+    tpl_files = {zi.filename: tpl.read(zi.filename) for zi in tpl.infolist()}
+    tpl_meta = tpl_files["metainfo.xml"].decode("utf-8-sig")
+    tpl_pool = tpl_files["Show/mediapool.xml"].decode("utf-8-sig")
+    tpl_mixer = tpl_files["Devices/audiomixer.xml"].decode("utf-8-sig")
+    tpl_show = tpl_files["Show/show.xml"].decode("utf-8-sig")
+
+    m = re.search(r'<Attributes x:id="packageInfos">.*?</Attributes>\n', tpl_pool, re.S)
+    package_infos = m.group(0) if m else '<Attributes x:id="packageInfos"/>\n'
+    sample_rate = re.search(r'Media:SampleRate" value="(\d+)"', tpl_meta).group(1)
+    generator = re.search(r'Document:Generator" value="([^"]+)"', tpl_meta).group(1)
+    channel_id = re.search(r'<ShowPlayer .*?<UID x:id="channelID" uid="(\{[^}]+\})"', tpl_show, re.S).group(1)
+
+    metainfo = f"""<?xml version="1.0" encoding="UTF-8"?>
+<MetaInformation>
+	<Attribute id="Media:Artwork" value="logo.png"/>
+	<Attribute id="Document:MimeType" value="application/x.presonus-show"/>
+	<Attribute id="Document:FormatVersion" value="1"/>
+	<Attribute id="Document:Title" value={quoteattr(a.name)}/>
+	<Attribute id="Document:Creator" value={quoteattr(a.creator)}/>
+	<Attribute id="Document:Generator" value={quoteattr(generator)}/>
+	<Attribute id="Media:SampleRate" value="{sample_rate}"/>
+	<Attribute id="Media:Length" value="{total!r}"/>
+</MetaInformation>
+"""
+    show = f"""<?xml version="1.0" encoding="UTF-8"?>
+<Show>
+	<Attributes x:id="Model" sampleRate="{sample_rate}" frameType="1" chordDisplayMode="1" chordDisplayStyle="1">
+		<Attributes x:id="setList" title="">
+			<Attributes x:id="metaInfo"/>
+			<List x:id="Items">
+{''.join(items)}			</List>
+		</Attributes>
+		<Attributes x:id="players">
+			<List x:id="Players">
+				<ShowPlayer id={quoteattr(a.player)} type="1" color="{COLORS[0]}" selectedPatch="0" defaultPatch="" patchAutomation="1">
+					<UID x:id="channelID" uid="{channel_id}"/>
+				</ShowPlayer>
+			</List>
+		</Attributes>
+	</Attributes>
+</Show>
+"""
+    doc_url = f"file://{mac_show_dir}/{a.name}.show"
+    mediapool = f"""<?xml version="1.0" encoding="UTF-8"?>
+<MediaPool>
+	<Attributes x:id="rootFolder">
+		<MediaFolder name="Audio">
+{''.join(clips)}		</MediaFolder>
+	</Attributes>
+	{package_infos}	<Attributes x:id="documentPath" type="1" url={quoteattr(doc_url)}/>
+</MediaPool>
+"""
+    # Rename the player's mixer channel to match --player, and reset the
+    # editor's remembered setlist selection to the first item.
+    mixer = re.sub(r'(<AudioTrackChannel [^>]*label=)"[^"]*"', lambda m: m.group(1) + quoteattr(a.player), tpl_mixer, count=1)
+    editor = tpl_files["Show/editor.xml"].decode("utf-8-sig")
+    editor = re.sub(r'(<Attributes x:id="SetList">\s*<List x:id="selectedItems">\s*<Data value=)"\d+"', r'\1"0"', editor)
+
+    new = {
+        "metainfo.xml": metainfo,
+        "Show/show.xml": show,
+        "Show/mediapool.xml": mediapool,
+        "Show/editor.xml": editor,
+        "Devices/audiomixer.xml": mixer,
+    }
+    out_show = os.path.join(show_dir, f"{a.name}.show")
+    with zipfile.ZipFile(out_show, "w", zipfile.ZIP_DEFLATED) as z:
+        for name in tpl_files:  # keep the template's member order
+            data = (BOM + new[name]).encode("utf-8") if name in new else tpl_files[name]
+            z.writestr(name, data)
+    print(f"\nwrote {out_show}  ({len(items)} songs, {total / 60:.1f} min)")
+    print(f"deploy: rsync -a {show_dir!r} rickys-mac-studio:{os.path.dirname(mac_show_dir)!r}/")
+
+
+if __name__ == "__main__":
+    main()

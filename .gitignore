@@ -78,6 +78,8 @@
 !/.config/systemd/user/khal-notify.timer
 !/.config/systemd/user/minipc-monitor.service
 !/.config/systemd/user/minipc-monitor.timer
+!/.config/systemd/user/ms-index.service
+!/.config/systemd/user/ms-index.timer
 # Retention rules for $HOME/tmp, which TMPDIR points at on Linux and which
 # systemd's own /tmp cleanup never touches. Shared, so every Linux machine
 # ages out its scratch space the same way. The clean timer is enablement
@@ -104,6 +106,18 @@
 .local/bin/pynvim-python
 .local/bin/uv
 .local/bin/uvx
+# Installer-generated entry points (pip --user, pipx) and binaries
+.local/bin/http
+.local/bin/httpie
+.local/bin/https
+.local/bin/normalizer
+.local/bin/pgadmin4
+.local/bin/pgadmin4-cli
+.local/bin/pygmentize
+.local/bin/rust-analyzer
+.local/bin/whisper
+# Python bytecode cache, regenerated whenever a script here is imported
+.local/bin/__pycache__/
 .zshrc.local
 
 # Allow .claude folder
@@ -114,7 +128,9 @@
 !/.claude/settings.json
 !/.claude/statusline.sh
 !/.claude/hooks/
+.claude/hooks/*
 !/.claude/hooks/*.sh
+!/.claude/hooks/*.py
 
 # Allow only listed .emacs.d content
 !/.emacs.d/

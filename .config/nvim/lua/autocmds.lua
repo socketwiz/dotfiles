@@ -47,3 +47,53 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.start(config)
   end,
 })
+
+-- Code: Terraform game language server.
+--
+-- The game exports each save's scripts to a folder marked by
+-- `codeterraform-workspace.json`, which records where the game installed the
+-- server that matches its build. Read the path from there (as the game's own
+-- Zed extension does) rather than hardcoding it, so game updates that move or
+-- replace the server keep working. Python files outside a scripts folder are
+-- left alone. Same FileType-autocmd approach as tsgo above, for the same reason.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function(ev)
+    local bufname = vim.api.nvim_buf_get_name(ev.buf)
+    if vim.bo[ev.buf].buftype ~= "" or bufname == "" then
+      return
+    end
+
+    local root = vim.fs.root(ev.buf, "codeterraform-workspace.json")
+    if not root then
+      return
+    end
+
+    local ok, workspace = pcall(function()
+      local file = assert(io.open(root .. "/codeterraform-workspace.json"))
+      local text = file:read("*a")
+      file:close()
+      return vim.json.decode(text)
+    end)
+    local server = ok and type(workspace.server) == "table" and workspace.server.path
+    if type(server) ~= "string" or server == "" then
+      vim.notify(
+        "Code Terraform: no language server recorded in " .. root
+          .. "; open this save in the game once",
+        vim.log.levels.WARN
+      )
+      return
+    end
+
+    local config = {
+      name = "codeterraform",
+      cmd = { "node", server, "--stdio" }, -- needs Node 20+; `node` on PATH via mise
+      root_dir = root,
+    }
+    local blink_ok, blink = pcall(require, "blink.cmp")
+    if blink_ok then
+      config.capabilities = blink.get_lsp_capabilities()
+    end
+    vim.lsp.start(config)
+  end,
+})

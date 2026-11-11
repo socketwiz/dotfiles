@@ -17,6 +17,8 @@ window-padding-y = 14
 window-padding-color = background
 confirm-close-surface=false
 resize-overlay = never
+# Suppress the "Copied to clipboard" toast (Claude Code copy-on-select fires it 4x per selection)
+app-notifications = no-clipboard-copy
 gtk-toolbar-style = flat
 
 # Cursor styling

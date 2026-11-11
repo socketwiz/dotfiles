@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Notify when a new GE-Proton release appears.
+#
+# Battle.net is pinned to GE-Proton11-6-wc3fix, a local copy carrying the
+# crypt32 patch for the Warcraft III 3.0 "Please check your VPN" login bug
+# (upstream Wine 11.6). A new GE-Proton release is worth retesting: if it
+# carries the fix, the pin can go away.
+set -uo pipefail
+
+api="https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/ge-proton-check"
+state_file="$state_dir/last-seen"
+
+payload=$(curl -fsS --max-time 30 "$api") || exit 0
+
+IFS=$'\t' read -r tag published notes_hit <<<"$(printf '%s' "$payload" | python3 -c '
+import json, re, sys
+
+try:
+    release = json.load(sys.stdin)
+except ValueError:
+    sys.exit(1)
+tag = str(release.get("tag_name") or "")
+if not tag:
+    sys.exit(1)
+body = str(release.get("body") or "").lower()
+hit = "yes" if re.search(r"warcraft|crypt32|certificate|cert chain", body) else "no"
+print("\t".join([tag, str(release.get("published_at") or "")[:10], hit]))
+')" || exit 0
+
+[[ -n ${tag:-} ]] || exit 0
+
+mkdir -p "$state_dir"
+
+# First run only records what is current, so the next new release is the
+# first thing worth interrupting for.
+if [[ ! -s $state_file ]]; then
+  printf '%s\n' "$tag" >"$state_file"
+  exit 0
+fi
+
+[[ $tag == "$(<"$state_file")" ]] && exit 0
+
+if [[ $notes_hit == yes ]]; then
+  detail="Release notes mention Warcraft, crypt32, or certificates - good sign."
+else
+  detail="Notes don't mention the certificate fix, but it's still worth a try."
+fi
+
+# -u critical: the omarchy shell dismisses normal notifications on a timer
+# and ignores --expire-time=0, so anything meant to be read later must be
+# critical.
+notify-send -u critical -a "GE-Proton" "New GE-Proton release: $tag" \
+  "Published $published. $detail
+
+To test: Lutris > Battle.net > Configure > Runner options > Wine version > GE-Proton, then launch Warcraft III. If the VPN error returns, switch back to GE-Proton11-6-wc3fix."
+
+printf '%s\n' "$tag" >"$state_file"

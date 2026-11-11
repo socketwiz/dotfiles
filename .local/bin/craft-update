@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Install or update the ArtCraft "Craft" apps from their GitHub release tarballs.
+# Usage: craft-update [app...]   (default: every app)
+#
+# Each version unpacks to ~/.local/opt/craft/<app>-<ver>; its binaries (GUI and
+# -cli, which serves MCP) are symlinked into ~/.local/bin. Old versions are kept
+# and listed at the end for you to delete.
+set -euo pipefail
+
+apps=(photocraft lightcraft filmcraft designcraft vectorcraft pdfcraft effectcraft
+  wordcraft deckcraft gridcraft cadcraft soundcraft figcraft)
+[ $# -gt 0 ] && apps=("$@")
+
+opt="$HOME/.local/opt/craft"
+bin="$HOME/.local/bin"
+share="$HOME/.local/share"
+cache="$HOME/.cache/craft-update"
+mkdir -p "$opt" "$bin" "$share/applications" "$share/icons" "$share/mime/packages" "$cache"
+
+for app in "${apps[@]}"; do
+  tag=$(gh release view -R "storytold/$app" --json tagName -q .tagName)
+  ver=${tag#v}
+  dest="$opt/$app-$ver"
+  if [ -d "$dest" ]; then
+    echo "$app $ver: already installed"
+    continue
+  fi
+
+  asset="$app-$ver-linux-x86_64.tar.gz"
+  echo "$app $ver: downloading $asset"
+  gh release download "$tag" -R "storytold/$app" -p "$asset" -O "$cache/$app.tar.gz" --clobber
+  gh release download "$tag" -R "storytold/$app" -p SHA256SUMS.txt -O "$cache/$app.SHA256SUMS" --clobber
+  expected=$(awk -v f="$asset" '$2 == f || $2 == "*" f { print $1 }' "$cache/$app.SHA256SUMS")
+  if [ -z "$expected" ]; then
+    echo "$app: $asset is not listed in SHA256SUMS.txt" >&2
+    exit 1
+  fi
+  echo "$expected  $cache/$app.tar.gz" | sha256sum -c --quiet
+
+  mkdir "$dest"
+  tar xzf "$cache/$app.tar.gz" -C "$dest" --strip-components 1
+  for b in "$dest"/bin/*; do
+    ln -sfn "$b" "$bin/$(basename "$b")"
+  done
+  cp "$dest"/share/applications/*.desktop "$share/applications/"
+  cp -r "$dest/share/icons/." "$share/icons/"
+  if [ -d "$dest/share/mime/packages" ]; then
+    cp "$dest"/share/mime/packages/*.xml "$share/mime/packages/"
+  fi
+  echo "$app $ver: installed"
+done
+
+update-desktop-database "$share/applications"
+update-mime-database "$share/mime"
+if [ -f "$share/icons/hicolor/index.theme" ]; then
+  gtk-update-icon-cache -q "$share/icons/hicolor"
+fi
+
+for app in "${apps[@]}"; do
+  current=$(readlink "$bin/$app" || true)
+  for d in "$opt/$app"-*; do
+    [ -d "$d" ] || continue
+    case "$current" in "$d"/*) ;; *) echo "old version, safe to delete: $d" ;; esac
+  done
+done

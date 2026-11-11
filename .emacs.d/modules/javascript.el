@@ -60,11 +60,11 @@
   :init
   (setq-default indent-tabs-mode nil)
   :config
-  (defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (define-advice web-mode-highlight-part (:around (orig-fn &rest args) tweak-jsx)
     (if (equal web-mode-content-type "js")
         (let ((web-mode-enable-part-face nil))
-          ad-do-it)
-      ad-do-it))
+          (apply orig-fn args))
+      (apply orig-fn args)))
 
   ;; Disable argument/concat lining
   (dolist (param '(("lineup-args" . nil)

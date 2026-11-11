@@ -1,0 +1,19 @@
+#!/bin/bash
+# Keep tmux on the black background from tmux.conf. omarchy-theme-set-tmux
+# sets window-style to the theme background and pushes OSC colors into every
+# pane, which tmux then keeps per pane; undo both after each theme change.
+
+tmux list-sessions >/dev/null 2>&1 || exit 0
+
+tmux source-file ~/.config/tmux/tmux.conf
+
+# Reset pane fg/bg/cursor/selection/palette so panes fall back to window-style
+reset=$'\e]110\a\e]111\a\e]112\a\e]117\a\e]119\a\e]104\a'
+while IFS= read -r pane_tty; do
+  [[ $pane_tty == /dev/pts/* ]] || continue
+  printf '%s' "$reset" >"$pane_tty" 2>/dev/null || true
+done < <(tmux list-panes -a -F "#{pane_tty}" | sort -u)
+
+while IFS= read -r client; do
+  tmux refresh-client -t "$client" 2>/dev/null || true
+done < <(tmux list-clients -F "#{client_name}")

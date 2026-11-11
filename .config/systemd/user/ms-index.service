@@ -1,0 +1,14 @@
+[Unit]
+Description=Index ~/Documents and ~/src into Meilisearch (ms-index)
+
+[Service]
+Type=oneshot
+Nice=10
+IOSchedulingClass=idle
+# MEILI_URL / MEILI_MASTER_KEY / MEILI_INDEX, if needed, go in
+# ~/.zshenv.local. What gets indexed in ~/Documents is set by
+# ~/Documents/.ignore. Per-file Indexed/Skipped lines are dropped so the
+# journal keeps only errors, Removed lines, and the summaries; pipefail
+# keeps each run's exit status, and the unit fails if either run did.
+# ($$ is a literal $ in a unit file.)
+ExecStart=/bin/bash -c 'set -o pipefail; source ~/.zshenv.local 2>/dev/null ||:; status=0; for dir in ~/Documents ~/src; do echo "== $$dir"; ~/.cargo/bin/ms-index "$$dir" | grep -v -e "^Indexed: " -e "^Skipped " || status=1; done; exit $$status'

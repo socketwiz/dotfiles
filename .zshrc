@@ -107,12 +107,17 @@ memo() {
 function claude() {
   if [[ -n "$CLAUDE_PROFILE" && -d "$HOME/.claude/profiles/$CLAUDE_PROFILE" ]]; then
     local profile_dir="$HOME/.claude/profiles/$CLAUDE_PROFILE"
-    /usr/bin/cp "$profile_dir/claude.json" "$HOME/.claude.json"
-    CLAUDE_CONFIG_DIR="$profile_dir" command claude "$@"
+    # settings.json is shared by every profile (symlink), so settings that
+    # belong to one profile only, like autoMode, live in settings.profile.json
+    local -a profile_settings
+    [[ -f "$profile_dir/settings.profile.json" ]] &&
+      profile_settings=(--settings "$profile_dir/settings.profile.json")
+    CLAUDE_CONFIG_DIR="$profile_dir" command claude "${profile_settings[@]}" "$@"
   else
     command claude "$@"
   fi
 }
+alias claude='claude --allow-dangerously-skip-permissions'
 alias ed='emacs --daemon'
 alias et='emacs --no-window-system'
 alias vim='nvim'
@@ -143,14 +148,19 @@ alias gp='git push'
 alias gst='git status'
 alias gsw='git switch'
 
-# safety
-alias rm='rm -I'
-alias mv='mv -i'
-alias cp='cp -i'
+# Interactive-only aliases. Claude Code (CLAUDECODE=1) snapshots this shell
+# for its tool calls, where prompting rm/mv/cp block forever and eza hangs
+# when piped; the agent gets plain coreutils and hooks guard rm instead.
+if [[ -z ${CLAUDECODE:-} ]]; then
+  # safety
+  alias rm='rm -I'
+  alias mv='mv -i'
+  alias cp='cp -i'
 
-# cli replacements
-alias cat='bat'
-alias ls='eza --git --color-scale=all'
+  # cli replacements
+  alias cat='bat'
+  alias ls='eza --git --color-scale=all'
+fi
 
 # command-line fuzzy finder
 FZF_BIN="$(command -v fzf)"
